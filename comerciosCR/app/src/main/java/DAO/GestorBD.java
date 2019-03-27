@@ -9,7 +9,7 @@ public class GestorBD {
 
     private GestorBD() {
         try{
-            db = DBManager.getDBManager(DBManager.DB_MGR.MYSQL_SERVER);/*MARIADB_SERVER*/
+            db = DBManager.getDBManager(DBManager.DB_MGR.MYSQL_SERVER);/*MYSQL_SERVER*/
         } catch(InstantiationException | IllegalAccessException | ClassNotFoundException ex){
             System.err.printf("Excepción: '%s'\n", ex.getMessage());
         }
