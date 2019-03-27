@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `comercios`.`Usuarios` (
   `contrasena` VARCHAR(45) NOT NULL,
   `estado` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `correo_UNIQUE` (`correo` ASC) VISIBLE)
+  UNIQUE INDEX `correo_UNIQUE` (`correo`))
 ENGINE = InnoDB;
 
 
@@ -41,8 +41,8 @@ CREATE TABLE IF NOT EXISTS `comercios`.`Comercio` (
   `descripcion` VARCHAR(500) NOT NULL,
   `ubicacion` VARCHAR(200) NOT NULL,
   `categoria` VARCHAR(50) NOT NULL,
-  UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario` ASC) VISIBLE,
-  UNIQUE INDEX `telefono_UNIQUE` (`telefono` ASC) VISIBLE,
+  UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario`),
+  UNIQUE INDEX `telefono_UNIQUE` (`telefono`),
   PRIMARY KEY (`idUsuario`),
   CONSTRAINT `comercios_fk_id`
     FOREIGN KEY (`idUsuario`)
@@ -58,8 +58,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `comercios`.`UsuariosEstandar` (
   `idUsuario` INT NOT NULL,
   `fechaNac` DATE NOT NULL,
-  INDEX `estandar_fk_id_idx` (`idUsuario` ASC) VISIBLE,
-  UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario` ASC) VISIBLE,
+  INDEX `estandar_fk_id_idx` (`idUsuario`) ,
+  UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario`),
   PRIMARY KEY (`idUsuario`),
   CONSTRAINT `estandar_fk_id`
     FOREIGN KEY (`idUsuario`)
@@ -75,9 +75,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `comercios`.`Administradores` (
   `idUsuario` INT NOT NULL,
   `telefono` INT NOT NULL,
-  UNIQUE INDEX `telefono_UNIQUE` (`telefono` ASC) VISIBLE,
-  INDEX `admin_fk_id_idx` (`idUsuario` ASC) VISIBLE,
-  UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario` ASC) VISIBLE,
+  UNIQUE INDEX `telefono_UNIQUE` (`telefono`),
+  INDEX `admin_fk_id_idx` (`idUsuario`),
+  UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario`),
   PRIMARY KEY (`idUsuario`),
   CONSTRAINT `admin_fk_id`
     FOREIGN KEY (`idUsuario`)
@@ -94,8 +94,8 @@ CREATE TABLE IF NOT EXISTS `comercios`.`Calificaciones` (
   `idComercio` INT NOT NULL,
   `idUsuarioE` INT NOT NULL,
   `calificacion` TINYINT(10) NOT NULL,
-  INDEX `calificacion_fk_idTienda_idx` (`idComercio` ASC) VISIBLE,
-  INDEX `calificacion_fk_idUsuario_idx` (`idUsuarioE` ASC) VISIBLE,
+  INDEX `calificacion_fk_idTienda_idx` (`idComercio`),
+  INDEX `calificacion_fk_idUsuario_idx` (`idUsuarioE`),
   CONSTRAINT `calificacion_fk_idComercio`
     FOREIGN KEY (`idComercio`)
     REFERENCES `comercios`.`Comercio` (`idUsuario`)
@@ -128,7 +128,7 @@ CREATE TABLE IF NOT EXISTS `comercios`.`Secciones` (
   `idComercio` INT NOT NULL,
   `nombre` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `seccion_fk_idComercio_idx` (`idComercio` ASC) VISIBLE,
+  INDEX `seccion_fk_idComercio_idx` (`idComercio`),
   CONSTRAINT `seccion_fk_idComercio`
     FOREIGN KEY (`idComercio`)
     REFERENCES `comercios`.`Comercio` (`idUsuario`)
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `comercios`.`Productos` (
   `descripcion` VARCHAR(80) NOT NULL,
   `estado` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `producto_fk_comercio_idx` (`idComercio` ASC) VISIBLE,
+  INDEX `producto_fk_comercio_idx` (`idComercio`),
   CONSTRAINT `producto_fk_comercio`
     FOREIGN KEY (`idComercio`)
     REFERENCES `comercios`.`Comercio` (`idUsuario`)
@@ -163,7 +163,7 @@ CREATE TABLE IF NOT EXISTS `comercios`.`ProductoImagenes` (
   `idProducto` INT NOT NULL,
   `imagen` MEDIUMBLOB NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `imagenes_fk_producto_idx` (`idProducto` ASC) VISIBLE,
+  INDEX `imagenes_fk_producto_idx` (`idProducto`),
   CONSTRAINT `imagenes_fk_producto`
     FOREIGN KEY (`idProducto`)
     REFERENCES `comercios`.`Productos` (`id`)
@@ -178,8 +178,8 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `comercios`.`SeccionesProductos` (
   `idSeccion` INT NOT NULL,
   `idProducto` INT NOT NULL,
-  INDEX `seccion_fk_producto_idx` (`idSeccion` ASC) VISIBLE,
-  INDEX `producto_fk_seccion_idx` (`idProducto` ASC) VISIBLE,
+  INDEX `seccion_fk_producto_idx` (`idSeccion`),
+  INDEX `producto_fk_seccion_idx` (`idProducto`),
   CONSTRAINT `seccion_fk_producto`
     FOREIGN KEY (`idSeccion`)
     REFERENCES `comercios`.`Secciones` (`id`)
