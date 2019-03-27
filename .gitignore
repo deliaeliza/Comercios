@@ -59,3 +59,8 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+Comercios/gradlew.bat
+*.properties
+Comercios/app/proguard-rules.pro
+Comercios/.idea/vcs.xml
+Comercios/.idea/misc.xml
