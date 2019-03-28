@@ -255,5 +255,8 @@ CREATE USER USUARIOCOMERCIOS_CR IDENTIFIED BY '123USUARIOCOMERCIOS_CR';
 -- -----------------------------------------------------
 -- Asignamos permisos a USUARIOCAFP
 -- -----------------------------------------------------
-GRANT ALL PRIVILEGES ON  USUARIOCOMERCIOS_CR.* to USUARIOCOMERCIOS_CR;
+GRANT ALL PRIVILEGES ON  COMERCIOS_CR.* to USUARIOCOMERCIOS_CR;
+
+
+CALL PAregistrarAdministrador(1, 'jonathanvasquez@gmail.com', 'Jonathan', '123Jonathan', 85602147);
 
