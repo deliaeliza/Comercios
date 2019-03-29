@@ -1,5 +1,5 @@
 package Modelo;
-
+//Para definir las categorias de los productos
 public class Parametros {
     private int id;
     private int tipo;
