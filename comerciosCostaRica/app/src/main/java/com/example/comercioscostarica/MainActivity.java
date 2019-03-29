@@ -34,36 +34,21 @@ public class MainActivity extends AppCompatActivity {
         StringBuilder resul = null;
 
         try {
-            url = new URL("http://10.251.33.47/ServiciosWeb/Prueba.php?email=" +usuario+ "&pass=" + pas);
+            url = new URL("http://192.168.0.13/ServiciosWeb/Prueba.php?email=" +usuario+ "&pass=" + pas);
             HttpURLConnection cnx = (HttpURLConnection)url.openConnection();
             respuesta = cnx.getResponseCode();
             resul = new StringBuilder();
             if(respuesta == HttpURLConnection.HTTP_OK){
                 InputStream in = new BufferedInputStream(cnx.getInputStream());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-
                 while((linea=reader.readLine())!=null){
                     resul.append(linea);
                 }
             }
-
         } catch (Exception e) {
             MensajeOK(e.getMessage());
         }
         return resul.toString();
-    }
-
-    public int obtDatosJSON(String respuesta){
-        int res = 0;
-        try{
-            JSONArray json = new JSONArray(respuesta);
-            if(json.length()>0){
-                res = 1;
-            }
-        }catch(Exception ex){
-
-        }
-        return res;
     }
 
     public void OnclickDelButton(int ref) {
@@ -83,19 +68,17 @@ public class MainActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        int r = obtDatosJSON(resultado);
-                                        if (r > 0) {
-                                            MensajeOK("Todo bien");
-                                        }else{
-                                            MensajeOK("Todo mal");
+                                        try{
+                                            JSONArray json = new JSONArray(resultado);
+                                            MensajeOK(json.toString());
+                                        }catch(Exception ex){
+
                                         }
                                     }
                                 });
                             }
                         };
-
                         tr.start();
-                        //MensajeOK(add);
                         break;
                     default:
                         break;
