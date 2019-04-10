@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">comerciosCostaRica</string>
+    <string name="login_email">Email</string>
+    <string name="login_pass">Contraseña</string>
+    <string name="login_ingresar">Ingresar</string>
+    <string name="login_olvido">Olvido su contraseña?</string>
+    <string name="login_registro">Registrarse</string>
+
+    <string name="registro_radioUser">Usuario</string>
+    <string name="registro_radioEmp">Empresa</string>
+
+
+    <string name="registro_fragUser_email">Email</string>
+    <string name="registro_fragUser_user">Usuario</string>
+    <string name="registro_fragUser_pass">Contraseña</string>
+    <string name="registro_fragUser_confPass">Confirmar contraseña</string>
+    <string name="registro_fragUser_fecNac">Fecha de nacimiento</string>
+    <string name="registro_fragUser_btn">Registrarme</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

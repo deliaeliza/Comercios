@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FragRegUser">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fRegUser_Contenedor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/fRegUser_txtEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:text="@string/registro_fragUser_email"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/fRegUser_edtEmail"
+            android:layout_width="282dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:ems="12"
+            android:inputType="textEmailAddress"
+            android:textColorLink="@android:color/holo_blue_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_txtEmail" />
+
+        <TextView
+            android:id="@+id/fRegUser_txtUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/registro_fragUser_user"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_edtEmail" />
+
+        <EditText
+            android:id="@+id/fRegUser_edtUser"
+            android:layout_width="282dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:ems="12"
+            android:inputType="textPersonName"
+            android:textColorLink="@android:color/holo_blue_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_txtUser" />
+
+        <TextView
+            android:id="@+id/fRegUser_txtNac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/registro_fragUser_fecNac"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_edtUser" />
+
+        <EditText
+            android:id="@+id/fRegUser_edtNac"
+            android:layout_width="282dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:ems="12"
+            android:inputType="date"
+            android:textColorLink="@android:color/holo_blue_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_txtNac" />
+
+        <TextView
+            android:id="@+id/fRegUser_txtPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/registro_fragUser_pass"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_edtNac" />
+
+        <EditText
+            android:id="@+id/fRegUser_edtPass"
+            android:layout_width="282dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:ems="12"
+            android:inputType="textPassword"
+            android:textColorLink="@android:color/holo_blue_dark"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_txtPass" />
+
+        <TextView
+            android:id="@+id/fRegUser_txtConfPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="28dp"
+            android:text="@string/registro_fragUser_confPass"
+            android:textColorLink="@android:color/holo_blue_dark"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_edtPass" />
+
+        <EditText
+            android:id="@+id/fRegUser_edtConfPass"
+            android:layout_width="282dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:ems="12"
+            android:inputType="textPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_txtConfPass" />
+
+        <Button
+            android:id="@+id/fRegUser_btnReg"
+            android:layout_width="282dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/registro_fragUser_btn"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_edtConfPass" />
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>
