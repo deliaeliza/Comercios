@@ -15,7 +15,7 @@
     <string name="registro_fragUser_pass">Contraseña</string>
     <string name="registro_fragUser_confPass">Confirmar contraseña</string>
     <string name="registro_fragUser_fecNac">Fecha de nacimiento</string>
-    <string name="registro_fragUser_btn">Registrarme</string>
+    <string name="registro_fragUser_btn">Registrate</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
