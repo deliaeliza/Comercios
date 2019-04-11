@@ -9,13 +9,13 @@
     <string name="registro_radioUser">Usuario</string>
     <string name="registro_radioEmp">Empresa</string>
 
-
     <string name="registro_fragUser_email">Email</string>
     <string name="registro_fragUser_user">Usuario</string>
     <string name="registro_fragUser_pass">Contraseña</string>
     <string name="registro_fragUser_confPass">Confirmar contraseña</string>
     <string name="registro_fragUser_fecNac">Fecha de nacimiento</string>
     <string name="registro_fragUser_btn">Registrate</string>
+    <string name="registro_fragAdmin_nTel">Número de telefono</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
