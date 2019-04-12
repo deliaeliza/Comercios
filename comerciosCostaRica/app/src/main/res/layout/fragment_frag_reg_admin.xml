@@ -8,18 +8,16 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/fRegUser_Contenedor"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/fRegAdmin_txtEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginEnd="238dp"
+            android:layout_marginStart="64dp"
             android:text="@string/registro_fragUser_email"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,10 +25,11 @@
             android:id="@+id/fRegAdmin_edtEmail"
             android:layout_width="282dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
             android:ems="12"
             android:inputType="textEmailAddress"
             android:textColorLink="@android:color/holo_blue_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_txtEmail" />
 
@@ -38,7 +37,7 @@
             android:id="@+id/fRegAdmin_txtUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="28dp"
             android:text="@string/registro_fragUser_user"
             android:textSize="18sp"
@@ -49,10 +48,11 @@
             android:id="@+id/fRegAdmin_edtUser"
             android:layout_width="282dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
             android:ems="12"
             android:inputType="textPersonName"
             android:textColorLink="@android:color/holo_blue_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_txtUser" />
 
@@ -60,7 +60,7 @@
             android:id="@+id/fRegAdmin_txtNumTel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="28dp"
             android:text="@string/registro_fragAdmin_nTel"
             android:textSize="18sp"
@@ -71,10 +71,11 @@
             android:id="@+id/fRegAdmin_edtNumTel"
             android:layout_width="282dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
             android:ems="12"
             android:inputType="date"
             android:textColorLink="@android:color/holo_blue_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_txtNumTel" />
 
@@ -82,7 +83,7 @@
             android:id="@+id/fRegAdmin_txtPass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="28dp"
             android:text="@string/registro_fragUser_pass"
             android:textSize="18sp"
@@ -93,10 +94,11 @@
             android:id="@+id/fRegAdmin_edtPass"
             android:layout_width="282dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
             android:ems="12"
             android:inputType="textPassword"
             android:textColorLink="@android:color/holo_blue_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_txtPass" />
 
@@ -104,7 +106,7 @@
             android:id="@+id/fRegAdmin_txtConfPass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="64dp"
             android:layout_marginTop="28dp"
             android:text="@string/registro_fragUser_confPass"
             android:textColorLink="@android:color/holo_blue_dark"
@@ -116,9 +118,10 @@
             android:id="@+id/fRegAdmin_edtConfPass"
             android:layout_width="282dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
             android:ems="12"
             android:inputType="textPassword"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_txtConfPass" />
 
@@ -126,9 +129,10 @@
             android:id="@+id/fRegAdmin_btnReg"
             android:layout_width="282dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
             android:layout_marginTop="24dp"
             android:text="@string/registro_fragUser_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_edtConfPass" />
     </android.support.constraint.ConstraintLayout>

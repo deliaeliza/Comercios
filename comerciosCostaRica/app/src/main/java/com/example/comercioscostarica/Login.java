@@ -28,6 +28,7 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         OnclickDelButton(R.id.Login_btnIgresar);
+        OnclickDelButton(R.id.button);
 
         OnclickDelTextView(R.id.Login_txtRegistrar);
         OnclickDelTextView(R.id.Login_txtOlvido);
@@ -86,6 +87,10 @@ public class Login extends AppCompatActivity {
                             }
                         };
                         tr.start();
+                        break;
+                    case R.id.button:
+                        Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
+                        startActivity(intento);
                         break;
                     default:
                         break;
