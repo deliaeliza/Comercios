@@ -1,6 +1,7 @@
 package com.example.listviewprueba;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.Constraints;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -78,7 +80,7 @@ public class MenuImages extends AppCompatActivity {
                 // Stores the itemView in a public final member variable that can be used
                 // to access the context from any ViewHolder instance.
                 super(itemView);
-                panel = (ConstraintLayout) findViewById(R.id.imageMenu_item);
+                panel = (ConstraintLayout) itemView.findViewById(R.id.imageMenu_item);
                 nombre = (TextView) itemView.findViewById(R.id.imageMenu_txtNombre);
                 imagen = (TextView) itemView.findViewById(R.id.imageMenu_txtImage);
             }
@@ -114,14 +116,39 @@ public class MenuImages extends AppCompatActivity {
             image.setText(objetoActual.getNumDibujo());
             TextView name = viewHolder.nombre;
             name.setText(objetoActual.getCategoria());
-            ConstraintLayout contenedor = viewHolder.panel;
-           /* contenedor.setOnClickListener(new View.OnClickListener(){
+            final ConstraintLayout contenedor = viewHolder.panel;
+            contenedor.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View arg0) {
                     Mensaje(objetoActual.getCategoria());
                 }
-            });*/
+            });
+            /*contenedor.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus)
+                        contenedor.setBackgroundColor(Color.GRAY);
+                    else
+                        contenedor.setBackgroundColor(Color.WHITE);
+                }
+            });
 
+            contenedor.setOnHoverListener(new View.OnHoverListener() {
+                @Override
+                public boolean onHover (View v, MotionEvent e) {
+                    contenedor.setBackgroundColor(Color.GRAY);
+                    return true;
+                }
+            });*/
+            /*contenedor.setOnTouchListener(new View.OnTouchListener(){
+                @Override
+                public boolean onTouch(View v, MotionEvent e){
+
+                        contenedor.setBackgroundColor(Color.LTGRAY);
+
+                    return true;
+                }
+            });*/
         }
 
         // Returns the total count of items in the list
