@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
         String url = Util.urlWebService + "/login.php?correo=" +
                 correo.getText().toString() + "&contrasena=" + password.getText().toString();
 
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 JSONArray json = response.optJSONArray("usuario");
