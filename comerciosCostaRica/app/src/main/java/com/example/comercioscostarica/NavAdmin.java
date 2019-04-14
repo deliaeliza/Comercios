@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import Fragments.FragRegAdmin;
+import com.example.comercioscostarica.Fragments.FragRegAdmin;
 
 public class NavAdmin extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

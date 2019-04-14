@@ -1,4 +1,4 @@
-package Fragments;
+package com.example.comercioscostarica.Fragments;
 
 
 import android.os.Bundle;
@@ -9,13 +9,14 @@ import android.view.ViewGroup;
 
 import com.example.comercioscostarica.R;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragActInfoEmpresa extends Fragment {
+public class FragRegProductos extends Fragment {
 
 
-    public FragActInfoEmpresa() {
+    public FragRegProductos() {
         // Required empty public constructor
     }
 
@@ -24,7 +25,7 @@ public class FragActInfoEmpresa extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_frag_act_info_empresa, container, false);
+        return inflater.inflate(R.layout.fragment_frag_reg_productos, container, false);
     }
 
 }

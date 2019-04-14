@@ -1,7 +1,5 @@
 package com.example.comercioscostarica;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,52 +9,74 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.comercioscostarica.Modelo.Util;
+import com.example.comercioscostarica.Modelo.VolleySingleton;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Login extends AppCompatActivity {
+
+    JsonObjectRequest jsonObjectRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        mensajeAB("Ingresar");
         OnclickDelButton(R.id.Login_btnIgresar);
-        OnclickDelButton(R.id.button);
-
         OnclickDelTextView(R.id.Login_txtRegistrar);
         OnclickDelTextView(R.id.Login_txtOlvido);
-        mensajeAB("Ingresar");
     }
 
-    public String enviarDatosGet(String usuario, String pas) {
-        URL url = null;
-        String linea = "";
-        int respuesta = 0;
-        StringBuilder resul = null;
+    public void enviarDatosLogin() {
+        final EditText correo = (EditText) findViewById(R.id.Login_edtEmail);
+        final EditText password = (EditText) findViewById(R.id.Login_edtPass);
+        String url = Util.urlWebService + "/login.php?correo=" +
+                correo.getText().toString() + "&contrasena=" + password.getText().toString();
 
-        try {
-            url = new URL("http://192.168.0.13/ServiciosWeb/Prueba.php?email=" +usuario+ "&pass=" + pas);
-            HttpURLConnection cnx = (HttpURLConnection)url.openConnection();
-            respuesta = cnx.getResponseCode();
-            resul = new StringBuilder();
-            if(respuesta == HttpURLConnection.HTTP_OK){
-                InputStream in = new BufferedInputStream(cnx.getInputStream());
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                while((linea=reader.readLine())!=null){
-                    resul.append(linea);
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                JSONArray json = response.optJSONArray("usuario");
+                JSONObject jsonObject = null;
+                try {
+                    jsonObject = json.getJSONObject(0);
+                    int estado = jsonObject.optInt("estado");
+                    if (estado == 1) {
+                        int tipo = jsonObject.optInt("tipo");
+                        if (tipo == Util.USUARIO_ADMINISTRADOR) {
+                            Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
+                            startActivity(intento);
+                        } else if (tipo == Util.USUARIO_COMERCIO) {
+                            //Intent intento = new Intent(getApplicationContext(), SegundaActivity.class);
+                            //startActivity(intento);
+                        } else if (tipo == Util.USUARIO_ESTANDAR) {
+                            //Intent intento = new Intent(getApplicationContext(), SegundaActivity.class);
+                            //startActivity(intento);
+                        } else if (tipo == Util.USUARIO_SUPER) {
+                            //Intent intento = new Intent(getApplicationContext(), SegundaActivity.class);
+                            //startActivity(intento);
+                        }
+                    } else if (estado == 0) {
+                        MensajeToast("Su cuenta ha sido desactivada");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (Exception e) {
-            mensajeOK(e.getMessage());
-        }
-        return resul.toString();
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                MensajeToast("No se puede conectar " + error.toString());
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     public void OnclickDelButton(int ref) {
@@ -67,30 +87,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.Login_btnIgresar:
-                        final EditText correo = (EditText) findViewById(R.id.Login_edtEmail);
-                        final EditText pass = (EditText) findViewById(R.id.Login_edtPass);
-                        Thread tr = new Thread() {
-                            @Override
-                            public void run() {
-                                final String resultado = enviarDatosGet(correo.getText().toString(), pass.getText().toString());
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        try{
-                                            JSONArray json = new JSONArray(resultado);
-                                            mensajeOK(json.toString());
-                                        }catch(Exception ex){
-
-                                        }
-                                    }
-                                });
-                            }
-                        };
-                        tr.start();
-                        break;
-                    case R.id.button:
-                        Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
-                        startActivity(intento);
+                        enviarDatosLogin();
                         break;
                     default:
                         break;
@@ -98,48 +95,34 @@ public class Login extends AppCompatActivity {
             }// fin del onclick
         });
     }// fin de OnclickDelButton
-    public void OnclickDelTextView(int ref) {
 
-        // Ejemplo  OnclickDelTextView(R.id.MiTextView);
-        // 1 Doy referencia al TextView
-        View view =findViewById(ref);
+    public void OnclickDelTextView(int ref) {
+        View view = findViewById(ref);
         TextView miTextView = (TextView) view;
-        //  final String msg = miTextView.getText().toString();
-        // 2.  Programar el evento onclick
-        miTextView.setOnClickListener(new View.OnClickListener(){
+        miTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // if(msg.equals("Texto")){Mensaje("Texto en el botón ");};
                 switch (v.getId()) {
-
                     case R.id.Login_txtRegistrar:
                         Intent intento = new Intent(getApplicationContext(), Registro.class);
                         startActivity(intento);
                         break;
-
                     case R.id.Login_txtOlvido:
-                        mensaje("Implementar activity de olvido");
+                        MensajeToast("Implementar activity de olvido");
                         break;
-                    default:break; }// fin de casos
+                    default:
+                        break;
+                }// fin de casos
             }// fin del onclick
         });
     }// fin de OnclickDelTextView
 
 
-    public void mensaje(String msg){
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
-    public void mensajeAB(String msg){getSupportActionBar().setTitle(msg);};
-    public void mensajeOK(String msg) {
-        View v1 = getWindow().getDecorView().getRootView();
-        AlertDialog.Builder builder1 = new AlertDialog.Builder(v1.getContext());
-        builder1.setMessage(msg);
-        builder1.setCancelable(true);
-        builder1.setPositiveButton("OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-        AlertDialog alert11 = builder1.create();
-        alert11.show();
+    public void MensajeToast(String msg) {
+        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void mensajeAB(String msg) {
+        getSupportActionBar().setTitle(msg);
     }
 }

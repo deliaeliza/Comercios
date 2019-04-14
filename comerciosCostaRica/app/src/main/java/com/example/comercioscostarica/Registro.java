@@ -8,8 +8,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import Fragments.FragRegEmpresa;
-import Fragments.FragRegUser;
+import com.example.comercioscostarica.Fragments.FragRegEmpresa;
+import com.example.comercioscostarica.Fragments.FragRegUser;
 
 public class Registro extends AppCompatActivity {
     @Override
