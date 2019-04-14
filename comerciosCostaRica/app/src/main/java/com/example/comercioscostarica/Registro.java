@@ -8,6 +8,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import Fragments.FragRegEmpresa;
+import Fragments.FragRegUser;
+
 public class Registro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
