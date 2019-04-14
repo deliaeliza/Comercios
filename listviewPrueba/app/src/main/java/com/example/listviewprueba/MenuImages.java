@@ -56,20 +56,6 @@ public class MenuImages extends AppCompatActivity {
         misObjetos.add(new ObjetosxDesplegarImageMenu("Otro", R.string.fa_icon_storeAlt, 16));
     }
 
-    /*private void RegistrarClicks() {
-        ListView list = (ListView) findViewById(R.id.recyclerMenuImages);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View viewClicked,
-                                    int position, long id) {
-                ObjetosxDesplegarImageMenu ObjEscogido = misObjetos.get(position);
-                String message = "Elegiste item No.  " + (1+position)
-                        + " que es un objeto cuyos datos son  id: " + ObjEscogido.getId() + " / nombre: " + ObjEscogido.getCategoria();
-                Mensaje(message);
-            }
-        });
-    }*/
-
     public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
         public class ViewHolder extends RecyclerView.ViewHolder {
