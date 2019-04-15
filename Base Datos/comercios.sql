@@ -108,12 +108,12 @@ ENGINE = InnoDB;
 
 DELIMITER //
 CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), 
-IN Pcontrasena VARCHAR(45), IN Ptelefono INT, IN PcodArea INT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT, IN PUrlImagen VARCHAR(100))
+IN Pcontrasena VARCHAR(45), IN Ptelefono INT, IN PcodArea INT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
 BEGIN
 	DECLARE idC INT;
 	SET idC = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
 	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
-	INSERT INTO comercioscr.Comercio(idUsuario, codigoArea, telefono, verificado, descripcion, ubicacion, categoria, urlImagen) VALUES (idC, PcodArea, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria, PUrlImagen);
+	INSERT INTO comercioscr.Comercio(idUsuario, codigoArea, telefono, verificado, descripcion, ubicacion, categoria) VALUES (idC, PcodArea, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
 END;
 //
 DELIMITER ;
