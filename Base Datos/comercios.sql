@@ -85,6 +85,7 @@ DELIMITER ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comercioscr`.`Comercios` (
   `idUsuario` INT NOT NULL,
+  `codigoArea` INT NOT NULL,
   `telefono` INT NULL,
   `idCategoria` INT NOT NULL,
   `verificado` TINYINT(1) NOT NULL,
@@ -107,12 +108,12 @@ ENGINE = InnoDB;
 
 DELIMITER //
 CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), 
-IN Pcontrasena VARCHAR(45), IN Ptelefono INT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria VARCHAR(50), IN PUrlImagen VARCHAR(100))
+IN Pcontrasena VARCHAR(45), IN Ptelefono INT, IN PcodArea INT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT, IN PUrlImagen VARCHAR(100))
 BEGIN
 	DECLARE idC INT;
 	SET idC = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
 	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
-	INSERT INTO comercioscr.Comercio(idUsuario, telefono, verificado, descripcion, ubicacion, categoria, urlImagen) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria, PUrlImagen);
+	INSERT INTO comercioscr.Comercio(idUsuario, codigoArea, telefono, verificado, descripcion, ubicacion, categoria, urlImagen) VALUES (idC, PcodArea, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria, PUrlImagen);
 END;
 //
 DELIMITER ;
@@ -280,17 +281,17 @@ ENGINE = InnoDB;
 
 -- NOTA**** Comentar linea 283 la primera vez que corran el script, descomentar luego de la segunda ejecucion.
 -- -----------------------------------------------------
-DROP USER USUARIOcomercioscr;
+-- DROP USER USUARIOcomercioscr;
 -- -----------------------------------------------------
 -- Creacion de USUARIOCAFP
 -- Se crea con la intencion de que solo pueda modificar datos en el alcance del proyecto.
 -- -----------------------------------------------------
-CREATE USER USUARIOcomercioscr IDENTIFIED BY '123USUARIOcomercioscr';
+-- CREATE USER USUARIOcomercioscr IDENTIFIED BY '123USUARIOcomercioscr';
 
 -- -----------------------------------------------------
 -- Asignamos permisos a USUARIOCAFP
 -- -----------------------------------------------------
-GRANT ALL PRIVILEGES ON  comercioscr.* to USUARIOcomercioscr;
+-- GRANT ALL PRIVILEGES ON  comercioscr.* to USUARIOcomercioscr;
 
 
 CALL PAregistrarAdministrador(1, 'jonathanvasquez@gmail.com', 'Jonathan', '123Jonathan', 85602147, 506);
