@@ -1,5 +1,7 @@
 package com.example.comercioscostarica;
 
+import android.widget.Toast;
+
 // Se debe crear en el paquete com.example...
 // Forma de uso:
 // VariablesGlobales vg = VariablesGlobales.getInstance(); vg.setMitexto("Hola");    int i = vg.getMivalor();

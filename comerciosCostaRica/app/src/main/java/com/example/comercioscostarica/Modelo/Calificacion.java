@@ -1,4 +1,4 @@
-package Modelo;
+package com.example.comercioscostarica.Modelo;
 
 public class Calificacion {
     private int calificacion;

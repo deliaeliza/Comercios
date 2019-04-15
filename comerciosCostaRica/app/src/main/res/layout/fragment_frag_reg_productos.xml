@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragRegProductos">
+    tools:context="com.example.comercioscostarica.Fragments.FragRegProductos">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"

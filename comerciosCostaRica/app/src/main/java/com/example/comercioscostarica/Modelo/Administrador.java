@@ -1,47 +1,32 @@
-package Modelo;
+package com.example.comercioscostarica.Modelo;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-public class UsuarioEstandar {
+public class Administrador {
     private int id;
     private int tipo;
+    private int telefono;
     private boolean estado;
     private String codigoRestablecer;
     private String correo;
     private String usuario;
     private String contrasena;
-    private Date fehcaNacimiento;
-    private ArrayList<Calificacion> calificaciones;
 
-    public UsuarioEstandar(int id, int tipo, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena, Date fehcaNacimiento, ArrayList<Calificacion> calificaciones) {
+    public Administrador(int id, int tipo, int telefono, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena) {
         this.id = id;
         this.tipo = tipo;
+        this.telefono = telefono;
         this.estado = estado;
         this.codigoRestablecer = codigoRestablecer;
         this.correo = correo;
         this.usuario = usuario;
         this.contrasena = contrasena;
-        this.fehcaNacimiento = fehcaNacimiento;
-        this.calificaciones = calificaciones;
     }
 
-    public UsuarioEstandar(int tipo, String correo, String usuario, String contrasena, Date fehcaNacimiento) {
+    public Administrador(int tipo, int telefono, String correo, String usuario, String contrasena) {
         this.tipo = tipo;
+        this.telefono = telefono;
         this.correo = correo;
         this.usuario = usuario;
         this.contrasena = contrasena;
-        this.fehcaNacimiento = fehcaNacimiento;
-    }
-
-    public UsuarioEstandar(int id, int tipo, boolean estado, String codigoRestablecer, String correo, String usuario, Date fehcaNacimiento) {
-        this.id = id;
-        this.tipo = tipo;
-        this.estado = estado;
-        this.codigoRestablecer = codigoRestablecer;
-        this.correo = correo;
-        this.usuario = usuario;
-        this.fehcaNacimiento = fehcaNacimiento;
     }
 
     public int getId() {
@@ -53,6 +38,13 @@ public class UsuarioEstandar {
     }
     public void setTipo(int tipo) {
         this.tipo = tipo;
+    }
+
+    public int getTelefono() {
+        return telefono;
+    }
+    public void setTelefono(int telefono) {
+        this.telefono = telefono;
     }
 
     public boolean isEstado() {
@@ -88,19 +80,5 @@ public class UsuarioEstandar {
     }
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
-    }
-
-    public Date getFehcaNacimiento() {
-        return fehcaNacimiento;
-    }
-    public void setFehcaNacimiento(Date fehcaNacimiento) {
-        this.fehcaNacimiento = fehcaNacimiento;
-    }
-
-    public ArrayList<Calificacion> getCalificaciones() {
-        return calificaciones;
-    }
-    public void setCalificaciones(ArrayList<Calificacion> calificaciones) {
-        this.calificaciones = calificaciones;
     }
 }

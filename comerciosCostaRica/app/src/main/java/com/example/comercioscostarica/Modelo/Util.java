@@ -1,4 +1,4 @@
-package Modelo;
+package com.example.comercioscostarica.Modelo;
 
 public class Util {
     /*******************************************Tipos de usuarios*******************************************/
@@ -13,4 +13,6 @@ public class Util {
     /*******************************************************************************************************/
     public static final int PARAMETRO_CATEGORIA = 0;
     /*******************************************************************************************************/
+
+    public static final String urlWebService = "https://comercioscr.webcindario.com";
 }
