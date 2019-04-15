@@ -2,21 +2,14 @@ package com.example.listviewprueba;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.Constraints;
-import android.support.v7.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -102,39 +95,18 @@ public class MenuImages extends AppCompatActivity {
             image.setText(objetoActual.getNumDibujo());
             TextView name = viewHolder.nombre;
             name.setText(objetoActual.getCategoria());
-            final ConstraintLayout contenedor = viewHolder.panel;
+            ConstraintLayout contenedor = viewHolder.panel;
             contenedor.setOnClickListener(new View.OnClickListener(){
                 @Override
-                public void onClick(View arg0) {
+                public void onClick(View v) {
                     Mensaje(objetoActual.getCategoria());
+                    ConstraintLayout panel = (ConstraintLayout) v.findViewById(R.id.imageMenu_item);
+                    TextView nombre = (TextView) v.findViewById(R.id.imageMenu_txtNombre);
+                    TextView imagen = (TextView) v.findViewById(R.id.imageMenu_txtImage);
+                    nombre.setTextColor(Color.GREEN);
+                    imagen.setTextColor(Color.GREEN);
                 }
             });
-            /*contenedor.setOnFocusChangeListener(new View.OnFocusChangeListener(){
-                @Override
-                public void onFocusChange(View v, boolean hasFocus) {
-                    if(hasFocus)
-                        contenedor.setBackgroundColor(Color.GRAY);
-                    else
-                        contenedor.setBackgroundColor(Color.WHITE);
-                }
-            });
-
-            contenedor.setOnHoverListener(new View.OnHoverListener() {
-                @Override
-                public boolean onHover (View v, MotionEvent e) {
-                    contenedor.setBackgroundColor(Color.GRAY);
-                    return true;
-                }
-            });*/
-            /*contenedor.setOnTouchListener(new View.OnTouchListener(){
-                @Override
-                public boolean onTouch(View v, MotionEvent e){
-
-                        contenedor.setBackgroundColor(Color.LTGRAY);
-
-                    return true;
-                }
-            });*/
         }
 
         // Returns the total count of items in the list

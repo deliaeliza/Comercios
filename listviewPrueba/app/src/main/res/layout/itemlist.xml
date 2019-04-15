@@ -1,20 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:paddingTop="5dp"
+    android:id="@+id/card1"
+    android:clickable="true"
     android:paddingBottom="5dp"
-    android:background="@drawable/custom_list_item">
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginBottom="20dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:cardBackgroundColor="@color/design_default_color_surface"
+    app:layout_constraintTop_toTopOf="parent"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="5dp"
+    app:cardMaxElevation="5dp"
+    app:contentPadding="3dp"
+    app:cardPreventCornerOverlap="true"
+    app:cardUseCompatPadding="false">
 
     <ImageView
         android:id="@+id/logo"
         android:layout_width="83dp"
         android:layout_height="89dp"
         android:layout_marginStart="16dp"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/ic_launcher" />
@@ -55,4 +66,4 @@
         android:clickable="true"
         app:layout_constraintStart_toEndOf="@+id/txtEditar"
         app:layout_constraintTop_toBottomOf="@+id/txtNombre" />
-</android.support.constraint.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
