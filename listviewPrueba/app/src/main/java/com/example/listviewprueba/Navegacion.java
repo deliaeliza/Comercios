@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -11,6 +13,10 @@ import java.util.ArrayList;
 
 public class Navegacion extends AppCompatActivity {
     private TabLayout tabLayout;
+
+    private GridView gridView;
+    private AdaptadorDeProductos adaptador;
+
     ArrayList<Categoria> categorias = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,11 @@ public class Navegacion extends AppCompatActivity {
                     }
                 }
         );
+        gridView = (GridView) findViewById(R.id.gridImagenes);
+        adaptador = new AdaptadorDeProductos(this);
+        gridView.setAdapter(adaptador);
+        //gridView.setOnItemClickListener((AdapterView.OnItemClickListener) this);
+
     }
 
     public void accionTab(TabLayout.Tab tab){
