@@ -327,3 +327,7 @@ DELIMITER ;
 CALL PAregistrarAdministrador(1, 'jonathanvasquez@gmail.com', 'Jonathan', '123Jonathan', 0050685502508);
 CALL PAregistrarAdministrador(1, 'deliaeliza72@gmail.com', 'Elizabeth', '123Delia', 0050689583027);
 CALL PAregistrarAdministrador(1, 'angelocalderon.17@hotmail.com', 'Angelo', '123Angelo', 0050686096895);
+
+CALL PAregistrarComercio();
+CALL PAregistrarComercio();
+CALL PAregistrarComercio();
