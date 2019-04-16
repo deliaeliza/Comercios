@@ -43,6 +43,14 @@
     <string name="actInfoUsuario_lbl">Actualizar cuenta</string>
 
 
+    <string name="catalogo_lbl">Catalogo</string>
+    <string name="productos_lbl">Productos</string>
+    <string name="agregar_lbl">Agregar</string>
+    <string name="modificar_lbl">Modificar</string>
+    <string name="eliminar_lbl">Eliminar</string>
+    <string name="desactivar_lbl">Desactivar</string>
+
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>

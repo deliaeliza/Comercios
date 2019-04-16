@@ -73,15 +73,15 @@ public class NavComercios extends AppCompatActivity
 
         if (id == R.id.nav_camera2) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery2) {
+        } else if (id == R.id.navComercios_acerca) {
 
-        } else if (id == R.id.nav_slideshow2) {
+        } else if (id == R.id.navComercios_agregar_catalogo) {
 
-        } else if (id == R.id.nav_manage2) {
+        } else if (id == R.id.navComercios_agregar_producto) {
 
-        } else if (id == R.id.nav_share2) {
+        } else if (id == R.id.navComercios_modificar_catalogo) {
 
-        } else if (id == R.id.nav_send2) {
+        } else if (id == R.id.navComercios_modificar_producto) {
 
         }
 

@@ -7,6 +7,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+
 import com.example.comercios.Fragments.FragRegEmpresa;
 import com.example.comercios.Fragments.FragRegUser;
 
@@ -40,10 +41,10 @@ public class Registrar extends AppCompatActivity {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         if(mostrarUser) {
-            FragRegUser mifrag = new FragRegUser();
+            com.example.comercios.Fragments.FragRegUser mifrag = new com.example.comercios.Fragments.FragRegUser();
             fragmentTransaction.replace(R.id.Reg_contenido, mifrag, "idFragRegUser");
         } else {
-            FragRegEmpresa mifrag = new FragRegEmpresa();
+            com.example.comercios.Fragments.FragRegEmpresa mifrag = new com.example.comercios.Fragments.FragRegEmpresa();
             fragmentTransaction.replace(R.id.Reg_contenido, mifrag, "idFragRegEmp");
         }
         fragmentTransaction.commit();
