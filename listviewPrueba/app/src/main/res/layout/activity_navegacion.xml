@@ -15,56 +15,17 @@
         app:layout_constraintTop_toTopOf="parent"
         app:tabMode="scrollable" />
 
-    <fragment
-        android:id="@+id/fragment2"
-        android:name="com.example.listviewprueba.ImageListItem"
+    <GridView
+        android:id="@+id/gridImagenes"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/navegacion_tab" />
-
-    <fragment
-        android:id="@+id/fragment3"
-        android:name="com.example.listviewprueba.ImageListItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
-        app:layout_constraintStart_toEndOf="@+id/fragment2"
-        app:layout_constraintTop_toBottomOf="@+id/navegacion_tab" />
-
-    <fragment
-        android:id="@+id/fragment4"
-        android:name="com.example.listviewprueba.ImageListItem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
-        app:layout_constraintStart_toEndOf="@+id/fragment3"
-        app:layout_constraintTop_toBottomOf="@+id/navegacion_tab" />
-
-    <fragment
-        android:id="@+id/fragment5"
-        android:name="com.example.listviewprueba.ImageListItem2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment2" />
-
-    <fragment
-        android:id="@+id/fragment6"
-        android:name="com.example.listviewprueba.BlankFragment01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/fragment5" />
+        app:layout_constraintTop_toBottomOf="@+id/navegacion_tab" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
