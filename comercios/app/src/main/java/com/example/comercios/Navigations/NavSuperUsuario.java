@@ -1,12 +1,9 @@
-package com.example.comercios.navigations;
+package com.example.comercios.Navigations;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.comercios.Fragments.FragActInfoUsuario;
 import com.example.comercios.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -16,29 +13,29 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-public class NavUsuarios extends AppCompatActivity
+public class NavSuperUsuario extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nav_usuarios);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar3);
+        setContentView(R.layout.activity_nav_super_usuario);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar4);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout3);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout4);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view3);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view4);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout3);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout4);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -49,7 +46,7 @@ public class NavUsuarios extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.nav_usuarios, menu);
+        getMenuInflater().inflate(R.menu.nav_super_usuario, menu);
         return true;
     }
 
@@ -61,7 +58,7 @@ public class NavUsuarios extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings3) {
+        if (id == R.id.action_settings4) {
             return true;
         }
 
@@ -74,26 +71,19 @@ public class NavUsuarios extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.usuarioInicio) {
+        if (id == R.id.superUsuarioAdmin) {
             // Handle the camera action
-        } else if (id == R.id.usuarioMapa) {
+        } else if (id == R.id.superUsuarioUsuarios) {
 
-        } else if (id == R.id.usuarioTodosComercios) {
+        } else if (id == R.id.superUsuarioComercios) {
 
-        } else if (id == R.id.usuarioActInformacion) {
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragActInfoUsuario mifrag = new FragActInfoUsuario ();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "contendorActInformacion");
-            fragmentTransaction.commit();
+        } else if (id == R.id.nav_share4) {
 
-        } else if (id == R.id.cerrarSeion) {
-
-        } else if (id == R.id.acercaDe) {
+        } else if (id == R.id.nav_send4) {
 
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout3);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout4);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
