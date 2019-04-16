@@ -50,11 +50,10 @@ public class Login extends AppCompatActivity {
                     JSONObject jsonOb = response.getJSONObject("datos");
                     String mensajeError = jsonOb.getString("mensajeError");
                     if(mensajeError.equalsIgnoreCase("")){
-                        JSONArray user = jsonOb.optJSONArray("usuarios");
-
-                        int estado = 0;//user.optInt("estado");
+                        JSONObject user = jsonOb.getJSONObject("usuario");
+                        int estado = user.optInt("estado");
                         if (estado == 1) {
-                            int tipo = 0;//user.optInt("tipo");
+                            int tipo = user.optInt("tipo");
                             if (tipo == Util.USUARIO_ADMINISTRADOR) {
                                 //Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
                                 //startActivity(intento);
