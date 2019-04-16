@@ -1,9 +1,12 @@
 package com.example.comercios.Navigations;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.comercios.Fragments.FragActInfoUsuario;
 import com.example.comercios.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -78,6 +81,11 @@ public class NavUsuarios extends AppCompatActivity
         } else if (id == R.id.usuarioTodosComercios) {
 
         } else if (id == R.id.usuarioActInformacion) {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragActInfoUsuario mifrag = new FragActInfoUsuario ();
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "contendorActInformacion");
+            fragmentTransaction.commit();
 
         } else if (id == R.id.cerrarSeion) {
 
