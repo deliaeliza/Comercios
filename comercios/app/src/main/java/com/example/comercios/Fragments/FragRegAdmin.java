@@ -79,7 +79,7 @@ public class FragRegAdmin extends Fragment {
         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if (response.trim().equalsIgnoreCase("registra")) {
+                if (response.trim().equalsIgnoreCase("Se registro correctamente")) {
                     email.setText("");
                     usuario.setText("");
                     telefono.setText("");
@@ -93,7 +93,7 @@ public class FragRegAdmin extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                MensajeToast("No se ha podido conectar");
+                MensajeToast("Intentelo mas tarde");
             }
         }) {
             @Override
