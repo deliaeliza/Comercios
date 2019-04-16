@@ -13,6 +13,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
+import com.example.comercios.Navigations.NavAdmin;
+import com.example.comercios.Navigations.NavComercios;
+import com.example.comercios.Navigations.NavSuperUsuario;
+import com.example.comercios.Navigations.NavUsuarios;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;
@@ -55,17 +59,17 @@ public class Login extends AppCompatActivity {
                         if (estado == 1) {
                             int tipo = user.optInt("tipo");
                             if (tipo == Util.USUARIO_ADMINISTRADOR) {
-                                //Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
-                                //startActivity(intento);
+                                Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
+                                startActivity(intento);
                             } else if (tipo == Util.USUARIO_COMERCIO) {
-                                //Intent intento = new Intent(getApplicationContext(), SegundaActivity.class);
-                                //startActivity(intento);
+                                Intent intento = new Intent(getApplicationContext(), NavComercios.class);
+                                startActivity(intento);
                             } else if (tipo == Util.USUARIO_ESTANDAR) {
-                                //Intent intento = new Intent(getApplicationContext(), SegundaActivity.class);
-                                //startActivity(intento);
+                                Intent intento = new Intent(getApplicationContext(), NavUsuarios.class);
+                                startActivity(intento);
                             } else if (tipo == Util.USUARIO_SUPER) {
-                                //Intent intento = new Intent(getApplicationContext(), SegundaActivity.class);
-                                //startActivity(intento);
+                                Intent intento = new Intent(getApplicationContext(), NavSuperUsuario.class);
+                                startActivity(intento);
                             }
                         } else if (estado == 0) {
                             mensajeToast("Su cuenta se encuentra desactivada");
