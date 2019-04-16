@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Shop World</string>
 
+
+    <string name="inicio_lbl">Inicio</string>
     <string name="email_lbl">Email</string>
     <string name="user_lbl">Usuario</string>
     <string name="empresa_lbl">Empresa</string>
@@ -23,15 +25,20 @@
 
     <string name="registrarAdmin_lbl">Agregar administrador</string>
     <string name="verificarComercios_lbl">Verificar comercios</string>
-    <string name="adminUsuarios">Gestionar usuarios</string>
-    <string name="adminComercios">Gestionar comercios</string>
-    <string name="adminAdmin">Gestionar administradores</string>
+    <string name="adminUsuarios_lbl">Gestionar usuarios</string>
+    <string name="adminComercios_lbl">Gestionar comercios</string>
+    <string name="adminAdmin_lbl">Gestionar administradores</string>
 
-    <string name="infoGeneral">Informacion general</string>
-    <string name="acercade">Acerca de</string>
-    <string name="cerrarSesion">Cerrar sesión</string>
+    <string name="infoGeneral_lbl">Informacion general</string>
+    <string name="acercade_lbl">Acerca de</string>
+    <string name="cerrarSesion_lbl">Cerrar sesión</string>
+
+    <string name="buscarComercios_lbl">Buscar Comercios</string>
+    <string name="todosComercios_lbl">Todos los Comercios</string>
+    <string name="mapa_lbl">Mapa</string>
 
     <string name="campoObligatorio_lbl">Campo obligatorio</string>
+    <string name="actInfoUsuario_lbl">Actualizar cuenta</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

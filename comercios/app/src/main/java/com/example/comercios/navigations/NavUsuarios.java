@@ -71,17 +71,17 @@ public class NavUsuarios extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera3) {
+        if (id == R.id.usuarioInicio) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery3) {
+        } else if (id == R.id.usuarioMapa) {
 
-        } else if (id == R.id.nav_slideshow3) {
+        } else if (id == R.id.usuarioTodosComercios) {
 
-        } else if (id == R.id.nav_manage3) {
+        } else if (id == R.id.usuarioActInformacion) {
 
-        } else if (id == R.id.nav_share3) {
+        } else if (id == R.id.cerrarSeion) {
 
-        } else if (id == R.id.nav_send3) {
+        } else if (id == R.id.acercaDe) {
 
         }
 

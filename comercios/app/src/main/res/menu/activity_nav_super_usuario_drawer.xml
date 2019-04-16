@@ -7,27 +7,27 @@
         <item
             android:id="@+id/superUsuarioAdmin"
             android:icon="@drawable/ic_menu_camera"
-            android:title="@string/adminAdmin" />
+            android:title="@string/adminAdmin_lbl" />
         <item
             android:id="@+id/superUsuarioUsuarios"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/adminUsuarios" />
+            android:title="@string/adminUsuarios_lbl" />
         <item
             android:id="@+id/superUsuarioComercios"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/adminComercios" />
+            android:title="@string/adminComercios_lbl" />
     </group>
 
-    <item android:title="@string/infoGeneral">
+    <item android:title="@string/infoGeneral_lbl">
         <menu>
             <item
                 android:id="@+id/nav_share4"
                 android:icon="@drawable/ic_menu_share"
-                android:title="@string/cerrarSesion" />
+                android:title="@string/cerrarSesion_lbl" />
             <item
                 android:id="@+id/nav_send4"
                 android:icon="@drawable/ic_menu_send"
-                android:title="@string/acercade" />
+                android:title="@string/acercade_lbl" />
         </menu>
     </item>
 
