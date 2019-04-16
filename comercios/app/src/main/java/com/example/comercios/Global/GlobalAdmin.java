@@ -1,5 +1,5 @@
 package com.example.comercios.Global;
-import com.example.comercios.modelo.Administrador;
+import com.example.comercios.Modelo.Administrador;
 
 public class GlobalAdmin {
 
