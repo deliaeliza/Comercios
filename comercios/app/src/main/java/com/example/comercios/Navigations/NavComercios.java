@@ -1,9 +1,13 @@
 package com.example.comercios.Navigations;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.comercios.Fragments.FragMenuInferiorComercio;
+import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -73,11 +77,21 @@ public class NavComercios extends AppCompatActivity
 
         if (id == R.id.navComercios_inicio) {
             // Handle the camera action
-        } else if (id == R.id.navComercios_acerca) {
-
         } else if (id == R.id.navComercios_catalogo) {
-
-        } else if (id == R.id.navComercios_cuenta) {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragMenuInferiorComercio  mifrag = new FragMenuInferiorComercio();
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
+            fragmentTransaction.commit();
+            GlobalComercios.getInstance().setOpcActual(R.string.catalogo_lbl);
+        } else if(id == R.id.navComercios_productos){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragMenuInferiorComercio  mifrag = new FragMenuInferiorComercio();
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
+            fragmentTransaction.commit();
+            GlobalComercios.getInstance().setOpcActual(R.string.productos_lbl); //En el fragment pregunta cual es.
+        }else if (id == R.id.navComercios_cuenta) {
 
         } else if (id == R.id.navComercios_cerrar) {
 

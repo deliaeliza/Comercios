@@ -5,6 +5,7 @@ public class GlobalComercios {
 
     private Comercio comercio = null;
 
+    private int opcActual;
     private static GlobalComercios instance = null;
 
     protected GlobalComercios() {}
@@ -16,8 +17,10 @@ public class GlobalComercios {
     public Comercio getComercio() {
         return comercio;
     }
-
     public void setComercio(Comercio comercio) {
         this.comercio = comercio;
     }
+
+    public int getOpcActual() { return opcActual; }
+    public void setOpcActual(int opcActual) { this.opcActual = opcActual; }
 }
