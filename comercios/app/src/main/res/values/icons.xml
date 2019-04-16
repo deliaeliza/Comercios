@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fa_icon_utensils">&#xf2e7;</string>
+    <string name="fa_icon_hotel">&#xf594;</string>
+    <string name="fa_icon_coffee">&#xf0f4;</string>
+    <string name="fa_icon_glassMartiniAlt">&#xf57b;</string>
+    <string name="fa_icon_laptop">&#xf109;</string>
+    <string name="fa_icon_shoppingCart">&#xf07a;</string>
+    <string name="fa_icon_tshirt">&#xf553;</string>
+    <string name="fa_icon_shoppingBag">&#xf290;</string>
+    <string name="fa_icon_storeAlt">&#xf54f;</string>
+    <string name="fa_icon_bicycle">&#xf206;</string>
+    <string name="fa_icon_book">&#xf02d;</string>
+    <string name="fa_icon_capsules">&#xf46b;</string>
+    <string name="fa_icon_shoePrints">&#xf54b;</string>
+    <string name="fa_icon_hammer">&#xf6e3;</string>
+    <string name="fa_icon_guitar">&#xf7a6;</string>
+    <string name="fa_icon_gamepad">&#xf11b;</string>
+    <string name="fa_icon_robot">&#xf544;</string>
+
+    <string name="fa_icon_edit">&#xf044;</string>
+    <string name="fa_icon_trash">&#xf2ed;</string>
+    <string name="fa_icon_filter">&#xf0b0;</string>
+    <string name="fa_icon_plusSquare">&#xf0fe;</string>
+    <string name="fa_icon_search">&#xf002;</string>
+    <string name="fa_icon_userCircle">&#xf2bd;</string>
+    <string name="fa_icon_userEdit">&#xf4ff;</string>
+
+
+</resources>
