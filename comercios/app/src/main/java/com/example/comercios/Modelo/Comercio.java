@@ -1,4 +1,4 @@
-package com.example.comercios.modelo;
+package com.example.comercios.Modelo;
 
 import java.util.ArrayList;
 
@@ -16,9 +16,9 @@ public class Comercio {
     private String descripcion;
     private String ubicacion;
     private String categoria;
-    private ArrayList<Seccion> secciones;
+    private ArrayList<com.example.comercios.modelo.Seccion> secciones;
 
-    public Comercio(int id, int tipo, int telefono, int calificacion, boolean verificado, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
+    public Comercio(int id, int tipo, int telefono, int calificacion, boolean verificado, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena, String descripcion, String ubicacion, String categoria, ArrayList<com.example.comercios.modelo.Seccion> secciones) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -47,7 +47,7 @@ public class Comercio {
         this.categoria = categoria;
     }
 
-    public Comercio(int id, int tipo, int telefono, int calificacion, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
+    public Comercio(int id, int tipo, int telefono, int calificacion, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, ArrayList<com.example.comercios.modelo.Seccion> secciones) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -150,10 +150,10 @@ public class Comercio {
         this.categoria = categoria;
     }
 
-    public ArrayList<Seccion> getSecciones() {
+    public ArrayList<com.example.comercios.modelo.Seccion> getSecciones() {
         return secciones;
     }
-    public void setSecciones(ArrayList<Seccion> secciones) {
+    public void setSecciones(ArrayList<com.example.comercios.modelo.Seccion> secciones) {
         this.secciones = secciones;
     }
 }
