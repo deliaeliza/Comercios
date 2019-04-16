@@ -15,19 +15,19 @@
             android:id="@+id/fRegUser_widEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:hint="@string/email_lbl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegUser_edtEmail"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
                 android:ems="12"
-                android:hint="@string/email_lbl"
                 android:inputType="textEmailAddress"
-                android:textColorLink="@android:color/holo_blue_dark" />
+                android:backgroundTint="@color/design_default_color_surface" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -35,19 +35,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:hint="@string/user_lbl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegUser_widEmail">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegUser_edtUser"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
                 android:ems="12"
-                android:hint="@string/user_lbl"
                 android:inputType="textPersonName"
-                android:textColorLink="@android:color/holo_blue_dark" />
+                android:backgroundTint="@color/design_default_color_surface" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -55,19 +55,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:hint="@string/fecNac_lbl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegUser_widUser">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegUser_edtNac"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
                 android:ems="12"
-                android:hint="@string/fecNac_lbl"
                 android:inputType="date"
-                android:textColorLink="@android:color/holo_blue_dark" />
+                android:backgroundTint="@color/design_default_color_surface" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -75,19 +75,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:hint="@string/pwd_lbl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegUser_widNac">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegUser_edtPass"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
                 android:ems="12"
-                android:hint="@string/pwd_lbl"
                 android:inputType="textPassword"
-                android:textColorLink="@android:color/holo_blue_dark" />
+                android:backgroundTint="@color/design_default_color_surface" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -95,18 +95,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:hint="@string/confPWD_lbl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegUser_widPass">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegUser_edtConfPass"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
                 android:ems="12"
-                android:hint="@string/confPWD_lbl"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:backgroundTint="@color/design_default_color_surface"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
