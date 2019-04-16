@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.FragActInfoUsuario">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fActInfoUser_Contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fActInfoUser_widUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="@string/user_lbl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fActInfoUser_edtUser"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/design_default_color_surface"
+                android:ems="12"
+                android:inputType="textPersonName" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fActInfoUser_widEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/email_lbl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_widEmail">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fActInfoUser_edtEmail"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/design_default_color_surface"
+                android:ems="12"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fActInfoUser_widPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="@string/pwd_lbl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fActInfoUser_widEmail">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fActInfoUser_edtPass"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/design_default_color_surface"
+                android:ems="12"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fActInfoUser_widConfPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="@string/confPWD_lbl"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fActInfoUser_widPass">
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fActInfoUser_edtConfPass"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/design_default_color_surface"
+                android:ems="12"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fActInfoUser_btnAct"
+            android:layout_width="282dp"
+            android:layout_height="58dp"
+            android:layout_marginTop="136dp"
+            android:text="@string/actualizar_lbl"
+            android:textSize="18sp"
+            app:backgroundTint="@color/colorAccent"
+            app:cornerRadius="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fActInfoUser_widConfPass" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
