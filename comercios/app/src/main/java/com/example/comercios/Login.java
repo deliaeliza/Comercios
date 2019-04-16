@@ -47,13 +47,14 @@ public class Login extends AppCompatActivity {
             public void onResponse(JSONObject response) {
 
                 try {
-                    JSONArray json = response.optJSONArray("datos");
-                    String mensajeError = json.getJSONObject(0).getString("mensajeError");
+                    JSONObject jsonOb = response.getJSONObject("datos");
+                    String mensajeError = jsonOb.getString("mensajeError");
                     if(mensajeError.equalsIgnoreCase("")){
-                        JSONObject user = json.getJSONObject(1);
-                        int estado = user.optInt("estado");
+                        JSONArray user = jsonOb.optJSONArray("usuarios");
+
+                        int estado = 0;//user.optInt("estado");
                         if (estado == 1) {
-                            int tipo = user.optInt("tipo");
+                            int tipo = 0;//user.optInt("tipo");
                             if (tipo == Util.USUARIO_ADMINISTRADOR) {
                                 //Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
                                 //startActivity(intento);
