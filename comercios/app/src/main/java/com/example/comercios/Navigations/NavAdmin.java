@@ -1,7 +1,10 @@
 package com.example.comercios.Navigations;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 
+import com.example.comercios.Fragments.FragRegAdmin;
 import com.example.comercios.R;
 
 import com.google.android.material.navigation.NavigationView;
@@ -74,7 +77,11 @@ public class NavAdmin extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.adminRegistrar) {
-            // Handle the camera action
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragRegAdmin mifrag = new FragRegAdmin ();
+            fragmentTransaction.replace(R.id.contentAdmin, mifrag, "agreagarAdmin");
+            fragmentTransaction.commit();
         } else if (id == R.id.adminUsuarios) {
 
         } else if (id == R.id.adminComercios) {

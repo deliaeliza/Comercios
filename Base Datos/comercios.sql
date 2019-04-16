@@ -85,8 +85,7 @@ DELIMITER ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comercioscr`.`Comercios` (
   `idUsuario` INT NOT NULL,
-  `codigoArea` INT NOT NULL,
-  `telefono` INT NULL,
+  `telefono` BIGINT NULL,
   `idCategoria` INT NOT NULL,
   `verificado` TINYINT(1) NOT NULL,
   `descripcion` VARCHAR(500) NOT NULL,
@@ -108,12 +107,12 @@ ENGINE = InnoDB;
 
 DELIMITER //
 CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), 
-IN Pcontrasena VARCHAR(45), IN Ptelefono INT, IN PcodArea INT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
+IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
 BEGIN
 	DECLARE idC INT;
 	SET idC = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
 	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
-	INSERT INTO comercioscr.Comercio(idUsuario, codigoArea, telefono, verificado, descripcion, ubicacion, categoria) VALUES (idC, PcodArea, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
+	INSERT INTO comercioscr.Comercio(idUsuario, telefono, verificado, descripcion, ubicacion, categoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
 END;
 //
 DELIMITER ;
@@ -147,8 +146,7 @@ DELIMITER ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comercioscr`.`Administradores` (
   `idUsuario` INT NOT NULL,
-  `codigoArea` INT NOT NULL,
-  `telefono` INT NOT NULL,
+  `telefono` BIGINT NOT NULL,
   UNIQUE INDEX `telefono_UNIQUE` (`telefono`),
   INDEX `admin_fk_id_idx` (`idUsuario`),
   UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario`),
@@ -159,12 +157,12 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Administradores` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 DELIMITER //
-CREATE PROCEDURE PAregistrarAdministrador(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), IN Pcontrasena VARCHAR(45), IN Ptelefono INT, IN PCodigoArea INT)
+CREATE PROCEDURE PAregistrarAdministrador(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT)
 BEGIN
 	DECLARE idA INT;
 	SET idA = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
 	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idA, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
-	INSERT INTO comercioscr.Administradores(idUsuario, telefono, codigoArea) VALUES (idA, Ptelefono, PCodigoArea);
+	INSERT INTO comercioscr.Administradores(idUsuario, telefono) VALUES (idA, Ptelefono);
 END;
 //
 DELIMITER ;
@@ -294,5 +292,6 @@ ENGINE = InnoDB;
 -- GRANT ALL PRIVILEGES ON  comercioscr.* to USUARIOcomercioscr;
 
 
-CALL PAregistrarAdministrador(1, 'jonathanvasquez@gmail.com', 'Jonathan', '123Jonathan', 85602147, 506);
-
+CALL PAregistrarAdministrador(1, 'jonathanvasquez@gmail.com', 'Jonathan', '123Jonathan', 0050685502508);
+CALL PAregistrarAdministrador(1, 'deliaeliza72@gmail.com', 'Elizabeth', '123Delia', 0050689583027);
+CALL PAregistrarAdministrador(1, 'angelocalderon.17@hotmail.com', 'Angelo', '123Angelo', 0050686096895);
