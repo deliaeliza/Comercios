@@ -1,4 +1,4 @@
-package com.example.comercios;
+package com.example.comercios.fragments;
 
 
 import android.os.Bundle;
@@ -7,14 +7,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.comercios.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragRegAdmin extends Fragment {
+public class FragRegUser extends Fragment {
 
 
-    public FragRegAdmin() {
+    public FragRegUser() {
         // Required empty public constructor
     }
 
@@ -23,7 +24,7 @@ public class FragRegAdmin extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.frag_reg_admin, container, false);
+        return inflater.inflate(R.layout.frag_reg_user, container, false);
     }
 
 }
