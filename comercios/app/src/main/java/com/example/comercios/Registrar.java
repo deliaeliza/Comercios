@@ -36,15 +36,14 @@ public class Registrar extends AppCompatActivity {
     }
 
 
-
     private void mostrarFrag(boolean mostrarUser){
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         if(mostrarUser) {
-            com.example.comercios.Fragments.FragRegUser mifrag = new com.example.comercios.Fragments.FragRegUser();
+            FragRegUser mifrag = new FragRegUser();
             fragmentTransaction.replace(R.id.Reg_contenido, mifrag, "idFragRegUser");
         } else {
-            com.example.comercios.Fragments.FragRegEmpresa mifrag = new com.example.comercios.Fragments.FragRegEmpresa();
+            FragRegEmpresa mifrag = new FragRegEmpresa();
             fragmentTransaction.replace(R.id.Reg_contenido, mifrag, "idFragRegEmp");
         }
         fragmentTransaction.commit();
