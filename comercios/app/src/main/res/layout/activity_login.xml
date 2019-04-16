@@ -59,6 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:hint="@string/pwd_lbl"
+                app:passwordToggleEnabled="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -73,7 +74,8 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:backgroundTint="@color/design_default_color_surface"/>
+                    android:backgroundTint="@color/design_default_color_surface"
+                    app:passwordToggleEnabled="true"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton

@@ -1,5 +1,5 @@
 package com.example.comercios.Global;
-import com.example.comercios.modelo.UsuarioEstandar;
+import com.example.comercios.Modelo.UsuarioEstandar;
 
 public class GlobalUsuarios {
 

@@ -71,17 +71,17 @@ public class NavComercios extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera2) {
+        if (id == R.id.navComercios_inicio) {
             // Handle the camera action
         } else if (id == R.id.navComercios_acerca) {
 
-        } else if (id == R.id.navComercios_agregar_catalogo) {
+        } else if (id == R.id.navComercios_catalogo) {
 
-        } else if (id == R.id.navComercios_agregar_producto) {
+        } else if (id == R.id.navComercios_cuenta) {
 
-        } else if (id == R.id.navComercios_modificar_catalogo) {
+        } else if (id == R.id.navComercios_cerrar) {
 
-        } else if (id == R.id.navComercios_modificar_producto) {
+        } else if (id == R.id.navComercios_acerca) {
 
         }
 

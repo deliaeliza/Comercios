@@ -1,5 +1,5 @@
 package com.example.comercios.Global;
-import com.example.comercios.modelo.Comercio;
+import com.example.comercios.Modelo.Comercio;
 
 public class GlobalComercios {
 

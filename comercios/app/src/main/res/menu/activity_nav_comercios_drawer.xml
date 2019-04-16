@@ -5,52 +5,32 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera2"
-            android:icon="@drawable/ic_menu_camera"
+            android:id="@+id/navComercios_inicio"
+            android:icon="@drawable/home"
             android:title="@string/inicio_lbl" />
-    </group>
-    <group android:checkableBehavior="single">
-        <item android:title="@string/catalogo_lbl">
-            <menu>
-                <item
-                    android:id="@+id/navComercios_agregar_catalogo"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/agregar_lbl" />
-                <item
-                    android:id="@+id/navComercios_modificar_catalogo"
-                    android:icon="@drawable/ic_menu_slideshow"
-                    android:title="@string/modificar_lbl" />
-            </menu>
-        </item>
-    </group>
-    <group android:checkableBehavior="single">
-        <item android:title="@string/productos_lbl">
-            <menu>
-                <item
-                    android:id="@+id/navComercios_agregar_producto"
-                    android:icon="@drawable/ic_menu_gallery"
-                    android:title="@string/agregar_lbl" />
-                <item
-                    android:id="@+id/navComercios_modificar_producto"
-                    android:icon="@drawable/ic_menu_slideshow"
-                    android:title="@string/modificar_lbl" />
-            </menu>
-        </item>
+        <item
+            android:id="@+id/navComercios_catalogo"
+            android:icon="@drawable/list_ul"
+            android:title="@string/catalogo_lbl"/>
+        <item
+            android:id="@+id/navComercios_productos"
+            android:icon="@drawable/shopping_cart"
+            android:title="@string/productos_lbl"/>
     </group>
     <group android:checkableBehavior="single">
         <item android:title="@string/infoGeneral_lbl">
             <menu>
                 <item
                     android:id="@+id/navComercios_cuenta"
-                    android:icon="@drawable/ic_menu_gallery"
+                    android:icon="@drawable/user_edit"
                     android:title="@string/actInfoUsuario_lbl" />
                 <item
                     android:id="@+id/navComercios_cerrar"
-                    android:icon="@drawable/ic_menu_slideshow"
+                    android:icon="@drawable/door_open"
                     android:title="@string/cerrarSesion_lbl" />
                 <item
                     android:id="@+id/navComercios_acerca"
-                    android:icon="@drawable/ic_menu_slideshow"
+                    android:icon="@drawable/address_card"
                     android:title="@string/acercade_lbl" />
             </menu>
         </item>
