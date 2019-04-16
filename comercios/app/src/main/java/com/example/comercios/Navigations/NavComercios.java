@@ -78,19 +78,21 @@ public class NavComercios extends AppCompatActivity
         if (id == R.id.navComercios_inicio) {
             // Handle the camera action
         } else if (id == R.id.navComercios_catalogo) {
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragMenuInferiorComercio  mifrag = new FragMenuInferiorComercio();
-            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
-            fragmentTransaction.commit();
             GlobalComercios.getInstance().setOpcActual(R.string.catalogo_lbl);
-        } else if(id == R.id.navComercios_productos){
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragMenuInferiorComercio  mifrag = new FragMenuInferiorComercio();
             fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
             fragmentTransaction.commit();
+
+        } else if(id == R.id.navComercios_productos){
             GlobalComercios.getInstance().setOpcActual(R.string.productos_lbl); //En el fragment pregunta cual es.
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragMenuInferiorComercio  mifrag = new FragMenuInferiorComercio();
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
+            fragmentTransaction.commit();
+
         }else if (id == R.id.navComercios_cuenta) {
 
         } else if (id == R.id.navComercios_cerrar) {
