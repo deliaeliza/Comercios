@@ -29,7 +29,7 @@
     <string name="adminComercios_lbl">Gestionar comercios</string>
     <string name="adminAdmin_lbl">Gestionar administradores</string>
 
-    <string name="infoGeneral_lbl">Informacion general</string>
+    <string name="infoGeneral_lbl">Información general</string>
     <string name="acercade_lbl">Acerca de</string>
     <string name="cerrarSesion_lbl">Cerrar sesión</string>
 
@@ -39,6 +39,14 @@
 
     <string name="campoObligatorio_lbl">Campo obligatorio</string>
     <string name="actInfoUsuario_lbl">Actualizar cuenta</string>
+
+
+    <string name="catalogo_lbl">Catalogo</string>
+    <string name="productos_lbl">Productos</string>
+    <string name="agregar_lbl">Agregar</string>
+    <string name="modificar_lbl">Modificar</string>
+    <string name="eliminar_lbl">Eliminar</string>
+    <string name="desactivar_lbl">Desactivar</string>
 
 
     <string name="navigation_drawer_open">Open navigation drawer</string>

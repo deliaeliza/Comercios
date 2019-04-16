@@ -7,32 +7,52 @@
         <item
             android:id="@+id/nav_camera2"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery2"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow2"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
-        <item
-            android:id="@+id/nav_manage2"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="@string/inicio_lbl" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share2"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send2"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
-
+    <group android:checkableBehavior="single">
+        <item android:title="@string/catalogo_lbl">
+            <menu>
+                <item
+                    android:id="@+id/navComercios_agregar_catalogo"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/agregar_lbl" />
+                <item
+                    android:id="@+id/navComercios_modificar_catalogo"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/modificar_lbl" />
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="@string/productos_lbl">
+            <menu>
+                <item
+                    android:id="@+id/navComercios_agregar_producto"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/agregar_lbl" />
+                <item
+                    android:id="@+id/navComercios_modificar_producto"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/modificar_lbl" />
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="@string/infoGeneral_lbl">
+            <menu>
+                <item
+                    android:id="@+id/navComercios_cuenta"
+                    android:icon="@drawable/ic_menu_gallery"
+                    android:title="@string/actInfoUsuario_lbl" />
+                <item
+                    android:id="@+id/navComercios_cerrar"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/cerrarSesion_lbl" />
+                <item
+                    android:id="@+id/navComercios_acerca"
+                    android:icon="@drawable/ic_menu_slideshow"
+                    android:title="@string/acercade_lbl" />
+            </menu>
+        </item>
+    </group>
 </menu>
