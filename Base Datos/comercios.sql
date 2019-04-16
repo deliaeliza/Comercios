@@ -283,21 +283,29 @@ BEGIN
     DECLARE nombreSec VARCHAR(50);
     DECLARE idDefault INT;
 	SELECT nombre into nombreSec FROM Secciones WHERE id = Pid;
-    IF(nombreSec IS NOT NULL) THEN
-        IF(nombreSec <> 'DEFAULT') THEN
-            DELETE FROM SeccionesProductos WHERE idSeccion = Pid;
-            DELETE FROM Secciones WHERE id = Pid;
-        ELSE
-            SIGNAL SQLSTATE '45000' SET message_text = 'La seccion elegida no se puede borrar';
-        END IF;
+    IF(nombreSec <> 'DEFAULT') THEN
+        DELETE FROM SeccionesProductos WHERE idSeccion = Pid;
+        DELETE FROM Secciones WHERE id = Pid;
     ELSE
-        SIGNAL SQLSTATE '45000' SET message_text = 'Error: No se encontro la seccion';
+        SIGNAL SQLSTATE '45000' SET message_text = 'La seccion elegida no se puede borrar';
     END IF;
 END;
 //
 DELIMITER ;
 
-
+DELIMITER //
+CREATE TRIGGER TborrarSeccion BEFORE DELETE ON comercioscr.SeccionesProductos FOR EACH ROW
+BEGIN
+	DECLARE cantidad INT;
+    DECLARE idDefault INT;
+	SELECT COUNT(id) INTO cantidad FROM comercioscr.SeccionesProductos WHERE comercioscr.SeccionesProductos.idProducto = NEW.idProducto;
+	IF(cantidad <= 1) THEN 
+        SELECT id INTO idDefault FROM SeccionesProductos WHERE nombre='DEFAULT';
+		INSERT INTO SeccionesProductos(idSeccion, idProducto) VALUES (idDefault, NEW.idProducto);
+	END IF;
+END;
+//
+DELIMITER ;
 
 -- Dropeo de usuario, si existe
 
