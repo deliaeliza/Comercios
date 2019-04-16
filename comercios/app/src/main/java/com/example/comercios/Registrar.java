@@ -1,21 +1,23 @@
-package com.example.comercioscostarica;
+package com.example.comercios;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.comercioscostarica.Fragments.FragRegEmpresa;
-import com.example.comercioscostarica.Fragments.FragRegUser;
+import com.example.comercios.Fragments.FragRegEmpresa;
+import com.example.comercios.Fragments.FragRegUser;
 
-public class Registro extends AppCompatActivity {
+public class Registrar extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registro);
+        setContentView(R.layout.activity_registrar);
         mostrarFrag(true);
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.Reg_rg);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -29,8 +31,10 @@ public class Registro extends AppCompatActivity {
                 }
             }
         });
-        mensajeAB("Registrar");
+        mensajeAB("Unetenos");
     }
+
+
 
     private void mostrarFrag(boolean mostrarUser){
         FragmentManager fm = getFragmentManager();
@@ -44,7 +48,6 @@ public class Registro extends AppCompatActivity {
         }
         fragmentTransaction.commit();
     }
-
 
     public void mensajeAB(String msg){getSupportActionBar().setTitle(msg);};
     public void mensaje(String msg){

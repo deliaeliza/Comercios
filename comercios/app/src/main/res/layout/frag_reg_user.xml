@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.FragRegUser">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fRegUser_Contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fRegUser_widEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/fRegUser_edtEmail"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:ems="12"
+                android:hint="@string/email_lbl"
+                android:inputType="textEmailAddress"
+                android:textColorLink="@android:color/holo_blue_dark" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fRegUser_widUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_widEmail">
+
+            <EditText
+                android:id="@+id/fRegUser_edtUser"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:ems="12"
+                android:hint="@string/user_lbl"
+                android:inputType="textPersonName"
+                android:textColorLink="@android:color/holo_blue_dark" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fRegUser_widNac"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_widUser">
+
+            <EditText
+                android:id="@+id/fRegUser_edtNac"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:ems="12"
+                android:hint="@string/fecNac_lbl"
+                android:inputType="date"
+                android:textColorLink="@android:color/holo_blue_dark" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fRegUser_widPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_widNac">
+
+            <EditText
+                android:id="@+id/fRegUser_edtPass"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:ems="12"
+                android:hint="@string/pwd_lbl"
+                android:inputType="textPassword"
+                android:textColorLink="@android:color/holo_blue_dark" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fRegUser_widConfPass"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_widPass">
+
+            <EditText
+                android:id="@+id/fRegUser_edtConfPass"
+                android:layout_width="282dp"
+                android:layout_height="wrap_content"
+                android:ems="12"
+                android:hint="@string/confPWD_lbl"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/fRegUser_btnReg"
+            android:layout_width="282dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/registrar_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegUser_widConfPass" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

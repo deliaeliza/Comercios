@@ -11,6 +11,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.card.MaterialCardView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
         //FontManager.markAsIconContainer(findViewById(R.id.panel_iconos), iconFont);
         LlenarListaObjetos();
         LlenarListView();
-        RegistrarClicks();
     }
 
     private List<ObjetosxDesplegar> misObjetos = new ArrayList<ObjetosxDesplegar>();
@@ -47,19 +48,6 @@ public class MainActivity extends AppCompatActivity {
         ListView list = (ListView) findViewById(R.id.list);
         list.setAdapter(adapter);
     }
-    private void RegistrarClicks() {
-        ListView list = (ListView) findViewById(R.id.list);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View viewClicked,
-                                    int position, long id) {
-                ObjetosxDesplegar ObjEscogido = misObjetos.get(position);
-                String message = "Elegiste item No.  " + (1+position)
-                        + " que es un objeto cuyo nombre  " + ObjEscogido.getNombre();
-                Mensaje(message);
-            }
-        });
-    }
     private class MyListAdapter extends ArrayAdapter<ObjetosxDesplegar> {
         public MyListAdapter() {
             super(MainActivity.this, R.layout.itemlist, misObjetos);
@@ -77,35 +65,35 @@ public class MainActivity extends AppCompatActivity {
             imageView.setImageResource(ObjetoActual.getNumDibujo());
             TextView nombre = (TextView) itemView.findViewById(R.id.txtNombre);
             nombre.setText(ObjetoActual.getNombre());
+
+            View vPanel = itemView.findViewById(R.id.itemlist_panel);
             View vEditar = itemView.findViewById(R.id.txtEditar);
             View vEliminar = itemView.findViewById(R.id.txtEliminar);
+
+            MaterialCardView panel = (MaterialCardView) vPanel;
             TextView editar = (TextView) vEditar;
             TextView eliminar = (TextView) vEliminar;
+
             editar.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.FONTAWESOME_SOLID));
             eliminar.setTypeface(FontManager.getTypeface(getApplicationContext(), FontManager.FONTAWESOME_SOLID));
             editar.setText(R.string.fa_icon_edit);
             eliminar.setText(R.string.fa_icon_trash);
+
             editar.setTag(ObjetoActual.getId() +" / "+ ObjetoActual.getNombre());
             eliminar.setTag(ObjetoActual.getId() +" / "+ ObjetoActual.getNombre());
+            panel.setTag(position);
+
             OnclickDelTextView(vEditar);
             OnclickDelTextView(vEliminar);
-            //vEditar.setTag(ObjetoActual.getId() + ObjetoActual.getNombre());
-            //vEliminar.setTag(ObjetoActual.getId() + ObjetoActual.getNombre());
-            //vEditar.setOnClickListener(MainActivity.get);
+            OnclickDelMaterialCardView(panel);
             return itemView;
         }
     }
     public void OnclickDelTextView(View view) {
-
-        // Ejemplo  OnclickDelTextView(R.id.MiTextView);
-        // 1 Doy referencia al TextView
         TextView miTextView = (TextView) view;
-        //  final String msg = miTextView.getText().toString();
-        // 2.  Programar el evento onclick
         miTextView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                // if(msg.equals("Texto")){Mensaje("Texto en el botón ");};
                 switch (v.getId()) {
                     case R.id.txtEditar:
                         Mensaje("Modificar: " + v.getTag().toString());
@@ -113,12 +101,24 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.txtEliminar:
                         Mensaje("Eliminar: " + v.getTag().toString());
                         break;
-                    default:break; }// fin de casos
+                    default:break;
+                }// fin de casos
             }// fin del onclick
         });
     }// fin de OnclickDelTextView
 
-
+    public void OnclickDelMaterialCardView(final View view) {
+        MaterialCardView miMaterialCardView = (MaterialCardView) view;
+        miMaterialCardView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                ObjetosxDesplegar ObjEscogido = misObjetos.get((int)v.getTag());
+                String message = "Elegiste item No.  " + (1+(int)v.getTag())
+                        + " que es un objeto cuyo nombre  " + ObjEscogido.getNombre();
+                Mensaje(message);
+            }// fin del onclick
+        });
+    }// fin de OnclickDelMaterialCardView
     public void Mensaje(String msg){
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
 }

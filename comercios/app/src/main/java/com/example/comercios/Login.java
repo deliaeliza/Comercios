@@ -1,7 +1,8 @@
-package com.example.comercioscostarica;
+package com.example.comercios;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,16 +10,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.comercioscostarica.Modelo.Util;
-import com.example.comercioscostarica.Modelo.VolleySingleton;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.example.comercios.Modelo.Util;
+import com.example.comercios.Modelo.VolleySingleton;
+import com.google.android.material.button.MaterialButton;
 
 public class Login extends AppCompatActivity {
 
@@ -32,7 +34,7 @@ public class Login extends AppCompatActivity {
         mensajeAB("Ingresar");
         correo = (EditText) findViewById(R.id.Login_edtEmail);
         password = (EditText) findViewById(R.id.Login_edtPass);
-        OnclickDelButton(R.id.Login_btnIgresar);
+        OnclickDelMaterialButton(R.id.Login_btnIgresar);
         OnclickDelTextView(R.id.Login_txtRegistrar);
         OnclickDelTextView(R.id.Login_txtOlvido);
     }
@@ -54,8 +56,8 @@ public class Login extends AppCompatActivity {
                         if (estado == 1) {
                             int tipo = user.optInt("tipo");
                             if (tipo == Util.USUARIO_ADMINISTRADOR) {
-                                Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
-                                startActivity(intento);
+                                //Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
+                                //startActivity(intento);
                             } else if (tipo == Util.USUARIO_COMERCIO) {
                                 //Intent intento = new Intent(getApplicationContext(), SegundaActivity.class);
                                 //startActivity(intento);
@@ -85,22 +87,16 @@ public class Login extends AppCompatActivity {
         VolleySingleton.getIntanciaVolley(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
-    public void OnclickDelButton(int ref) {
+    public void OnclickDelMaterialButton(int ref) {
         View view = findViewById(ref);
-        Button miButton = (Button) view;
+        MaterialButton miButton = (MaterialButton) view;
         miButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.Login_btnIgresar:
-                        enviarDatosLogin();
-                        break;
-                    default:
-                        break;
-                }// fin de casos
+                enviarDatosLogin();
             }// fin del onclick
         });
-    }// fin de OnclickDelButton
+    }// fin de OnclickDelMaterialButton
 
     public void OnclickDelTextView(int ref) {
         View view = findViewById(ref);
@@ -110,7 +106,7 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.Login_txtRegistrar:
-                        Intent intento = new Intent(getApplicationContext(), Registro.class);
+                        Intent intento = new Intent(getApplicationContext(), Registrar.class);
                         startActivity(intento);
                         break;
                     case R.id.Login_txtOlvido:
@@ -124,10 +120,11 @@ public class Login extends AppCompatActivity {
     }// fin de OnclickDelTextView
 
 
+
+
     public void mensajeToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
-
     public void mensajeAB(String msg) {
         getSupportActionBar().setTitle(msg);
     }

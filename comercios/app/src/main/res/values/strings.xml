@@ -1,0 +1,39 @@
+<resources>
+    <string name="app_name">Shop World</string>
+    <string name="email_lbl">Email</string>
+    <string name="user_lbl">Usuario</string>
+    <string name="empresa_lbl">Empresa</string>
+    <string name="descripcion_lbl">Descripción</string>
+    <string name="olvido_lbl">Olvido su contraseña?</string>
+    <string name="pwd_lbl">Contraseña</string>
+    <string name="confPWD_lbl">Confirmar contraseña</string>
+    <string name="ingresar_btn">Ingresar</string>
+    <string name="registro_lbl">Registrarse</string>
+
+    <string name="fecNac_lbl">Fecha de nacimiento</string>
+    <string name="anio_lbl">Año</string>
+    <string name="mes_lbl">Mes</string>
+    <string name="dia_lbl">Día</string>
+
+    <string name="registrar_btn">Registrarme</string>
+
+    <string name="telefono_lbl">Número de telefono</string>
+    <string name="codigoArea_lbl">Código de área</string>
+
+    <string name="registrarAdmin_lbl">Agregar administrador</string>
+    <string name="campoObligatorio_lbl">Campo obligatorio</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_nav_admin">NavAdmin</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="action_settings">Settings</string>
+</resources>

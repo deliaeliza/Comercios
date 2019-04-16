@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--Colores aplicacion -->
+    <color name="colorPrimary">#FF5722</color>
+    <color name="colorPrimaryDark">#E64A19</color>
+    <color name="colorPrimaryLight">#FFCCBC</color>
+    <color name="colorAccent">#FFC107</color>
+
+
+    <!--Colores texto -->
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#757575</color>
+
+
+    <!--Colores error -->
+    <color name="error">#d50000</color>
+
+    <!--Colores botones -->
+    <color name="boton">#FFC107</color>
+
+    <!--Colores divisores -->
+    <color name="divider">#BDBDBD</color>
+
+    <!--Colores iconos -->
+    <color name="iconWhite">#FFFFFF</color>
+    <color name="iconBlank">#000000</color>
+</resources>
