@@ -269,6 +269,7 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`SeccionesProductos` (
   `idProducto` INT NOT NULL,
   INDEX `seccion_fk_producto_idx` (`idSeccion`),
   INDEX `producto_fk_seccion_idx` (`idProducto`),
+  PRIMARY KEY (idSeccion, idProducto),
   CONSTRAINT `seccion_fk_producto`
     FOREIGN KEY (`idSeccion`)
     REFERENCES `comercioscr`.`Secciones` (`id`),
