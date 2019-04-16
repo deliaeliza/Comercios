@@ -105,17 +105,6 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Comercios` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-DELIMITER //
-CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), 
-IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
-BEGIN
-	DECLARE idC INT;
-	SET idC = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
-	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
-	INSERT INTO comercioscr.Comercio(idUsuario, telefono, verificado, descripcion, ubicacion, categoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
-END;
-//
-DELIMITER ;
 -- -----------------------------------------------------
 -- Table `comercioscr`.`UsuariosEstandar`
 -- -----------------------------------------------------
@@ -214,6 +203,19 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Secciones` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DELIMITER //
+CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), 
+IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
+BEGIN
+	DECLARE idC INT;
+	SET idC = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
+	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
+	INSERT INTO comercioscr.Comercio(idUsuario, telefono, verificado, descripcion, ubicacion, categoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
+    INSERT INTO comercioscr.Secciones(idComercio, nombre) values (idC, 'DEFAULT');
+
+    END;
+//
+DELIMITER ;
 
 -- -----------------------------------------------------
 -- Table `comercioscr`.`Productos`
@@ -274,6 +276,28 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`SeccionesProductos` (
     FOREIGN KEY (`idProducto`)
     REFERENCES `comercioscr`.`Productos` (`id`))
 ENGINE = InnoDB;
+
+DELIMITER //
+CREATE PROCEDURE PAborrarSeccion(IN Pid INT)
+BEGIN
+    DECLARE nombreSec VARCHAR(50);
+    DECLARE idDefault INT;
+	SELECT nombre into nombreSec FROM Secciones WHERE id = Pid;
+    IF(nombreSec IS NOT NULL) THEN
+        IF(nombreSec <> 'DEFAULT') THEN
+            DELETE FROM SeccionesProductos WHERE idSeccion = Pid;
+            DELETE FROM Secciones WHERE id = Pid;
+        ELSE
+            SIGNAL SQLSTATE '45000' SET message_text = 'La seccion elegida no se puede borrar';
+        END IF;
+    ELSE
+        SIGNAL SQLSTATE '45000' SET message_text = 'Error: No se encontro la seccion';
+    END IF;
+END;
+//
+DELIMITER ;
+
+
 
 -- Dropeo de usuario, si existe
 

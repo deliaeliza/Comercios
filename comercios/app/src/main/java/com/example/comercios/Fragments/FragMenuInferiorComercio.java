@@ -29,7 +29,7 @@ public class FragMenuInferiorComercio extends Fragment {
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.frag_menu_inferior_comercio, container, false);
         menu = (BottomNavigationView) view.findViewById(R.id.comercio_menu_inferior);
-        
+
         menu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
