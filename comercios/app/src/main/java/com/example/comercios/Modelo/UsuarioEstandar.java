@@ -1,4 +1,4 @@
-package com.example.comercios.Modelo;
+package com.example.comercios.modelo;
 
 import java.util.ArrayList;
 import java.util.Date;

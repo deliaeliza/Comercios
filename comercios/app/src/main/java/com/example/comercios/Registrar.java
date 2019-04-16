@@ -1,7 +1,5 @@
 package com.example.comercios;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
@@ -9,8 +7,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.comercios.Fragments.FragRegEmpresa;
-import com.example.comercios.Fragments.FragRegUser;
+import com.example.comercios.fragments.FragRegEmpresa;
+import com.example.comercios.fragments.FragRegUser;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Registrar extends AppCompatActivity {
 

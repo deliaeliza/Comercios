@@ -1,4 +1,4 @@
-package com.example.comercios.Modelo;
+package com.example.comercios.modelo;
 
 public class Administrador {
     private int id;
