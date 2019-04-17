@@ -210,9 +210,8 @@ BEGIN
 	DECLARE idC INT;
 	SET idC = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
 	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
-	INSERT INTO comercioscr.Comercios(idUsuario, telefono, verificado, descripcion, ubicacion, categoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
+	INSERT INTO comercioscr.Comercios(idUsuario, telefono, verificado, descripcion, ubicacion, idCategoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
     INSERT INTO comercioscr.Secciones(idComercio, nombre) values (idC, 'DEFAULT');
-
     END;
 //
 DELIMITER ;
@@ -349,14 +348,14 @@ CALL PAregistrarComercio(2, 'empresa1@gmail.com', 'Empresa1', '123Empresa1', 506
 CALL PAregistrarComercio(2, 'empresa2@gmail.com', 'Empresa2', '123Empresa2', 50850015001, 'Este es un restaurante', 'Puntarenas', 1);
 CALL PAregistrarComercio(2, 'empresa3@gmail.com', 'Empresa3', '123Empresa3', 50985508550, 'Esta es una tienda de ropa', 'San jose', 4);
 
-INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (5, 'Celulares');
-INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (5, 'Computadoras');
-INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (1, 'Postres');
-INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (1, 'Plato fuerte');
+INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (4, 'Celulares');
+INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (4, 'Computadoras');
+INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (5, 'Postres');
+INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (5, 'Plato fuerte');
 
-INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (5, 100, 'Computadora', '8 RAM, 1TB', 1);
-INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (5, 200, 'Celular', '4 RAM, 128GB', 1);
-INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (1, 300, 'Gallo pinto', null, 1);
-INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (1, 400, 'Cereal', 'Es del mejor', 1);
-INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (4, 500, 'Pantalo volcom', null, 1);
-INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (4, 600, 'Camisa quicksilver', null, 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (4, 100, 'Computadora', '8 RAM, 1TB', 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (4, 200, 'Celular', '4 RAM, 128GB', 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (5, 300, 'Gallo pinto', null, 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (5, 400, 'Cereal', 'Es del mejor', 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 500, 'Pantalo volcom', null, 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 600, 'Camisa quicksilver', null, 1);
