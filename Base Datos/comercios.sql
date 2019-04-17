@@ -205,10 +205,9 @@ ENGINE = InnoDB;
 -- Table `comercioscr`.`Secciones`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comercioscr`.`Secciones` (
-  `id` INT NOT NULL AUTO_INCREMENT,
   `idComercio` INT NOT NULL,
   `nombre` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (idComercio,nombre),
   INDEX `seccion_fk_idComercio_idx` (`idComercio`),
   CONSTRAINT `seccion_fk_idComercio`
     FOREIGN KEY (`idComercio`)
@@ -216,6 +215,19 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Secciones` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE TABLE IF NOT EXISTS `comercioscr`.`SeccionesProductos` (
+  `idSeccion` INT NOT NULL,
+  `idProducto` INT NOT NULL,
+  INDEX `seccion_fk_producto_idx` (`idSeccion`),
+  INDEX `producto_fk_seccion_idx` (`idProducto`),
+  PRIMARY KEY (idSeccion, idProducto),
+  CONSTRAINT `seccion_fk_producto`
+    FOREIGN KEY (`idSeccion`)
+    REFERENCES `comercioscr`.`Secciones` (`id`),
+  CONSTRAINT `producto_fk_seccion`
+    FOREIGN KEY (`idProducto`)
+    REFERENCES `comercioscr`.`Productos` (`id`))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `comercioscr`.`Productos`
@@ -272,7 +284,7 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`SeccionesProductos` (
   PRIMARY KEY (idSeccion, idProducto),
   CONSTRAINT `seccion_fk_producto`
     FOREIGN KEY (`idSeccion`)
-    REFERENCES `comercioscr`.`Secciones` (`id`),
+    REFERENCES `comercioscr`.`Secciones` (`idComercio`,`nombre`),
   CONSTRAINT `producto_fk_seccion`
     FOREIGN KEY (`idProducto`)
     REFERENCES `comercioscr`.`Productos` (`id`))
@@ -360,3 +372,14 @@ INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estad
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (5, 400, 'Cereal', 'Es del mejor', 1);
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 500, 'Pantalo volcom', null, 1);
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 600, 'Camisa quicksilver', null, 1);
+
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(1,2);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,2);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(1,4);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,2);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,2);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(1,5);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,1);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,6);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,3);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,3);
