@@ -6,6 +6,7 @@ public class GlobalComercios {
     private Comercio comercio = null;
 
     private int opcActual;
+    private int idSecModificar = -1;
     private static GlobalComercios instance = null;
 
     protected GlobalComercios() {}
@@ -23,4 +24,8 @@ public class GlobalComercios {
 
     public int getOpcActual() { return opcActual; }
     public void setOpcActual(int opcActual) { this.opcActual = opcActual; }
+
+    public int getIdSecModificar() { return idSecModificar; }
+
+    public void setIdSecModificar(int idSecModificar) { this.idSecModificar = idSecModificar;}
 }
