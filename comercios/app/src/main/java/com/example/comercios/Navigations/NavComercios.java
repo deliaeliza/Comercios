@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.comercios.Fragments.FragActInfoComercio;
 import com.example.comercios.Fragments.FragMenuInferiorComercio;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.R;
@@ -94,6 +95,11 @@ public class NavComercios extends AppCompatActivity
             fragmentTransaction.commit();
 
         }else if (id == R.id.navComercios_cuenta) {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragActInfoComercio mifrag = new FragActInfoComercio();
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
+            fragmentTransaction.commit();
 
         } else if (id == R.id.navComercios_cerrar) {
 
