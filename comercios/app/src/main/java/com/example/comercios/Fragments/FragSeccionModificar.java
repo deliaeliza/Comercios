@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class FragSeccionModificar extends Fragment {
@@ -55,6 +56,7 @@ public class FragSeccionModificar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_seccion_modificar, container, false);
+        mensajeAB("Modificar Sección");
         nombre = (TextInputEditText) view.findViewById(R.id.sec_modificar_TextInputEditText);
         tilNombre = (TextInputLayout) view.findViewById(R.id.sec_modificar_TextInputLayout);
         OnclickDelMaterialButtom(view.findViewById(R.id.sec_modificar_MaterialButtonAct));
@@ -62,23 +64,18 @@ public class FragSeccionModificar extends Fragment {
         recuperarSeccion();
         nombre.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validarDatos();
             }
-
             @Override
-            public void afterTextChanged(Editable s) {
-            }
+            public void afterTextChanged(Editable s) {}
         });
         return view;
     }
 
-    public void OnclickDelMaterialButtom(View view) {
-
+    private void OnclickDelMaterialButtom(View view) {
         MaterialButton miMaterialButtom = (MaterialButton) view;
         miMaterialButtom.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +102,6 @@ public class FragSeccionModificar extends Fragment {
         String dato = nombre.getText().toString();
         if (dato.length() > 51)
             return false;
-
         if (dato.length() > 0 && dato.length() <= 50 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
             tilNombre.setError(null);
             return true;
@@ -129,10 +125,10 @@ public class FragSeccionModificar extends Fragment {
                     JSONArray jsonA = response.getJSONArray("respuesta");
                     JSONObject mensajeError = jsonA.getJSONObject(0);
                     if (mensajeError.getString("mensajeError").equalsIgnoreCase("")) {
-                        Mensaje("Exito: Nombre actualizado");
+                        mensajeToast("Exito: Nombre actualizado");
                         seccion.setNombre(dato);
                     } else {
-                        Mensaje(mensajeError.getString("mensajeError"));
+                        mensajeToast(mensajeError.getString("mensajeError"));
                         nombre.setText(seccion.getNombre());
                     }
                 } catch (JSONException e) {
@@ -142,7 +138,7 @@ public class FragSeccionModificar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
+                mensajeToast("No se puede conectar " + error.toString());
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -168,7 +164,7 @@ public class FragSeccionModificar extends Fragment {
                         //Pasar a lista secciones
                         //}
                     } else {
-                        Mensaje(mensajeError);
+                        mensajeToast(mensajeError);
                         remplazoConListaSecciones();
                     }
                 } catch (JSONException e) {
@@ -178,7 +174,7 @@ public class FragSeccionModificar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
+                mensajeToast("No se puede conectar " + error.toString());
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -193,16 +189,16 @@ public class FragSeccionModificar extends Fragment {
             @Override
             public void onResponse(String response) {
                 if (response.equalsIgnoreCase("")) {
-                    Mensaje("Exito: Se elimino correctamente");
+                    mensajeToast("Exito: Se elimino correctamente");
                     remplazoConListaSecciones();
                 } else {
-                    Mensaje(response);
+                    mensajeToast(response);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
+                mensajeToast("No se puede conectar " + error.toString());
             }
         }) {
             @Override
@@ -245,6 +241,7 @@ public class FragSeccionModificar extends Fragment {
         alert11.show();
     };
 
-    private void Mensaje(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
+    private void mensajeToast(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 
 }

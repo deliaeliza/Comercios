@@ -11,31 +11,31 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/sec_registrar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="128dp"
-        android:text="@string/nombre_lbl"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/sec_registrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:text="@string/nombre_lbl"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.063"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fRegSec_txtNombre"
             android:layout_width="367dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_height="89dp"
+            android:layout_marginTop="60dp"
             app:counterEnabled="true"
             app:counterMaxLength="50"
             app:counterOverflowTextAppearance="@color/error"
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
-            app:layout_constraintBottom_toTopOf="@+id/fRegSec_btnReg"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@id/sec_registrar">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sec_registrar">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegSec_edtNombre"
@@ -45,22 +45,25 @@
                 android:ems="10"
                 android:inputType="text"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:textSize="18sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fRegSec_btnReg"
             android:layout_width="282dp"
             android:layout_height="58dp"
-            android:layout_marginBottom="259dp"
+            android:layout_marginTop="8dp"
             android:text="@string/registrarSeccion"
             android:textSize="18sp"
             app:backgroundTint="@color/colorAccent"
             app:cornerRadius="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegSec_txtNombre"
+            app:layout_constraintVertical_bias="0.149" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>
