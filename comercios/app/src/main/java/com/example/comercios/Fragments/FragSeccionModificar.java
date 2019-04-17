@@ -1,8 +1,10 @@
 package com.example.comercios.Fragments;
 
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
@@ -30,6 +32,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import androidx.appcompat.app.AlertDialog;
 
 
 public class FragSeccionModificar extends Fragment {
@@ -84,8 +88,7 @@ public class FragSeccionModificar extends Fragment {
                         break;
 
                     case R.id.sec_modificar_MaterialButtonEliminar:
-                        
-
+                        DialogSiNO_01();
                         break;
                     default:
                         break;
@@ -178,12 +181,11 @@ public class FragSeccionModificar extends Fragment {
     private void eliminarSeccion() {
         //String url = Util.urlWebService + "/seccionEliminar.php?id=" + GlobalComercios.getInstance().getIdSecModificar();
         String url = Util.urlWebService + "/seccionEliminar.php?id=" + 4;
-
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (response.equalsIgnoreCase("")) {
-                    Mensaje("Exito: Se elimo correctamente");
+                    Mensaje("Exito: Se elimino correctamente");
                     remplazoConListaSecciones();
                 } else {
                     Mensaje(response);
@@ -206,6 +208,27 @@ public class FragSeccionModificar extends Fragment {
         fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
         fragmentTransaction.commit();
     }
+
+    public void DialogSiNO_01(){
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+        builder1.setTitle("¿Eliminar sección?");
+        builder1.setMessage("Ya no abrá productos relacionados a esta sección");
+        builder1.setCancelable(true);
+        builder1.setNegativeButton("Cancelar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+
+                    } });
+        builder1.setPositiveButton("Aceptar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        eliminarSeccion();
+                    } });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    };
 
     private void Mensaje(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
 
