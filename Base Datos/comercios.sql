@@ -210,7 +210,7 @@ BEGIN
 	DECLARE idC INT;
 	SET idC = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
 	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
-	INSERT INTO comercioscr.Comercio(idUsuario, telefono, verificado, descripcion, ubicacion, categoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
+	INSERT INTO comercioscr.Comercios(idUsuario, telefono, verificado, descripcion, ubicacion, categoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
     INSERT INTO comercioscr.Secciones(idComercio, nombre) values (idC, 'DEFAULT');
 
     END;
@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Productos` (
   `idComercio` INT NOT NULL,
   `precio`     INT NULL,
   `nombre` VARCHAR(45) NOT NULL,
-  `descripcion` VARCHAR(200) NOT NULL,
+  `descripcion` VARCHAR(200) NULL,
   `estado` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `producto_fk_comercio_idx` (`idComercio`),
@@ -299,10 +299,10 @@ CREATE TRIGGER TborrarSeccion BEFORE DELETE ON comercioscr.SeccionesProductos FO
 BEGIN
 	DECLARE cantidad INT;
     DECLARE idDefault INT;
-	SELECT COUNT(id) INTO cantidad FROM comercioscr.SeccionesProductos WHERE comercioscr.SeccionesProductos.idProducto = NEW.idProducto;
+	SELECT COUNT(id) INTO cantidad FROM comercioscr.SeccionesProductos WHERE comercioscr.SeccionesProductos.idProducto = OLD.idProducto;
 	IF(cantidad <= 1) THEN 
         SELECT id INTO idDefault FROM SeccionesProductos WHERE nombre='DEFAULT';
-		INSERT INTO SeccionesProductos(idSeccion, idProducto) VALUES (idDefault, NEW.idProducto);
+		INSERT INTO SeccionesProductos(idSeccion, idProducto) VALUES (idDefault, OLD.idProducto);
 	END IF;
 END;
 //
@@ -329,6 +329,34 @@ CALL PAregistrarAdministrador(1, 'jonathanvasquez@gmail.com', 'Jonathan', '123Jo
 CALL PAregistrarAdministrador(1, 'deliaeliza72@gmail.com', 'Elizabeth', '123Delia', 0050689583027);
 CALL PAregistrarAdministrador(1, 'angelocalderon.17@hotmail.com', 'Angelo', '123Angelo', 0050686096895);
 
-CALL PAregistrarComercio();
-CALL PAregistrarComercio();
-CALL PAregistrarComercio();
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Restaurante');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Hotel');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Bar');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Cafe');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Ropa');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Tecnologia');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Farmacia');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Deportes');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Musica');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Videojuegos');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Jugueteria');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Ferreteria');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Zapateria');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Libreria');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Otro');
+
+CALL PAregistrarComercio(2, 'empresa1@gmail.com', 'Empresa1', '123Empresa1', 50685505001, 'Esta es una tienda de tecnologia', 'Heredia', 5);
+CALL PAregistrarComercio(2, 'empresa2@gmail.com', 'Empresa2', '123Empresa2', 50850015001, 'Este es un restaurante', 'Puntarenas', 1);
+CALL PAregistrarComercio(2, 'empresa3@gmail.com', 'Empresa3', '123Empresa3', 50985508550, 'Esta es una tienda de ropa', 'San jose', 4);
+
+INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (5, 'Celulares');
+INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (5, 'Computadoras');
+INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (1, 'Postres');
+INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (1, 'Plato fuerte');
+
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (5, 100, 'Computadora', '8 RAM, 1TB', 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (5, 200, 'Celular', '4 RAM, 128GB', 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (1, 300, 'Gallo pinto', null, 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (1, 400, 'Cereal', 'Es del mejor', 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (4, 500, 'Pantalo volcom', null, 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (4, 600, 'Camisa quicksilver', null, 1);
