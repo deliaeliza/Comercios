@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -48,7 +50,35 @@ public class FragActInfoComercio extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_frag_act_info_comercio, container, false);
         cargarCategorias(view);
-        return view;
+        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
+        EditText MiEditText = (EditText) view.findViewById(R.id.fActInfoComercio_edtUbicacion);
+        MiEditText.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Mensaje("aaaaaa");
+            }
+        });
+
+        return view; // debe comentar el otro return
+
+    }
+    public void OnclickDelButton(View view) {
+
+        Button miButton = (Button)  view;
+        miButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+
+                    case R.id.fActInfoComercio_btnAct:
+                        Mensaje("Implementar Button1");
+
+                        break;
+                    default:break; }// fin de casos
+            }
+        });
     }
     public void Mensaje(String msg){
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
