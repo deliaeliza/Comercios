@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/usuarioInicio"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/home"
             android:title="@string/inicio_lbl" />
 
     </group>
@@ -15,11 +15,11 @@
         <menu>
             <item
                 android:id="@+id/usuarioMapa"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/search"
                 android:title="@string/mapa_lbl" />
             <item
                 android:id="@+id/usuarioTodosComercios"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/list_ul"
                 android:title="@string/todosComercios_lbl" />
         </menu>
     </item>
@@ -27,16 +27,16 @@
         <menu>
             <item
                 android:id="@+id/usuarioActInformacion"
-                android:icon="@drawable/ic_menu_gallery"
+                android:icon="@drawable/user_edit"
                 android:title="@string/actInfoUsuario_lbl" />
 
             <item
                 android:id="@+id/cerrarSeion"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/door_open"
                 android:title="@string/cerrarSesion_lbl" />
             <item
                 android:id="@+id/acercaDe"
-                android:icon="@drawable/ic_menu_send"
+                android:icon="@drawable/address_card"
                 android:title="@string/acercade_lbl" />
         </menu>
     </item>
