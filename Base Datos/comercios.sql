@@ -205,10 +205,12 @@ ENGINE = InnoDB;
 -- Table `comercioscr`.`Secciones`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comercioscr`.`Secciones` (
+  `id` INT NOT NULL AUTO_INCREMENT,
   `idComercio` INT NOT NULL,
   `nombre` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (idComercio,nombre),
-  INDEX `seccion_fk_idComercio_idx` (`idComercio`),
+  PRIMARY KEY (id),
+  INDEX `seccion_fk_id_idx` (`id`),
+  UNIQUE INDEX `idComNombre_UNIQUE` (`idComercio`,`nombre`),
   CONSTRAINT `seccion_fk_idComercio`
     FOREIGN KEY (`idComercio`)
     REFERENCES `comercioscr`.`Comercios` (`idUsuario`)
@@ -270,7 +272,7 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`SeccionesProductos` (
   PRIMARY KEY (idSeccion, idProducto),
   CONSTRAINT `seccion_fk_producto`
     FOREIGN KEY (`idSeccion`)
-    REFERENCES `comercioscr`.`Secciones` (`idComercio`),
+    REFERENCES `comercioscr`.`Secciones` (`id`),
   CONSTRAINT `producto_fk_seccion`
     FOREIGN KEY (`idProducto`)
     REFERENCES `comercioscr`.`Productos` (`id`))
@@ -359,13 +361,13 @@ INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estad
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 500, 'Pantalo volcom', null, 1);
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 600, 'Camisa quicksilver', null, 1);
 
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,1);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,6);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(1,1);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,6);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,2);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(6,4);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,5);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,4);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(1,5);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,3);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(6,1);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(6,6);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,4);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,4);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,1);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,6);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(1,4);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,5);
