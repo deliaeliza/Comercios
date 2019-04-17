@@ -11,25 +11,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Modelo.Util;
+import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class FragActInfoUsuario extends Fragment {
+    StringRequest stringRequest;
     JsonObjectRequest jsonObjectRequest;
-    private EditText usuario;
-    private EditText correo;
-    private EditText password;
-    private EditText confiPassword;
+
+    EditText usuario, correo, password, confiPassword;
 
     public FragActInfoUsuario() {
         // Required empty public constructor
@@ -39,52 +45,79 @@ public class FragActInfoUsuario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
-        final View view =inflater.inflate(R.layout.frag_act_info_usuario, container, false);
-        Button MiButton = (Button) view.findViewById(R.id.fActInfoUser_btnAct);
-        MiButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                usuario = (EditText) view.findViewById(R.id.fActInfoUser_edtUser);
-                correo = (EditText) view.findViewById(R.id.fActInfoUser_edtEmail);
-                password = (EditText) view.findViewById(R.id.fActInfoUser_edtPass);
-                String url = Util.urlWebService + "/actualizarInfoUsuario.php?usuario=" +usuario.getText().toString()+
-                        "&correo="+correo.getText().toString() + "&contrasena=" + password.getText().toString()+
-                        "&id="+"3";
-
-                jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                    @Override
-                    public void onResponse(JSONObject response) {
-
-                        try {
-                            JSONObject jsonOb = response.getJSONObject("datos");
-                            String mensajeError = jsonOb.getString("mensajeError");
-                            Mensaje(jsonOb.toString());
-                            if(mensajeError.equalsIgnoreCase("")){
-                                String resp = jsonOb.getString("respuesta");
-                                Mensaje(resp);
-
-                            } else {
-                                Mensaje(mensajeError);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Mensaje("No se puede conectar " + error.toString());
-                    }
-                });
-
-            }
-        });
+        View view = inflater.inflate(R.layout.frag_act_info_usuario, container, false);
+        OnclickDelButton(view.findViewById(R.id.fActInfoUser_btnAct));
         return view;
+
+    }
+    public void OnclickDelButton(View view) {
+        Button miButton = (Button) view;
+        miButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.fActInfoUser_btnAct:
+                        correo = (EditText) getView().findViewById(R.id.fActInfoUser_edtEmail);
+                        usuario = (EditText) getView().findViewById(R.id.fActInfoUser_edtUser);
+                        password = (EditText) getView().findViewById(R.id.fActInfoUser_edtPass);
+                        confiPassword = (EditText) getView().findViewById(R.id.fActInfoUser_edtConfPass);
+                        if (!usuario.getText().toString().equalsIgnoreCase("") &&
+                                !correo.getText().toString().equalsIgnoreCase("") &&
+                                !password.getText().toString().equalsIgnoreCase("") &&
+                                !confiPassword.getText().toString().equalsIgnoreCase("")) {
+
+                            if (password.getText().toString().equals(confiPassword.getText().toString())) {
+                                actualizarUsuario();
+                            } else {
+                                Mensaje("Las contraseñas no coinciden");
+                            }
+                        } else {
+                            Mensaje("Complete todos los datos");
+                        }
+                        break;
+                    default:
+                        break;
+                }// fin de casos
+            }// fin del onclick
+        });
+    }
+    public void actualizarUsuario(){
+        String url = Util.urlWebService + "/actualizarInfoUsuario.php?usuario="+usuario.getText().toString()+
+                "&correo="+correo.getText().toString()+"&contrasena="+password.getText().toString()+"&id="+"3";
+
+        stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.trim().equalsIgnoreCase("Se actualizo correctamente")) {
+                    correo.setText("");
+                    usuario.setText("");
+                    password.setText("");
+                    confiPassword.setText("");
+                    Mensaje(response.trim());
+                } else {
+                    Mensaje(response.trim());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Mensaje("Intentelo mas tarde");
+            }
+        })/*{
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", Integer.toString(3));
+                parametros.put("correo", correo.getText().toString());
+                parametros.put("usuario", usuario.getText().toString());
+                parametros.put("contrasena", password.getText().toString());
+                return parametros;
+            }
+        }*/;
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
+
     }
 
     public void Mensaje(String msg){

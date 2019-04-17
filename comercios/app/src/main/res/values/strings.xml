@@ -20,6 +20,8 @@
 
     <string name="registrar_btn">Registrarme</string>
 
+    <string name="categoria_lbl">Categoria</string>
+    <string name="ubicacion_lbl">Ubicación</string>
     <string name="telefono_lbl">Número de telefono</string>
     <string name="codigoArea_lbl">Código de área</string>
 
