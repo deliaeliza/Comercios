@@ -88,14 +88,14 @@ public class FragSeccionModificar extends Fragment {
                         break;
 
                     case R.id.sec_modificar_MaterialButtonEliminar:
-                        DialogSiNO_01();
+                        DialogSiNO();
                         break;
                     default:
                         break;
-                }// fin de casos
+                }
             }// fin del onclick
         });
-    }// fin de OnclickDelMaterialButtom
+    }
 
     private boolean validarDatos() {
         String dato = nombre.getText().toString();
@@ -111,10 +111,11 @@ public class FragSeccionModificar extends Fragment {
     }
 
     private void actualizarSeccion() {
+        final String dato = nombre.getText().toString();
         //String url = Util.urlWebService + "/seccionActualizar.php?id=" +
-        //      GlobalComercios.getInstance().getIdSecModificar() + "&nombre=" + nombre.getText().toString();
+        //      GlobalComercios.getInstance().getIdSecModificar() + "&nombre=" + dato;
         String url = Util.urlWebService + "/seccionActualizar.php?id=" +
-                4 + "&nombre=" + nombre.getText().toString();
+                4 + "&nombre=" + dato;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -125,8 +126,10 @@ public class FragSeccionModificar extends Fragment {
                     JSONObject mensajeError = jsonA.getJSONObject(0);
                     if (mensajeError.getString("mensajeError").equalsIgnoreCase("")) {
                         Mensaje("Exito: Nombre actualizado");
+                        seccion.setNombre(dato);
                     } else {
                         Mensaje(mensajeError.getString("mensajeError"));
+                        nombre.setText(seccion.getNombre());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -181,6 +184,7 @@ public class FragSeccionModificar extends Fragment {
     private void eliminarSeccion() {
         //String url = Util.urlWebService + "/seccionEliminar.php?id=" + GlobalComercios.getInstance().getIdSecModificar();
         String url = Util.urlWebService + "/seccionEliminar.php?id=" + 4;
+
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -209,7 +213,7 @@ public class FragSeccionModificar extends Fragment {
         fragmentTransaction.commit();
     }
 
-    public void DialogSiNO_01(){
+    private void DialogSiNO(){
         AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
         builder1.setTitle("¿Eliminar sección?");
         builder1.setMessage("Ya no abrá productos relacionados a esta sección");
@@ -217,7 +221,6 @@ public class FragSeccionModificar extends Fragment {
         builder1.setNegativeButton("Cancelar",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
 
                     } });
         builder1.setPositiveButton("Aceptar",
