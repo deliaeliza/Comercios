@@ -11,25 +11,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/sec_registrar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="128dp"
+        android:text="@string/nombre_lbl"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fRegSec_txtNombre"
-            android:layout_width="331dp"
-            android:layout_height="81dp"
-            android:layout_marginTop="195dp"
-            android:layout_marginBottom="138dp"
-            android:hint="@string/nombreSeccion"
+            android:layout_width="367dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="50"
+            app:counterOverflowTextAppearance="@color/error"
+            app:errorEnabled="true"
+            app:errorTextAppearance="@color/error"
             app:layout_constraintBottom_toTopOf="@+id/fRegSec_btnReg"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintStart_toStartOf="@id/sec_registrar">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegSec_edtNombre"
                 android:layout_width="match_parent"
-                android:layout_height="59dp"
-                android:ems="16"
-                android:backgroundTint="@color/design_default_color_surface"/>
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/design_default_color_surface"
+                android:ems="10"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton

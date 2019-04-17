@@ -3,6 +3,8 @@ package com.example.comercios.Fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,9 +21,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 /**
@@ -29,7 +34,9 @@ import java.util.Map;
  */
 public class FragSeccionResgistrar extends Fragment {
 
-    EditText nombreSeccion;
+    private TextInputEditText nombreSeccion;
+    private TextInputLayout tilNombre;
+    StringRequest stringRequest;
 
     public FragSeccionResgistrar() {
         // Required empty public constructor
@@ -41,6 +48,18 @@ public class FragSeccionResgistrar extends Fragment {
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.frag_seccion_resgistrar, container, false);
         OnclickDelButton(view.findViewById(R.id.fRegSec_btnReg));
+        nombreSeccion = (TextInputEditText) view.findViewById(R.id.fRegSec_edtNombre);
+        tilNombre = (TextInputLayout) view.findViewById(R.id.fRegSec_txtNombre);
+        nombreSeccion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validarDatos();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
         return view; // debe comentar el otro return
     }
 
@@ -51,30 +70,24 @@ public class FragSeccionResgistrar extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.fRegSec_btnReg:
-                        nombreSeccion = (EditText) view.findViewById(R.id.fRegSec_edtNombre);
-                        if(!nombreSeccion.getText().toString().equalsIgnoreCase("")){
-                            //registrarSeccion();
-                        }else{
-                            MensajeToast("Complete los datos");
+                        if(validarDatos()){
+                            registrarSeccion();
                         }
                         break;
                     default:break; }// fin de casos
             }// fin del onclick
         });
     }// fin de OnclickDelButton
-/*
-    private void registrarSeccion() {
-        String url = Util.urlWebService + "/adminRegistrar.php?";
 
+    private void registrarSeccion() {
+        String url = Util.urlWebService + "/seccionesRegistrar.php?";
+        String nombre = nombreSeccion.getText().toString();
         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (response.trim().equalsIgnoreCase("Se registro correctamente")) {
-                    email.setText("");
-                    usuario.setText("");
-                    telefono.setText("");
-                    confContra.setText("");
-                    contrasena.setText("");
+                    nombreSeccion.setText("");
+                    tilNombre.setError(null);
                     MensajeToast(response.trim());
                 } else {
                     MensajeToast(response.trim());
@@ -83,26 +96,35 @@ public class FragSeccionResgistrar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                MensajeToast("Intentelo mas tarde");
+                MensajeToast("Intentelo mas tarde" + error.getMessage());
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<>();
-                parametros.put("tipo", Integer.toString(Util.USUARIO_ADMINISTRADOR));
-                parametros.put("email", email.getText().toString());
-                parametros.put("usuario", usuario.getText().toString());
-                parametros.put("telefono", telefono.getText().toString());
-                parametros.put("contrasena", contrasena.getText().toString());
+                parametros.put("idComercio", "4");
+                parametros.put("nombreSeccion", nombreSeccion.getText().toString());
                 return parametros;
             }
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
     }
-*/
+
     public void MensajeToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean validarDatos(){
+        String dato = nombreSeccion.getText().toString();
+        if(dato.length() > 51)
+            return false;
+        if(dato.length() > 0 && dato.length() <= 50 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()){
+            tilNombre.setError(null);
+            return true;
+        }
+        tilNombre.setError("Nombre invalido");
+        return false;
     }
 
 }
