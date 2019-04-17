@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -32,6 +33,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.appcompat.app.AlertDialog;
 
@@ -182,8 +186,8 @@ public class FragSeccionModificar extends Fragment {
 
 
     private void eliminarSeccion() {
-        //String url = Util.urlWebService + "/seccionEliminar.php?id=" + GlobalComercios.getInstance().getIdSecModificar();
-        String url = Util.urlWebService + "/seccionEliminar.php?id=" + 4;
+        //String url = Util.urlWebService + "/seccionEliminar.php?";
+        String url = Util.urlWebService + "/seccionEliminar.php?";
 
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -200,7 +204,15 @@ public class FragSeccionModificar extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 Mensaje("No se puede conectar " + error.toString());
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<>();
+                //parametros.put("id", Integer.toString(seccion.getId()));
+                parametros.put("id", Integer.toString(5));
+                return parametros;
+            }
+        };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
     }
