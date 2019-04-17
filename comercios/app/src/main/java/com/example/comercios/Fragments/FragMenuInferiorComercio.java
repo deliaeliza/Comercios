@@ -53,7 +53,8 @@ public class FragMenuInferiorComercio extends Fragment {
                 } else if (item.getItemId() == R.id.menuIferiorComercio_modificar) {
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    FragSeccionListarComercio  mifrag = new FragSeccionListarComercio ();
+                    //FragSeccionListarComercio  mifrag = new FragSeccionListarComercio ();
+                    FragSeccionModificar  mifrag = new FragSeccionModificar ();
                     fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
                     fragmentTransaction.commit();
                     return true;

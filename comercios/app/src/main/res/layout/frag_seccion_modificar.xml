@@ -1,14 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.FragSeccionModificar">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/sec_modificar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="128dp"
+                android:text="@string/nombre_lbl"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/sec_modificar_TextInputLayout"
+                android:layout_width="367dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:counterEnabled="true"
+                app:counterMaxLength="50"
+                app:counterOverflowTextAppearance="@color/error"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sec_modificar"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sec_modificar_TextInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:passwordToggleEnabled="true" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sec_modificar_MaterialButtonAct"
+                android:layout_width="180dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="48dp"
+                android:text="@string/modificarNombre_btn"
+                android:textSize="18sp"
+                app:backgroundTint="@color/colorAccent"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/edit"
+                app:iconSize="19dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sec_modificar_TextInputLayout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sec_modificar_MaterialButtonEliminar"
+                android:layout_width="180dp"
+                android:layout_height="64dp"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/secElminar_btn"
+                android:textSize="18sp"
+                app:backgroundTint="@color/error"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/trash_alt"
+                app:iconSize="19dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sec_modificar_TextInputLayout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </FrameLayout>
