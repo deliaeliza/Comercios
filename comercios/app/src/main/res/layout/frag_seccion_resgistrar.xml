@@ -1,14 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.FragSeccionResgistrar">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fSecReg_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Registrar seccion" />
+        android:layout_height="match_parent">
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fRegSec_txtNombre"
+            android:layout_width="331dp"
+            android:layout_height="81dp"
+            android:layout_marginTop="195dp"
+            android:layout_marginBottom="138dp"
+            android:hint="@string/nombreSeccion"
+            app:layout_constraintBottom_toTopOf="@+id/fRegSec_btnReg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fRegSec_edtNombre"
+                android:layout_width="match_parent"
+                android:layout_height="59dp"
+                android:ems="16"
+                android:backgroundTint="@color/design_default_color_surface"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/fRegSec_btnReg"
+            android:layout_width="282dp"
+            android:layout_height="58dp"
+            android:layout_marginBottom="259dp"
+            android:text="@string/registrarSeccion"
+            android:textSize="18sp"
+            app:backgroundTint="@color/colorAccent"
+            app:cornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

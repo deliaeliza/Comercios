@@ -42,6 +42,8 @@
     <string name="campoObligatorio_lbl">Campo obligatorio</string>
     <string name="actInfoUsuario_lbl">Cuenta</string>
 
+    <string name="nombreSeccion">Nombre de la sección</string>
+    <string name="registrarSeccion">Registrar sección</string>
 
     <string name="catalogo_lbl">Catalogo</string>
     <string name="productos_lbl">Productos</string>
