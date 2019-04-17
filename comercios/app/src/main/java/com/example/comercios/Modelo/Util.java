@@ -1,5 +1,7 @@
 package com.example.comercios.Modelo;
 
+import java.util.regex.Pattern;
+
 public class Util {
     /*******************************************Tipos de usuarios*******************************************/
     /*******************************************************************************************************/
@@ -30,4 +32,10 @@ public class Util {
     /*******************************************************************************************************/
     public static final String urlWebService = "https://comercioscr.webcindario.com";
     /*******************************************************************************************************/
+
+
+    //Patron que admite campos vacios, pero verifica que haya al menos un caracter alfanumerico
+    /**************************************************************/
+    public static final Pattern PATRON_UN_CARACTER_ALFANUMERICO = Pattern.compile(".*[1-9a-zA-ZáéíóúÁÉÍÓÚñÑäëïöüÄËÏÜàèìòùÀÈÌÒÙýÝ].*");
+    /**************************************************************/
 }

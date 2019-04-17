@@ -105,6 +105,19 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Comercios` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+DELIMITER //
+CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), 
+IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
+BEGIN
+	DECLARE idC INT;
+	SET idC = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
+	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
+	INSERT INTO comercioscr.Comercios(idUsuario, telefono, verificado, descripcion, ubicacion, idCategoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
+    INSERT INTO comercioscr.Secciones(idComercio, nombre) values (idC, 'DEFAULT');
+    END;
+//
+DELIMITER ;
+
 -- -----------------------------------------------------
 -- Table `comercioscr`.`UsuariosEstandar`
 -- -----------------------------------------------------
@@ -196,25 +209,12 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Secciones` (
   `idComercio` INT NOT NULL,
   `nombre` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `seccion_fk_idComercio_idx` (`idComercio`),
+  UNIQUE INDEX `idComNombre_UNIQUE` (`idComercio`,`nombre`),
   CONSTRAINT `seccion_fk_idComercio`
     FOREIGN KEY (`idComercio`)
     REFERENCES `comercioscr`.`Comercios` (`idUsuario`)
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-DELIMITER //
-CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), 
-IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
-BEGIN
-	DECLARE idC INT;
-	SET idC = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
-	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
-	INSERT INTO comercioscr.Comercios(idUsuario, telefono, verificado, descripcion, ubicacion, idCategoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
-    INSERT INTO comercioscr.Secciones(idComercio, nombre) values (idC, 'DEFAULT');
-    END;
-//
-DELIMITER ;
 
 -- -----------------------------------------------------
 -- Table `comercioscr`.`Productos`
@@ -277,32 +277,41 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`SeccionesProductos` (
     REFERENCES `comercioscr`.`Productos` (`id`))
 ENGINE = InnoDB;
 
+
 DELIMITER //
-CREATE PROCEDURE PAborrarSeccion(IN Pid INT)
+CREATE PROCEDURE PAverificarProductosSinSeccon(IN PidComercio INT)
 BEGIN
-    DECLARE nombreSec VARCHAR(50);
+    DECLARE termino BOOLEAN DEFAULT FALSE;
+    DECLARE idProd INT;
     DECLARE idDefault INT;
-	SELECT nombre into nombreSec FROM Secciones WHERE id = Pid;
-    IF(nombreSec <> 'DEFAULT') THEN
-        DELETE FROM SeccionesProductos WHERE idSeccion = Pid;
-        DELETE FROM Secciones WHERE id = Pid;
-    ELSE
-        SIGNAL SQLSTATE '45000' SET message_text = 'La seccion elegida no se puede borrar';
-    END IF;
+    DECLARE productosSinSeccion CURSOR FOR SELECT p.id FROM Productos p LEFT OUTER JOIN SeccionesProductos s ON s.idProducto = p.id WHERE s.idProducto IS NULL AND p.idComercio = PidComercio;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET termino = TRUE;
+    SELECT id INTO idDefault FROM Secciones WHERE idComercio = PidComercio AND nombre = 'DEFAULT';
+    OPEN productosSinSeccion;
+    producto_loop: LOOP
+        FETCH productosSinSeccion INTO idProd;
+        IF termino THEN LEAVE producto_loop; END IF; 
+        INSERT INTO SeccionesProductos(idSeccion, idProducto) VALUES (idDefault, idProd);
+    END LOOP producto_loop;
+    CLOSE productosSinSeccion;
 END;
 //
 DELIMITER ;
 
 DELIMITER //
-CREATE TRIGGER TborrarSeccion BEFORE DELETE ON comercioscr.SeccionesProductos FOR EACH ROW
+CREATE PROCEDURE PAborrarSeccion(IN Pid INT)
 BEGIN
-	DECLARE cantidad INT;
-    DECLARE idDefault INT;
-	SELECT COUNT(id) INTO cantidad FROM comercioscr.SeccionesProductos WHERE comercioscr.SeccionesProductos.idProducto = OLD.idProducto;
-	IF(cantidad <= 1) THEN 
-        SELECT id INTO idDefault FROM SeccionesProductos WHERE nombre='DEFAULT';
-		INSERT INTO SeccionesProductos(idSeccion, idProducto) VALUES (idDefault, OLD.idProducto);
-	END IF;
+    DECLARE nombreSec VARCHAR(50);
+    DECLARE idCom INT;
+	SELECT nombre into nombreSec FROM Secciones WHERE id = Pid;
+    IF(nombreSec <> 'DEFAULT') THEN
+        DELETE FROM SeccionesProductos WHERE idSeccion = Pid;
+        SELECT idComercio INTO idCom FROM Secciones WHERE id = Pid;      
+        DELETE FROM Secciones WHERE id = Pid;
+        CALL PAverificarProductosSinSeccon(idCom);
+    ELSE
+        SIGNAL SQLSTATE '45000' SET message_text = 'La seccion elegida no se puede borrar';
+    END IF;
 END;
 //
 DELIMITER ;
@@ -357,5 +366,18 @@ INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estad
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (4, 200, 'Celular', '4 RAM, 128GB', 1);
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (5, 300, 'Gallo pinto', null, 1);
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (5, 400, 'Cereal', 'Es del mejor', 1);
-INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 500, 'Pantalo volcom', null, 1);
+INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 500, 'Pantalon volcom', null, 1);
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 600, 'Camisa quicksilver', null, 1);
+
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,1);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,2);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,2);
+
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(7,3);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,5);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(7,4);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,4);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,5);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,6);
+INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,6);
+

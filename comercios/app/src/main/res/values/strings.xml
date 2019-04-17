@@ -44,6 +44,8 @@
     <string name="campoObligatorio_lbl">Campo obligatorio</string>
     <string name="actInfoUsuario_lbl">Cuenta</string>
 
+    <string name="nombreSeccion">Nombre de la sección</string>
+    <string name="registrarSeccion">Registrar sección</string>
 
     <string name="catalogo_lbl">Catalogo</string>
     <string name="productos_lbl">Productos</string>
@@ -52,6 +54,10 @@
     <string name="eliminar_lbl">Eliminar</string>
     <string name="desactivar_lbl">Desactivar</string>
 
+    <string name="modificarNombre_btn">Modificar nombre</string>
+    <string name="nombre_lbl">Nombre</string>
+    <string name="secElminar_btn">Elminar Sección</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -59,6 +65,7 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
