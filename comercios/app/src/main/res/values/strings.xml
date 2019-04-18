@@ -46,6 +46,10 @@
 
     <string name="nombreSeccion">Nombre de la sección</string>
     <string name="registrarSeccion">Registrar sección</string>
+    <string name="registrarProd">Registrar producto</string>
+    <string name="elegirImg">Agregar imagen</string>
+    <string name="elimImg">Eliminar</string>
+    <string name="cambImg">Cambiar</string>
 
     <string name="catalogo_lbl">Catalogo</string>
     <string name="productos_lbl">Productos</string>
@@ -56,8 +60,8 @@
 
     <string name="modificarNombre_btn">Modificar nombre</string>
     <string name="nombre_lbl">Nombre</string>
-    <string name="secElminar_btn">Elminar Sección</string>
-
+    <string name="secElminar_btn">Eliminar Sección</string>
+    <string name="precio_lbl">Precio</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
