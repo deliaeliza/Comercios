@@ -15,6 +15,8 @@ import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +38,7 @@ import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -59,12 +62,14 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class FragProductoResgistrar extends Fragment {
 
     private TextInputEditText nombre, descripcion, precio;
+    private TextInputLayout lyNombre, lyDescr, lyPre;
     StringRequest stringRequest;
     private Button btnElegirFoto, btnRemFoto;
 
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
     private static final int COD_FOTO = 20;
+    private static final int CANTIMG_MAX = 5;
 
     private static final String CARPETA_PRINCIPAL = "misImagenesApp/";//directorio principal
     private static final String CARPETA_IMAGEN = "imagenes";//carpeta donde se guardan las fotos
@@ -72,6 +77,7 @@ public class FragProductoResgistrar extends Fragment {
     private String path;//almacena la ruta de la imagen
     File fileImagen;
     viewPagerAdapter vie;
+    private boolean reemImg = false;
 
     public FragProductoResgistrar() {
         // Required empty public constructor
@@ -87,20 +93,58 @@ public class FragProductoResgistrar extends Fragment {
         vie = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getImageViews());
         viewpager.setAdapter(vie);
         viewpager.setOffscreenPageLimit(3);
-        viewpager.setPageMargin(-200);
+        viewpager.setPageMargin(70);
         btnElegirFoto = (Button) view.findViewById(R.id.fRegProd_btnAgrImg);
+        nombre = (TextInputEditText) view.findViewById(R.id.fRegProd_edtNombre);
+        descripcion = (TextInputEditText) view.findViewById(R.id.fRegProd_edtDescripcion);
+        precio = (TextInputEditText) view.findViewById(R.id.fRegProd_edtPrecio);
+        lyNombre = (TextInputLayout) view.findViewById(R.id.fRegProd_txtNombre);
+        lyPre = (TextInputLayout) view.findViewById(R.id.fRegProd_txtPrecio);
+        lyDescr = (TextInputLayout) view.findViewById(R.id.fRegProd_txtDescripcion);
+
         //Permisos
         if (solicitaPermisosVersionesSuperiores()) {
             btnElegirFoto.setEnabled(true);
         } else {
             btnElegirFoto.setEnabled(false);
         }
+
         OnclickDelButton(btnElegirFoto);
         OnclickDelButton(view.findViewById(R.id.fRegProd_btnElimImg));
         OnclickDelButton(view.findViewById(R.id.fRegProd_btnRegProd));
         OnclickDelButton(view.findViewById(R.id.fRegProd_btnRemImg));
 
-        return view;
+        nombre.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validaDatos();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        precio.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validaDatos();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        descripcion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validaDatos();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        return view; // debe comentar el otro return
     }
 
     public void OnclickDelButton(View view) {
@@ -110,24 +154,34 @@ public class FragProductoResgistrar extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.fRegProd_btnAgrImg:
-                        mostrarDialogOpciones();
+                        if (CANTIMG_MAX > GlobalComercios.getInstance().getImageViews().size()) {
+                            reemImg = false;
+                            mostrarDialogOpciones();
+                        } else {
+                            btnElegirFoto.setEnabled(false);
+                            Mensaje("Ha sobrepasado la cantidad maxima de imagenes");
+                        }
                         break;
                     case R.id.fRegProd_btnElimImg:
-                        Mensaje("Implementar Button2");
-
+                        if (GlobalComercios.getInstance().getImageViews().size() > 0) {
+                            GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
+                            vie.notifyDataSetChanged();
+                        } else {
+                            Mensaje("No hay imagenes que borrar");
+                        }
                         break;
                     case R.id.fRegProd_btnRegProd:
-                        nombre = (TextInputEditText) v.findViewById(R.id.fRegProd_edtNombre);
-                        descripcion = (TextInputEditText) v.findViewById(R.id.fRegProd_edtDescripcion);
-                        precio = (TextInputEditText) v.findViewById(R.id.fRegProd_edtPrecio);
                         if (validaDatos()) {
-
+                            enviarDatosRegistrar();
                         }
-
                         break;
                     case R.id.fRegProd_btnRemImg:
-                        Mensaje("Implementar Button4");
-
+                        if (GlobalComercios.getInstance().getImageViews().size() > 0) {
+                            reemImg = true;
+                            mostrarDialogOpciones();
+                        } else {
+                            Mensaje("Debe elegir al menos una imagen");
+                        }
                         break;
                     default:
                         break;
@@ -139,7 +193,6 @@ public class FragProductoResgistrar extends Fragment {
     public void Mensaje(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
-
 
 
     public void enviarDatosRegistrar() {
@@ -156,27 +209,30 @@ public class FragProductoResgistrar extends Fragment {
                 } else {
                     Mensaje(response);
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se ha podido conectar");
+                Mensaje("No se ha podido conectar" + error.getMessage());
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                //String imagen=convertirImgString(bitmap);
-
                 Map<String, String> parametros = new HashMap<>();
-                parametros.put("idComercio", Integer.toString(GlobalComercios.getInstance().getComercio().getId()));
-                //faltan las secciones a la que pertenecera
+                parametros.put("idComercio", Integer.toString(5));
+                parametros.put("idSeccion", "2");
                 parametros.put("nombre", nombre.getText().toString());
                 parametros.put("precio", precio.getText().toString());
                 parametros.put("descripcion", descripcion.getText().toString());
-                //imagenes que se subiran, pueden ser 5
-                //parametros.put("imagen",imagen);
-
+                int cantImg = GlobalComercios.getInstance().getImageViews().size();
+                parametros.put("cantImg", Integer.toString(cantImg));
+                int idImgen = 1;
+                String imagen;
+                for (Bitmap img : GlobalComercios.getInstance().getImageViews()) {
+                    imagen = convertirImgString(img);
+                    parametros.put("img" + idImgen, imagen);
+                    idImgen = idImgen + 1;
+                }
                 return parametros;
             }
         };
@@ -185,6 +241,34 @@ public class FragProductoResgistrar extends Fragment {
     }
 
     public boolean validaDatos() {
+        String nomb = nombre.getText().toString();
+        String pre = precio.getText().toString();
+        String descrip = descripcion.getText().toString();
+        int aceptados = 0;
+
+        if (nomb.length() > 45 && pre.length() > 10 && descrip.length() > 200)
+            return false;
+        if (nomb.length() > 0 && nomb.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(nomb).find()) {
+            lyNombre.setError(null);
+            aceptados += 1;
+        } else {
+            lyNombre.setError("Nombre invalido");
+        }
+        if (pre.length() <= 10 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(pre).find()) {
+            lyPre.setError(null);
+            aceptados += 1;
+        } else {
+            lyPre.setError("Precio invalido");
+        }
+        if (descrip.length() <= 200) {
+            lyDescr.setError(null);
+            aceptados += 1;
+        } else {
+            lyDescr.setError("Descripcion invalida");
+        }
+        if (aceptados == 3) {
+            return true;
+        }
         return false;
     }
 
@@ -236,7 +320,7 @@ public class FragProductoResgistrar extends Fragment {
         }
         if (isCreada == true) {
             Long consecutivo = System.currentTimeMillis() / 1000;
-            String nombre = consecutivo.toString() + ".jpg";
+            String nombre = consecutivo.toString() + ".png";
             path = Environment.getExternalStorageDirectory() + File.separator + DIRECTORIO_IMAGEN
                     + File.separator + nombre;//indicamos la ruta de almacenamiento
             fileImagen = new File(path);
@@ -278,7 +362,12 @@ public class FragProductoResgistrar extends Fragment {
                 imagen1 = BitmapFactory.decodeFile(path);
                 break;
         }
-        GlobalComercios.getInstance().getImageViews().add(redimensionarImagen(imagen1, 600, 800));
+        if (reemImg) {
+            GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
+            GlobalComercios.getInstance().getImageViews().add(GlobalComercios.getInstance().getImgActual(), redimensionarImagen(imagen1, 600, 800));
+        } else {
+            GlobalComercios.getInstance().getImageViews().add(redimensionarImagen(imagen1, 600, 800));
+        }
         vie.notifyDataSetChanged();
     }
 

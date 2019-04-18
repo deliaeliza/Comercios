@@ -44,6 +44,7 @@ public class viewPagerAdapter extends PagerAdapter {
         img.setScaleType(ImageView.ScaleType.CENTER_CROP);
         img.setImageBitmap(imagenes.get(position));
         container.addView(img,0);
+        GlobalComercios.getInstance().setImgActual(position);
         return img;
     }
 

@@ -10,6 +10,7 @@ public class GlobalComercios {
     private Comercio comercio = null;
     private int idSecModificar;
     private int opcActual;
+    private int imgActual;
 
     private ArrayList<Bitmap> imageViewsProductos;
 
@@ -44,4 +45,13 @@ public class GlobalComercios {
     public void setImageViews(ArrayList<Bitmap> imageViews) {
         this.imageViewsProductos = imageViews;
     }
+
+    public int getImgActual() {
+        return imgActual;
+    }
+
+    public void setImgActual(int imgActual) {
+        this.imgActual = imgActual;
+    }
+
 }
