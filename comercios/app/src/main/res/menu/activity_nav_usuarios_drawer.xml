@@ -15,7 +15,7 @@
         <menu>
             <item
                 android:id="@+id/usuarioMapa"
-                android:icon="@drawable/search"
+                android:icon="@drawable/map_marked_alt"
                 android:title="@string/mapa_lbl" />
             <item
                 android:id="@+id/usuarioTodosComercios"
