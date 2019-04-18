@@ -80,12 +80,9 @@ public class FragActInfoComercio extends Fragment  {
 
         View view = inflater.inflate(R.layout.fragment_frag_act_info_comercio, container, false);
         cargarCategorias(view);
-        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
-        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnUbicacion));
-        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_cambiarFoto));
         fotoComercio = view.findViewById(R.id.fActInfoComercio_imagen);
 
-        //Permisos para q
+        //Permisos para camara
         btnFoto = view.findViewById(R.id.fActInfoComercio_cambiarFoto);
 
         if(solicitaPermisosVersionesSuperiores()){
@@ -93,9 +90,10 @@ public class FragActInfoComercio extends Fragment  {
         }else{
             btnFoto.setEnabled(false);
         }
-
-
-        return view; // debe comentar el otro return
+        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
+        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnUbicacion));
+        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_cambiarFoto));
+        return view;
 
     }
     public void OnclickDelButton(final View view) {
@@ -111,7 +109,6 @@ public class FragActInfoComercio extends Fragment  {
                         break;
 
                     case R.id.fActInfoComercio_btnUbicacion:
-
 
                         break;
 

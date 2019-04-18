@@ -124,4 +124,7 @@ public class FragActInfoUsuario extends Fragment {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     };
 
+    public void cargarInfoUsuario(){
+
+    }
 }
