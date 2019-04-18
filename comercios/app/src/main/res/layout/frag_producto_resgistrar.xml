@@ -1,14 +1,161 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.FragProductoResgistrar">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Registrar producto" />
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fRegProd_txtNombre"
+                android:layout_width="338dp"
+                android:layout_height="79dp"
+                android:layout_marginTop="4dp"
+                android:hint="@string/nombre_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="50"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fRegProd_edtNombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="10"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fRegProd_txtPrecio"
+                android:layout_width="338dp"
+                android:layout_height="79dp"
+                android:layout_marginTop="4dp"
+                android:hint="@string/precio_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="10"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegProd_txtNombre">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fRegProd_edtPrecio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="10"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fRegProd_txtDescripcion"
+                android:layout_width="338dp"
+                android:layout_height="76dp"
+                android:layout_marginTop="8dp"
+                android:hint="@string/descripcion_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="200"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegProd_txtPrecio">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fRegProd_edtDescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="10"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/fRegProd_viewPager"
+                android:layout_width="367dp"
+                android:layout_height="192dp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegProd_txtDescripcion">
+
+            </androidx.viewpager.widget.ViewPager>
+
+            <Button
+                android:id="@+id/fRegProd_btnAgrImg"
+                android:layout_width="337dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="37dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="37dp"
+                android:text="@string/elegirImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegProd_viewPager" />
+
+            <Button
+                android:id="@+id/fRegProd_btnRemImg"
+                android:layout_width="152dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="36dp"
+                android:text="@string/cambImg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegProd_btnAgrImg" />
+
+            <Button
+                android:id="@+id/fRegProd_btnElimImg"
+                android:layout_width="152dp"
+                android:layout_height="49dp"
+                android:layout_marginStart="33dp"
+                android:layout_marginEnd="37dp"
+                android:text="@string/elimImg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/fRegProd_btnRemImg"
+                app:layout_constraintTop_toBottomOf="@+id/fRegProd_btnAgrImg" />
+
+            <Button
+                android:id="@+id/fRegProd_btnRegProd"
+                android:layout_width="337dp"
+                android:layout_height="51dp"
+                android:text="@string/registrarProd"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegProd_btnRemImg" />
+
+            <Button
+                android:id="@+id/button7"
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_marginStart="162dp"
+                android:layout_marginTop="68dp"
+                android:layout_marginEnd="162dp"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegProd_btnRegProd" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </FrameLayout>
