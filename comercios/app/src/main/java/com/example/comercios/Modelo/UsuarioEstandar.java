@@ -2,8 +2,15 @@ package com.example.comercios.Modelo;
 
 import com.example.comercios.Modelo.Calificacion;
 
+import java.time.Year;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+
+import static java.util.Calendar.DATE;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 
 public class UsuarioEstandar {
     private int id;
@@ -14,6 +21,7 @@ public class UsuarioEstandar {
     private String usuario;
     private String contrasena;
     private Date fehcaNacimiento;
+    private int edad;
     private ArrayList<Calificacion> calificaciones;
 
     public UsuarioEstandar(int id, int tipo, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena, Date fehcaNacimiento, ArrayList<Calificacion> calificaciones) {
@@ -39,6 +47,18 @@ public class UsuarioEstandar {
     public UsuarioEstandar(int id, int tipo, boolean estado, String codigoRestablecer, String correo, String usuario, Date fehcaNacimiento) {
         this.id = id;
         this.tipo = tipo;
+        this.edad = edad;
+        this.estado = estado;
+        this.codigoRestablecer = codigoRestablecer;
+        this.correo = correo;
+        this.usuario = usuario;
+        this.fehcaNacimiento = fehcaNacimiento;
+    }
+
+    public UsuarioEstandar(int id, int tipo, int edad, boolean estado, String codigoRestablecer, String correo, String usuario, Date fehcaNacimiento) {
+        this.id = id;
+        this.tipo = tipo;
+        this.edad = edad;
         this.estado = estado;
         this.codigoRestablecer = codigoRestablecer;
         this.correo = correo;
@@ -55,6 +75,13 @@ public class UsuarioEstandar {
     }
     public void setTipo(int tipo) {
         this.tipo = tipo;
+    }
+
+    public int getEdad(){
+        return edad;
+    }
+    public void setEdad(int edad){
+        this.edad = edad;
     }
 
     public boolean isEstado() {
@@ -74,6 +101,7 @@ public class UsuarioEstandar {
     public String getCorreo() {
         return correo;
     }
+
     public void setCorreo(String correo) {
         this.correo = correo;
     }
@@ -81,6 +109,7 @@ public class UsuarioEstandar {
     public String getUsuario() {
         return usuario;
     }
+
     public void setUsuario(String usuario) {
         this.usuario = usuario;
     }
@@ -88,6 +117,7 @@ public class UsuarioEstandar {
     public String getContrasena() {
         return contrasena;
     }
+
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
@@ -95,6 +125,7 @@ public class UsuarioEstandar {
     public Date getFehcaNacimiento() {
         return fehcaNacimiento;
     }
+
     public void setFehcaNacimiento(Date fehcaNacimiento) {
         this.fehcaNacimiento = fehcaNacimiento;
     }
@@ -102,6 +133,7 @@ public class UsuarioEstandar {
     public ArrayList<Calificacion> getCalificaciones() {
         return calificaciones;
     }
+
     public void setCalificaciones(ArrayList<Calificacion> calificaciones) {
         this.calificaciones = calificaciones;
     }

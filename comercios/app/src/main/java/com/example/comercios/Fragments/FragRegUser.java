@@ -31,6 +31,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,8 +83,11 @@ public class FragRegUser extends Fragment {
                             @Override
                             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                                 fecha.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+
+
                             }
                         }, dia, mes, anio);
+                        datePickerDialog.getDatePicker().setMaxDate(new Date().getTime());
                         datePickerDialog.show();
                         tilFecha.clearFocus();
                         fecha.clearFocus();

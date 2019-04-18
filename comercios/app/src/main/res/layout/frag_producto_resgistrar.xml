@@ -91,10 +91,11 @@
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/fRegProd_viewPager"
-                android:layout_width="367dp"
-                android:layout_height="192dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="354dp"
+                android:layout_height="131dp"
+                android:layout_marginTop="28dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fRegProd_txtDescripcion">
 
@@ -147,11 +148,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="29dp"
                 android:layout_marginStart="162dp"
-                android:layout_marginTop="68dp"
+                android:layout_marginTop="44dp"
                 android:layout_marginEnd="162dp"
                 android:text="Button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fRegProd_btnRegProd" />
 
