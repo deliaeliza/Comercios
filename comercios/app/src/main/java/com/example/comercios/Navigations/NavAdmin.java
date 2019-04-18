@@ -4,6 +4,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
+import com.example.comercios.FragGestComercioLista;
+import com.example.comercios.Fragments.FragGestEstandarLista;
 import com.example.comercios.Fragments.FragRegAdmin;
 import com.example.comercios.R;
 
@@ -83,9 +85,17 @@ public class NavAdmin extends AppCompatActivity
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "agreagarAdmin");
             fragmentTransaction.commit();
         } else if (id == R.id.adminUsuarios) {
-
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragGestEstandarLista mifrag = new FragGestEstandarLista ();
+            fragmentTransaction.replace(R.id.contentAdmin, mifrag, "gestionarEstandar");
+            fragmentTransaction.commit();
         } else if (id == R.id.adminComercios) {
-
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragGestComercioLista mifrag = new FragGestComercioLista ();
+            fragmentTransaction.replace(R.id.contentAdmin, mifrag, "gestionarComercio");
+            fragmentTransaction.commit();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
