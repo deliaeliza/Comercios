@@ -2,162 +2,213 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.FragActInfoComercio">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/contenedorFAIC"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fActInfoComercio_widDescripcion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:hint="@string/descripcion_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/contenedorFAIC"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fActInfoComercio_edtDescripcion"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fActInfoComercio_widDescripcion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="@string/descripcion_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fActInfoComercio_edtDescripcion"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/fActInfoComercio_SPcategorias"
                 android:layout_width="282dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/design_default_color_surface"
-                android:ems="12"
-                android:inputType="text" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="0dp"
+                android:textSize="18dp"
+                android:tooltipText="Categoria"
+                app:cornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fActInfoComercio_widDescripcion"
+                app:layout_constraintVertical_bias="0.022"
+                app:ms_arrow_tint="@color/colorPrimary">
 
-        <com.jaredrummler.materialspinner.MaterialSpinner
-            android:id="@+id/fActInfoComercio_SPcategorias"
-            android:layout_width="282dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fActInfoComercio_widDescripcion"
-            app:layout_constraintVertical_bias="0.022"></com.jaredrummler.materialspinner.MaterialSpinner>
+            </com.jaredrummler.materialspinner.MaterialSpinner>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fActInfoComercio_widTelefono"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:hint="@string/telefono_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_SPcategorias">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fActInfoComercio_edtTelefono"
-                android:layout_width="282dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fActInfoComercio_widTelefono"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/design_default_color_surface"
-                android:ems="12"
-                android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="14dp"
+                android:hint="@string/telefono_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_SPcategorias">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fActInfoComercio_widCorreo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:hint="@string/email_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widTelefono">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fActInfoComercio_edtTelefono"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fActInfoComercio_edtCorreo"
-                android:layout_width="282dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fActInfoComercio_widCorreo"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/design_default_color_surface"
-                android:ems="12"
-                android:inputType="textEmailAddress" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="14dp"
+                android:hint="@string/email_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widTelefono">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fActInfoComercio_widPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:hint="@string/pwd_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widCorreo">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fActInfoComercio_edtCorreo"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fActInfoComercio_edtPass"
-                android:layout_width="282dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fActInfoComercio_widPass"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/design_default_color_surface"
-                android:ems="12"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="14dp"
+                android:hint="@string/pwd_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widCorreo">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fActInfoComercio_widConfiPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:hint="@string/confPWD_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widPass">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fActInfoComercio_edtPass"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fActInfoComercio_edtConfiPass"
-                android:layout_width="282dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fActInfoComercio_widConfiPass"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/design_default_color_surface"
-                android:ems="12"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="14dp"
+                android:hint="@string/confPWD_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widPass">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fActInfoComercio_widUbicacion"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:hint="@string/ubicacion_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widConfiPass">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fActInfoComercio_edtConfiPass"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fActInfoComercio_edtUbicacion"
-                android:layout_width="282dp"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fActInfoComercio_widUbicacion"
+                android:layout_width="275dp"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/design_default_color_surface"
-                android:ems="12"
-                android:inputType="text" >
-            </com.google.android.material.textfield.TextInputEditText>
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/fActInfoComercio_btnAct"
-            android:layout_width="282dp"
-            android:layout_height="58dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/actualizar_lbl"
-            android:textSize="18sp"
-            app:backgroundTint="@color/colorAccent"
-            app:cornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion"></com.google.android.material.button.MaterialButton>
+                android:layout_marginTop="14dp"
+                android:hint="@string/ubicacion_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widConfiPass">
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fActInfoComercio_edtUbicacion"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textMultiLine">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/fActInfoComercio_btnUbicacion"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp"
+                    android:text="Obtener ubicación"
+                    android:textSize="14dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/fActInfoComercio_imagen"
+                android:layout_width="173dp"
+                android:layout_height="106dp"
+                android:layout_marginTop="14dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.285"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion"
+                app:srcCompat="@drawable/ic_menu_camera" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fActInfoComercio_cambiarFoto"
+                android:layout_width="103dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="38dp"
+                android:text="Cambiar foto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.794"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fActInfoComercio_btnAct"
+                android:layout_width="282dp"
+                android:layout_height="58dp"
+                android:layout_marginTop="14dp"
+                android:text="@string/actualizar_lbl"
+                android:textSize="18sp"
+                app:backgroundTint="@color/colorAccent"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_imagen">
+
+            </com.google.android.material.button.MaterialButton>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 </FrameLayout>
