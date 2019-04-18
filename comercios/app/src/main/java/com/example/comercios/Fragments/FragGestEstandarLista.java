@@ -2,6 +2,7 @@ package com.example.comercios.Fragments;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -15,11 +16,28 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.comercios.Modelo.UsuarioEstandar;
+import com.example.comercios.Modelo.Util;
+import com.example.comercios.Modelo.VolleySingleton;
+import com.example.comercios.Navigations.NavAdmin;
+import com.example.comercios.Navigations.NavComercios;
+import com.example.comercios.Navigations.NavSuperUsuario;
+import com.example.comercios.Navigations.NavUsuarios;
 import com.example.comercios.R;
 import com.google.android.material.card.MaterialCardView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +46,12 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class FragGestEstandarLista extends Fragment {
-    private final int TAM_PAGINA = 5;
+    private final int TAM_PAGINA = 10;
     private View vistaInferior;
     private ListView listView;
     private EstandarListAdapter adapter;
     private Handler manejador;
+    private boolean inicial = true;
     private boolean cargano = false;
     private List<UsuarioEstandar> usuarios;
     public FragGestEstandarLista() {
@@ -45,14 +64,12 @@ public class FragGestEstandarLista extends Fragment {
                              Bundle savedInstanceState) {
 
         View view =inflater.inflate(R.layout.frag_gest_estandar_lista, container, false);
-        listView = (ListView) view.findViewById(R.id.gest_estandar_listview);
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
         manejador = new MyHandler();
         usuarios = new ArrayList<UsuarioEstandar>();
-        //Aqui agregamos cosas a la lista
-        adapter = new EstandarListAdapter();
-        listView.setAdapter(adapter);
+        listView = (ListView) view.findViewById(R.id.gest_estandar_listview);
+        obtenerMasDatos();
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -62,7 +79,7 @@ public class FragGestEstandarLista extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //Revisa si el scroll llego al ultimo item
-                if(view.getLastVisiblePosition() == usuarios.size()-1 ){
+                if(view.getLastVisiblePosition() == usuarios.size()-1 && listView.getCount() >= TAM_PAGINA && cargano == false){
                     cargano = true;
                     Thread thread = new ThreadMoreData();
                     thread.start();
@@ -72,6 +89,9 @@ public class FragGestEstandarLista extends Fragment {
         return view;
     }
 
+    private void llenarListView(View v) {
+        obtenerMasDatos();
+    }
 
     private class MyHandler extends Handler {
         @Override
@@ -83,7 +103,7 @@ public class FragGestEstandarLista extends Fragment {
                     break;
                 case 1:
                     //Se actualizan los datos del adaptador y de la interfaaz
-                    adapter.agregarUsuarios((ArrayList<UsuarioEstandar>)msg.obj);
+                    adapter.agregarUsuarios();
                     listView.removeFooterView(vistaInferior);
                     cargano = false;
                     break;
@@ -100,13 +120,13 @@ public class FragGestEstandarLista extends Fragment {
             //Agrega la vista inferior
             manejador.sendEmptyMessage(0);
             //Se buscan mas datos
-            ArrayList<UsuarioEstandar> nuevosDatos = obtenerMasDatos();
+            obtenerMasDatos();
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Message msg = manejador.obtainMessage(1, nuevosDatos);
+            Message msg = manejador.obtainMessage(1);
             manejador.sendMessage(msg);
 
         }
@@ -116,8 +136,7 @@ public class FragGestEstandarLista extends Fragment {
         public EstandarListAdapter() {
             super(getActivity(), R.layout.item_gest_estandar, usuarios);
         }
-        public void agregarUsuarios(List<UsuarioEstandar> usuariosNuevos){
-            usuarios.addAll(usuariosNuevos);
+        public void agregarUsuarios(){
             this.notifyDataSetChanged();
         }
         @Override
@@ -154,9 +173,70 @@ public class FragGestEstandarLista extends Fragment {
         });
     }// fin de OnclickDelMaterialCardView
 
-    public ArrayList<UsuarioEstandar> obtenerMasDatos() {
-        ArrayList<UsuarioEstandar> datos = new ArrayList<UsuarioEstandar>();
+    public void obtenerMasDatos() {
         //Consultar a la base
-        return datos;
+        int idMinimo;
+        if(usuarios.size() == 0){
+            idMinimo = 0;
+        } else {
+            idMinimo = (usuarios.get(usuarios.size()-1)).getId();
+        }
+        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, ue.fechaNac, TIMESTAMPDIFF(YEAR, ue.fechaNac, CURDATE()) as edad FROM Usuarios u, UsuariosEstandar ue WHERE u.id = ue.idUsuario AND u.id > '" + idMinimo + "'";
+        //Agregar fitros
+        //Limite despues de los filtros
+        query += " ORDER BY u.id LIMIT " + TAM_PAGINA;
+        String url = Util.urlWebService + "/usuariosEstandarObtener.php?query=" + query;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    JSONObject jsonOb = response.getJSONObject("datos");
+                    String mensajeError = jsonOb.getString("mensajeError");
+                    if(mensajeError.equalsIgnoreCase("")){
+                        if(jsonOb.has("usuarios")) {
+                            JSONArray users = jsonOb.getJSONArray("usuarios");
+                            SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+                            if (users.length() != 0) {
+                                for (int i = 0; i < users.length(); i++) {
+                                    JSONObject usuario = users.getJSONObject(i);
+                                usuarios.add(new UsuarioEstandar(
+                                        usuario.getInt("id"),
+                                        usuario.getInt("tipo"),
+                                        usuario.getInt("edad"),
+                                        usuario.getInt("estado") != 0,
+                                        usuario.getString("correo"),
+                                        usuario.getString("usuario"),
+                                        formatoFecha.parse(usuario.getString("fechaNac"))));
+                                }
+                            }
+
+                        } else {
+                            mensajeToast("No hay mas datos");
+                        }
+                        if(inicial){
+                            adapter = new EstandarListAdapter();;
+                            listView.setAdapter(adapter);
+                            inicial = false;
+                        }
+                    } else {
+                        mensajeToast(mensajeError);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("No se puede conectar " + error.toString());
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
+
+    public void mensajeToast(String msg){ Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
 }
