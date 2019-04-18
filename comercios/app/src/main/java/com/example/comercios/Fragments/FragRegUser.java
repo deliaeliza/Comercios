@@ -1,6 +1,8 @@
 package com.example.comercios.Fragments;
 
 
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
@@ -9,13 +11,28 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.example.comercios.Login;
 import com.example.comercios.Modelo.Util;
+import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,6 +46,10 @@ public class FragRegUser extends Fragment {
     private TextInputLayout tilPwd;
     private TextInputEditText confPwd;
     private TextInputLayout tilConfPwd;
+    private TextInputEditText fecha;
+    private  TextInputLayout tilFecha;
+    private Calendar calendar;
+    private DatePickerDialog datePickerDialog;
 
     public FragRegUser() {
         // Required empty public constructor
@@ -47,10 +68,34 @@ public class FragRegUser extends Fragment {
         tilPwd = (TextInputLayout) view.findViewById(R.id.fRegUser_widPass);
         confPwd = (TextInputEditText) view.findViewById(R.id.fRegUser_edtConfPass);
         tilConfPwd = (TextInputLayout) view.findViewById(R.id.fRegUser_widConfPass);
+        fecha = (TextInputEditText) view.findViewById(R.id.fRegUser_edtNac);
+        tilFecha = (TextInputLayout) view.findViewById(R.id.fRegUser_widNac);
+        fecha.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                    if(hasFocus) {
+                        calendar = Calendar.getInstance();
+                        int dia = calendar.get(Calendar.DAY_OF_MONTH);
+                        int mes = calendar.get(Calendar.MONTH);
+                        int anio = calendar.get(Calendar.YEAR);
+                        datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                fecha.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                            }
+                        }, dia, mes, anio);
+                        datePickerDialog.show();
+                        tilFecha.clearFocus();
+                        fecha.clearFocus();
+                        pwd.requestFocus();
+                    }
+                }
+        });
         OnTextChangedDelTextInputEditText(correo);
         OnTextChangedDelTextInputEditText(usuario);
         OnTextChangedDelTextInputEditText(pwd);
         OnTextChangedDelTextInputEditText(confPwd);
+        OnTextChangedDelTextInputEditText(fecha);
         OnclickDelMaterialButtom(view.findViewById(R.id.fRegUser_btnReg));
         return view;
     }
@@ -75,29 +120,37 @@ public class FragRegUser extends Fragment {
                 int id = textInputEditText.getId();
                 switch (id){
                     case R.id.fRegUser_edtEmail:
-                        validarCorreo();
+                        tilCorreo.setError(null);
                         break;
                     case R.id.fRegUser_edtUser:
                         validarUsuario();
                         break;
                     case R.id.fRegUser_edtPass:
                         validarContrasena();
+                        validarConfContrasena();
                         break;
                     case R.id.fRegUser_edtConfPass:
                         validarConfContrasena();
                         break;
+                    case R.id.fRegUser_edtNac:
+                        validarFecha();
+                        break;
                     default:
                         break;
                 }
-                validarDatos();
             }
             @Override
             public void afterTextChanged(Editable s) {}
         });
     }
 
-    private boolean validarDatos() {
-        return validarCorreo() && validarUsuario() && validarContrasena() && validarConfContrasena();
+    private boolean validarDatos() { //Variable para que se llamen todos lo metodos aunque todos sean false
+        boolean email = validarCorreo() && validarUsuario() && validarContrasena() && validarConfContrasena();
+        boolean user = validarUsuario();
+        boolean fec = validarFecha();
+        boolean pass = validarContrasena();
+        boolean confPass = validarConfContrasena();
+        return email && user && fec && pass && confPass;
     }
     private boolean validarCorreo(){
         String dato = correo.getText().toString();
@@ -107,7 +160,7 @@ public class FragRegUser extends Fragment {
             tilCorreo.setError(null);
             return true;
         }
-        tilCorreo.setError("Usuario invalido");
+        tilCorreo.setError("Email invalido");
         return false;
     }
     private boolean validarUsuario(){
@@ -142,9 +195,51 @@ public class FragRegUser extends Fragment {
         tilConfPwd.setError("Las contraseñas no coinciden");
         return false;
     }
+    private boolean validarFecha(){
+        String dato = fecha.getText().toString();
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            formatoFecha.parse(dato);
+            tilFecha.setError(null);
+            return true;
+        } catch (ParseException ex){
+            tilFecha.setError("Fecha invalida");
+        }
+        return false;
+    }
 
     private void registrarUsuario(){
-
+        String url = Util.urlWebService + "/usuarioEstandarRegistrar.php?";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.equalsIgnoreCase("Se registro correctamente")) {
+                    mensajeToast(response);
+                    Intent intento = new Intent(getActivity().getApplicationContext(), Login.class);
+                    startActivity(intento);
+                } else {
+                    mensajeToast(response);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("Intentelo mas tarde");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("tipo", Integer.toString(Util.USUARIO_ESTANDAR));
+                parametros.put("correo", correo.getText().toString());
+                parametros.put("usuario", usuario.getText().toString());
+                parametros.put("fechaNac", fecha.getText().toString());
+                parametros.put("contrasena", pwd.getText().toString());
+                return parametros;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
     }
 
 
