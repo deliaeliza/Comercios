@@ -140,12 +140,7 @@ public class FragProductoResgistrar extends Fragment {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    private String convertirImgString(Bitmap bitmap) {
-        ByteArrayOutputStream array = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, MIS_PERMISOS, array);
-        byte[] imagenByte = array.toByteArray();
-        return Base64.encodeToString(imagenByte, Base64.DEFAULT);
-    }
+
 
     public void enviarDatosRegistrar() {
         String url = Util.urlWebService + "/productoRegistrar.php?";
@@ -257,7 +252,6 @@ public class FragProductoResgistrar extends Fragment {
             }
             startActivityForResult(intent, COD_FOTO);
         }
-
     }
 
     @Override
@@ -350,5 +344,12 @@ public class FragProductoResgistrar extends Fragment {
             }
         });
         dialogo.show();
+    }
+
+    private String convertirImgString(Bitmap bitmap) {
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, MIS_PERMISOS, array);
+        byte[] imagenByte = array.toByteArray();
+        return Base64.encodeToString(imagenByte, Base64.DEFAULT);
     }
 }
