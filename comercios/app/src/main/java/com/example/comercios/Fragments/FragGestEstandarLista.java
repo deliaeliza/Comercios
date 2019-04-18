@@ -122,7 +122,7 @@ public class FragGestEstandarLista extends Fragment {
             //Se buscan mas datos
             obtenerMasDatos();
             try {
-                Thread.sleep(3000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -212,8 +212,6 @@ public class FragGestEstandarLista extends Fragment {
                                 }
                             }
 
-                        } else {
-                            mensajeToast("No hay mas datos");
                         }
                         if(inicial){
                             adapter = new EstandarListAdapter();;
