@@ -1,23 +1,20 @@
 package com.example.comercios.Fragments;
 
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
-
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -29,14 +26,16 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragActInfoComercio extends Fragment {
+public class FragActInfoComercio extends Fragment  {
     StringRequest stringRequest;
     JsonObjectRequest jsonObjectRequest;
     MaterialSpinner spinner;
-    ArrayList<String> categoriasArray = new ArrayList<>();
+    ArrayList<Categorias> categorias;
+    ArrayList<String> categoriasArray;
 
     public FragActInfoComercio() {
         // Required empty public constructor
@@ -51,20 +50,14 @@ public class FragActInfoComercio extends Fragment {
         View view = inflater.inflate(R.layout.fragment_frag_act_info_comercio, container, false);
         cargarCategorias(view);
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
-        EditText MiEditText = (EditText) view.findViewById(R.id.fActInfoComercio_edtUbicacion);
-        MiEditText.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Mensaje("aaaaaa");
-            }
-        });
+        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnUbicacion));
+        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_cambiarFoto));
+
 
         return view; // debe comentar el otro return
 
     }
-    public void OnclickDelButton(View view) {
+    public void OnclickDelButton(final View view) {
 
         Button miButton = (Button)  view;
         miButton.setOnClickListener(new View.OnClickListener(){
@@ -74,7 +67,15 @@ public class FragActInfoComercio extends Fragment {
 
                     case R.id.fActInfoComercio_btnAct:
                         Mensaje("Implementar Button1");
+                        break;
 
+                    case R.id.fActInfoComercio_btnUbicacion:
+
+
+                        break;
+
+                    case R.id.fActInfoComercio_cambiarFoto:
+                        Mensaje("Implementar Button1");
                         break;
                     default:break; }// fin de casos
             }
@@ -85,6 +86,8 @@ public class FragActInfoComercio extends Fragment {
     }
 
     public void cargarCategorias(View view){
+        categorias = new ArrayList<>();
+        categoriasArray= new ArrayList<>();
         String url = Util.urlWebService + "/categoriasObtener.php";
 
        spinner = (MaterialSpinner) view.findViewById(R.id.fActInfoComercio_SPcategorias);
@@ -92,16 +95,13 @@ public class FragActInfoComercio extends Fragment {
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
                 try {
                     JSONArray jsonCategorias= response.getJSONArray("categoria");
                     JSONObject obj;
                     for(int i= 0;i<jsonCategorias.length();i++) {
                         obj = jsonCategorias.getJSONObject(i);
-                        String atr1 = obj.getString("id");
-                        String atr2 = obj.getString("nombre");
-                        categoriasArray.add(atr2);
-
+                        categoriasArray.add(obj.getString("nombre"));
+                        categorias.add(new Categorias(obj.getInt("id"),obj.getString("nombre")));
                     }
 
                 } catch (JSONException e) {
@@ -114,6 +114,7 @@ public class FragActInfoComercio extends Fragment {
                 Mensaje("No se puede conectar " + error.toString());
             }
         });
+        spinner.setHint("Seleccione una categoria");
         spinner.setItems(categoriasArray);
         spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
