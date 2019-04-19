@@ -37,7 +37,6 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Modelo.Categorias;
-import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -105,7 +104,7 @@ public class FragActInfoComercio extends Fragment  {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_frag_act_info_comercio, container, false);
+        View view = inflater.inflate(R.layout.frag_act_info_comercio, container, false);
 
         descripcion = (EditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);
         usuario= (EditText) view.findViewById(R.id.fActInfoComercio_edtUsuario);
