@@ -3,11 +3,13 @@ package com.example.comercios.Fragments;
 
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -16,19 +18,26 @@ import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Modelo.Categorias;
+import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -38,9 +47,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -55,6 +67,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
  */
 public class FragActInfoComercio extends Fragment  {
     StringRequest stringRequest;
+    StringRequest stringRequest2;
     ImageView fotoComercio;
     JsonObjectRequest jsonObjectRequest;
     MaterialSpinner spinner;
@@ -63,11 +76,25 @@ public class FragActInfoComercio extends Fragment  {
     Bitmap bitmap;
     Button btnFoto;
 
-    private static final String CARPETA_PRINCIPAL = "misImagenesComercio/";//directorio principal
+    private final int MIS_PERMISOS = 100;
+    private static final int COD_SELECCIONA = 10;
+    private static final int COD_FOTO = 20;
+
+    private static final String CARPETA_PRINCIPAL = "misImagenesApp/";//directorio principal
     private static final String CARPETA_IMAGEN = "imagenes";//carpeta donde se guardan las fotos
     private static final String DIRECTORIO_IMAGEN = CARPETA_PRINCIPAL + CARPETA_IMAGEN;//ruta carpeta de directorios
     private String path;//almacena la ruta de la imagen
     File fileImagen; //donde se almacenara la imagen
+
+    ///objetos de la interfaz
+    int categoriaSeleccionada;
+    EditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
+
+    //para guardar la info actual del usuario
+    String CDescripcion,CUsuario,CTelefono,CCorreo,CContra,CUbicacion,CUrlImagen;
+
+
+
     public FragActInfoComercio() {
         // Required empty public constructor
     }
@@ -79,7 +106,19 @@ public class FragActInfoComercio extends Fragment  {
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_frag_act_info_comercio, container, false);
+
+        descripcion = (EditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);
+        usuario= (EditText) view.findViewById(R.id.fActInfoComercio_edtUsuario);
+        descripcion = (EditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);
+        telefono = (EditText) view.findViewById(R.id.fActInfoComercio_edtTelefono);
+        correo = (EditText) view.findViewById(R.id.fActInfoComercio_edtCorreo);
+        password = (EditText) view.findViewById(R.id.fActInfoComercio_edtPass);
+        ubicacion = (EditText) view.findViewById(R.id.fActInfoComercio_edtUbicacion);
+        confiPassword = (EditText) view.findViewById(R.id.fActInfoComercio_edtConfiPass);
+
         cargarCategorias(view);
+        cargarDatosAnteriores(view);
+
         fotoComercio = view.findViewById(R.id.fActInfoComercio_imagen);
 
         //Permisos para camara
@@ -90,12 +129,82 @@ public class FragActInfoComercio extends Fragment  {
         }else{
             btnFoto.setEnabled(false);
         }
-        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
+
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnUbicacion));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_cambiarFoto));
+        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
         return view;
 
     }
+
+    private void cargarDatosAnteriores(View view) {
+        //obtenerInfoComercio.php
+        //el id se cambia por id de comercio
+
+        String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+"38";
+        //spinner = (MaterialSpinner) view.findViewById(R.id.fActInfoComercio_SPcategorias);
+
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    String r= String.valueOf(response.getJSONObject("comercio"));
+                    if(r!="") {
+                        JSONObject jsonComercio = response.getJSONObject("comercio");
+                        usuario.setText(jsonComercio.getString("usuario"));
+                        CUsuario = jsonComercio.getString("usuario");
+                        descripcion.setText(jsonComercio.getString("descripcion"));
+                        CDescripcion = jsonComercio.getString("descripcion");
+                        correo.setText(jsonComercio.getString("correo"));
+                        CCorreo=jsonComercio.getString("correo");
+                        ubicacion.setText(jsonComercio.getString("ubicacion"));
+                        CUbicacion=jsonComercio.getString("ubicacion");
+                        telefono.setText(jsonComercio.getString("telefono"));
+                        CTelefono = jsonComercio.getString("telefono");
+
+                        categoriaSeleccionada = Integer.parseInt(jsonComercio.getString("idCategoria"));
+                        for(int i=0;i<categorias.size();i++){
+                            if(categorias.get(i).getId() ==Integer.parseInt(jsonComercio.getString("idCategoria"))){
+                                spinner.setHint(categorias.get(i).getNombre());
+                            }
+                        }
+                        CContra = jsonComercio.getString("contrasena");
+
+                        CUrlImagen =jsonComercio.getString("urlImagen");
+                        String ruta_foto= Util.urlWebService +"/"+CUrlImagen;
+                        cargarWebServicesImagen(ruta_foto);
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Mensaje("No se puede conectar " + error.toString());
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
+
+    }
+
+    private void cargarWebServicesImagen(String ruta_foto) {
+        ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                fotoComercio.setImageBitmap(response);
+                bitmap=response;
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Mensaje("error al cargar la imagen");
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
+    }
+
     public void OnclickDelButton(final View view) {
 
         Button miButton = (Button)  view;
@@ -105,7 +214,25 @@ public class FragActInfoComercio extends Fragment  {
                 switch (v.getId()) {
 
                     case R.id.fActInfoComercio_btnAct:
-                        Mensaje("Implementar Button1");
+                        if(!descripcion.getText().toString().equalsIgnoreCase("")||
+                                !usuario.getText().toString().equalsIgnoreCase("")||
+                                !telefono.getText().toString().equalsIgnoreCase("")||
+                                !correo.getText().toString().equalsIgnoreCase("")||
+                                !password.getText().toString().equalsIgnoreCase("")||
+                                !ubicacion.getText().toString().equalsIgnoreCase("")||
+                                categoriaSeleccionada != -1 || bitmap!=null
+                                ){
+
+                            if(password.getText().toString().equals(confiPassword.getText().toString())){
+                                actulizarInformacion();
+                            }
+                            else {
+                                Mensaje("Las contrase;as no coinciden");
+                            }
+
+                        }else{
+                            Mensaje("Error,Complete los datos que desea modificar");
+                        }
                         break;
 
                     case R.id.fActInfoComercio_btnUbicacion:
@@ -119,10 +246,94 @@ public class FragActInfoComercio extends Fragment  {
             }
         });
     }
+    private void actulizarInformacion() {
+       final ProgressDialog progreso = new ProgressDialog(getActivity());
+       progreso.setMessage("Esperando respuesta...");
+       progreso.show();
+       final String imagenConveritda = convertirImgString(bitmap);
+        String url = Util.urlWebService + "/actualizarInfoComercio.php?";
+
+      /*descripcion="+descripcion.getText().toString()
+                +"&categoria="+categoriaSeleccionada+"&telefono="+telefono.getText().toString()+
+                "&ubicacion="+ubicacion.getText().toString()+"&imagen="+imagenConveritda+"&id="+"38";
+*/
+        stringRequest2 = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                progreso.hide();
+                if (response.trim().equalsIgnoreCase("correcto")) {
+                    Mensaje("Actualización éxitosa");
+                } else {
+
+                    Mensaje("Sucedio un error al intentar actualizar");
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+
+            public void onErrorResponse(VolleyError error) {
+                progreso.hide();
+                Mensaje("Intentelo mas tarde");
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String,String> parametros = new HashMap<>();
+                //id hay que tomarlo del usuario logueado
+                parametros.put("id","38");
+
+                if(!descripcion.getText().toString().equalsIgnoreCase("")){
+                    parametros.put("descripcion",descripcion.getText().toString());
+                }else{
+                    parametros.put("descripcion",CDescripcion);
+                }
+
+                if(!usuario.getText().toString().equalsIgnoreCase("")){
+                    parametros.put("usuario",usuario.getText().toString());
+                }else{
+                    parametros.put("usuario",CUsuario);
+                }
+
+                parametros.put("categoria",String.valueOf(categoriaSeleccionada));
+
+                if(!telefono.getText().toString().equalsIgnoreCase("")){
+                    parametros.put("telefono",telefono.getText().toString());
+                }else{
+                    parametros.put("telefono",CTelefono);
+                }
+
+                if(!correo.getText().toString().equalsIgnoreCase("")){
+                    parametros.put("correo",correo.getText().toString());
+                }else{
+                    parametros.put("correo",CCorreo);
+                }
+
+                if(!password.getText().toString().equalsIgnoreCase("")){
+                    parametros.put("contrasena",password.getText().toString());
+                }else {
+                    parametros.put("contrasena",CContra);
+                }
+
+                if(!ubicacion.getText().toString().equalsIgnoreCase("")){
+                    parametros.put("ubicacion",ubicacion.getText().toString());
+                }else {
+                    parametros.put("ubicacion",CUbicacion);
+                }
+
+                parametros.put("imagen",imagenConveritda);
+
+                return parametros;
+            }
+        };
+        stringRequest2.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest2);
+
+    }
     public void Mensaje(String msg){
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
-
     public void cargarCategorias(View view){
         categorias = new ArrayList<>();
         categoriasArray= new ArrayList<>();
@@ -156,13 +367,13 @@ public class FragActInfoComercio extends Fragment  {
         spinner.setItems(categoriasArray);
         spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                Mensaje(item);
+                categoriaSeleccionada=ObtenerIdCategoria(item);
+
             }
         });
 
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
-
     private void mostrarDialogOpciones() {
 
         final CharSequence[] opciones={"Tomar Foto","Elegir de Galeria","Cancelar"};
@@ -172,13 +383,13 @@ public class FragActInfoComercio extends Fragment  {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (opciones[i].equals("Tomar Foto")){
-                    capturarFoto();
+                    abriCamara();
                 }else{
                     if (opciones[i].equals("Elegir de Galeria")){
-                        Intent intent=new Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/");
                         //cod 10 para galeria
-                        startActivityForResult(intent.createChooser(intent,"Seleccione"),10);
+                        startActivityForResult(intent.createChooser(intent,"Seleccione"),COD_SELECCIONA);
                     }else{
                         dialogInterface.dismiss();
                     }
@@ -187,65 +398,50 @@ public class FragActInfoComercio extends Fragment  {
         });
         builder.show();
     }
-
-    public void capturarFoto(){
-        //este file es para abrir la ruta
-        File miFile=new File(Environment.getExternalStorageDirectory(),DIRECTORIO_IMAGEN);
-        //SI LA FOTO ES EXISTE
-        boolean isCreada=miFile.exists();
-        if(isCreada==false){
-            isCreada=miFile.mkdirs();
+    private void abriCamara() {
+        File miFile = new File(Environment.getExternalStorageDirectory(), DIRECTORIO_IMAGEN);
+        boolean isCreada = miFile.exists();
+        if (isCreada == false) {
+            isCreada = miFile.mkdirs();
         }
-
-        if(isCreada==true) {
-            // en vez de system.currentTimeMilis usar el idComercio
+        if (isCreada == true) {
             Long consecutivo = System.currentTimeMillis() / 1000;
             String nombre = consecutivo.toString() + ".jpg";
+            path = Environment.getExternalStorageDirectory() + File.separator + DIRECTORIO_IMAGEN
+                    + File.separator + nombre;//indicamos la ruta de almacenamiento
 
-            //la ruta completa de la foto
-            path=Environment.getExternalStorageDirectory()+File.separator+DIRECTORIO_IMAGEN
-                    +File.separator+nombre;//indicamos la ruta de almacenamiento
+            fileImagen = new File(path);
 
-            //este file es para crear el archivo
-            fileImagen=new File(path);
-            //llamar a la camara
-            Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
+            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
 
-            //VERIFICAR ANDROID NOUGAT
-            /*if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N)
-            {
-                String authorities=getContext().getPackageName()+".provider";
-                Uri imageUri= FileProvider.getUriForFile(getContext(),authorities,fileImagen);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-            }else
-            {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
-            }*/
-            //cod 20 para camara
-            startActivityForResult(intent,20);
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                String authorities = getActivity().getPackageName() + ".provider";
+                Uri imageUri = FileProvider.getUriForFile(getActivity(), authorities, fileImagen);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            } else {
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
+            }
+            startActivityForResult(takePictureIntent,COD_FOTO);
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         switch (requestCode){
-            case 10:
+            case COD_SELECCIONA:
                 Uri miPath=data.getData();
                 fotoComercio.setImageURI(miPath);
-
                 try {
                     bitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),miPath);
                     fotoComercio.setImageBitmap(bitmap);
-                 }
-                 catch (IOException e) {
+                } catch (IOException e) {
                     e.printStackTrace();
-                 }
+                }
 
                 break;
-            case 20:
+            case COD_FOTO:
                 MediaScannerConnection.scanFile(getActivity(), new String[]{path}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
                             @Override
@@ -253,60 +449,106 @@ public class FragActInfoComercio extends Fragment  {
                                 Log.i("Path",""+path);
                             }
                         });
-                //asignar al foto tomada al imageView
+
                 bitmap= BitmapFactory.decodeFile(path);
                 fotoComercio.setImageBitmap(bitmap);
 
                 break;
         }
-        //bitmap=redimensionarImagen(bitmap,600,800);
+        bitmap=redimensionarImagen(bitmap,600,800);
+
     }
-
-
     //permisos
     /////////////////////////////////////////////////////////////////////////
     private boolean solicitaPermisosVersionesSuperiores() {
-        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.M){//validamos si estamos en android menor a 6 para no buscar los permisos
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {//validamos si estamos en android menor a 6 para no buscar los permisos
             return true;
         }
-        //validamos si los permisos ya fueron aceptados de la camara y de escribir
-        if((getActivity().checkSelfPermission(WRITE_EXTERNAL_STORAGE)== PackageManager.PERMISSION_GRANTED)&&
-                getActivity().checkSelfPermission(CAMERA)==PackageManager.PERMISSION_GRANTED){
+        //validamos si los permisos ya fueron aceptados
+        if ((getActivity().checkSelfPermission(WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) && getActivity().checkSelfPermission(CAMERA) == PackageManager.PERMISSION_GRANTED) {
             return true;
         }
-        if ((shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE)||(shouldShowRequestPermissionRationale(CAMERA)))){
+        if ((shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE) || (shouldShowRequestPermissionRationale(CAMERA)))) {
             cargarDialogoRecomendacion();
-        }else{
-            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
+        } else {
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MIS_PERMISOS);
         }
-
         return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui
     }
     @Override
-    //request code 100 permisos
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode==100){
-            if(grantResults.length==2 && grantResults[0]==PackageManager.PERMISSION_GRANTED &&
-                    grantResults[1]==PackageManager.PERMISSION_GRANTED){//el dos representa los 2 permisos
+        if (requestCode == MIS_PERMISOS) {
+            if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                    grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
                 Mensaje("Permisos aceptados");
                 btnFoto.setEnabled(true);
             }
+        } else {
+            solicitarPermisosManual();
         }
     }
-    private void cargarDialogoRecomendacion() {
-        AlertDialog.Builder dialogo=new AlertDialog.Builder(getActivity());
-        dialogo.setTitle("Permisos Desactivados");
-        dialogo.setMessage("Debe aceptar los permisos para el correcto funcionamiento de la App");
-        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+    private void solicitarPermisosManual() {
+        final CharSequence[] opciones = {"si", "no"};
+        final androidx.appcompat.app.AlertDialog.Builder alertOpciones = new androidx.appcompat.app.AlertDialog.Builder(getActivity());//estamos en fragment
+        alertOpciones.setTitle("¿Desea configurar los permisos de forma manual?");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, 100);
+                if (opciones[i].equals("si")) {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), "Los permisos no fueron aceptados", Toast.LENGTH_SHORT).show();
+                    dialogInterface.dismiss();
+                }
+            }
+        });
+        alertOpciones.show();
+    }
+    private void cargarDialogoRecomendacion() {
+        androidx.appcompat.app.AlertDialog.Builder dialogo = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+        dialogo.setTitle("Permisos Desactivados");
+        dialogo.setMessage("Debe aceptar los permisos para el correcto funcionamiento de la App");
+
+        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MIS_PERMISOS);
             }
         });
         dialogo.show();
     }
-
     ///////////////////////////////////////////////////////////////////////////////////
-
+    private String convertirImgString(Bitmap bitmap) {
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, MIS_PERMISOS, array);
+        byte[] imagenByte = array.toByteArray();
+        return Base64.encodeToString(imagenByte, Base64.DEFAULT);
+    }
+    private Bitmap redimensionarImagen(Bitmap bitmap, float anchoNuevo, float altoNuevo) {
+        int ancho = bitmap.getWidth();
+        int alto = bitmap.getHeight();
+        if (ancho > anchoNuevo || alto > altoNuevo) {
+            float escalaAncho = anchoNuevo / ancho;
+            float escalaAlto = altoNuevo / alto;
+            Matrix matrix = new Matrix();
+            matrix.postScale(escalaAncho, escalaAlto);
+            return Bitmap.createBitmap(bitmap, 0, 0, ancho, alto, matrix, false);
+        } else {
+            return bitmap;
+        }
+    }
+    private int ObtenerIdCategoria(String cat){
+        for(int i =0;i<categorias.size();i++){
+            if(categorias.get(i).getNombre().equalsIgnoreCase(cat)){
+                return categorias.get(i).getId();
+            }
+        }
+        return -1;
+    }
 }

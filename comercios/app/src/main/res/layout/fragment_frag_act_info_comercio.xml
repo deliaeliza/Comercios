@@ -17,6 +17,25 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fActInfoComercio_widUsuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="@string/user_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fActInfoComercio_edtUsuario"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fActInfoComercio_widDescripcion"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -24,7 +43,8 @@
                 android:hint="@string/descripcion_lbl"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUsuario">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtDescripcion"
