@@ -3,12 +3,13 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.example.comercios.Modelo.Comercio;
+import com.example.comercios.Modelo.Seccion;
 
 import java.util.ArrayList;
 
 public class GlobalComercios {
     private Comercio comercio = null;
-    private int idSecModificar;
+    private Seccion seccion = null;
     private int opcActual;
     private int imgActual;
 
@@ -35,8 +36,8 @@ public class GlobalComercios {
     public int getOpcActual() { return opcActual; }
     public void setOpcActual(int opcActual) { this.opcActual = opcActual; }
 
-    public int getIdSecModificar() { return idSecModificar; }
-    public void setIdSecModificar(int idSecModificar) { this.idSecModificar = idSecModificar; }
+    public Seccion getSeccion() { return seccion; }
+    public void setSeccion(Seccion seccion) { this.seccion = seccion; }
 
     public ArrayList<Bitmap> getImageViews() {
         return imageViewsProductos;

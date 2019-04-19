@@ -2,8 +2,6 @@ package com.example.comercios.Fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
@@ -13,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,13 +19,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.UsuarioEstandar;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
-import com.example.comercios.Navigations.NavAdmin;
-import com.example.comercios.Navigations.NavComercios;
-import com.example.comercios.Navigations.NavSuperUsuario;
-import com.example.comercios.Navigations.NavUsuarios;
 import com.example.comercios.R;
 import com.google.android.material.card.MaterialCardView;
 
@@ -52,7 +46,7 @@ public class FragGestEstandarLista extends Fragment {
     private EstandarListAdapter adapter;
     private Handler manejador;
     private boolean inicial = true;
-    private boolean cargano = false;
+    private boolean cargando = false;
     private List<UsuarioEstandar> usuarios;
     public FragGestEstandarLista() {
         // Required empty public constructor
@@ -79,18 +73,14 @@ public class FragGestEstandarLista extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //Revisa si el scroll llego al ultimo item
-                if(view.getLastVisiblePosition() == usuarios.size()-1 && listView.getCount() >= TAM_PAGINA && cargano == false){
-                    cargano = true;
+                if(view.getLastVisiblePosition() == usuarios.size()-1 && listView.getCount() >= TAM_PAGINA && cargando == false){
+                    cargando = true;
                     Thread thread = new ThreadMoreData();
                     thread.start();
                 }
             }
         });
         return view;
-    }
-
-    private void llenarListView(View v) {
-        obtenerMasDatos();
     }
 
     private class MyHandler extends Handler {
@@ -105,7 +95,7 @@ public class FragGestEstandarLista extends Fragment {
                     //Se actualizan los datos del adaptador y de la interfaaz
                     adapter.agregarUsuarios();
                     listView.removeFooterView(vistaInferior);
-                    cargano = false;
+                    cargando = false;
                     break;
                 default:
                     break;
@@ -168,7 +158,8 @@ public class FragGestEstandarLista extends Fragment {
             @Override
             public void onClick(View v) {
                 UsuarioEstandar escogido = usuarios.get((int)v.getTag());
-
+                GlobalUsuarios.getInstance().setUserE(escogido);
+                //Reemplazo de fragment
             }// fin del onclick
         });
     }// fin de OnclickDelMaterialCardView

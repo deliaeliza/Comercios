@@ -372,7 +372,6 @@ INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estad
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,1);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,2);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,2);
-
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(7,3);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,5);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(7,4);

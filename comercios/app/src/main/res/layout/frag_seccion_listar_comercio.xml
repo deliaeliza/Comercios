@@ -5,10 +5,20 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.FragSeccionListarComercio">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Listar secciones" />
+        android:orientation="vertical">
+        <ListView
+            android:id="@+id/sec_listar_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:scrollbars="none"
+            android:dividerHeight="10dp"
+            android:divider="@android:color/transparent">
+
+        </ListView>
+    </LinearLayout>
 
 </FrameLayout>

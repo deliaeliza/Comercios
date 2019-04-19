@@ -4,7 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 
-import com.example.comercios.FragGestComercioLista;
+import com.example.comercios.Fragments.FragGestComercioLista;
 import com.example.comercios.Fragments.FragGestEstandarLista;
 import com.example.comercios.Fragments.FragRegAdmin;
 import com.example.comercios.R;
