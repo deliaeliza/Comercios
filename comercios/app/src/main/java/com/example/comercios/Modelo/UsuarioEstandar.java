@@ -65,6 +65,16 @@ public class UsuarioEstandar {
         this.usuario = usuario;
         this.fehcaNacimiento = fehcaNacimiento;
     }
+    public UsuarioEstandar(int id, int tipo, int edad, boolean estado, String correo, String usuario, Date fehcaNacimiento) {
+        this.id = id;
+        this.tipo = tipo;
+        this.edad = edad;
+        this.estado = estado;
+        this.codigoRestablecer = codigoRestablecer;
+        this.correo = correo;
+        this.usuario = usuario;
+        this.fehcaNacimiento = fehcaNacimiento;
+    }
 
     public int getId() {
         return id;

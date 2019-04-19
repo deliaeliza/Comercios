@@ -15,6 +15,8 @@ import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,17 +31,25 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
 import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Modelo.Seccion;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,12 +69,18 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 public class FragProductoResgistrar extends Fragment {
 
     private TextInputEditText nombre, descripcion, precio;
+    private TextInputLayout lyNombre, lyDescr, lyPre;
     StringRequest stringRequest;
     private Button btnElegirFoto, btnRemFoto;
+
+    private ArrayList<Seccion> secciones;
+    private CharSequence[] nombreSec;
+    private boolean[] secEscogidas;
 
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
     private static final int COD_FOTO = 20;
+    private static final int CANTIMG_MAX = 5;
 
     private static final String CARPETA_PRINCIPAL = "misImagenesApp/";//directorio principal
     private static final String CARPETA_IMAGEN = "imagenes";//carpeta donde se guardan las fotos
@@ -72,6 +88,7 @@ public class FragProductoResgistrar extends Fragment {
     private String path;//almacena la ruta de la imagen
     File fileImagen;
     viewPagerAdapter vie;
+    private boolean reemImg = false;
 
     public FragProductoResgistrar() {
         // Required empty public constructor
@@ -82,25 +99,77 @@ public class FragProductoResgistrar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_producto_resgistrar, container, false);
-
+        secciones = new ArrayList<>();
+        recuperarCategoriasComercio(4);
         ViewPager viewpager = (ViewPager) view.findViewById(R.id.fRegProd_viewPager);
         vie = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getImageViews());
         viewpager.setAdapter(vie);
         viewpager.setOffscreenPageLimit(3);
-        viewpager.setPageMargin(-200);
+        viewpager.setPageMargin(70);
         btnElegirFoto = (Button) view.findViewById(R.id.fRegProd_btnAgrImg);
+        nombre = (TextInputEditText) view.findViewById(R.id.fRegProd_edtNombre);
+        descripcion = (TextInputEditText) view.findViewById(R.id.fRegProd_edtDescripcion);
+        precio = (TextInputEditText) view.findViewById(R.id.fRegProd_edtPrecio);
+        lyNombre = (TextInputLayout) view.findViewById(R.id.fRegProd_txtNombre);
+        lyPre = (TextInputLayout) view.findViewById(R.id.fRegProd_txtPrecio);
+        lyDescr = (TextInputLayout) view.findViewById(R.id.fRegProd_txtDescripcion);
+
         //Permisos
         if (solicitaPermisosVersionesSuperiores()) {
             btnElegirFoto.setEnabled(true);
         } else {
             btnElegirFoto.setEnabled(false);
         }
+
         OnclickDelButton(btnElegirFoto);
         OnclickDelButton(view.findViewById(R.id.fRegProd_btnElimImg));
         OnclickDelButton(view.findViewById(R.id.fRegProd_btnRegProd));
         OnclickDelButton(view.findViewById(R.id.fRegProd_btnRemImg));
+        OnclickDelButton(view.findViewById(R.id.fRegProd_btnEsgCat));
 
-        return view;
+        nombre.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validarNombre();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        precio.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validarPrecio();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        descripcion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validarDescripcion();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+        return view; // debe comentar el otro return
     }
 
     public void OnclickDelButton(View view) {
@@ -110,24 +179,63 @@ public class FragProductoResgistrar extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.fRegProd_btnAgrImg:
-                        mostrarDialogOpciones();
+                        if (CANTIMG_MAX > GlobalComercios.getInstance().getImageViews().size()) {
+                            reemImg = false;
+                            mostrarDialogOpciones();
+                        } else {
+                            btnElegirFoto.setEnabled(false);
+                            Mensaje("Ha sobrepasado la cantidad maxima de imagenes");
+                        }
                         break;
                     case R.id.fRegProd_btnElimImg:
-                        Mensaje("Implementar Button2");
-
+                        if (GlobalComercios.getInstance().getImageViews().size() > 0) {
+                            GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
+                            vie.notifyDataSetChanged();
+                        } else {
+                            Mensaje("No hay imagenes que borrar");
+                        }
                         break;
                     case R.id.fRegProd_btnRegProd:
-                        nombre = (TextInputEditText) v.findViewById(R.id.fRegProd_edtNombre);
-                        descripcion = (TextInputEditText) v.findViewById(R.id.fRegProd_edtDescripcion);
-                        precio = (TextInputEditText) v.findViewById(R.id.fRegProd_edtPrecio);
                         if (validaDatos()) {
-
+                            enviarDatosRegistrar();
                         }
-
                         break;
                     case R.id.fRegProd_btnRemImg:
-                        Mensaje("Implementar Button4");
+                        if (GlobalComercios.getInstance().getImageViews().size() > 0) {
+                            reemImg = true;
+                            mostrarDialogOpciones();
+                        } else {
+                            Mensaje("Debe elegir al menos una imagen");
+                        }
+                        break;
+                    case R.id.fRegProd_btnEsgCat:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Seleccion las categorias a las que pertencera el producto");
+                        builder.setMultiChoiceItems(nombreSec, secEscogidas, new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                secEscogidas[which] = isChecked;
+                            }
+                        });
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (int i = 0; i < secEscogidas.length; i++) {
+                                    boolean checked = secEscogidas[i];
+                                    if (checked) {
 
+                                    }
+                                }
+                            }
+                        });
+                        builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                         break;
                     default:
                         break;
@@ -140,7 +248,45 @@ public class FragProductoResgistrar extends Fragment {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
+    public void recuperarCategoriasComercio(int idComercio) {
+        String consulta = "select id, nombre from Secciones where idComercio=" + idComercio;
 
+        String url = Util.urlWebService + "/seccionesObtener.php?query=" + consulta;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject jsonOb = response.getJSONObject("datos");
+                    String mensajeError = jsonOb.getString("mensajeError");
+                    if (mensajeError.equalsIgnoreCase("")) {
+                        JSONArray seccion = jsonOb.getJSONArray("secciones");
+                        if (seccion.length() != 0) {
+                            for (int i = 0; i < seccion.length(); i++) {
+                                JSONObject sec = seccion.getJSONObject(i);
+                                secciones.add(new Seccion(sec.getInt("id"), sec.getString("nombre")));
+                            }
+                            nombreSec = new CharSequence[secciones.size()];
+                            for (int i = 0; i < secciones.size(); i++) {
+                                nombreSec[i] = secciones.get(i).getNombre();
+                            }
+                            secEscogidas = new boolean[secciones.size()];
+                        }
+                    } else {
+                        Mensaje("No hay productos");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Mensaje("No se puede conectar " + error.toString());
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
 
     public void enviarDatosRegistrar() {
         String url = Util.urlWebService + "/productoRegistrar.php?";
@@ -156,27 +302,28 @@ public class FragProductoResgistrar extends Fragment {
                 } else {
                     Mensaje(response);
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se ha podido conectar");
+                Mensaje("No se ha podido conectar" + error.getMessage());
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                //String imagen=convertirImgString(bitmap);
-
                 Map<String, String> parametros = new HashMap<>();
-                parametros.put("idComercio", Integer.toString(GlobalComercios.getInstance().getComercio().getId()));
-                //faltan las secciones a la que pertenecera
+                parametros.put("idComercio", Integer.toString(5));
+                parametros.put("sec", "1");
                 parametros.put("nombre", nombre.getText().toString());
                 parametros.put("precio", precio.getText().toString());
                 parametros.put("descripcion", descripcion.getText().toString());
-                //imagenes que se subiran, pueden ser 5
-                //parametros.put("imagen",imagen);
-
+                int cantImg = GlobalComercios.getInstance().getImageViews().size();
+                parametros.put("cantImg", Integer.toString(cantImg));
+                int idImgen = 1;
+                for (Bitmap img : GlobalComercios.getInstance().getImageViews()) {
+                    parametros.put("img" + idImgen, convertirImgString(img));
+                    idImgen = idImgen + 1;
+                }
                 return parametros;
             }
         };
@@ -185,6 +332,47 @@ public class FragProductoResgistrar extends Fragment {
     }
 
     public boolean validaDatos() {
+        String nomb = nombre.getText().toString();
+        String pre = precio.getText().toString();
+        String descrip = descripcion.getText().toString();
+        if (nomb.length() > 45 && pre.length() > 10 && descrip.length() > 200)
+            return false;
+        if (validarNombre() && validarPrecio() && validarDescripcion()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validarNombre() {
+        String nomb = nombre.getText().toString();
+        if (nomb.length() > 0 && nomb.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(nomb).find()) {
+            lyNombre.setError(null);
+            return true;
+        } else {
+            lyNombre.setError("Nombre invalido");
+        }
+        return false;
+    }
+
+    public boolean validarPrecio() {
+        String pre = precio.getText().toString();
+        if (pre.length() <= 10 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(pre).find()) {
+            lyPre.setError(null);
+            return true;
+        } else {
+            lyPre.setError("Precio invalido");
+        }
+        return false;
+    }
+
+    public boolean validarDescripcion() {
+        String descrip = descripcion.getText().toString();
+        if (descrip.length() <= 200) {
+            lyDescr.setError(null);
+            return true;
+        } else {
+            lyDescr.setError("Descripcion invalida");
+        }
         return false;
     }
 
@@ -278,7 +466,12 @@ public class FragProductoResgistrar extends Fragment {
                 imagen1 = BitmapFactory.decodeFile(path);
                 break;
         }
-        GlobalComercios.getInstance().getImageViews().add(redimensionarImagen(imagen1, 600, 800));
+        if (reemImg) {
+            GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
+            GlobalComercios.getInstance().getImageViews().add(GlobalComercios.getInstance().getImgActual(), redimensionarImagen(imagen1, 600, 800));
+        } else {
+            GlobalComercios.getInstance().getImageViews().add(redimensionarImagen(imagen1, 600, 800));
+        }
         vie.notifyDataSetChanged();
     }
 

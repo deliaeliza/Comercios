@@ -3,15 +3,19 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.example.comercios.Modelo.Comercio;
+import com.example.comercios.Modelo.Seccion;
 
 import java.util.ArrayList;
 
 public class GlobalComercios {
     private Comercio comercio = null;
-    private int idSecModificar;
+    private Seccion seccion = null;
     private int opcActual;
+    private int imgActual;
 
     private ArrayList<Bitmap> imageViewsProductos;
+
+    private ArrayList<String> idSecciones;
 
     private static GlobalComercios instance = null;
 
@@ -34,14 +38,19 @@ public class GlobalComercios {
     public int getOpcActual() { return opcActual; }
     public void setOpcActual(int opcActual) { this.opcActual = opcActual; }
 
-    public int getIdSecModificar() { return idSecModificar; }
-    public void setIdSecModificar(int idSecModificar) { this.idSecModificar = idSecModificar; }
+    public Seccion getSeccion() { return seccion; }
+    public void setSeccion(Seccion seccion) { this.seccion = seccion; }
 
-    public ArrayList<Bitmap> getImageViews() {
-        return imageViewsProductos;
-    }
+    public ArrayList<Bitmap> getImageViews() { return imageViewsProductos; }
 
-    public void setImageViews(ArrayList<Bitmap> imageViews) {
-        this.imageViewsProductos = imageViews;
-    }
+    public void setImageViews(ArrayList<Bitmap> imageViews) { this.imageViewsProductos = imageViews; }
+
+    public int getImgActual() { return imgActual; }
+
+    public void setImgActual(int imgActual) { this.imgActual = imgActual; }
+
+    public ArrayList<String> getIdSecciones() { return idSecciones; }
+
+    public void setIdSecciones(ArrayList<String> idSecciones) { this.idSecciones = idSecciones; }
+
 }
