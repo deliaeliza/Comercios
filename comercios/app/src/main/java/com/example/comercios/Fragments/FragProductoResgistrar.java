@@ -74,6 +74,7 @@ public class FragProductoResgistrar extends Fragment {
     private Button btnElegirFoto, btnRemFoto;
 
     private ArrayList<Seccion> secciones;
+    private ArrayList<Integer> idSec;
     private CharSequence[] nombreSec;
     private boolean[] secEscogidas;
 
@@ -100,6 +101,7 @@ public class FragProductoResgistrar extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_producto_resgistrar, container, false);
         secciones = new ArrayList<>();
+        idSec = new ArrayList<>();
         recuperarCategoriasComercio(4);
         ViewPager viewpager = (ViewPager) view.findViewById(R.id.fRegProd_viewPager);
         vie = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getImageViews());
@@ -210,7 +212,7 @@ public class FragProductoResgistrar extends Fragment {
                         break;
                     case R.id.fRegProd_btnEsgCat:
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Seleccion las categorias a las que pertencera el producto");
+                        builder.setTitle("Seleccione las categorias a las que pertencera el producto");
                         builder.setMultiChoiceItems(nombreSec, secEscogidas, new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -220,10 +222,11 @@ public class FragProductoResgistrar extends Fragment {
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                idSec.clear();
                                 for (int i = 0; i < secEscogidas.length; i++) {
                                     boolean checked = secEscogidas[i];
                                     if (checked) {
-
+                                        idSec.add(secciones.get(i).getId());
                                     }
                                 }
                             }
@@ -294,7 +297,7 @@ public class FragProductoResgistrar extends Fragment {
         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if (response.trim().equalsIgnoreCase("registra")) {
+                if (response.trim().equalsIgnoreCase("Se registro correctamente")) {
                     nombre.setText("");
                     precio.setText("");
                     descripcion.setText("");
@@ -312,17 +315,22 @@ public class FragProductoResgistrar extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<>();
-                parametros.put("idComercio", Integer.toString(5));
-                parametros.put("sec", "1");
+                parametros.put("idComercio", Integer.toString(4));
                 parametros.put("nombre", nombre.getText().toString());
                 parametros.put("precio", precio.getText().toString());
                 parametros.put("descripcion", descripcion.getText().toString());
                 int cantImg = GlobalComercios.getInstance().getImageViews().size();
                 parametros.put("cantImg", Integer.toString(cantImg));
+                parametros.put("cantSec", Integer.toString(idSec.size()));
                 int idImgen = 1;
                 for (Bitmap img : GlobalComercios.getInstance().getImageViews()) {
                     parametros.put("img" + idImgen, convertirImgString(img));
                     idImgen = idImgen + 1;
+                }
+                int idSe = 1;
+                for (Integer secid : idSec) {
+                    parametros.put("sec" + idSe, Integer.toString(secid));
+                    idSe = idSe + 1;
                 }
                 return parametros;
             }
