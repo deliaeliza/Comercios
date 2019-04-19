@@ -14,6 +14,8 @@ public class GlobalComercios {
 
     private ArrayList<Bitmap> imageViewsProductos;
 
+    private ArrayList<String> idSecciones;
+
     private static GlobalComercios instance = null;
 
     protected GlobalComercios() {
@@ -38,20 +40,16 @@ public class GlobalComercios {
     public int getIdSecModificar() { return idSecModificar; }
     public void setIdSecModificar(int idSecModificar) { this.idSecModificar = idSecModificar; }
 
-    public ArrayList<Bitmap> getImageViews() {
-        return imageViewsProductos;
-    }
+    public ArrayList<Bitmap> getImageViews() { return imageViewsProductos; }
 
-    public void setImageViews(ArrayList<Bitmap> imageViews) {
-        this.imageViewsProductos = imageViews;
-    }
+    public void setImageViews(ArrayList<Bitmap> imageViews) { this.imageViewsProductos = imageViews; }
 
-    public int getImgActual() {
-        return imgActual;
-    }
+    public int getImgActual() { return imgActual; }
 
-    public void setImgActual(int imgActual) {
-        this.imgActual = imgActual;
-    }
+    public void setImgActual(int imgActual) { this.imgActual = imgActual; }
+
+    public ArrayList<String> getIdSecciones() { return idSecciones; }
+
+    public void setIdSecciones(ArrayList<String> idSecciones) { this.idSecciones = idSecciones; }
 
 }

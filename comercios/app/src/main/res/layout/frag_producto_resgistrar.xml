@@ -14,11 +14,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <Button
+                android:id="@+id/fRegProd_btnEsgCat"
+                android:layout_width="337dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="38dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="36dp"
+                android:text="@string/escogerCatg"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fRegProd_txtNombre"
                 android:layout_width="338dp"
-                android:layout_height="79dp"
-                android:layout_marginTop="4dp"
+                android:layout_height="78dp"
                 android:hint="@string/nombre_lbl"
                 app:counterEnabled="true"
                 app:counterMaxLength="50"
@@ -26,9 +37,8 @@
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.506"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/fRegProd_btnEsgCat">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fRegProd_edtNombre"
@@ -37,13 +47,14 @@
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="10"
                     android:inputType="text" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fRegProd_txtPrecio"
                 android:layout_width="338dp"
                 android:layout_height="79dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="8dp"
                 android:hint="@string/precio_lbl"
                 app:counterEnabled="true"
                 app:counterMaxLength="10"
@@ -51,7 +62,7 @@
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.506"
+                app:layout_constraintHorizontal_bias="0.52"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fRegProd_txtNombre">
 
@@ -67,7 +78,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fRegProd_txtDescripcion"
                 android:layout_width="338dp"
-                android:layout_height="76dp"
+                android:layout_height="97dp"
                 android:layout_marginTop="8dp"
                 android:hint="@string/descripcion_lbl"
                 app:counterEnabled="true"
@@ -86,16 +97,16 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="10"
-                    android:inputType="text" />
+                    android:inputType="textMultiLine" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/fRegProd_viewPager"
                 android:layout_width="354dp"
-                android:layout_height="131dp"
-                android:layout_marginTop="28dp"
+                android:layout_height="163dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.491"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fRegProd_txtDescripcion">
 
@@ -106,10 +117,11 @@
                 android:layout_width="337dp"
                 android:layout_height="51dp"
                 android:layout_marginStart="37dp"
-                android:layout_marginTop="17dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="37dp"
                 android:text="@string/elegirImg"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fRegProd_viewPager" />
 
@@ -148,12 +160,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="29dp"
                 android:layout_marginStart="162dp"
-                android:layout_marginTop="44dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginEnd="162dp"
                 android:text="Button"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/fRegProd_btnRegProd" />
 

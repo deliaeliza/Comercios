@@ -31,6 +31,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
 import com.example.comercios.Global.GlobalComercios;
@@ -39,6 +40,10 @@ import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -113,13 +118,14 @@ public class FragProductoResgistrar extends Fragment {
         OnclickDelButton(view.findViewById(R.id.fRegProd_btnElimImg));
         OnclickDelButton(view.findViewById(R.id.fRegProd_btnRegProd));
         OnclickDelButton(view.findViewById(R.id.fRegProd_btnRemImg));
+        OnclickDelButton(view.findViewById(R.id.fRegProd_btnEsgCat));
 
         nombre.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validaDatos();
+                validarNombre();
             }
             @Override
             public void afterTextChanged(Editable s) { }
@@ -129,7 +135,7 @@ public class FragProductoResgistrar extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validaDatos();
+                validarPrecio();
             }
             @Override
             public void afterTextChanged(Editable s) { }
@@ -139,7 +145,7 @@ public class FragProductoResgistrar extends Fragment {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validaDatos();
+                validarDescripcion();
             }
             @Override
             public void afterTextChanged(Editable s) { }
@@ -183,6 +189,9 @@ public class FragProductoResgistrar extends Fragment {
                             Mensaje("Debe elegir al menos una imagen");
                         }
                         break;
+                    case R.id.fRegProd_btnEsgCat:
+                        AlertDialog.Builder builder = new  AlertDialog.Builder(getActivity());
+                        break;
                     default:
                         break;
                 }// fin de casos
@@ -194,6 +203,36 @@ public class FragProductoResgistrar extends Fragment {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
+    public void recuperarCategoriasComercio(int idComercio){
+        String url = Util.urlWebService + "/seccionActualizar.php?id=" +
+                4 + "&nombre=" + idComercio;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    JSONArray jsonA = response.getJSONArray("respuesta");
+                    JSONObject mensajeError = jsonA.getJSONObject(0);
+                    if (mensajeError.getString("mensajeError").equalsIgnoreCase("")) {
+                        mensajeToast("Exito: Nombre actualizado");
+                        seccion.setNombre(dato);
+                    } else {
+                        mensajeToast(mensajeError.getString("mensajeError"));
+                        nombre.setText(seccion.getNombre());
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("No se puede conectar " + error.toString());
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
 
     public void enviarDatosRegistrar() {
         String url = Util.urlWebService + "/productoRegistrar.php?";
@@ -220,17 +259,15 @@ public class FragProductoResgistrar extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<>();
                 parametros.put("idComercio", Integer.toString(5));
-                parametros.put("idSeccion", "2");
+                parametros.put("sec", "1");
                 parametros.put("nombre", nombre.getText().toString());
                 parametros.put("precio", precio.getText().toString());
                 parametros.put("descripcion", descripcion.getText().toString());
                 int cantImg = GlobalComercios.getInstance().getImageViews().size();
                 parametros.put("cantImg", Integer.toString(cantImg));
                 int idImgen = 1;
-                String imagen;
                 for (Bitmap img : GlobalComercios.getInstance().getImageViews()) {
-                    imagen = convertirImgString(img);
-                    parametros.put("img" + idImgen, imagen);
+                    parametros.put("img" + idImgen, convertirImgString(img));
                     idImgen = idImgen + 1;
                 }
                 return parametros;
@@ -244,30 +281,43 @@ public class FragProductoResgistrar extends Fragment {
         String nomb = nombre.getText().toString();
         String pre = precio.getText().toString();
         String descrip = descripcion.getText().toString();
-        int aceptados = 0;
-
         if (nomb.length() > 45 && pre.length() > 10 && descrip.length() > 200)
             return false;
+        if (validarNombre() && validarPrecio() && validarDescripcion()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validarNombre(){
+        String nomb = nombre.getText().toString();
         if (nomb.length() > 0 && nomb.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(nomb).find()) {
             lyNombre.setError(null);
-            aceptados += 1;
+            return true;
         } else {
             lyNombre.setError("Nombre invalido");
         }
+        return false;
+    }
+
+    public boolean validarPrecio(){
+        String pre = precio.getText().toString();
         if (pre.length() <= 10 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(pre).find()) {
             lyPre.setError(null);
-            aceptados += 1;
+            return true;
         } else {
             lyPre.setError("Precio invalido");
         }
+        return false;
+    }
+
+    public boolean validarDescripcion(){
+        String descrip = descripcion.getText().toString();
         if (descrip.length() <= 200) {
             lyDescr.setError(null);
-            aceptados += 1;
+            return true;
         } else {
             lyDescr.setError("Descripcion invalida");
-        }
-        if (aceptados == 3) {
-            return true;
         }
         return false;
     }
@@ -320,7 +370,7 @@ public class FragProductoResgistrar extends Fragment {
         }
         if (isCreada == true) {
             Long consecutivo = System.currentTimeMillis() / 1000;
-            String nombre = consecutivo.toString() + ".png";
+            String nombre = consecutivo.toString() + ".jpg";
             path = Environment.getExternalStorageDirectory() + File.separator + DIRECTORIO_IMAGEN
                     + File.separator + nombre;//indicamos la ruta de almacenamiento
             fileImagen = new File(path);
