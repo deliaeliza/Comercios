@@ -247,9 +247,11 @@ public class FragActInfoComercio extends Fragment  {
         });
     }
     private void actulizarInformacion() {
+
        final ProgressDialog progreso = new ProgressDialog(getActivity());
        progreso.setMessage("Esperando respuesta...");
        progreso.show();
+
        final String imagenConveritda = convertirImgString(bitmap);
         String url = Util.urlWebService + "/actualizarInfoComercio.php?";
 
