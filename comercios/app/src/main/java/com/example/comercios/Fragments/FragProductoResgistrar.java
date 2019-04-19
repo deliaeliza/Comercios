@@ -35,6 +35,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
 import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Modelo.Seccion;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -48,6 +49,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,6 +73,10 @@ public class FragProductoResgistrar extends Fragment {
     StringRequest stringRequest;
     private Button btnElegirFoto, btnRemFoto;
 
+    private ArrayList<Seccion> secciones;
+    private CharSequence[] nombreSec;
+    private boolean[] secEscogidas;
+
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
     private static final int COD_FOTO = 20;
@@ -93,7 +99,8 @@ public class FragProductoResgistrar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_producto_resgistrar, container, false);
-
+        secciones = new ArrayList<>();
+        recuperarCategoriasComercio(4);
         ViewPager viewpager = (ViewPager) view.findViewById(R.id.fRegProd_viewPager);
         vie = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getImageViews());
         viewpager.setAdapter(vie);
@@ -122,33 +129,45 @@ public class FragProductoResgistrar extends Fragment {
 
         nombre.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validarNombre();
             }
+
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
         precio.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validarPrecio();
             }
+
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
         descripcion.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validarDescripcion();
             }
+
             @Override
-            public void afterTextChanged(Editable s) { }
+            public void afterTextChanged(Editable s) {
+            }
         });
         return view; // debe comentar el otro return
     }
@@ -190,7 +209,33 @@ public class FragProductoResgistrar extends Fragment {
                         }
                         break;
                     case R.id.fRegProd_btnEsgCat:
-                        AlertDialog.Builder builder = new  AlertDialog.Builder(getActivity());
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Seleccion las categorias a las que pertencera el producto");
+                        builder.setMultiChoiceItems(nombreSec, secEscogidas, new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                secEscogidas[which] = isChecked;
+                            }
+                        });
+                        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                for (int i = 0; i < secEscogidas.length; i++) {
+                                    boolean checked = secEscogidas[i];
+                                    if (checked) {
+
+                                    }
+                                }
+                            }
+                        });
+                        builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                         break;
                     default:
                         break;
@@ -203,23 +248,32 @@ public class FragProductoResgistrar extends Fragment {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    public void recuperarCategoriasComercio(int idComercio){
-        String url = Util.urlWebService + "/seccionActualizar.php?id=" +
-                4 + "&nombre=" + idComercio;
+    public void recuperarCategoriasComercio(int idComercio) {
+        String consulta = "select id, nombre from Secciones where idComercio=" + idComercio;
+
+        String url = Util.urlWebService + "/seccionesObtener.php?query=" + consulta;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
                 try {
-                    JSONArray jsonA = response.getJSONArray("respuesta");
-                    JSONObject mensajeError = jsonA.getJSONObject(0);
-                    if (mensajeError.getString("mensajeError").equalsIgnoreCase("")) {
-                        //mensajeToast("Exito: Nombre actualizado");
-                        //seccion.setNombre(dato);
+                    JSONObject jsonOb = response.getJSONObject("datos");
+                    String mensajeError = jsonOb.getString("mensajeError");
+                    if (mensajeError.equalsIgnoreCase("")) {
+                        JSONArray seccion = jsonOb.getJSONArray("secciones");
+                        if (seccion.length() != 0) {
+                            for (int i = 0; i < seccion.length(); i++) {
+                                JSONObject sec = seccion.getJSONObject(i);
+                                secciones.add(new Seccion(sec.getInt("id"), sec.getString("nombre")));
+                            }
+                            nombreSec = new CharSequence[secciones.size()];
+                            for (int i = 0; i < secciones.size(); i++) {
+                                nombreSec[i] = secciones.get(i).getNombre();
+                            }
+                            secEscogidas = new boolean[secciones.size()];
+                        }
                     } else {
-                        //mensajeToast(mensajeError.getString("mensajeError"));
-                        //nombre.setText(seccion.getNombre());
+                        Mensaje("No hay productos");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -228,7 +282,7 @@ public class FragProductoResgistrar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //mensajeToast("No se puede conectar " + error.toString());
+                Mensaje("No se puede conectar " + error.toString());
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -289,7 +343,7 @@ public class FragProductoResgistrar extends Fragment {
         return false;
     }
 
-    public boolean validarNombre(){
+    public boolean validarNombre() {
         String nomb = nombre.getText().toString();
         if (nomb.length() > 0 && nomb.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(nomb).find()) {
             lyNombre.setError(null);
@@ -300,7 +354,7 @@ public class FragProductoResgistrar extends Fragment {
         return false;
     }
 
-    public boolean validarPrecio(){
+    public boolean validarPrecio() {
         String pre = precio.getText().toString();
         if (pre.length() <= 10 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(pre).find()) {
             lyPre.setError(null);
@@ -311,7 +365,7 @@ public class FragProductoResgistrar extends Fragment {
         return false;
     }
 
-    public boolean validarDescripcion(){
+    public boolean validarDescripcion() {
         String descrip = descripcion.getText().toString();
         if (descrip.length() <= 200) {
             lyDescr.setError(null);
