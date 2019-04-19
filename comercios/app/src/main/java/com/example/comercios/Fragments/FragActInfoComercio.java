@@ -18,8 +18,11 @@ import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,11 +39,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import org.json.JSONArray;
@@ -88,17 +94,15 @@ public class FragActInfoComercio extends Fragment  {
 
     ///objetos de la interfaz
     int categoriaSeleccionada;
-    EditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
+    TextInputEditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
+    TextInputLayout LayoutDescripcion,LayoutTelefono, LayoutCorreo,LayoutUsuario,LayoutPsw,LayoutConfPsw;
 
     //para guardar la info actual del usuario
     String CDescripcion,CUsuario,CTelefono,CCorreo,CContra,CUbicacion,CUrlImagen;
 
-
-
     public FragActInfoComercio() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -107,42 +111,55 @@ public class FragActInfoComercio extends Fragment  {
 
         View view = inflater.inflate(R.layout.fragment_frag_act_info_comercio, container, false);
 
-        descripcion = (EditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);
-        usuario= (EditText) view.findViewById(R.id.fActInfoComercio_edtUsuario);
-        descripcion = (EditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);
-        telefono = (EditText) view.findViewById(R.id.fActInfoComercio_edtTelefono);
-        correo = (EditText) view.findViewById(R.id.fActInfoComercio_edtCorreo);
-        password = (EditText) view.findViewById(R.id.fActInfoComercio_edtPass);
-        ubicacion = (EditText) view.findViewById(R.id.fActInfoComercio_edtUbicacion);
-        confiPassword = (EditText) view.findViewById(R.id.fActInfoComercio_edtConfiPass);
+        descripcion = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);
+        LayoutDescripcion = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widDescripcion);
+
+        usuario= (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtUsuario);
+        LayoutUsuario = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widUsuario);
+
+        telefono = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtTelefono);
+        LayoutTelefono = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widTelefono);
+
+        correo = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtCorreo);
+        LayoutCorreo = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widCorreo);
+
+        password = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtPass);
+        LayoutPsw = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widPass);
+
+        confiPassword = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtConfiPass);
+        LayoutConfPsw = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widConfiPass);
+
+        ubicacion = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtUbicacion);
+
+        OnTextChangedDelTextInputEditText(descripcion);
+        OnTextChangedDelTextInputEditText(usuario);
+        OnTextChangedDelTextInputEditText(telefono);
+        OnTextChangedDelTextInputEditText(correo);
+        OnTextChangedDelTextInputEditText(password);
+        OnTextChangedDelTextInputEditText(confiPassword);
 
         cargarCategorias(view);
         cargarDatosAnteriores(view);
-
         fotoComercio = view.findViewById(R.id.fActInfoComercio_imagen);
-
         //Permisos para camara
         btnFoto = view.findViewById(R.id.fActInfoComercio_cambiarFoto);
-
         if(solicitaPermisosVersionesSuperiores()){
             btnFoto.setEnabled(true);
         }else{
             btnFoto.setEnabled(false);
         }
-
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnUbicacion));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_cambiarFoto));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
+
         return view;
 
     }
 
     private void cargarDatosAnteriores(View view) {
-        //obtenerInfoComercio.php
-        //el id se cambia por id de comercio
 
-        String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+"38";
-        //spinner = (MaterialSpinner) view.findViewById(R.id.fActInfoComercio_SPcategorias);
+        //GlobalComercios.getInstance().getComercio().getId();
+        String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+"6";
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -169,11 +186,9 @@ public class FragActInfoComercio extends Fragment  {
                             }
                         }
                         CContra = jsonComercio.getString("contrasena");
-
                         CUrlImagen =jsonComercio.getString("urlImagen");
                         String ruta_foto= Util.urlWebService +"/"+CUrlImagen;
                         cargarWebServicesImagen(ruta_foto);
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -283,7 +298,8 @@ public class FragActInfoComercio extends Fragment  {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros = new HashMap<>();
                 //id hay que tomarlo del usuario logueado
-                parametros.put("id","38");
+                //GlobalComercios.getInstance().getComercio().getId();
+                parametros.put("id","6");
 
                 if(!descripcion.getText().toString().equalsIgnoreCase("")){
                     parametros.put("descripcion",descripcion.getText().toString());
@@ -553,4 +569,107 @@ public class FragActInfoComercio extends Fragment  {
         }
         return -1;
     }
+
+    private void OnTextChangedDelTextInputEditText(final TextInputEditText textInputEditText){
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int id = textInputEditText.getId();
+                switch (id){
+                    case R.id.fActInfoComercio_edtCorreo:
+                        validarCorreo();
+                        break;
+                    case R.id.fActInfoComercio_edtUsuario:
+                        validarUsuario();
+                        break;
+                    case R.id.fActInfoComercio_edtPass:
+                        validarContrasena();
+                        validarConfContrasena();
+                        break;
+                    case R.id.fActInfoComercio_edtConfiPass:
+                        validarConfContrasena();
+                        break;
+                    case R.id.fActInfoComercio_edtDescripcion:
+                        validarDescripcion();
+                        break;
+                    case R.id.fActInfoComercio_edtTelefono:
+                        validarTelefono();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+    private  boolean validarDescripcion(){
+        String dato = descripcion.getText().toString();
+        if (dato.length() > 500)
+            return false;
+        if (dato.length() > 0 && dato.length() <= 500 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+            LayoutDescripcion.setError(null);
+            return true;
+        }
+        LayoutDescripcion.setError("Descripción invalido");
+        return false;
+    }
+    private boolean validarTelefono(){
+        String dato = telefono.getText().toString();
+        if (dato.length() > 20)
+            return false;
+        if (dato.length() > 0 && dato.length() <= 20) {
+            LayoutTelefono.setError(null);
+            return true;
+        }
+        LayoutTelefono.setError("Descripción invalido");
+        return false;
+    }
+    private boolean validarCorreo(){
+        String dato = correo.getText().toString();
+        if (dato.length() > 46)
+            return false;
+        if (dato.length() > 0 && dato.length() <= 45 && Patterns.EMAIL_ADDRESS.matcher(dato).find()) {
+            LayoutCorreo.setError(null);
+            return true;
+        }
+        LayoutCorreo.setError("Email invalido");
+        return false;
+    }
+    private boolean validarUsuario(){
+        String dato = usuario.getText().toString();
+        if (dato.length() > 46)
+            return false;
+        if (dato.length() > 0 && dato.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+            LayoutUsuario.setError(null);
+            return true;
+        }
+        LayoutUsuario.setError("Usuario invalido");
+        return false;
+    }
+    private boolean validarContrasena(){
+        String dato = password.getText().toString();
+        if (dato.length() > 46)
+            return false;
+        if (dato.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+            LayoutPsw.setError(null);
+            return true;
+        }
+        LayoutPsw.setError("Contraseña invalida");
+        return false;
+    }
+    private boolean validarConfContrasena(){
+        String dato1 = password.getText().toString();
+        String dato2 = confiPassword.getText().toString();
+        if (dato1.equals(dato2)) {
+            LayoutConfPsw.setError(null);
+            return true;
+        }
+        LayoutConfPsw.setError("Las contraseñas no coinciden");
+        return false;
+    }
+
+
 }

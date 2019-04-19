@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.provider.Settings;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +26,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.UsuarioEstandar;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,8 +49,9 @@ public class FragActInfoUsuario extends Fragment {
     JsonObjectRequest jsonObjectRequest;
     UsuarioEstandar ue;
 
-    EditText usuario, correo, password, confiPassword;
+    TextInputEditText usuario, correo, password, confiPassword;
     String CUsuario, CContra,CCorreo;
+    TextInputLayout LayoutCorreo,LayoutUsuario,LayoutPsw,LayoutConfPsw;
 
 
 
@@ -57,12 +64,20 @@ public class FragActInfoUsuario extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_act_info_usuario, container, false);
-        correo = (EditText) view.findViewById(R.id.fActInfoUser_edtEmail);
-        usuario = (EditText)view.findViewById(R.id.fActInfoUser_edtUser);
-        password = (EditText) view.findViewById(R.id.fActInfoUser_edtPass);
-        confiPassword = (EditText) view.findViewById(R.id.fActInfoUser_edtConfPass);
+        correo = (TextInputEditText) view.findViewById(R.id.fActInfoUser_edtEmail);
+        LayoutCorreo = (TextInputLayout) view.findViewById(R.id.fActInfoUser_widEmail);
+        usuario = (TextInputEditText)view.findViewById(R.id.fActInfoUser_edtUser);
+        LayoutUsuario = (TextInputLayout) view.findViewById(R.id.fActInfoUser_widUser);
+        password = (TextInputEditText) view.findViewById(R.id.fActInfoUser_edtPass);
+        LayoutPsw = (TextInputLayout) view.findViewById(R.id.fActInfoUser_widPass);
+        confiPassword = (TextInputEditText) view.findViewById(R.id.fActInfoUser_edtConfPass);
+        LayoutConfPsw = (TextInputLayout) view.findViewById(R.id.fActInfoUser_widConfPass);
         cargarInfoUsuario();
         OnclickDelButton(view.findViewById(R.id.fActInfoUser_btnAct));
+        OnTextChangedDelTextInputEditText(correo);
+        OnTextChangedDelTextInputEditText(usuario);
+        OnTextChangedDelTextInputEditText(password);
+        OnTextChangedDelTextInputEditText(confiPassword);
 
         return view;
 
@@ -81,8 +96,10 @@ public class FragActInfoUsuario extends Fragment {
                             //si la deja vacia igualmente envio la anterior registrada, esto con todos los datos
                             //sino esta vacia compara con la confirmacion y actualizo
                             if (password.getText().toString().equals(confiPassword.getText().toString())) {
+                                LayoutConfPsw.setError(null);
                                 actualizarUsuario();
                             } else {
+                                LayoutConfPsw.setError("Las contraseñas no coinciden");
                                 Mensaje("Las contraseñas no coinciden");
                             }
                         } else {
@@ -126,6 +143,7 @@ public class FragActInfoUsuario extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros = new HashMap<>();
+                //GlobalUsuarios.getInstance().getUserE().getId();
                 //id hay que tomarlo del usuario logueado
                 parametros.put("id","3");
 
@@ -160,7 +178,7 @@ public class FragActInfoUsuario extends Fragment {
 
     public void cargarInfoUsuario(){
         //id cambiarlos por el id del usuario logueado en la clase global
-        //ue.getId();
+        //GlobalUsuarios.getInstance().getUserE().getId();
         String url = Util.urlWebService + "/obtenerInfoEstandar.php?id="+3;
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -209,5 +227,79 @@ public class FragActInfoUsuario extends Fragment {
             }
         });
         alertOpciones.show();
+    }
+
+
+    private void OnTextChangedDelTextInputEditText(final TextInputEditText textInputEditText){
+        textInputEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int id = textInputEditText.getId();
+                switch (id){
+                    case R.id.fActInfoUser_edtEmail:
+                        validarCorreo();
+                        break;
+                    case R.id.fActInfoUser_edtUser:
+                        validarUsuario();
+                        break;
+                    case R.id.fActInfoUser_edtPass:
+                        validarContrasena();
+                        validarConfContrasena();
+                        break;
+                    case R.id.fActInfoUser_edtConfPass:
+                        validarConfContrasena();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+    private boolean validarCorreo(){
+        String dato = correo.getText().toString();
+        if (dato.length() > 46)
+            return false;
+        if (dato.length() > 0 && dato.length() <= 45 && Patterns.EMAIL_ADDRESS.matcher(dato).find()) {
+            LayoutCorreo.setError(null);
+            return true;
+        }
+        LayoutCorreo.setError("Email invalido");
+        return false;
+    }
+    private boolean validarUsuario(){
+        String dato = usuario.getText().toString();
+        if (dato.length() > 46)
+            return false;
+        if (dato.length() > 0 && dato.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+            LayoutUsuario.setError(null);
+            return true;
+        }
+        LayoutUsuario.setError("Usuario invalido");
+        return false;
+    }
+    private boolean validarContrasena(){
+        String dato = password.getText().toString();
+        if (dato.length() > 46)
+            return false;
+        if (dato.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+            LayoutPsw.setError(null);
+            return true;
+        }
+        LayoutPsw.setError("Contraseña invalida");
+        return false;
+    }
+    private boolean validarConfContrasena(){
+        String dato1 = password.getText().toString();
+        String dato2 = confiPassword.getText().toString();
+        if (dato1.equals(dato2)) {
+            LayoutConfPsw.setError(null);
+            return true;
+        }
+        LayoutConfPsw.setError("Las contraseñas no coinciden");
+        return false;
     }
 }
