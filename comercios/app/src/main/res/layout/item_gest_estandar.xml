@@ -5,11 +5,11 @@
     android:id="@+id/item_gest_estandar_panel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
     android:layout_marginStart="10dp"
     android:layout_marginTop="10dp"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="20dp"
+    android:clickable="false"
     android:paddingBottom="5dp"
     app:cardBackgroundColor="@color/design_default_color_surface"
     app:cardCornerRadius="5dp"
@@ -89,14 +89,72 @@
             android:id="@+id/item_gest_estandar_edad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="12dp"
+            android:text="edad"
+            android:textSize="16sp"
+            app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt3"
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_correo"
+            app:layout_constraintVertical_bias="0.02" />
+
+        <TextView
+            android:id="@+id/item_gest_estandar_txt4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="12dp"
+            android:text="Estado: "
+            android:textSize="16sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt3" />
+
+        <TextView
+            android:id="@+id/item_gest_estandar_estado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:text="miEdad"
+            android:text="estado"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt1"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_correo" />
+            app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt4"
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_edad"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/item_gest_estandar_MaterialButtonEstado"
+            android:layout_width="190dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:text="estado"
+            android:textSize="18sp"
+            app:backgroundTint="@android:color/tertiary_text_light"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/user_edit"
+            app:iconSize="19dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt4" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/item_gest_estandar_MaterialButtonEliminar"
+            android:layout_width="152dp"
+            android:layout_height="51dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="Eliminar"
+            android:textSize="18sp"
+            android:onClick="onClick"
+            app:backgroundTint="@color/error"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/trash_alt"
+            app:iconSize="19dp"
+            app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_MaterialButtonEstado"
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_estado" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

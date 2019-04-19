@@ -85,6 +85,22 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sec_modificar_TextInputLayout" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/sec_modificar_MaterialButtonProductos"
+                android:layout_width="359dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="26dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="26dp"
+                android:text="Productos de la sección"
+                android:textSize="18sp"
+                app:backgroundTint="@color/cardview_shadow_end_color"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/tasks"
+                app:iconSize="19dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sec_modificar_MaterialButtonEliminar" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

@@ -45,7 +45,6 @@ public class FragSeccionModificar extends Fragment {
 
     private TextInputEditText nombre;
     private TextInputLayout tilNombre;
-    private Seccion seccion = null;
 
     public FragSeccionModificar() {
         // Required empty public constructor
@@ -61,7 +60,8 @@ public class FragSeccionModificar extends Fragment {
         tilNombre = (TextInputLayout) view.findViewById(R.id.sec_modificar_TextInputLayout);
         OnclickDelMaterialButtom(view.findViewById(R.id.sec_modificar_MaterialButtonAct));
         OnclickDelMaterialButtom(view.findViewById(R.id.sec_modificar_MaterialButtonEliminar));
-        recuperarSeccion();
+        OnclickDelMaterialButtom(view.findViewById(R.id.sec_modificar_MaterialButtonProductos));
+        nombre.setText(GlobalComercios.getInstance().getSeccion().getNombre());
         nombre.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -91,6 +91,9 @@ public class FragSeccionModificar extends Fragment {
                     case R.id.sec_modificar_MaterialButtonEliminar:
                         DialogSiNO();
                         break;
+                    case R.id.sec_modificar_MaterialButtonProductos:
+                        //Pasar gestionar productos
+                        break;
                     default:
                         break;
                 }
@@ -112,11 +115,8 @@ public class FragSeccionModificar extends Fragment {
 
     private void actualizarSeccion() {
         final String dato = nombre.getText().toString();
-        //String url = Util.urlWebService + "/seccionActualizar.php?id=" +
-        //      GlobalComercios.getInstance().getIdSecModificar() + "&nombre=" + dato;
         String url = Util.urlWebService + "/seccionActualizar.php?id=" +
-                4 + "&nombre=" + dato;
-
+              GlobalComercios.getInstance().getSeccion().getId() + "&nombre=" + dato;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -126,10 +126,10 @@ public class FragSeccionModificar extends Fragment {
                     JSONObject mensajeError = jsonA.getJSONObject(0);
                     if (mensajeError.getString("mensajeError").equalsIgnoreCase("")) {
                         mensajeToast("Exito: Nombre actualizado");
-                        seccion.setNombre(dato);
+                        GlobalComercios.getInstance().getSeccion().setNombre(dato);
                     } else {
                         mensajeToast(mensajeError.getString("mensajeError"));
-                        nombre.setText(seccion.getNombre());
+                        nombre.setText(GlobalComercios.getInstance().getSeccion().getNombre());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -144,7 +144,7 @@ public class FragSeccionModificar extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
-    private void recuperarSeccion() {
+    /*private void recuperarSeccion() {
         //String url = Util.urlWebService + "/seccionRecuperar.php?id=" + GlobalComercios.getInstance().getIdSecModificar();
         String url = Util.urlWebService + "/seccionRecuperar.php?id=" + 4;
 
@@ -178,11 +178,10 @@ public class FragSeccionModificar extends Fragment {
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
-    }
+    }*/
 
 
     private void eliminarSeccion() {
-        //String url = Util.urlWebService + "/seccionEliminar.php?";
         String url = Util.urlWebService + "/seccionEliminar.php?";
 
         StringRequest stringRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -204,8 +203,7 @@ public class FragSeccionModificar extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<>();
-                //parametros.put("id", Integer.toString(seccion.getId()));
-                parametros.put("id", Integer.toString(5));
+                parametros.put("id", Integer.toString(GlobalComercios.getInstance().getSeccion().getId()));
                 return parametros;
             }
         };

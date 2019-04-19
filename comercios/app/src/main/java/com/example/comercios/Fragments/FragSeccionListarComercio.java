@@ -145,7 +145,7 @@ public class FragSeccionListarComercio extends Fragment {
             TextView nombreTV = (TextView)itemView.findViewById(R.id.item_sec_comercio_seccion);
             nombreTV.setText(actual.getNombre());
             TextView cantidadTV = (TextView) itemView.findViewById(R.id.item_sec_comercio_cantidad);
-            cantidadTV.setText(actual.getCantProductos());
+            cantidadTV.setText(actual.getCantProductos() + " productos");
             MaterialCardView panel = (MaterialCardView) itemView.findViewById(R.id.item_sec_comercio_panel);
             panel.setTag(position);
             OnclickDelMaterialCardView(panel);

@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Usuarios` (
   UNIQUE INDEX `correo_UNIQUE` (`correo`))
 ENGINE = InnoDB;
 
+ALTER TABLE `comercioscr`.`Usuarios` ADD CONSTRAINT `usuario_ck_tipo` CHECK(tipo in(0, 1, 2, 3));
 -- -----------------------------------------------------
 -- Table `comercioscr`.`RestablecerPWD`
 -- -----------------------------------------------------
@@ -49,8 +50,6 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`RestablecerPWD` (
     REFERENCES `comercioscr`.`Usuarios` (`id`)
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
-
-ALTER TABLE `comercioscr`.`Usuarios` ADD CONSTRAINT `usuario_ck_tipo` CHECK(tipo in(0, 1, 2, 3));
 
 DELIMITER //
 CREATE TRIGGER TcontrasenaActualizada BEFORE UPDATE on comercioscr.Usuarios FOR EACH ROW
@@ -189,7 +188,15 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Calificaciones` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-
+DELIMITER //
+CREATE PROCEDURE PAeliminarUsuarioEstandar(IN Pid INT)
+BEGIN
+    DELETE FROM Calificaciones WHERE idUsuarioE = Pid;
+    DELETE FROM UsuariosEstandar WHERE idUsuario = Pid;
+	DELETE FROM Usuarios WHERE id = Pid;
+END;
+//
+DELIMITER ;
 -- -----------------------------------------------------
 -- Table `comercioscr`.`Parametros`
 -- -----------------------------------------------------
