@@ -2,6 +2,7 @@ package com.example.comercios.Fragments;
 
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -78,6 +80,8 @@ public class FragGestEstandarLista extends Fragment {
         usuarios = new ArrayList<UsuarioEstandar>();
         listView = (ListView) view.findViewById(R.id.gest_estandar_listview);
         obtenerMasDatos();
+        OnclickDelMaterialButton(view.findViewById(R.id.gest_estandar_MaterialButtonFiltrar));
+        OnclickDelMaterialButton(view.findViewById(R.id.gest_estandar_MaterialButtonTodos));
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -195,18 +199,26 @@ public class FragGestEstandarLista extends Fragment {
         miMaterialButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                posicion = (int)v.getTag();
-                UsuarioEstandar usuarioModificar = usuarios.get(posicion);
-                String contenido = "Usuario: " + usuarioModificar.getUsuario() + "\nCorreo: " + usuarioModificar.getCorreo();
                 switch (v.getId()) {
 
                     case R.id.item_gest_estandar_MaterialButtonEstado:
+                        posicion = (int)v.getTag();
+                        UsuarioEstandar usuarioModificar = usuarios.get(posicion);
+                        String contenido = "Usuario: " + usuarioModificar.getUsuario() + "\nCorreo: " + usuarioModificar.getCorreo();
                         DialogSiNO(usuarioModificar.isEstado()? "¿Desactivar usuario?" : "¿Activar usuario?",
                                 contenido, usuarioModificar.isEstado() ? "DESACTIVAR" : "ACTIVAR");
                         break;
                     case R.id.item_gest_estandar_MaterialButtonEliminar:
+                        posicion = (int)v.getTag();
+                        usuarioModificar = usuarios.get(posicion);
+                        contenido = "Usuario: " + usuarioModificar.getUsuario() + "\nCorreo: " + usuarioModificar.getCorreo();
                         DialogSiNO("¿Eliminar usuario?", contenido, "ELIMINAR");
                         break;
+                    case R.id.gest_estandar_MaterialButtonFiltrar:
+                        DailogoFiltros();
+                        break;
+                    case R.id.gest_estandar_MaterialButtonTodos:
+
                     default:
                         break;
                 }// fin de casos
@@ -241,6 +253,14 @@ public class FragGestEstandarLista extends Fragment {
                     } });
         AlertDialog alert11 = builder1.create();
         alert11.show();
+    };
+
+    private void DailogoFiltros(){
+        Dialog dialog = new Dialog(getActivity());
+        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.filtros_u_estandar);
+        dialog.setTitle("Filtrar");
+        dialog.show();
     };
 
     private void obtenerMasDatos() {
@@ -325,7 +345,6 @@ public class FragGestEstandarLista extends Fragment {
                         UsuarioEstandar u = usuarios.get(posicion);
                         u.setEstado(!u.isEstado());
                         usuarios.set(posicion, u);
-                        mensajeToast(usuarios.size() + "");
                         adapter.actualizarDatos();
                         posicion = -1;
                         //Enviar correo al usuario
