@@ -215,11 +215,11 @@ public class FragProductoResgistrar extends Fragment {
                     JSONArray jsonA = response.getJSONArray("respuesta");
                     JSONObject mensajeError = jsonA.getJSONObject(0);
                     if (mensajeError.getString("mensajeError").equalsIgnoreCase("")) {
-                        mensajeToast("Exito: Nombre actualizado");
-                        seccion.setNombre(dato);
+                        //mensajeToast("Exito: Nombre actualizado");
+                        //seccion.setNombre(dato);
                     } else {
-                        mensajeToast(mensajeError.getString("mensajeError"));
-                        nombre.setText(seccion.getNombre());
+                        //mensajeToast(mensajeError.getString("mensajeError"));
+                        //nombre.setText(seccion.getNombre());
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -228,7 +228,7 @@ public class FragProductoResgistrar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                //mensajeToast("No se puede conectar " + error.toString());
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
