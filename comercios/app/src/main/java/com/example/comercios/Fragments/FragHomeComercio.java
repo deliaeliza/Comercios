@@ -50,7 +50,7 @@ public class FragHomeComercio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_frag_act_info_comercio, container, false);
+        View view = inflater.inflate(R.layout.frag_act_info_comercio, container, false);
 
         fotoComercioHome = (ImageView) view.findViewById(R.id.FHomComercio_ImgLocal);
         Usuario = (TextView) view.findViewById(R.id.FHomComercio_viewUsuario);
