@@ -70,7 +70,6 @@ public class UsuarioEstandar {
         this.tipo = tipo;
         this.edad = edad;
         this.estado = estado;
-        this.codigoRestablecer = codigoRestablecer;
         this.correo = correo;
         this.usuario = usuario;
         this.fehcaNacimiento = fehcaNacimiento;

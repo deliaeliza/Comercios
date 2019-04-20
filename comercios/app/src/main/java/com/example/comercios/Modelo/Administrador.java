@@ -3,14 +3,14 @@ package com.example.comercios.Modelo;
 public class Administrador {
     private int id;
     private int tipo;
-    private int telefono;
+    private long telefono;
     private boolean estado;
     private String codigoRestablecer;
     private String correo;
     private String usuario;
     private String contrasena;
 
-    public Administrador(int id, int tipo, int telefono, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena) {
+    public Administrador(int id, int tipo, long telefono, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -21,12 +21,21 @@ public class Administrador {
         this.contrasena = contrasena;
     }
 
-    public Administrador(int tipo, int telefono, String correo, String usuario, String contrasena) {
+    public Administrador(int tipo, long telefono, String correo, String usuario, String contrasena) {
         this.tipo = tipo;
         this.telefono = telefono;
         this.correo = correo;
         this.usuario = usuario;
         this.contrasena = contrasena;
+    }
+
+    public Administrador(int id, int tipo, long telefono, boolean estado, String correo, String usuario) {
+        this.id = id;
+        this.tipo = tipo;
+        this.estado = estado;
+        this.correo = correo;
+        this.usuario = usuario;
+        this.telefono = telefono;
     }
 
     public int getId() {
@@ -40,10 +49,10 @@ public class Administrador {
         this.tipo = tipo;
     }
 
-    public int getTelefono() {
+    public long getTelefono() {
         return telefono;
     }
-    public void setTelefono(int telefono) {
+    public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
 

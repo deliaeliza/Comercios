@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.FragGestEstandarLista">
+    tools:context=".Fragments.FragGestAdminLista">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -17,7 +17,7 @@
             android:orientation="horizontal">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/gest_estandar_MaterialButtonFiltrar"
+                android:id="@+id/gest_admin_MaterialButtonFiltrar"
                 android:layout_width="180dp"
                 android:layout_height="64dp"
                 android:layout_marginStart="20dp"
@@ -32,7 +32,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/gest_estandar_MaterialButtonTodos"
+                android:id="@+id/gest_admin_MaterialButtonTodos"
                 android:layout_width="180dp"
                 android:layout_height="64dp"
                 android:layout_marginTop="10dp"
@@ -41,13 +41,13 @@
                 android:textSize="18sp"
                 app:backgroundTint="#60000000"
                 app:cornerRadius="10dp"
-                app:icon="@drawable/search"
+                app:icon="@drawable/plus_square"
                 app:iconSize="19dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <ListView
-            android:id="@+id/gest_estandar_listview"
+            android:id="@+id/gest_admin_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"

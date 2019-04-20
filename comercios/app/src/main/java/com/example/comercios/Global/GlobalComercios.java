@@ -53,4 +53,8 @@ public class GlobalComercios {
 
     public void setIdSecciones(ArrayList<String> idSecciones) { this.idSecciones = idSecciones; }
 
+    public void agregarImagenes(Bitmap bit){
+        imageViewsProductos.add(bit);
+    }
+
 }

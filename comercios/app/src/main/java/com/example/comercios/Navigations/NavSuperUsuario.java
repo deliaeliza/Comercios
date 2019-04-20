@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.comercios.Fragments.FragGestAdminLista;
 import com.example.comercios.Fragments.FragRegAdmin;
 import com.example.comercios.R;
 import com.google.android.material.navigation.NavigationView;
@@ -77,8 +78,8 @@ public class NavSuperUsuario extends AppCompatActivity
         if (id == R.id.superUsuarioAdmin) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragRegAdmin mifrag = new FragRegAdmin();
-            fragmentTransaction.replace(R.id.contentAdmin, mifrag, "agreagarAdminSU");
+            FragGestAdminLista mifrag = new FragGestAdminLista();
+            fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestAdmins");
             fragmentTransaction.commit();
         } else if (id == R.id.superUsuarioUsuarios) {
 
