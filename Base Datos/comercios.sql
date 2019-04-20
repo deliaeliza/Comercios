@@ -117,6 +117,31 @@ BEGIN
 //
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE PAeliminarComercio(IN Pid INT)
+BEGIN
+	DECLARE termino BOOLEAN DEFAULT FALSE;
+    DECLARE idProd INT;
+    DECLARE productoImagenes CURSOR FOR select id from Productos where idComercio = Pid;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET termino = TRUE;
+    OPEN productoImagenes;
+    productos_loop: LOOP
+        FETCH productoImagenes INTO idProd;
+        IF termino THEN LEAVE productos_loop; END IF; 
+		DELETE FROM SeccionesProductos WHERE idProducto = idProd;
+		DELETE FROM ProductoImagenes WHERE idProducto = idProd;
+    END LOOP productos_loop;
+    CLOSE productoImagenes;
+	
+	DELETE FROM Productos WHERE idComercio = Pid;
+    DELETE FROM Secciones WHERE idComercio = Pid;
+	DELETE FROM Calificaciones WHERE idComercio = Pid;
+	DELETE FROM Comercios WHERE idUsuario = Pid;
+	DELETE FROM Usuarios WHERE id = Pid;
+END;
+//
+DELIMITER ;
+
 -- -----------------------------------------------------
 -- Table `comercioscr`.`UsuariosEstandar`
 -- -----------------------------------------------------

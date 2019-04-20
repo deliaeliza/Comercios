@@ -62,6 +62,16 @@ public class Comercio {
         this.secciones = secciones;
     }
 
+    public Comercio(int id, int tipo, boolean verificado, boolean estado, String correo, String usuario, String categoria) {
+        this.id = id;
+        this.tipo = tipo;
+        this.verificado = verificado;
+        this.estado = estado;
+        this.correo = correo;
+        this.usuario = usuario;
+        this.categoria = categoria;
+    }
+
     public int getId() {
         return id;
     }
