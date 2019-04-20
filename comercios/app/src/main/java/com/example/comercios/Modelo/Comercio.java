@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Comercio {
     private int id;
     private int tipo;
-    private int telefono;
+    private long telefono;
     private int calificacion; //Promedio de todos usuariosEstandar que lo han calificado
     private boolean verificado;
     private boolean estado;
@@ -18,7 +18,7 @@ public class Comercio {
     private String categoria;
     private ArrayList<Seccion> secciones;
 
-    public Comercio(int id, int tipo, int telefono, int calificacion, boolean verificado, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
+    public Comercio(int id, int tipo, long telefono, int calificacion, boolean verificado, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -35,10 +35,12 @@ public class Comercio {
         this.secciones = secciones;
     }
 
-    public Comercio(int tipo, int telefono, boolean verificado, String correo, String usuario, String contrasena, String descripcion, String ubicacion, String categoria) {
+    public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria) {
+        this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
         this.verificado = verificado;
+        this.estado = estado;
         this.correo = correo;
         this.usuario = usuario;
         this.contrasena = contrasena;
@@ -47,7 +49,7 @@ public class Comercio {
         this.categoria = categoria;
     }
 
-    public Comercio(int id, int tipo, int telefono, int calificacion, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
+    public Comercio(int id, int tipo, long telefono, int calificacion, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -83,7 +85,7 @@ public class Comercio {
         this.tipo = tipo;
     }
 
-    public int getTelefono() {
+    public long getTelefono() {
         return telefono;
     }
     public void setTelefono(int telefono) {

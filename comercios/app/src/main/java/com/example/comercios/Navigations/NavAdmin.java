@@ -2,11 +2,14 @@ package com.example.comercios.Navigations;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.comercios.Fragments.FragGestComercioLista;
 import com.example.comercios.Fragments.FragGestEstandarLista;
 import com.example.comercios.Fragments.FragRegAdmin;
+import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Login;
 import com.example.comercios.R;
 
 import com.google.android.material.navigation.NavigationView;
@@ -96,8 +99,10 @@ public class NavAdmin extends AppCompatActivity
             FragGestComercioLista mifrag = new FragGestComercioLista ();
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "gestionarComercio");
             fragmentTransaction.commit();
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.adminCerrarSesion) {
+            GlobalAdmin.getInstance().setAdmin(null);
+            Intent intento = new Intent(getApplicationContext(), Login.class);
+            startActivity(intento);
         } else if (id == R.id.nav_send) {
 
         }

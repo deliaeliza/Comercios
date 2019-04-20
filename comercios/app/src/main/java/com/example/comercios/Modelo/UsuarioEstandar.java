@@ -75,6 +75,8 @@ public class UsuarioEstandar {
         this.fehcaNacimiento = fehcaNacimiento;
     }
 
+
+
     public int getId() {
         return id;
     }

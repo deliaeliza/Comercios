@@ -21,7 +21,7 @@
     <item android:title="@string/infoGeneral_lbl">
         <menu>
             <item
-                android:id="@+id/nav_share4"
+                android:id="@+id/superUsuarioCerrarSesion"
                 android:icon="@drawable/ic_menu_share"
                 android:title="@string/cerrarSesion_lbl" />
             <item
