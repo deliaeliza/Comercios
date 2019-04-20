@@ -168,6 +168,15 @@ END;
 //
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE PAeliminarAdministrador(IN Pid INT)
+BEGIN
+    DELETE FROM Administradores WHERE idUsuario = Pid;
+	DELETE FROM Usuarios WHERE id = Pid;
+END;
+//
+DELIMITER ;
+
 -- -----------------------------------------------------
 -- Table `comercioscr`.`Calificaciones`
 -- -----------------------------------------------------
@@ -360,6 +369,8 @@ INSERT INTO comercioscr.Categorias(nombre) VALUES ('Zapateria');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Libreria');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Otro');
 
+
+
 CALL PAregistrarComercio(2, 'empresa1@gmail.com', 'Empresa1', '123Empresa1', 50685505001, 'Esta es una tienda de tecnologia', 'Heredia', 5);
 CALL PAregistrarComercio(2, 'empresa2@gmail.com', 'Empresa2', '123Empresa2', 50850015001, 'Este es un restaurante', 'Puntarenas', 1);
 CALL PAregistrarComercio(2, 'empresa3@gmail.com', 'Empresa3', '123Empresa3', 50985508550, 'Esta es una tienda de ropa', 'San jose', 4);
@@ -417,3 +428,5 @@ CALL PAregistrarUsuarioEstandar(3, 'correo27@gmail.com', 'usuario27', '123usuari
 CALL PAregistrarUsuarioEstandar(3, 'correo28@gmail.com', 'usuario28', '123usuario28', CURDATE() - 8000000);
 CALL PAregistrarUsuarioEstandar(3, 'correo29@gmail.com', 'usuario29', '123usuario29', CURDATE() - 9000000);
 CALL PAregistrarUsuarioEstandar(3, 'correo30@gmail.com', 'usuario30', '123usuario30', CURDATE() - 1000000);
+CALL PAregistrarAdministrador(1, 'adminprueaba@gmail.com', 'Anonimo', '123Anonimo', 89658963215);
+
