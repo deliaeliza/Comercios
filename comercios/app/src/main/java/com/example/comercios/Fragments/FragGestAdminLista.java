@@ -362,8 +362,8 @@ public class FragGestAdminLista extends Fragment {
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
                         Mensaje("Exito: Se elimino correctamente");
+                        admins.remove(posicion);
                         adapter.actualizarDatos();
-                        //Enviar correo al usuario
                     } else {
                        Mensaje(response);
                     }
