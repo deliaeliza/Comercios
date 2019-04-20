@@ -6,122 +6,153 @@
     android:layout_height="match_parent"
     tools:context=".Fragments.FragRegUser">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fRegAdmin_Contenedor"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fRegAdmin_widEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="@string/email_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fRegAdmin_Contenedor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fRegAdmin_edtEmail"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fRegAdmin_widEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:hint="@string/email_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fRegAdmin_edtEmail"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textEmailAddress"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="45"
+                    app:counterOverflowTextAppearance="@color/error"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@color/error" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fRegAdmin_widUser"
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/user_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_widEmail">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fRegAdmin_edtUser"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textPersonName"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="45"
+                    app:counterOverflowTextAppearance="@color/error"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@color/error" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fRegAdmin_widTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="73dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/telefono_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_widUser">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fRegAdmin_edtTelefono"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="number"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="13"
+                    app:counterOverflowTextAppearance="@color/error"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@color/error" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fRegAdmin_widPass"
+                android:layout_width="wrap_content"
+                android:layout_height="76dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/pwd_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_widTelefono">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fRegAdmin_edtPass"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textPassword"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="45"
+                    app:counterOverflowTextAppearance="@color/error"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@color/error" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fRegAdmin_widConfPass"
+                android:layout_width="wrap_content"
+                android:layout_height="76dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/confPWD_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.503"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_widPass">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fRegAdmin_edtConfPass"
+                    android:layout_width="282dp"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textPassword"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="45"
+                    app:counterOverflowTextAppearance="@color/error"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@color/error" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fRegAdmin_btnReg"
                 android:layout_width="282dp"
-                android:layout_height="wrap_content"
-                android:ems="12"
-                android:inputType="textEmailAddress"
-                android:backgroundTint="@color/design_default_color_surface" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="58dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/registrar_btn"
+                android:textSize="18sp"
+                app:backgroundTint="@color/colorAccent"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_widConfPass" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fRegAdmin_widUser"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:hint="@string/user_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_widEmail">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fRegAdmin_edtUser"
-                android:layout_width="282dp"
-                android:layout_height="wrap_content"
-                android:ems="12"
-                android:inputType="textPersonName"
-                android:backgroundTint="@color/design_default_color_surface" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fRegAdmin_widTelefono"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:hint="@string/telefono_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_widUser">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fRegAdmin_edtTelefono"
-                android:layout_width="282dp"
-                android:layout_height="wrap_content"
-                android:ems="12"
-                android:inputType="number"
-                android:backgroundTint="@color/design_default_color_surface" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fRegAdmin_widPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:hint="@string/pwd_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_widTelefono">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fRegAdmin_edtPass"
-                android:layout_width="282dp"
-                android:layout_height="wrap_content"
-                android:ems="12"
-                android:inputType="textPassword"
-                android:backgroundTint="@color/design_default_color_surface" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fRegAdmin_widConfPass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:hint="@string/confPWD_lbl"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_widPass">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fRegAdmin_edtConfPass"
-                android:layout_width="282dp"
-                android:layout_height="wrap_content"
-                android:ems="12"
-                android:inputType="textPassword"
-                android:backgroundTint="@color/design_default_color_surface"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/fRegAdmin_btnReg"
-            android:layout_width="282dp"
-            android:layout_height="58dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/registrar_btn"
-            android:textSize="18sp"
-            app:backgroundTint="@color/colorAccent"
-            app:cornerRadius="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fRegAdmin_widConfPass" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

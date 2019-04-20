@@ -3,6 +3,8 @@ package com.example.comercios.Fragments;
 
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +30,8 @@ import java.util.Map;
 public class FragRegAdmin extends Fragment {
 
     StringRequest stringRequest;
-    EditText email, usuario, telefono, contrasena, confContra;
+    TextInputEditText email, usuario, telefono, contrasena, confContra;
+    TextInputLayout lyEmail, lyUsuario, lyTelefono, lyContrasena, lyConfContra;
 
     public FragRegAdmin() {
         // Required empty public constructor
@@ -37,6 +42,68 @@ public class FragRegAdmin extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_reg_admin, container, false);
         OnclickDelButton(view.findViewById(R.id.fRegAdmin_btnReg));
+        email = (TextInputEditText) getView().findViewById(R.id.fRegAdmin_edtEmail);
+        usuario = (TextInputEditText) getView().findViewById(R.id.fRegAdmin_edtUser);
+        telefono = (TextInputEditText) getView().findViewById(R.id.fRegAdmin_edtTelefono);
+        contrasena = (TextInputEditText) getView().findViewById(R.id.fRegAdmin_edtPass);
+        confContra = (TextInputEditText) getView().findViewById(R.id.fRegAdmin_edtConfPass);
+        lyEmail = (TextInputLayout) getView().findViewById(R.id.fRegAdmin_widEmail);
+        lyUsuario = (TextInputLayout) getView().findViewById(R.id.fRegAdmin_widUser);
+        lyTelefono = (TextInputLayout) getView().findViewById(R.id.fRegAdmin_widTelefono);
+        lyConfContra = (TextInputLayout) getView().findViewById(R.id.fRegAdmin_widConfPass);
+        lyContrasena = (TextInputLayout) getView().findViewById(R.id.fRegAdmin_widPass);
+
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validarEmail();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        usuario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validarUsuario();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        telefono.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validarTelefono();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        contrasena.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validarContrasena();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+        confContra.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validarConfContra();
+            }
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
+
         return view;
     }
 
@@ -47,23 +114,10 @@ public class FragRegAdmin extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.fRegAdmin_btnReg:
-                        email = (EditText) getView().findViewById(R.id.fRegAdmin_edtEmail);
-                        usuario = (EditText) getView().findViewById(R.id.fRegAdmin_edtUser);
-                        telefono = (EditText) getView().findViewById(R.id.fRegAdmin_edtTelefono);
-                        contrasena = (EditText) getView().findViewById(R.id.fRegAdmin_edtPass);
-                        confContra = (EditText) getView().findViewById(R.id.fRegAdmin_edtConfPass);
-                        if (!email.getText().toString().equalsIgnoreCase("") &&
-                                !usuario.getText().toString().equalsIgnoreCase("") &&
-                                !telefono.getText().toString().equalsIgnoreCase("") &&
-                                !contrasena.getText().toString().equalsIgnoreCase("") &&
-                                !confContra.getText().toString().equalsIgnoreCase("")) {
-                            if (contrasena.getText().toString().equals(confContra.getText().toString())) {
+                        if (validarDatos()) {
                                 registrarAdministrador();
-                            } else {
-                                MensajeToast("Las contraseñas no coinciden");
-                            }
-                        } else {
-                            MensajeToast("Complete todos los datos");
+                        }else{
+                            MensajeToast("Datos invalidos");
                         }
                         break;
                     default:
@@ -110,6 +164,79 @@ public class FragRegAdmin extends Fragment {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
     }
+
+    public boolean validarDatos() {
+        String emai = email.getText().toString();
+        String tel = telefono.getText().toString();
+        String usuari = usuario.getText().toString();
+        String contra = contrasena.getText().toString();
+        String confCon = confContra.getText().toString();
+
+        if (email.length() > 45 && tel.length() > 13 && usuari.length() > 45 && contra.length() > 45 && confCon.length() > 45)
+            return false;
+        if (validarEmail() && validarTelefono() && validarUsuario() && validarContrasena() && validarConfContra()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean validarEmail() {
+        String emai = email.getText().toString();
+        if (emai.length() > 0 && emai.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(emai).find()) {
+            lyEmail.setError(null);
+            return true;
+        } else {
+            lyEmail.setError("Email invalido");
+        }
+        return false;
+    }
+
+    public boolean validarTelefono() {
+        String tel = telefono.getText().toString();
+        if (tel.length() <= 13) {
+            lyTelefono.setError(null);
+            return true;
+        } else {
+            lyTelefono.setError("Telefono invalido");
+        }
+        return false;
+    }
+
+    public boolean validarUsuario() {
+        String usuari = usuario.getText().toString();
+        if (usuari.length() > 0 && usuari.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(usuari).find()) {
+            lyUsuario.setError(null);
+            return true;
+        } else {
+            lyUsuario.setError("Usuario invalida");
+        }
+        return false;
+    }
+
+    public boolean validarContrasena() {
+        String contra = contrasena.getText().toString();
+        if (contra.length() > 0 && contra.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(contra).find()) {
+            lyContrasena.setError(null);
+            return true;
+        } else {
+            lyContrasena.setError("Descripcion invalida");
+        }
+        return false;
+    }
+
+    public boolean validarConfContra() {
+        String confContr = confContra.getText().toString();
+        String contra = contrasena.getText().toString();
+        if (contra.equals(confContr)) {
+            lyConfContra.setError(null);
+            return true;
+        } else {
+            lyConfContra.setError("Las contraseñas no coinciden");
+        }
+        return false;
+    }
+
+
 
     public void MensajeToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
