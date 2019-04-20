@@ -62,7 +62,7 @@
     <string name="nombre_lbl">Nombre</string>
     <string name="secElminar_btn">Eliminar Sección</string>
     <string name="precio_lbl">Precio</string>
-    <string name="escogerCatg" >Escoger categoria</string>
+    <string name="escogerCatg">Escoger categoria</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.comercios.Fragments.FragActInfoComercio;
+import com.example.comercios.Fragments.FragHomeComercio;
 import com.example.comercios.Fragments.FragMenuInferiorComercio;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.R;
@@ -78,6 +79,12 @@ public class NavComercios extends AppCompatActivity
 
         if (id == R.id.navComercios_inicio) {
             // Handle the camera action
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragHomeComercio  mifrag2 = new FragHomeComercio();
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "Home");
+            fragmentTransaction.commit();
+
         } else if (id == R.id.navComercios_catalogo) {
             GlobalComercios.getInstance().setOpcActual(R.string.catalogo_lbl);
             FragmentManager fm = getFragmentManager();
