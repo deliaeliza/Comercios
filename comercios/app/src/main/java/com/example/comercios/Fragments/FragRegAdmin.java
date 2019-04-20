@@ -42,16 +42,16 @@ public class FragRegAdmin extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_reg_admin, container, false);
         OnclickDelButton(view.findViewById(R.id.fRegAdmin_btnReg));
-        email = (TextInputEditText) getView().findViewById(R.id.fRegAdmin_edtEmail);
-        usuario = (TextInputEditText) getView().findViewById(R.id.fRegAdmin_edtUser);
-        telefono = (TextInputEditText) getView().findViewById(R.id.fRegAdmin_edtTelefono);
-        contrasena = (TextInputEditText) getView().findViewById(R.id.fRegAdmin_edtPass);
-        confContra = (TextInputEditText) getView().findViewById(R.id.fRegAdmin_edtConfPass);
-        lyEmail = (TextInputLayout) getView().findViewById(R.id.fRegAdmin_widEmail);
-        lyUsuario = (TextInputLayout) getView().findViewById(R.id.fRegAdmin_widUser);
-        lyTelefono = (TextInputLayout) getView().findViewById(R.id.fRegAdmin_widTelefono);
-        lyConfContra = (TextInputLayout) getView().findViewById(R.id.fRegAdmin_widConfPass);
-        lyContrasena = (TextInputLayout) getView().findViewById(R.id.fRegAdmin_widPass);
+        email = (TextInputEditText) view.findViewById(R.id.fRegAdmin_edtEmail);
+        usuario = (TextInputEditText) view.findViewById(R.id.fRegAdmin_edtUser);
+        telefono = (TextInputEditText) view.findViewById(R.id.fRegAdmin_edtTelefono);
+        contrasena = (TextInputEditText) view.findViewById(R.id.fRegAdmin_edtPass);
+        confContra = (TextInputEditText) view.findViewById(R.id.fRegAdmin_edtConfPass);
+        lyEmail = (TextInputLayout) view.findViewById(R.id.fRegAdmin_widEmail);
+        lyUsuario = (TextInputLayout) view.findViewById(R.id.fRegAdmin_widUser);
+        lyTelefono = (TextInputLayout) view.findViewById(R.id.fRegAdmin_widTelefono);
+        lyConfContra = (TextInputLayout) view.findViewById(R.id.fRegAdmin_widConfPass);
+        lyContrasena = (TextInputLayout) view.findViewById(R.id.fRegAdmin_widPass);
 
         email.addTextChangedListener(new TextWatcher() {
             @Override
@@ -172,7 +172,7 @@ public class FragRegAdmin extends Fragment {
         String contra = contrasena.getText().toString();
         String confCon = confContra.getText().toString();
 
-        if (email.length() > 45 && tel.length() > 13 && usuari.length() > 45 && contra.length() > 45 && confCon.length() > 45)
+        if (emai.length() > 45 && tel.length() > 13 && usuari.length() > 45 && contra.length() > 45 && confCon.length() > 45)
             return false;
         if (validarEmail() && validarTelefono() && validarUsuario() && validarContrasena() && validarConfContra()) {
             return true;

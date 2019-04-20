@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.FragRegUser">
+    tools:context=".Fragments.FragRegAdmin">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,8 +18,13 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fRegAdmin_widEmail"
                 android:layout_width="wrap_content"
-                android:layout_height="75dp"
+                android:layout_height="82dp"
                 android:hint="@string/email_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="45"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -31,20 +36,20 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textEmailAddress"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="45"
-                    app:counterOverflowTextAppearance="@color/error"
-                    app:errorEnabled="true"
-                    app:errorTextAppearance="@color/error" />
+                    android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fRegAdmin_widUser"
                 android:layout_width="wrap_content"
-                android:layout_height="75dp"
+                android:layout_height="80dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/user_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="45"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
@@ -56,20 +61,20 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textPersonName"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="45"
-                    app:counterOverflowTextAppearance="@color/error"
-                    app:errorEnabled="true"
-                    app:errorTextAppearance="@color/error" />
+                    android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fRegAdmin_widTelefono"
                 android:layout_width="wrap_content"
-                android:layout_height="73dp"
+                android:layout_height="83dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/telefono_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="13"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
@@ -81,20 +86,20 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="number"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="13"
-                    app:counterOverflowTextAppearance="@color/error"
-                    app:errorEnabled="true"
-                    app:errorTextAppearance="@color/error" />
+                    android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fRegAdmin_widPass"
                 android:layout_width="wrap_content"
-                android:layout_height="76dp"
+                android:layout_height="79dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/pwd_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="45"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,20 +111,20 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textPassword"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="45"
-                    app:counterOverflowTextAppearance="@color/error"
-                    app:errorEnabled="true"
-                    app:errorTextAppearance="@color/error" />
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fRegAdmin_widConfPass"
                 android:layout_width="wrap_content"
-                android:layout_height="76dp"
+                android:layout_height="78dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/confPWD_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="45"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
@@ -131,12 +136,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textPassword"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="45"
-                    app:counterOverflowTextAppearance="@color/error"
-                    app:errorEnabled="true"
-                    app:errorTextAppearance="@color/error" />
+                    android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
