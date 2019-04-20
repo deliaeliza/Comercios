@@ -62,6 +62,7 @@ public class FragGestAdminLista extends Fragment {
     private Handler manejador;
     private List<Administrador> admins;
     private int posicion = -1;
+    private int idEliminar;
 
     public FragGestAdminLista() {
         // Required empty public constructor
@@ -86,13 +87,6 @@ public class FragGestAdminLista extends Fragment {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 int first = view.getFirstVisiblePosition();
                 int count = view.getChildCount();
-
-                /*if (scrollState == SCROLL_STATE_FLING || (view.getLastVisiblePosition() == usuarios.size()-1) ) {
-                    userScrolled = true;
-                } else {
-                    userScrolled = false;
-                }*/
-                //userScrolled = scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL;
             }
 
             @Override
@@ -208,6 +202,7 @@ public class FragGestAdminLista extends Fragment {
                     case R.id.item_gest_admin_MaterialButtonEliminar:
                         posicion = (int)v.getTag();
                         usuarioModificar = admins.get(posicion);
+                        idEliminar = usuarioModificar.getId();
                         contenido = "Usuario: " + usuarioModificar.getUsuario() + "\nCorreo: " + usuarioModificar.getCorreo();
                         DialogSiNO("¿Eliminar administrador?", contenido, "ELIMINAR");
                         break;
@@ -361,7 +356,7 @@ public class FragGestAdminLista extends Fragment {
 
     private void eliminarUsuario(){
         if(posicion != -1){
-            String url = Util.urlWebService + "/usuarioEstandarEliminar.php?";
+            String url = Util.urlWebService + "/adminEliminar.php?";
             StringRequest stringRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -382,7 +377,7 @@ public class FragGestAdminLista extends Fragment {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> parametros = new HashMap<>();
-                    parametros.put("id", Integer.toString(GlobalComercios.getInstance().getSeccion().getId()));
+                    parametros.put("id", Integer.toString(idEliminar));
                     return parametros;
                 }
             };
