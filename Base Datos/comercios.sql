@@ -453,5 +453,22 @@ CALL PAregistrarUsuarioEstandar(3, 'correo27@gmail.com', 'usuario27', '123usuari
 CALL PAregistrarUsuarioEstandar(3, 'correo28@gmail.com', 'usuario28', '123usuario28', CURDATE() - 8000000);
 CALL PAregistrarUsuarioEstandar(3, 'correo29@gmail.com', 'usuario29', '123usuario29', CURDATE() - 9000000);
 CALL PAregistrarUsuarioEstandar(3, 'correo30@gmail.com', 'usuario30', '123usuario30', CURDATE() - 1000000);
-CALL PAregistrarAdministrador(1, 'adminprueaba@gmail.com', 'Anonimo', '123Anonimo', 89658963215);
-
+CALL PAregistrarAdministrador(1, 'adminprueaba@gmail.com', 'Anonimo', '123Anonimo', 896589653215);
+CALL PAregistrarAdministrador(1, 'adminprueaba2@gmail.com', 'Anonimo2', '123Anonimo', 896587963215);
+CALL PAregistrarAdministrador(1, 'adminprueaba3@gmail.com', 'Anonimo3', '123Anonimo', 89658963225);
+CALL PAregistrarAdministrador(1, 'adminprueaba4@gmail.com', 'Anonimo4', '123Anonimo', 89558963213);
+CALL PAregistrarAdministrador(1, 'adminprueaba5@gmail.com', 'Anonimo5', '123Anonimo', 89658968214);
+CALL PAregistrarAdministrador(1, 'adminprueaba6@gmail.com', 'Anonimo6', '123Anonimo', 89658963216);
+CALL PAregistrarAdministrador(1, 'adminprueaba7@gmail.com', 'Anonimo7', '123Anonimo', 89658963217);
+CALL PAregistrarAdministrador(1, 'adminprueaba8@gmail.com', 'Anonimo8', '123Anonimo', 89658963218);
+CALL PAregistrarAdministrador(1, 'adminprueaba9@gmail.com', 'Anonimo9', '123Anonimo', 896585963219);
+CALL PAregistrarAdministrador(1, 'adminprueaba10@gmail.com', 'Anonimo10', '123Anonimo', 89658963210);
+CALL PAregistrarAdministrador(1, 'adminprueaba11@gmail.com', 'Anonimo11', '123Anonimo', 89658963211);
+CALL PAregistrarAdministrador(1, 'adminprueaba12@gmail.com', 'Anonimo12', '123Anonimo', 89658963212);
+CALL PAregistrarAdministrador(1, 'adminprueaba13@gmail.com', 'Anonimo13', '123Anonimo', 89658963213);
+CALL PAregistrarAdministrador(1, 'adminprueaba14@gmail.com', 'Anonimo14', '123Anonimo', 89658963214);
+CALL PAregistrarAdministrador(1, 'adminprueaba15@gmail.com', 'Anonimo15', '123Anonimo', 89658963816);
+CALL PAregistrarAdministrador(1, 'adminprueaba16@gmail.com', 'Anonimo16', '123Anonimo', 89658969217);
+CALL PAregistrarAdministrador(1, 'adminprueaba17@gmail.com', 'Anonimo17', '123Anonimo', 89655896215);
+CALL PAregistrarAdministrador(1, 'adminprueaba18@gmail.com', 'Anonimo18', '123Anonimo', 89658966215);
+CALL PAregistrarAdministrador(1, 'adminprueaba19@gmail.com', 'Anonimo19', '123Anonimo', 89648963215);
