@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/cardview_light_background">
 
 
     <TextView
@@ -33,7 +34,9 @@
         android:id="@+id/filtros_estandar_tilUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:hint="Usuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,13 +50,16 @@
             android:layout_marginEnd="15dp"
             android:backgroundTint="@color/design_default_color_surface"
             android:ems="12"
-            android:inputType="text"/>
+            android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/filtros_estandar_tilCorreo"
-        android:layout_width="244dp"
-        android:layout_height="47dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="20dp"
         android:hint="Correo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -70,59 +76,154 @@
             android:inputType="text" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/filtros_estandar_tilEdadMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:hint="Edad mínima"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilCorreo">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/filtros_estandar_edadMin"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/design_default_color_surface"
+            android:ems="12"
+            android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/filtros_estandar_tilEdadMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="36dp"
+        android:hint="Edad máxima"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilCorreo">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/filtros_estandar_edadMin2"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/design_default_color_surface"
+            android:ems="12"
+            android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/filtros_estandar_txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="24dp"
+        android:text="Estado"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilEdadMax" />
+
+    <CheckBox
+        android:id="@+id/filtros_estandar_chkActivo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="42dp"
+        android:text="Activos"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_txt2" />
+
+    <CheckBox
+        android:id="@+id/filtros_estandar_chkDesactivo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:text="Desactivos"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@+id/filtros_estandar_chkActivo"
+        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_txt2" />
+
     <View
         android:id="@+id/filtros_estandar_line1"
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:layout_marginTop="20dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilCorreo" />
+        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_chkDesactivo" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/filtros_estandar_edadMin"
-        android:layout_width="100dp"
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/gest_estandar_MaterialCardViewLimpiar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/design_default_color_surface"
-        android:ems="12"
-        android:inputType="number"
+        android:clickable="true"
+        app:cardCornerRadius="0dp"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="false"
+        app:contentPaddingLeft="16dp"
+        app:contentPaddingRight="16dp"
+        app:contentPaddingTop="15dp"
+        app:contentPaddingBottom="15dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_txt3" />
+        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_line1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Limpiar"
+            android:textSize="18sp"
+            android:textColor="@color/colorAccent"/>
+    </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/filtros_estandar_edadMin2"
-        android:layout_width="100dp"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/gest_estandar_MaterialCardViewBuscar"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:backgroundTint="@color/design_default_color_surface"
-        android:ems="12"
-        android:inputType="number"
+        android:clickable="true"
+        app:cardCornerRadius="0dp"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="false"
+        app:contentPaddingLeft="18dp"
+        app:contentPaddingRight="18dp"
+        app:contentPaddingTop="15dp"
+        app:contentPaddingBottom="15dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_txt4" />
+        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_line1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Buscar"
+            android:textSize="18sp"
+            android:textColor="@color/colorAccent"/>
+    </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/filtros_estandar_txt3"
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/gest_estandar_MaterialCardViewCancelar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="45dp"
-        android:text="Edad minima"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilCorreo" />
-
-    <TextView
-        android:id="@+id/filtros_estandar_txt4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="45dp"
-        android:text="Edad maxima"
-        android:textSize="16sp"
-        app:layout_constraintStart_toEndOf="@+id/filtros_estandar_txt3"
-        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilCorreo" />
-
-
+        android:clickable="true"
+        app:cardCornerRadius="0dp"
+        app:cardBackgroundColor="@color/cardview_light_background"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="false"
+        app:contentPaddingLeft="15dp"
+        app:contentPaddingRight="15dp"
+        app:contentPaddingTop="15dp"
+        app:contentPaddingBottom="15dp"
+        app:layout_constraintStart_toEndOf="@+id/gest_estandar_MaterialCardViewLimpiar"
+        app:layout_constraintEnd_toStartOf="@+id/gest_estandar_MaterialCardViewBuscar"
+        app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_line1">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancelar"
+            android:textSize="18sp"
+            android:textColor="@color/colorAccent"/>
+    </com.google.android.material.card.MaterialCardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

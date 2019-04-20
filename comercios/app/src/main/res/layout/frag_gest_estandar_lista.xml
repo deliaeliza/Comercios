@@ -41,7 +41,7 @@
                 android:textSize="18sp"
                 app:backgroundTint="#60000000"
                 app:cornerRadius="10dp"
-                app:icon="@drawable/plus_square"
+                app:icon="@drawable/search"
                 app:iconSize="19dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
