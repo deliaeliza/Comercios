@@ -127,7 +127,7 @@
             android:id="@+id/item_gest_estandar_MaterialButtonEstado"
             android:layout_width="190dp"
             android:layout_height="51dp"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="25dp"
             android:layout_marginTop="12dp"
             android:text="estado"
             android:textSize="18sp"
@@ -138,16 +138,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt4" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/item_gest_estandar_MaterialButtonEliminar"
-            android:layout_width="152dp"
+            android:layout_width="40dp"
             android:layout_height="51dp"
             android:layout_marginStart="15dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="12dp"
-            android:text="Eliminar"
             android:textSize="18sp"
             android:onClick="onClick"
+            android:paddingLeft="10dp"
             app:backgroundTint="@color/error"
             app:cornerRadius="10dp"
             app:icon="@drawable/trash_alt"
