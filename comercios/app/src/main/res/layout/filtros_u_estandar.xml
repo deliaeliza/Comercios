@@ -8,9 +8,8 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:background="@color/cardview_light_background"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -114,7 +113,7 @@
             app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilCorreo">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/filtros_estandar_edadMin2"
+                android:id="@+id/filtros_estandar_edadMax"
                 android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/design_default_color_surface"
@@ -133,27 +132,32 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilEdadMax" />
 
-        <CheckBox
-            android:id="@+id/filtros_estandar_chkActivo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="42dp"
-            android:text="Activos"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_txt2" />
+            <RadioGroup
+                android:id="@+id/filtros_estandar_radioG"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_txt2"
+                android:orientation="horizontal">
 
-        <CheckBox
-            android:id="@+id/filtros_estandar_chkDesactivo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:text="Desactivos"
-            android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/filtros_estandar_chkActivo"
-            app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_txt2" />
+                <RadioButton
+                    android:id="@+id/filtros_estandar_radioActivo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingRight="15dp"
+                    android:text="Activo" />
 
-        <View
+                <RadioButton
+                    android:id="@+id/filtros_estandar_radioDesactivo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Desactivo" />
+            </RadioGroup>
+
+            <View
             android:id="@+id/filtros_estandar_line1"
             android:layout_width="0dp"
             android:layout_height="2dp"
@@ -162,11 +166,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_chkDesactivo" />
+            app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_radioG" />
 
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/gest_estandar_MaterialCardViewLimpiar"
+            android:id="@+id/filtros_estandar_MaterialCardViewLimpiar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -189,7 +193,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/gest_estandar_MaterialCardViewBuscar"
+            android:id="@+id/filtros_estandar_MaterialCardViewBuscar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -212,7 +216,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/gest_estandar_MaterialCardViewCancelar"
+            android:id="@+id/filtros_estandar_MaterialCardViewCancelar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -224,8 +228,8 @@
             app:contentPaddingRight="14dp"
             app:contentPaddingTop="15dp"
             app:contentPaddingBottom="15dp"
-            app:layout_constraintStart_toEndOf="@+id/gest_estandar_MaterialCardViewLimpiar"
-            app:layout_constraintEnd_toStartOf="@+id/gest_estandar_MaterialCardViewBuscar"
+            app:layout_constraintStart_toEndOf="@+id/filtros_estandar_MaterialCardViewLimpiar"
+            app:layout_constraintEnd_toStartOf="@+id/filtros_estandar_MaterialCardViewBuscar"
             app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_line1">
             <TextView
                 android:layout_width="wrap_content"

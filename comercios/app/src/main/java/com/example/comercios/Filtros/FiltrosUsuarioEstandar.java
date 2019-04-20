@@ -6,8 +6,10 @@ public class FiltrosUsuarioEstandar {
     private boolean usarFiltros = false;
     private int edadMin = -1;
     private int edadMax = -1;
+    private int radioEstado = -1;
     private String correo = "";
     private String usuario = "";
+
 
     private static FiltrosUsuarioEstandar instance = null;
 
@@ -31,6 +33,13 @@ public class FiltrosUsuarioEstandar {
         this.edadMax = edadMax;
     }
 
+    public int getRadioEstado() {
+        return radioEstado;
+    }
+    public void setRadioEstado(int radioEstado) {
+        this.radioEstado = radioEstado;
+    }
+
     public String getCorreo() {
         return correo;
     }
@@ -50,5 +59,12 @@ public class FiltrosUsuarioEstandar {
     }
     public void setUsarFiltros(boolean usarFiltros) {
         this.usarFiltros = usarFiltros;
+    }
+
+
+    public void reiniciarFiltros(){
+        usarFiltros = false;
+        edadMin = edadMax = radioEstado = -1;
+        correo = usuario = "";
     }
 }
