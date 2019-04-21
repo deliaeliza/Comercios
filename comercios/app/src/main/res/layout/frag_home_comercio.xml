@@ -18,7 +18,7 @@
 
             <ImageView
                 android:id="@+id/FHomComercio_ImgLocal"
-                android:layout_width="304dp"
+                android:layout_width="387dp"
                 android:layout_height="336dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="32dp"
@@ -41,6 +41,7 @@
                 android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/FHomComercio_viewDescripcion"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/FHomComercio_ImgLocal"
                 app:layout_constraintVertical_bias="0.0" />
@@ -50,26 +51,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="468dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="24dp"
                 android:text="@string/descripcion_lbl"
                 android:textSize="18sp"
-                app:layout_constraintBottom_toTopOf="@+id/FHomComercio_viewTelefono"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.984" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/FHomComercio_viewTelefono"
                 android:layout_width="wrap_content"
-                android:layout_height="47dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="484dp"
+                android:layout_marginTop="504dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/telefono_lbl"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,13 +78,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="39dp"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="552dp"
+                android:layout_marginTop="420dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/categoria_lbl"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <RatingBar
+                android:id="@+id/FHomComercio_ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewTelefono" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

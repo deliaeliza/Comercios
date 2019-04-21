@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,7 +28,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,6 +47,10 @@ public class FragHomeComercio extends Fragment {
     ArrayList<Categorias> categorias2;
     String SUrlImagen;
 
+    JsonObjectRequest jsonObjectRequest3;
+    ArrayList<Integer> calificaciones;
+    RatingBar ratingBarCali;
+
     public FragHomeComercio() {
         // Required empty public constructor
     }
@@ -50,15 +60,18 @@ public class FragHomeComercio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.frag_act_info_comercio, container, false);
+        View view = inflater.inflate(R.layout.frag_home_comercio, container, false);
 
         fotoComercioHome = (ImageView) view.findViewById(R.id.FHomComercio_ImgLocal);
         Usuario = (TextView) view.findViewById(R.id.FHomComercio_viewUsuario);
         Descripcion =(TextView) view.findViewById(R.id.FHomComercio_viewDescripcion);
         Categoria = (TextView)view.findViewById(R.id.FHomComercio_viewCategoria);
         Telefono = (TextView) view.findViewById(R.id.FHomComercio_viewTelefono);
-        //cargarCategorias2(view);
-        //cargarDatosAnteriores2(view);
+        cargarCategorias2(view);
+        cargarDatosAnteriores2(view);
+        ratingBarCali = (RatingBar)view.findViewById(R.id.FHomComercio_ratingBar);
+        recuperarCalificacionesComercio();
+
         return view;
     }
     public void cargarCategorias2(View view){
@@ -89,7 +102,6 @@ public class FragHomeComercio extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
     private void cargarDatosAnteriores2(View view) {
-
         //GlobalComercios.getInstance().getComercio().getId();
         String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+"6";
 
@@ -106,7 +118,7 @@ public class FragHomeComercio extends Fragment {
 
                         for(int i=0;i<categorias2.size();i++){
                             if(categorias2.get(i).getId() == Integer.parseInt(jsonComercio.getString("idCategoria"))){
-                                //Categoria.setText(categorias2.get(i).getNombre());
+                                Categoria.setText(categorias2.get(i).getNombre());
                             }
                         }
 
@@ -143,6 +155,49 @@ public class FragHomeComercio extends Fragment {
     }
     public void Mensaje(String msg){
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public void recuperarCalificacionesComercio(){
+        calificaciones = new ArrayList<>();
+        //GlobalComercios.getInstance().getComercio().getId();
+        String url = Util.urlWebService + "/obtenerCalificaciones.php?id="+"6";
+
+        jsonObjectRequest3 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonCalificaciones = response.getJSONArray("calificaciones");
+                    JSONObject objeto;
+                    for(int i= 0;i<jsonCalificaciones.length();i++) {
+                        objeto= jsonCalificaciones.getJSONObject(i);
+                        calificaciones.add(objeto.getInt("calificacion"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Mensaje("No se puede conectar " + error.toString());
+            }
+        });
+        float suma=0;
+        for(int i=0;i<calificaciones.size();i++){
+            suma=suma+calificaciones.get(i);
+        }
+        ratingBarCali.setRating(suma/calificaciones.size());
+
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest3);
+        //calcularPromedioEstrellas();
+    }
+    public void calcularPromedioEstrellas(){
+        float suma=0;
+        for(int i=0;i<calificaciones.size();i++){
+            suma=suma+calificaciones.get(i);
+        }
+        ratingBarCali.setRating(suma/calificaciones.size());
     }
 
 }
