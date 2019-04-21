@@ -117,8 +117,8 @@ public class FragProductoResgistrar extends Fragment {
         nombre = (TextInputEditText) view.findViewById(R.id.fRegProd_edtNombre);
         descripcion = (TextInputEditText) view.findViewById(R.id.fRegProd_edtDescripcion);
         precio = (TextInputEditText) view.findViewById(R.id.fRegProd_edtPrecio);
-        categoria = (TextInputEditText) view.findViewById(R.id.fRegProd_tilEsgCat);
-        lyCategoria = (TextInputLayout) view.findViewById(R.id.fRegProd_edtTEsgCat);
+        categoria = (TextInputEditText) view.findViewById(R.id.fRegProd_edtTEsgCat);
+        lyCategoria = (TextInputLayout) view.findViewById(R.id.fRegProd_tilEsgCat);
         lyNombre = (TextInputLayout) view.findViewById(R.id.fRegProd_txtNombre);
         lyPre = (TextInputLayout) view.findViewById(R.id.fRegProd_txtPrecio);
         lyDescr = (TextInputLayout) view.findViewById(R.id.fRegProd_txtDescripcion);
@@ -228,8 +228,6 @@ public class FragProductoResgistrar extends Fragment {
                 }
             }
         });
-
-
 
         return view; // debe comentar el otro return
     }
