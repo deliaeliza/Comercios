@@ -207,7 +207,7 @@ public class FragActInfoProductos extends Fragment {
                         }
                         break;
                     case R.id.act_prod_img_eliminar:
-                        viewPagerAdapter.notifyDataSetChanged();
+
                         if (GlobalComercios.getInstance().getImageViews().size() > 0) {
                             GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
                             if(GlobalComercios.getInstance().getImageViews().size() == 0){
@@ -215,9 +215,11 @@ public class FragActInfoProductos extends Fragment {
                                 btnCambiar.setVisibility(View.GONE);
                                 viewpager.setBackgroundResource(R.drawable.ic_menu_camera);
                             }
+                            viewPagerAdapter.notifyDataSetChanged();
                         } else {
                             mensajeToast("No hay imagenes que borrar");
                         }
+
                         break;
                     case R.id.act_prod_modificar:
                         if (validarDatos()) {
