@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.comercios.Fragments.FragActInfoComercio;
 import com.example.comercios.Fragments.FragHomeComercio;
@@ -31,12 +32,16 @@ public class NavComercios extends AppCompatActivity
         setContentView(R.layout.activity_nav_comercios);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout2);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        TextView usuario = (TextView)findViewById(R.id.NavHeaderComercios_txtViewUsuario);
+        usuario.setText(GlobalComercios.getInstance().getComercio().getUsuario());
+        TextView correo = (TextView)findViewById(R.id.NavHeaderComercio_txtViewCorreo);
+        correo.setText(GlobalComercios.getInstance().getComercio().getCorreo());
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view2);
         navigationView.setNavigationItemSelectedListener(this);
