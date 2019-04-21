@@ -211,12 +211,13 @@ public class FragProductoResgistrar extends Fragment {
                         }
                         break;
                     case R.id.fRegProd_btnEsgCat:
+                        final boolean [] aux = new boolean[secciones.size()];
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                         builder.setTitle("Seleccione las categorias a las que pertencera el producto");
-                        builder.setMultiChoiceItems(nombreSec, secEscogidas, new DialogInterface.OnMultiChoiceClickListener() {
+                        builder.setMultiChoiceItems(nombreSec, aux, new DialogInterface.OnMultiChoiceClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                secEscogidas[which] = isChecked;
+                                aux[which] = isChecked;
                             }
                         });
                         builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -252,7 +253,7 @@ public class FragProductoResgistrar extends Fragment {
     }
 
     public void recuperarCategoriasComercio(int idComercio) {
-        String consulta = "select id, nombre from Secciones where idComercio=" + idComercio;
+        String consulta = "select id, nombre from Secciones where nombre <> 'DEFAULT' and idComercio=" + idComercio;
 
         String url = Util.urlWebService + "/seccionesObtener.php?query=" + consulta;
 
@@ -323,8 +324,12 @@ public class FragProductoResgistrar extends Fragment {
                 parametros.put("cantImg", Integer.toString(cantImg));
                 parametros.put("cantSec", Integer.toString(idSec.size()));
                 int idImgen = 1;
-                for (Bitmap img : GlobalComercios.getInstance().getImageViews()) {
+                /*for (Bitmap img : GlobalComercios.getInstance().getImageViews()) {
                     parametros.put("img" + idImgen, convertirImgString(img));
+                    idImgen = idImgen + 1;
+                }*/
+                for (String img : GlobalComercios.getInstance().getImagenesStrings()) {
+                    parametros.put("img" + idImgen, img);
                     idImgen = idImgen + 1;
                 }
                 int idSe = 1;
@@ -435,7 +440,9 @@ public class FragProductoResgistrar extends Fragment {
             String nombre = consecutivo.toString() + ".jpg";
             path = Environment.getExternalStorageDirectory() + File.separator + DIRECTORIO_IMAGEN
                     + File.separator + nombre;//indicamos la ruta de almacenamiento
+
             fileImagen = new File(path);
+
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
 
@@ -475,12 +482,13 @@ public class FragProductoResgistrar extends Fragment {
                 break;
         }
         imagen1 = redimensionarImagen(imagen1, 600, 800);
-        if (reemImg) {
-            GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
-            GlobalComercios.getInstance().getImageViews().add(GlobalComercios.getInstance().getImgActual(), imagen1);
-        } else {
+        //if (reemImg) {
+         //   GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
+          //  GlobalComercios.getInstance().getImageViews().add(GlobalComercios.getInstance().getImgActual(), imagen1);
+       // } else {
             GlobalComercios.getInstance().agregarImagenes(imagen1);
-        }
+            GlobalComercios.getInstance().getImagenesStrings().add(convertirImgString(imagen1));
+       // }
         vie.notifyDataSetChanged();
     }
 
