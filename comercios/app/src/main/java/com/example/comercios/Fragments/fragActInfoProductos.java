@@ -15,14 +15,17 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
@@ -46,6 +49,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -207,7 +211,6 @@ public class FragActInfoProductos extends Fragment {
                         }
                         break;
                     case R.id.act_prod_img_eliminar:
-
                         if (GlobalComercios.getInstance().getImageViews().size() > 0) {
                             GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
                             if(GlobalComercios.getInstance().getImageViews().size() == 0){
@@ -216,6 +219,7 @@ public class FragActInfoProductos extends Fragment {
                                 viewpager.setBackgroundResource(R.drawable.ic_menu_camera);
                             }
                             viewPagerAdapter.notifyDataSetChanged();
+
                         } else {
                             mensajeToast("No hay imagenes que borrar");
                         }
@@ -242,7 +246,6 @@ public class FragActInfoProductos extends Fragment {
     }// fin de OnclickDelButton
     //***********************************************Fin Eventos ON*********************************************
     //**********************************************************************************************************
-
 
     //**********************************************************************************************************
     //*******************************************Validaciones interfaz******************************************
@@ -279,10 +282,7 @@ public class FragActInfoProductos extends Fragment {
     //**********************************************************************************************************
 
     //**********************************************************************************************************
-    //fotos
-    //**********************************************************************************************************
-
-    //Abre una ventana de dialogo (Tomar foto, elegir de la galeria y cancelar)
+    //***************************************************Fotos**************************************************
     private void dialogoAgregarImagen() {
         final CharSequence[] opciones={"Tomar Foto","Elegir de Galeria","Cancelar"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -306,7 +306,6 @@ public class FragActInfoProductos extends Fragment {
         });
         builder.show();
     }
-
     private void abrirCamara() {
         File miFile = new File(Environment.getExternalStorageDirectory(), DIRECTORIO_IMAGEN);
         boolean isCreada = miFile.exists();
@@ -332,7 +331,6 @@ public class FragActInfoProductos extends Fragment {
             startActivityForResult(intent, COD_FOTO);
         }
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -365,6 +363,7 @@ public class FragActInfoProductos extends Fragment {
             GlobalComercios.getInstance().agregarImagenes(imagen1);
         }
         viewPagerAdapter.notifyDataSetChanged();
+        viewpager.setCurrentItem(GlobalComercios.getInstance().getImgActual());
         if(CANTIMG_MAX == GlobalComercios.getInstance().getImageViews().size()){
             btnAgregar.setEnabled(false);
             mensajeToast("Ha llegado al máximo de imagenes");
@@ -387,9 +386,13 @@ public class FragActInfoProductos extends Fragment {
             return bitmap;
         }
     }
-
-
-    //**********************************************************************************************************
+    private String convertirImgString(Bitmap bitmap) {
+        ByteArrayOutputStream array = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, MIS_PERMISOS, array);
+        byte[] imagenByte = array.toByteArray();
+        return Base64.encodeToString(imagenByte, Base64.DEFAULT);
+    }
+    //*************************************************Fin Fotos************************************************
     //**********************************************************************************************************
 
 
@@ -487,11 +490,15 @@ public class FragActInfoProductos extends Fragment {
     //*****************************************Fin Conexion web service*****************************************
     //**********************************************************************************************************
 
-    //Mensajes
+    //**********************************************************************************************************
+    //*************************************************Mensajes*************************************************
     public void mensajeToast(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
     public void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
+    //***********************************************Fin Mensajes***********************************************
+    //**********************************************************************************************************
 
-    //Permisos
+    //**********************************************************************************************************
+    //***********************************************Permisos app***********************************************
     private boolean solicitaPermisosVersionesSuperiores() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {//validamos si estamos en android menor a 6 para no buscar los permisos
             return true;
@@ -521,4 +528,39 @@ public class FragActInfoProductos extends Fragment {
         });
         dialogo.show();
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == MIS_PERMISOS) {
+            if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
+                mensajeToast("Permisos aceptados");
+                btnAgregar.setEnabled(true);
+            }
+        } else {
+            solicitarPermisosManual();
+        }
+    }
+    private void solicitarPermisosManual() {
+        final CharSequence[] opciones = {"Si", "No"};
+        final androidx.appcompat.app.AlertDialog.Builder alertOpciones = new androidx.appcompat.app.AlertDialog.Builder(getActivity());//estamos en fragment
+        alertOpciones.setTitle("¿Desea configurar los permisos de forma manual?");
+        alertOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (opciones[i].equals("Si")) {
+                    Intent intent = new Intent();
+                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                    Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), "Los permisos no fueron aceptados", Toast.LENGTH_SHORT).show();
+                    dialogInterface.dismiss();
+                }
+            }
+        });
+        alertOpciones.show();
+    }
+    //*********************************************Fin Permisos app*********************************************
+    //**********************************************************************************************************
 }
