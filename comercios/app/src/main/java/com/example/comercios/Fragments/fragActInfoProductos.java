@@ -137,7 +137,7 @@ public class FragActInfoProductos extends Fragment {
     //**********************************************************************************************************
     //*************************************************Eventos ON***********************************************
     //**********************************************************************************************************
-    public void OnclickDelMaterialButton(View view) {
+    /*public void OnclickDelMaterialButton(View view) {
         Button miButton = (Button) view;
         miButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +178,7 @@ public class FragActInfoProductos extends Fragment {
                 }// fin de casos
             }// fin del onclick
         });
-    }// fin de OnclickDelButton
+    }// fin de OnclickDelButton*/
     // *********************************************************************************************************
     //***********************************************Fin Eventos ON*********************************************
     //**********************************************************************************************************
@@ -255,7 +255,7 @@ public class FragActInfoProductos extends Fragment {
                                 nombreSec[i] = secciones.get(i).getNombre();
                             }
                             secEscogidas = new boolean[secciones.size()];
-                            recuperarSeccionesProducto(GlobalComercios.getInstance().get);
+                            recuperarSeccionesProducto(GlobalComercios.getInstance().getProducto().getId());
                         }
                     } else {
                         mensajeToast("No hay secciones");
