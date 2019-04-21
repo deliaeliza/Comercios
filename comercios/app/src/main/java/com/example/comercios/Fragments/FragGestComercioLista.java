@@ -313,7 +313,7 @@ public class FragGestComercioLista extends Fragment {
                                             usuario.getString("correo"),
                                             usuario.getString("usuario"),
                                             usuario.getString("nombre"),
-                                            usuario.getString("urlImagen")));
+                                            Util.urlWebService + "/" +usuario.getString("urlImagen")));
                                 }
                             }
 
