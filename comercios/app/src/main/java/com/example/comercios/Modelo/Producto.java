@@ -2,6 +2,7 @@ package com.example.comercios.Modelo;
 
 public class Producto {
     private int id;
+    private int precio;
     private boolean estado;
     private String nombre;
     private String descripcion;
@@ -21,6 +22,13 @@ public class Producto {
 
     public int getId() {
         return id;
+    }
+
+    public int getPrecio() {
+        return precio;
+    }
+    public void setPrecio(int precio) {
+        this.precio = precio;
     }
 
     public boolean isEstado() {
