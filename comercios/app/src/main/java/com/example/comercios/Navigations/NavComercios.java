@@ -38,10 +38,10 @@ public class NavComercios extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        TextView usuario = (TextView)findViewById(R.id.NavHeaderComercios_txtViewUsuario);
+      /*  TextView usuario = (TextView)findViewById(R.id.NavHeaderComercios_txtViewUsuario);
         usuario.setText(GlobalComercios.getInstance().getComercio().getUsuario());
         TextView correo = (TextView)findViewById(R.id.NavHeaderComercio_txtViewCorreo);
-        correo.setText(GlobalComercios.getInstance().getComercio().getCorreo());
+        correo.setText(GlobalComercios.getInstance().getComercio().getCorreo());*/
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view2);
         navigationView.setNavigationItemSelectedListener(this);
