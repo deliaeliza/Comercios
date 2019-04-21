@@ -28,16 +28,14 @@
                     android:layout_width="214dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Agregar Producto"
-                    android:textSize="18sp" />
+                    android:text="Agregar Producto" />
 
                 <RadioButton
                     android:id="@+id/FGestProductoSec_DelProd"
                     android:layout_width="214dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="Eliminar Producto"
-                    android:textSize="18sp" />
+                    android:text="Eliminar Producto" />
             </RadioGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

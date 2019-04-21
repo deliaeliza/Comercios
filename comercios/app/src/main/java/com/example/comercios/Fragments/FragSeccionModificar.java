@@ -92,11 +92,7 @@ public class FragSeccionModificar extends Fragment {
                         DialogSiNO();
                         break;
                     case R.id.sec_modificar_MaterialButtonProductos:
-                        FragmentManager fm = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        FragGestProductosSeccion  mifrag = new FragGestProductosSeccion ();
-                        fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "Identificador");
-                        fragmentTransaction.commit();
+                        //Pasar gestionar productos
                         break;
                     default:
                         break;

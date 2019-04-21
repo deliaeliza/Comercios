@@ -40,7 +40,6 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 
-import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
@@ -159,7 +158,7 @@ public class FragActInfoComercio extends Fragment  {
     private void cargarDatosAnteriores(View view) {
 
         //GlobalComercios.getInstance().getComercio().getId();
-        String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+ GlobalComercios.getInstance().getComercio().getId();
+        String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+"6";
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -299,7 +298,7 @@ public class FragActInfoComercio extends Fragment  {
                 Map<String,String> parametros = new HashMap<>();
                 //id hay que tomarlo del usuario logueado
                 //GlobalComercios.getInstance().getComercio().getId();
-                parametros.put("id",String.valueOf(GlobalComercios.getInstance().getComercio().getId()));
+                parametros.put("id","6");
 
                 if(!descripcion.getText().toString().equalsIgnoreCase("")){
                     parametros.put("descripcion",descripcion.getText().toString());
