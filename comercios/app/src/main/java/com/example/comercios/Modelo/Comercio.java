@@ -16,6 +16,7 @@ public class Comercio {
     private String descripcion;
     private String ubicacion;
     private String categoria;
+    private String urlImagen;
     private ArrayList<Seccion> secciones;
 
     public Comercio(int id, int tipo, long telefono, int calificacion, boolean verificado, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
@@ -64,7 +65,7 @@ public class Comercio {
         this.secciones = secciones;
     }
 
-    public Comercio(int id, int tipo, boolean verificado, boolean estado, String correo, String usuario, String categoria) {
+    public Comercio(int id, int tipo, boolean verificado, boolean estado, String correo, String usuario, String categoria, String urlImagen) {
         this.id = id;
         this.tipo = tipo;
         this.verificado = verificado;
@@ -72,6 +73,7 @@ public class Comercio {
         this.correo = correo;
         this.usuario = usuario;
         this.categoria = categoria;
+        this.urlImagen = urlImagen;
     }
 
     public int getId() {
