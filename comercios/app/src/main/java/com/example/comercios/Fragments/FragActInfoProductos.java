@@ -525,9 +525,9 @@ public class FragActInfoProductos extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<>();
-                parametros.put("idComercio", Integer.toString(GlobalComercios.getInstance().getComercio().getId()));
+                //parametros.put("idComercio", Integer.toString(GlobalComercios.getInstance().getComercio().getId()));
                 parametros.put("idComercio", 4 + "");
-                parametros.put("idProducto", Integer.toString(GlobalComercios.getInstance().getProducto().getId()));
+                //parametros.put("idProducto", Integer.toString(GlobalComercios.getInstance().getProducto().getId()));
                 parametros.put("idProducto", 2 + "");
                 String update = "UPDATE Productos SET nombre='"+nombre.getText().toString() + "'";
                 if(precio.getText().toString().equals("")){
