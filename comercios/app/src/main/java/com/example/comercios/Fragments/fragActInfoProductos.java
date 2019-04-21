@@ -28,7 +28,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.fragment.app.Fragment;
+
+import android.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
