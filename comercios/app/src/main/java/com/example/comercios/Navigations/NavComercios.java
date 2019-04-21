@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoComercio;
 import com.example.comercios.Fragments.FragHomeComercio;
 import com.example.comercios.Fragments.FragMenuInferiorComercio;
@@ -53,6 +54,11 @@ public class NavComercios extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragHomeComercio  mifrag2 = new FragHomeComercio();
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "Home");
+            fragmentTransaction.commit();
             super.onBackPressed();
         }
     }
@@ -121,7 +127,11 @@ public class NavComercios extends AppCompatActivity
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.navComercios_acerca) {
-
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragAcercaDe mifrag = new FragAcercaDe ();
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "gestionarCom");
+            fragmentTransaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout2);

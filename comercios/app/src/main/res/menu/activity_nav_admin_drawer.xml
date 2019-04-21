@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <item
+        android:id="@+id/adminHome"
+        android:icon="@drawable/home"
+        android:title="@string/inicio_lbl" />
+
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/adminRegistrar"

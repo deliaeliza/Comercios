@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragGestAdminLista;
 import com.example.comercios.Fragments.FragGestComercioLista;
 import com.example.comercios.Fragments.FragGestEstandarLista;
+import com.example.comercios.Fragments.FragHomeComercio;
+import com.example.comercios.Fragments.FragHomeSuperUsuario;
 import com.example.comercios.Fragments.FragRegAdmin;
 import com.example.comercios.Global.GlobalAdmin;
 import com.example.comercios.Global.GlobalSuperUsuario;
@@ -49,6 +52,11 @@ public class NavSuperUsuario extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragHomeSuperUsuario mifrag2 = new FragHomeSuperUsuario();
+            fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag2, "HomeSU");
+            fragmentTransaction.commit();
             super.onBackPressed();
         }
     }
@@ -104,7 +112,11 @@ public class NavSuperUsuario extends AppCompatActivity
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.nav_send4) {
-
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragAcercaDe mifrag = new FragAcercaDe ();
+            fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestionarComercioSU");
+            fragmentTransaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout4);

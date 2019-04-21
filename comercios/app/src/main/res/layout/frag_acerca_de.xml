@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="40dp"
-            android:text="Cedula: \nA999999\n\nNombre: \nDelia Hernandez Ruiz"
+            android:text="Cedula: \nA00138972\n\nNombre: \nDelia Hernandez Ruiz"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/imgDelia"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="44dp"
-            android:text="Cedula: \nA999999\n\nNombre: \nAngelo Calderon Barquero"
+            android:text="Cedula: \n116780588\n\nNombre: \nAngelo Calderon Barquero"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/imgAngelo"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />

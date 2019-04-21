@@ -117,6 +117,7 @@ public class FragGestEstandarLista extends Fragment {
                 }
             }
         });*/
+        /*
         listView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -130,18 +131,26 @@ public class FragGestEstandarLista extends Fragment {
                 }
                 return false;
             }
-        });
+        });*/
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int currentVisibleItemCount;
+            private int currentFirstVisibleItem;
+            private int totalItem;
+
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {}
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem,
-                                 int visibleItemCount, int totalItemCount){
-                if(userScrolled && view.getLastVisiblePosition() == usuarios.size()-1 && cargando == false ){
-                    cargando = true;
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
+                        && scrollState == SCROLL_STATE_IDLE) {
                     Thread thread = new ThreadMoreData();
                     thread.start();
                 }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                currentFirstVisibleItem = firstVisibleItem;
+                currentVisibleItemCount = visibleItemCount;
+                totalItem = totalItemCount;
             }
 
         });
