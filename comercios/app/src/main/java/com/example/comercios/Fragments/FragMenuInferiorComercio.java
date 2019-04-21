@@ -71,9 +71,9 @@ public class FragMenuInferiorComercio extends Fragment {
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     //FragProductoListarComercio  mifrag = new FragProductoListarComercio ();
-                    FragActInfoProductos mifrag = new FragActInfoProductos();
-                    fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
-                    fragmentTransaction.commit();
+                    //FragActInfoProductos mifrag = new FragActInfoProductos();
+                    //fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
+                    //fragmentTransaction.commit();
                     return true;
                 }
                 return false;

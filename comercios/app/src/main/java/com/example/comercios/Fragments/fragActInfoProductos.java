@@ -1,7 +1,6 @@
 package com.example.comercios.Fragments;
 
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -12,7 +11,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -27,8 +25,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
@@ -39,10 +39,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
-import com.example.comercios.Filtros.FiltrosUsuarioEstandar;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Modelo.Seccion;
-import com.example.comercios.Modelo.UsuarioEstandar;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -57,7 +55,6 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -87,7 +84,7 @@ public class FragActInfoProductos extends Fragment {
     private TextInputEditText categoria, nombre, precio, desc;
     private MaterialButton btnEliminar, btnCambiar, btnAgregar, btnModificar;
     private ViewPager viewpager;
-    private viewPagerAdapter viewPagerAdapter;
+    private com.example.comercios.Adapter.viewPagerAdapter viewPagerAdapter;
     private String path;//almacena la ruta de la imagen
     File fileImagen;
     private boolean reemImg = false;
@@ -543,9 +540,9 @@ public class FragActInfoProductos extends Fragment {
                     update += ", descripcion = '" + desc.getText().toString() + "'";
                 }
                 //if(estado == true){
-                    update += ", estado = '1'";
+                update += ", estado = '1'";
                 //} else {
-                    //update += ", estado = '0'";
+                //update += ", estado = '0'";
                 //}
                 //update += " WHERE id='" + GlobalComercios.getInstance().getProducto().getId() + "'";
                 update += " WHERE id='" + 2 + "'";
@@ -676,4 +673,5 @@ public class FragActInfoProductos extends Fragment {
     }
     //*********************************************Fin Permisos app*********************************************
     //**********************************************************************************************************
+
 }
