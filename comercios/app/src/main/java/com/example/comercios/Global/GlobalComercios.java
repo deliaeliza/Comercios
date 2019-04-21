@@ -3,6 +3,7 @@ import android.graphics.Bitmap;
 import android.widget.ImageView;
 
 import com.example.comercios.Modelo.Comercio;
+import com.example.comercios.Modelo.Producto;
 import com.example.comercios.Modelo.Seccion;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 public class GlobalComercios {
     private Comercio comercio = null;
     private Seccion seccion = null;
+    private Producto producto = null;
     private int opcActual;
     private int imgActual;
 
@@ -55,6 +57,17 @@ public class GlobalComercios {
 
     public void agregarImagenes(Bitmap bit){
         imageViewsProductos.add(bit);
+    }
+
+    public void borrarImagenes(){
+        imageViewsProductos.clear();
+    }
+
+    public void setProducto(Producto producto){
+        this.producto = producto;
+    }
+    public Producto getProducto(){
+        return producto;
     }
 
 }

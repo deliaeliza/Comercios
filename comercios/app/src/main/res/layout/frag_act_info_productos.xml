@@ -1,14 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.fragActInfoProductos">
+    tools:context=".Fragments.FragActInfoProductos">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/act_prod_tilCategorias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:hint="Categorias"
+                app:errorEnabled="true"
+                app:errorTextColor="@color/cardview_shadow_start_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/act_prod_categorias"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="10"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/act_prod_tilNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/nombre_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="45"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/act_prod_tilCategorias">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/act_prod_nombre"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="10"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/act_prod_tilPrecio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="10dp"
+                android:hint="@string/precio_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="10"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/act_prod_tilNombre">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/act_prod_precio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="10"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/act_prod_tilDescripcion"
+                    android:textAlignment="viewStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/descripcion_lbl"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="200"
+                    app:counterOverflowTextAppearance="@color/error"
+                    app:errorEnabled="true"
+                    app:errorTextAppearance="@color/error"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/act_prod_tilPrecio">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/act_prod_descripcion"
+                        android:layout_width="match_parent"
+                        android:layout_height="115dp"
+                        android:backgroundTint="@color/design_default_color_surface"
+                        android:ems="10"
+                        android:inputType="textMultiLine" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/act_prod_viewPager"
+                android:layout_width="354dp"
+                android:layout_height="163dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.491"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/act_prod_tilDescripcion">
+
+            </androidx.viewpager.widget.ViewPager>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/act_prod_img_eliminar"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:backgroundTint="@android:color/transparent"
+                android:paddingLeft="5dp"
+                app:icon="@drawable/trash_alt"
+                app:iconGravity="textStart"
+                app:iconSize="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/act_prod_viewPager"
+                app:layout_constraintEnd_toEndOf="@+id/act_prod_viewPager" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/act_prod_img_cambiar"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:backgroundTint="@android:color/transparent"
+                android:paddingLeft="5dp"
+                app:icon="@drawable/sync_alt"
+                app:iconGravity="textStart"
+                app:iconSize="20dp"
+                app:layout_constraintBottom_toBottomOf="@+id/act_prod_viewPager"
+                app:layout_constraintEnd_toStartOf="@+id/act_prod_img_eliminar" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/act_prod_img_agregar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Agregar"
+                app:icon="@drawable/images"
+                app:iconSize="18dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/act_prod_viewPager" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/act_prod_modificar"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/colorAccent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="80dp"
+                android:text="Modificar producto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/act_prod_img_agregar"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 
 </FrameLayout>
