@@ -120,6 +120,12 @@ public class fragActInfoProductos extends Fragment {
         btnCambiar.setVisibility(View.GONE);
         //recuperarSeccionesComercio(GlobalComercios.getInstance().getComercio().getId());
         recuperarSeccionesComercio(4);
+        //nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());
+        nombre.setText("Celular");
+        //precio.setText(GlobalComercios.getInstance().getProducto().getPrecio());
+        precio.setText(200 +"");
+        desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
+        desc.setText("4 RAM, 128GB");
         //Permisos
         btnAgregar.setEnabled(solicitaPermisosVersionesSuperiores() == true);
 
@@ -499,14 +505,14 @@ public class fragActInfoProductos extends Fragment {
             public void onResponse(String response) {
                 if (response.trim().equalsIgnoreCase("")) {
                     //GlobalComercios.getInstance().getProducto().setNombre(nombre.getText().toString());
-                    //GlobalComercios.getInstance().getProducto().setPrecio(Integer.parseInt(precio.getText().toString()));
+                    //GlobalComercios.getInstance().getProducto().setPrecio(Integer.parseInt(precio.getText().toString().trim()));
                     //GlobalComercios.getInstance().getProducto().setDescripcion(desc.getText().toString());
                     //GlobalComercios.getInstance().getProducto().setEstado(true);
                     mensajeToast("Exito: Se actualizo correctamente");
                 } else {
                     mensajeToast(response);
                     //nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());
-                    //precio.setText(GlobalComercios.getInstance().getProducto().getPrecio());
+                    //precio.setText(GlobalComercios.getInstance().getProducto().getPrecio().trim());
                     //desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
                     //estado.set
                 }
