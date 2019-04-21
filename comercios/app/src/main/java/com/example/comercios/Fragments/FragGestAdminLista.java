@@ -253,8 +253,6 @@ public class FragGestAdminLista extends Fragment {
         alert11.show();
     }
 
-    ;
-
     /*
     private void DailogoFiltros(){
         Dialog dialog = new Dialog(getActivity());
