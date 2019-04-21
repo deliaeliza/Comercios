@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.FragAcercaDe">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/imgJonathan"
+            android:layout_width="95dp"
+            android:layout_height="91dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="120dp"
+            android:src="@drawable/jonathan"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="120dp"
+            android:text="Cedula: \n116560954\n\nNombre: \nJonathan Vásquez Mora"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/imgJonathan"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/imgDelia"
+            android:layout_width="95dp"
+            android:layout_height="91dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="60dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgJonathan" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="40dp"
+            android:text="Cedula: \nA999999\n\nNombre: \nDelia Hernandez Ruiz"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/imgDelia"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="44dp"
+            android:text="Cedula: \nA999999\n\nNombre: \nAngelo Calderon Barquero"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/imgAngelo"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <ImageView
+            android:id="@+id/imgAngelo"
+            android:layout_width="95dp"
+            android:layout_height="91dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="60dp"
+            android:src="@mipmap/ic_launcher"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDelia" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>
