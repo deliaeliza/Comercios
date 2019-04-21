@@ -39,8 +39,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
+import com.example.comercios.Filtros.FiltrosUsuarioEstandar;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Modelo.Seccion;
+import com.example.comercios.Modelo.UsuarioEstandar;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -55,6 +57,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -567,7 +570,35 @@ public class fragActInfoProductos extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
     }
     public void recuperarImagenes(){
+        //String url = Util.urlWebService + "/usuariosEstandarObtener.php?id='" + GlobalComercios.getInstance().getProducto().getId() + "'";
+        final String request = Util.urlWebService + "/usuariosEstandarObtener.php?id='" + 2 + "'";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, request, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
 
+                try {
+                    String error = response.getString("mensajeError");
+                    if(error.equals("")){
+                        if(response.has("urls")){
+                            JSONArray urls = response.getJSONArray("urls");
+                            for(int i = 0; i < urls.length(); i++){
+                                String url = urls.getString(i);
+                            }
+                        }
+                    } else {
+                        mensajeToast(error);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("No se puede conectar " + error.toString());
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
     //*****************************************Fin Conexion web service*****************************************
     //**********************************************************************************************************
