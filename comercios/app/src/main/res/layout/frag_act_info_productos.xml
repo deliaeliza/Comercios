@@ -59,7 +59,8 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="10"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:maxLength="45"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -84,7 +85,8 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="10"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:maxLength="10"/>
             </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -110,13 +112,14 @@
                         android:layout_height="115dp"
                         android:backgroundTint="@color/design_default_color_surface"
                         android:ems="10"
-                        android:inputType="textMultiLine" />
+                        android:inputType="textMultiLine"
+                        android:maxLength="200"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/act_prod_viewPager"
                 android:layout_width="354dp"
-                android:layout_height="163dp"
+                android:layout_height="180dp"
                 android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.491"
@@ -127,12 +130,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/act_prod_img_eliminar"
-                android:layout_width="30dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 android:backgroundTint="@android:color/transparent"
-                android:paddingLeft="5dp"
+                android:paddingRight="10dp"
                 app:icon="@drawable/trash_alt"
                 app:iconGravity="textStart"
                 app:iconSize="20dp"
@@ -141,12 +144,12 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/act_prod_img_cambiar"
-                android:layout_width="30dp"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="5dp"
                 android:layout_marginBottom="5dp"
                 android:backgroundTint="@android:color/transparent"
-                android:paddingLeft="5dp"
+                android:paddingRight="10dp"
                 app:icon="@drawable/sync_alt"
                 app:iconGravity="textStart"
                 app:iconSize="20dp"
