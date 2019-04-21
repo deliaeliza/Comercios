@@ -310,7 +310,8 @@ public class FragGestComercioLista extends Fragment {
                                             usuario.getInt("estado") != 0,
                                             usuario.getString("correo"),
                                             usuario.getString("usuario"),
-                                            usuario.getString("nombre")));
+                                            usuario.getString("nombre"),
+                                            usuario.getString("urlImagen")));
                                 }
                             }
 
