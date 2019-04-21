@@ -29,10 +29,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.example.comercios.Global.GlobalComercios;
-import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Comercio;
-import com.example.comercios.Modelo.UsuarioEstandar;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -43,8 +40,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -150,13 +145,13 @@ public class FragGestComercioLista extends Fragment {
             }
             Comercio actual = comercios.get(position);
             // Fill the view
-            TextView userTV = (TextView)itemView.findViewById(R.id.item_gest_comercio_user);
+            TextView userTV = (TextView)itemView.findViewById(R.id.item_gest_producto_nombre);
             userTV.setText(actual.getUsuario());
-            TextView correoTV = (TextView) itemView.findViewById(R.id.item_gest_comercio_correo);
+            TextView correoTV = (TextView) itemView.findViewById(R.id.item_gest_producto_precio);
             correoTV.setText(actual.getCorreo());
-            TextView edadTV = (TextView) itemView.findViewById(R.id.item_gest_comercio_catg);
+            TextView edadTV = (TextView) itemView.findViewById(R.id.item_gest_producto_descripcion);
             edadTV.setText(actual.getCategoria());
-            TextView estadoTV = (TextView) itemView.findViewById(R.id.item_gest_comercio_estado);
+            TextView estadoTV = (TextView) itemView.findViewById(R.id.item_gest_producto_estado);
             estadoTV.setText(actual.isEstado()? "Activado" : "Desactivado");
             //MaterialCardView panel = (MaterialCardView) itemView.findViewById(R.id.item_gest_estandar_panel);
             MaterialButton estado = (MaterialButton) itemView.findViewById(R.id.item_gest_comercio_MaterialButtonEstado);
