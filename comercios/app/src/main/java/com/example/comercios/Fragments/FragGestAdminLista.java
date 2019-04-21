@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,8 +56,6 @@ import androidx.appcompat.app.AlertDialog;
 public class FragGestAdminLista extends Fragment {
     private final int TAM_PAGINA = 10;
     private boolean inicial = true;
-    private boolean cargando = false;
-    private boolean userScrolled = false;
     private View vistaInferior;
     private ListView listView;
     private AdminListAdapter adapter;
@@ -73,7 +73,7 @@ public class FragGestAdminLista extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view =inflater.inflate(R.layout.frag_gest_admin_lista, container, false);
+        View view = inflater.inflate(R.layout.frag_gest_admin_lista, container, false);
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
         manejador = new FragGestAdminLista.MyHandler();
@@ -82,21 +82,24 @@ public class FragGestAdminLista extends Fragment {
         obtenerMasDatos();
         OnclickDelMaterialButton(view.findViewById(R.id.gest_admin_MaterialButtonFiltrar));
         OnclickDelMaterialButton(view.findViewById(R.id.gest_admin_MaterialButtonTodos));
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int currentVisibleItemCount;
+            private int currentFirstVisibleItem;
+            private int totalItem;
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                int first = view.getFirstVisiblePosition();
-                int count = view.getChildCount();
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //Revisa si el scroll llego al ultimo item
-                if(/*userScrolled &&*/ view.getLastVisiblePosition() == admins.size()-1 && listView.getCount() >= TAM_PAGINA && cargando == false){
-                    cargando = true;
+                if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
+                        && scrollState == SCROLL_STATE_IDLE) {
                     Thread thread = new FragGestAdminLista.ThreadMoreData();
                     thread.start();
                 }
+            }
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                currentFirstVisibleItem = firstVisibleItem;
+                currentVisibleItemCount = visibleItemCount;
+                totalItem = totalItemCount;
             }
         });
         return view;
@@ -104,8 +107,8 @@ public class FragGestAdminLista extends Fragment {
 
     private class MyHandler extends Handler {
         @Override
-        public void handleMessage(Message msg){
-            switch (msg.what){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 case 0:
                     //Se agrega la vista de cargar mientras se busca mas datos
                     listView.addFooterView(vistaInferior);
@@ -114,7 +117,6 @@ public class FragGestAdminLista extends Fragment {
                     //Se actualizan los datos del adaptador y de la interfaaz
                     adapter.actualizarDatos();
                     listView.removeFooterView(vistaInferior);
-                    cargando = false;
                     break;
                 default:
                     break;
@@ -125,7 +127,7 @@ public class FragGestAdminLista extends Fragment {
 
     private class ThreadMoreData extends Thread {
         @Override
-        public  void run(){
+        public void run() {
             //Agrega la vista inferior
             manejador.sendEmptyMessage(0);
             //Se buscan mas datos
@@ -137,9 +139,11 @@ public class FragGestAdminLista extends Fragment {
         public AdminListAdapter() {
             super(getActivity(), R.layout.item_gest_admin, admins);
         }
-        public void actualizarDatos(){
+
+        public void actualizarDatos() {
             this.notifyDataSetChanged();
         }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Make sure we have a view to work with (may have been given null)
@@ -149,17 +153,17 @@ public class FragGestAdminLista extends Fragment {
             }
             Administrador actual = admins.get(position);
             // Fill the view
-            TextView userTV = (TextView)itemView.findViewById(R.id.item_gest_admin_user);
+            TextView userTV = (TextView) itemView.findViewById(R.id.item_gest_admin_user);
             userTV.setText(actual.getUsuario());
             TextView correoTV = (TextView) itemView.findViewById(R.id.item_gest_admin_correo);
             correoTV.setText(actual.getCorreo());
             TextView edadTV = (TextView) itemView.findViewById(R.id.item_gest_admin_tel);
             edadTV.setText(Long.toString(actual.getTelefono()));
             TextView estadoTV = (TextView) itemView.findViewById(R.id.item_gest_admin_estado);
-            estadoTV.setText(actual.isEstado()? "Activado" : "Desactivado");
+            estadoTV.setText(actual.isEstado() ? "Activado" : "Desactivado");
             //MaterialCardView panel = (MaterialCardView) itemView.findViewById(R.id.item_gest_estandar_panel);
             MaterialButton estado = (MaterialButton) itemView.findViewById(R.id.item_gest_admin_MaterialButtonEstado);
-            estado.setText(actual.isEstado()? "Desactivar" : "Activar");
+            estado.setText(actual.isEstado() ? "Desactivar" : "Activar");
             MaterialButton eliminar = (MaterialButton) itemView.findViewById(R.id.item_gest_admin_MaterialButtonEliminar);
             //panel.setTag(position);
             estado.setTag(position);
@@ -174,10 +178,10 @@ public class FragGestAdminLista extends Fragment {
 
     public void OnclickDelMaterialCardView(View view) {
         MaterialCardView miMaterialCardView = (MaterialCardView) view;
-        miMaterialCardView.setOnClickListener(new View.OnClickListener(){
+        miMaterialCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Administrador escogido = admins.get((int)v.getTag());
+                Administrador escogido = admins.get((int) v.getTag());
                 GlobalAdmin.getInstance().setAdmin(escogido);
                 Mensaje(escogido.getCorreo());
                 //Reemplazo de fragment
@@ -186,21 +190,21 @@ public class FragGestAdminLista extends Fragment {
     }// fin de OnclickDelMaterialCardView
 
     public void OnclickDelMaterialButton(View view) {
-        MaterialButton miMaterialButton = (MaterialButton)  view;
-        miMaterialButton.setOnClickListener(new View.OnClickListener(){
+        MaterialButton miMaterialButton = (MaterialButton) view;
+        miMaterialButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
 
                     case R.id.item_gest_admin_MaterialButtonEstado:
-                        posicion = (int)v.getTag();
+                        posicion = (int) v.getTag();
                         Administrador usuarioModificar = admins.get(posicion);
                         String contenido = "Usuario: " + usuarioModificar.getUsuario() + "\nCorreo: " + usuarioModificar.getCorreo();
-                        DialogSiNO(usuarioModificar.isEstado()? "¿Desactivar administrador?" : "¿Activar administrador?",
+                        DialogSiNO(usuarioModificar.isEstado() ? "¿Desactivar administrador?" : "¿Activar administrador?",
                                 contenido, usuarioModificar.isEstado() ? "DESACTIVAR" : "ACTIVAR");
                         break;
                     case R.id.item_gest_admin_MaterialButtonEliminar:
-                        posicion = (int)v.getTag();
+                        posicion = (int) v.getTag();
                         usuarioModificar = admins.get(posicion);
                         idEliminar = usuarioModificar.getId();
                         contenido = "Usuario: " + usuarioModificar.getUsuario() + "\nCorreo: " + usuarioModificar.getCorreo();
@@ -218,7 +222,7 @@ public class FragGestAdminLista extends Fragment {
         });
     }// fin de OnclickDelMaterialButton
 
-    private void DialogSiNO(String titulo, String contenido, final String accion){
+    private void DialogSiNO(String titulo, String contenido, final String accion) {
         AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
         builder1.setTitle(titulo);
         builder1.setMessage(contenido);
@@ -227,11 +231,12 @@ public class FragGestAdminLista extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         posicion = -1;
-                    } });
+                    }
+                });
         builder1.setPositiveButton("Aceptar",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        switch (accion){
+                        switch (accion) {
                             case "ACTIVAR": //"ACTIVAR" || "DESACTIVAR"
                             case "DESACTIVAR":
                                 actualizarEstadoUsuario();
@@ -242,10 +247,13 @@ public class FragGestAdminLista extends Fragment {
                             default:
                                 break;
                         }
-                    } });
+                    }
+                });
         AlertDialog alert11 = builder1.create();
         alert11.show();
-    };
+    }
+
+    ;
 
     /*
     private void DailogoFiltros(){
@@ -259,12 +267,12 @@ public class FragGestAdminLista extends Fragment {
     private void obtenerMasDatos() {
         //Consultar a la base
         int idMinimo;
-        if(admins.size() == 0){
+        if (admins.size() == 0) {
             idMinimo = 0;
         } else {
-            idMinimo = (admins.get(admins.size()-1)).getId();
+            idMinimo = (admins.get(admins.size() - 1)).getId();
         }
-        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, a.telefono FROM Usuarios u, Administradores a WHERE u.id = a.idUsuario AND u.id > '" + idMinimo + "'";
+        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, a.telefono FROM Usuarios u, Administradores a WHERE u.tipo <> 0 and u.id = a.idUsuario AND u.id > '" + idMinimo + "'";
         //Agregar fitros
         //Limite despues de los filtros
         query += " ORDER BY u.id LIMIT " + TAM_PAGINA;
@@ -277,8 +285,8 @@ public class FragGestAdminLista extends Fragment {
                 try {
                     JSONObject jsonOb = response.getJSONObject("datos");
                     String mensajeError = jsonOb.getString("mensajeError");
-                    if(mensajeError.equalsIgnoreCase("")){
-                        if(jsonOb.has("usuarios")) {
+                    if (mensajeError.equalsIgnoreCase("")) {
+                        if (jsonOb.has("usuarios")) {
                             JSONArray users = jsonOb.getJSONArray("usuarios");
                             if (users.length() != 0) {
                                 for (int i = 0; i < users.length(); i++) {
@@ -293,8 +301,8 @@ public class FragGestAdminLista extends Fragment {
                                 }
                             }
                         }
-                        if(inicial){
-                            adapter = new FragGestAdminLista.AdminListAdapter();;
+                        if (inicial) {
+                            adapter = new FragGestAdminLista.AdminListAdapter();
                             listView.setAdapter(adapter);
                             inicial = false;
                         } else {
@@ -317,10 +325,10 @@ public class FragGestAdminLista extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
-    private void actualizarEstadoUsuario(){
-        if(posicion != -1){
+    private void actualizarEstadoUsuario() {
+        if (posicion != -1) {
             String url = Util.urlWebService + "/usuarioActualizarEstado.php?";
-            StringRequest stringRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
@@ -338,14 +346,14 @@ public class FragGestAdminLista extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                   Mensaje("No se puede conectar " + error.toString());
+                    Mensaje("No se puede conectar " + error.toString());
                 }
             }) {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> parametros = new HashMap<>();
                     parametros.put("estado", "" + (admins.get(posicion).isEstado() == true ? 0 : 1));
-                    parametros.put("id",Integer.toString(admins.get(posicion).getId()));
+                    parametros.put("id", Integer.toString(admins.get(posicion).getId()));
                     return parametros;
                 }
             };
@@ -354,10 +362,10 @@ public class FragGestAdminLista extends Fragment {
         }
     }
 
-    private void eliminarUsuario(){
-        if(posicion != -1){
+    private void eliminarUsuario() {
+        if (posicion != -1) {
             String url = Util.urlWebService + "/adminEliminar.php?";
-            StringRequest stringRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
@@ -365,7 +373,7 @@ public class FragGestAdminLista extends Fragment {
                         admins.remove(posicion);
                         adapter.actualizarDatos();
                     } else {
-                       Mensaje(response);
+                        Mensaje(response);
                     }
                 }
             }, new Response.ErrorListener() {
@@ -386,6 +394,7 @@ public class FragGestAdminLista extends Fragment {
         }
     }
 
-    public void Mensaje(String msg){ Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
-
+    public void Mensaje(String msg) {
+        Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
 }

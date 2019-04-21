@@ -18,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -81,7 +82,6 @@ public class FragSeccionResgistrar extends Fragment {
 
     private void registrarSeccion() {
         String url = Util.urlWebService + "/seccionesRegistrar.php?";
-        String nombre = nombreSeccion.getText().toString();
         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -102,7 +102,7 @@ public class FragSeccionResgistrar extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<>();
-                parametros.put("idComercio", "4");
+                parametros.put("idComercio", Integer.toString(GlobalComercios.getInstance().getComercio().getId()));
                 parametros.put("nombreSeccion", nombreSeccion.getText().toString());
                 return parametros;
             }

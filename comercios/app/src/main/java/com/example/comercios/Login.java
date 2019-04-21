@@ -11,6 +11,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Global.GlobalSuperUsuario;
+import com.example.comercios.Global.GlobalUsuarios;
+import com.example.comercios.Modelo.Administrador;
+import com.example.comercios.Modelo.Comercio;
+import com.example.comercios.Modelo.UsuarioEstandar;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.Navigations.NavAdmin;
@@ -22,6 +29,10 @@ import com.google.android.material.button.MaterialButton;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -59,15 +70,55 @@ public class Login extends AppCompatActivity {
                         if (estado == 1) {
                             int tipo = user.optInt("tipo");
                             if (tipo == Util.USUARIO_ADMINISTRADOR) {
+                                GlobalAdmin.getInstance().setAdmin(new Administrador(
+                                        user.optInt("id"),
+                                        tipo,
+                                        user.optLong("telefono"),
+                                        estado != 0,
+                                        user.optString("correo"),
+                                        user.optString("usuario")
+                                ));
                                 Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
                                 startActivity(intento);
                             } else if (tipo == Util.USUARIO_COMERCIO) {
+                                GlobalComercios.getInstance().setComercio(new Comercio(
+                                        user.optInt("id"),
+                                        tipo,
+                                        user.optLong("telefono"),
+                                        user.optInt("verificado") !=0,
+                                        estado != 0,
+                                        user.optString("correo"),
+                                        user.getString("usuario"),
+                                        user.optString("descripcion"),
+                                        user.optString("ubicacion"),
+                                        user.optString("nombreCat")
+                                ));
+
                                 Intent intento = new Intent(getApplicationContext(), NavComercios.class);
                                 startActivity(intento);
                             } else if (tipo == Util.USUARIO_ESTANDAR) {
+                                SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
+                                GlobalUsuarios.getInstance().setUserE(new UsuarioEstandar(
+                                        user.optInt("id"),
+                                        tipo,
+                                        estado != 0,
+                                        null,
+                                        user.optString("correo"),
+                                        user.optString("usuario"),
+                                        formatoFecha.parse(user.getString("fechaNac"))
+                                ));
+
                                 Intent intento = new Intent(getApplicationContext(), NavUsuarios.class);
                                 startActivity(intento);
                             } else if (tipo == Util.USUARIO_SUPER) {
+                                GlobalSuperUsuario.getInstance().setAdmin(new Administrador(
+                                        user.optInt("id"),
+                                        tipo,
+                                        user.optLong("telefono"),
+                                        estado != 0,
+                                        user.optString("correo"),
+                                        user.optString("usuario")
+                                ));
                                 Intent intento = new Intent(getApplicationContext(), NavSuperUsuario.class);
                                 startActivity(intento);
                             }
@@ -78,6 +129,8 @@ public class Login extends AppCompatActivity {
                         mensajeToast(mensajeError);
                     }
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }

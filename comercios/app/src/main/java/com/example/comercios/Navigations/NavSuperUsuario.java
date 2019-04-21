@@ -2,12 +2,18 @@ package com.example.comercios.Navigations;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.comercios.Fragments.FragGestAdminLista;
+import com.example.comercios.Fragments.FragGestComercioLista;
+import com.example.comercios.Fragments.FragGestEstandarLista;
 import com.example.comercios.Fragments.FragRegAdmin;
+import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Global.GlobalSuperUsuario;
+import com.example.comercios.Login;
 import com.example.comercios.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -82,11 +88,21 @@ public class NavSuperUsuario extends AppCompatActivity
             fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestAdmins");
             fragmentTransaction.commit();
         } else if (id == R.id.superUsuarioUsuarios) {
-
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragGestEstandarLista mifrag = new FragGestEstandarLista ();
+            fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestionarEstandarSU");
+            fragmentTransaction.commit();
         } else if (id == R.id.superUsuarioComercios) {
-
-        } else if (id == R.id.nav_share4) {
-
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragGestComercioLista mifrag = new FragGestComercioLista ();
+            fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestionarComercioSU");
+            fragmentTransaction.commit();
+        } else if (id == R.id.superUsuarioCerrarSesion) {
+            GlobalSuperUsuario.getInstance().setAdmin(null);
+            Intent intento = new Intent(getApplicationContext(), Login.class);
+            startActivity(intento);
         } else if (id == R.id.nav_send4) {
 
         }

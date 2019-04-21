@@ -31,7 +31,7 @@
                 android:title="@string/actInfoUsuario_lbl" />
 
             <item
-                android:id="@+id/cerrarSeion"
+                android:id="@+id/usuarioEstandarcerrarSeion"
                 android:icon="@drawable/door_open"
                 android:title="@string/cerrarSesion_lbl" />
             <item

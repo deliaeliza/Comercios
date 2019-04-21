@@ -117,6 +117,31 @@ BEGIN
 //
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE PAeliminarComercio(IN Pid INT)
+BEGIN
+	DECLARE termino BOOLEAN DEFAULT FALSE;
+    DECLARE idProd INT;
+    DECLARE productoImagenes CURSOR FOR select id from Productos where idComercio = Pid;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET termino = TRUE;
+    OPEN productoImagenes;
+    productos_loop: LOOP
+        FETCH productoImagenes INTO idProd;
+        IF termino THEN LEAVE productos_loop; END IF; 
+		DELETE FROM SeccionesProductos WHERE idProducto = idProd;
+		DELETE FROM ProductoImagenes WHERE idProducto = idProd;
+    END LOOP productos_loop;
+    CLOSE productoImagenes;
+	
+	DELETE FROM Productos WHERE idComercio = Pid;
+    DELETE FROM Secciones WHERE idComercio = Pid;
+	DELETE FROM Calificaciones WHERE idComercio = Pid;
+	DELETE FROM Comercios WHERE idUsuario = Pid;
+	DELETE FROM Usuarios WHERE id = Pid;
+END;
+//
+DELIMITER ;
+
 -- -----------------------------------------------------
 -- Table `comercioscr`.`UsuariosEstandar`
 -- -----------------------------------------------------
@@ -428,5 +453,24 @@ CALL PAregistrarUsuarioEstandar(3, 'correo27@gmail.com', 'usuario27', '123usuari
 CALL PAregistrarUsuarioEstandar(3, 'correo28@gmail.com', 'usuario28', '123usuario28', CURDATE() - 8000000);
 CALL PAregistrarUsuarioEstandar(3, 'correo29@gmail.com', 'usuario29', '123usuario29', CURDATE() - 9000000);
 CALL PAregistrarUsuarioEstandar(3, 'correo30@gmail.com', 'usuario30', '123usuario30', CURDATE() - 1000000);
-CALL PAregistrarAdministrador(1, 'adminprueaba@gmail.com', 'Anonimo', '123Anonimo', 89658963215);
-
+CALL PAregistrarAdministrador(1, 'adminprueaba@gmail.com', 'Anonimo', '123Anonimo', 896589653215);
+CALL PAregistrarAdministrador(1, 'adminprueaba2@gmail.com', 'Anonimo2', '123Anonimo', 896587963215);
+CALL PAregistrarAdministrador(1, 'adminprueaba3@gmail.com', 'Anonimo3', '123Anonimo', 89658963225);
+CALL PAregistrarAdministrador(1, 'adminprueaba4@gmail.com', 'Anonimo4', '123Anonimo', 89558963213);
+CALL PAregistrarAdministrador(1, 'adminprueaba5@gmail.com', 'Anonimo5', '123Anonimo', 89658968214);
+CALL PAregistrarAdministrador(1, 'adminprueaba6@gmail.com', 'Anonimo6', '123Anonimo', 89658963216);
+CALL PAregistrarAdministrador(1, 'adminprueaba7@gmail.com', 'Anonimo7', '123Anonimo', 89658963217);
+CALL PAregistrarAdministrador(1, 'adminprueaba8@gmail.com', 'Anonimo8', '123Anonimo', 89658963218);
+CALL PAregistrarAdministrador(1, 'adminprueaba9@gmail.com', 'Anonimo9', '123Anonimo', 896585963219);
+CALL PAregistrarAdministrador(1, 'adminprueaba10@gmail.com', 'Anonimo10', '123Anonimo', 89658963210);
+CALL PAregistrarAdministrador(1, 'adminprueaba11@gmail.com', 'Anonimo11', '123Anonimo', 89658963211);
+CALL PAregistrarAdministrador(1, 'adminprueaba12@gmail.com', 'Anonimo12', '123Anonimo', 89658963212);
+CALL PAregistrarAdministrador(1, 'adminprueaba13@gmail.com', 'Anonimo13', '123Anonimo', 89658963213);
+CALL PAregistrarAdministrador(1, 'adminprueaba14@gmail.com', 'Anonimo14', '123Anonimo', 89658963214);
+CALL PAregistrarAdministrador(1, 'adminprueaba15@gmail.com', 'Anonimo15', '123Anonimo', 89658963816);
+CALL PAregistrarAdministrador(1, 'adminprueaba16@gmail.com', 'Anonimo16', '123Anonimo', 89658969217);
+CALL PAregistrarAdministrador(1, 'adminprueaba17@gmail.com', 'Anonimo17', '123Anonimo', 89655896215);
+CALL PAregistrarAdministrador(1, 'adminprueaba18@gmail.com', 'Anonimo18', '123Anonimo', 89658966215);
+CALL PAregistrarAdministrador(1, 'adminprueaba19@gmail.com', 'Anonimo19', '123Anonimo', 89648963215);
+CALL PAregistrarAdministrador(0, 'superusuario@gmail.com', 'root', '123Root', 89586321478);
+CALL PAregistrarComercio(2, 'esteesuncorreolargo@gmail.com', 'CorreoLargo', '123Largo', 50985508559, 'Esta es una tienda de ropa', 'Guapiles', 4);

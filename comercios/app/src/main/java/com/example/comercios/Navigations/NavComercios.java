@@ -2,6 +2,7 @@ package com.example.comercios.Navigations;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,7 +10,9 @@ import android.view.MenuItem;
 import com.example.comercios.Fragments.FragActInfoComercio;
 import com.example.comercios.Fragments.FragHomeComercio;
 import com.example.comercios.Fragments.FragMenuInferiorComercio;
+import com.example.comercios.Global.GlobalAdmin;
 import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Login;
 import com.example.comercios.R;
 import com.google.android.material.navigation.NavigationView;
 
@@ -109,7 +112,9 @@ public class NavComercios extends AppCompatActivity
             fragmentTransaction.commit();
 
         } else if (id == R.id.navComercios_cerrar) {
-
+            GlobalComercios.getInstance().setComercio(null);
+            Intent intento = new Intent(getApplicationContext(), Login.class);
+            startActivity(intento);
         } else if (id == R.id.navComercios_acerca) {
 
         }

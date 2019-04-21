@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_light_background"
+        app:cardCornerRadius="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/filtros_secciones_txt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="20dp"
+                android:text="Filtrar"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/filtros_secciones_line0"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filtros_secciones_txt1" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filtros_secciones_tilNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
+                android:hint="Nombre"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filtros_secciones_line0">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/filtros_secciones_nombre"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginEnd="15dp"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <View
+                android:id="@+id/filtros_secciones_line1"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filtros_secciones_tilNombre" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/filtros_secciones_MaterialCardViewLimpiar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:cardCornerRadius="0dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false"
+                app:contentPaddingLeft="17dp"
+                app:contentPaddingRight="17dp"
+                app:contentPaddingTop="15dp"
+                app:contentPaddingBottom="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filtros_secciones_line1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Limpiar"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorAccent"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/filtros_secciones_MaterialCardViewBuscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:cardCornerRadius="0dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false"
+                app:contentPaddingLeft="17dp"
+                app:contentPaddingRight="17dp"
+                app:contentPaddingTop="15dp"
+                app:contentPaddingBottom="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filtros_secciones_line1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Buscar"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorAccent"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/filtros_secciones_MaterialCardViewCancelar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:cardCornerRadius="0dp"
+                app:cardBackgroundColor="@color/cardview_light_background"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false"
+                app:contentPaddingLeft="14dp"
+                app:contentPaddingRight="14dp"
+                app:contentPaddingTop="15dp"
+                app:contentPaddingBottom="15dp"
+                app:layout_constraintStart_toEndOf="@+id/filtros_secciones_MaterialCardViewLimpiar"
+                app:layout_constraintEnd_toStartOf="@+id/filtros_secciones_MaterialCardViewBuscar"
+                app:layout_constraintTop_toBottomOf="@+id/filtros_secciones_line1">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancelar"
+                    android:textSize="18sp"
+                    android:textColor="@color/colorAccent"/>
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</ScrollView>

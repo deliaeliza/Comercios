@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.comercios.Filtros.FiltrosUsuarioEstandar;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.UsuarioEstandar;
@@ -39,6 +43,8 @@ import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -57,15 +63,17 @@ import java.util.Map;
  */
 public class FragGestEstandarLista extends Fragment {
     private final int TAM_PAGINA = 10;
+
     private boolean inicial = true;
     private boolean cargando = false;
     private boolean userScrolled = false;
+    private int posicion = -1;
     private View vistaInferior;
     private ListView listView;
     private EstandarListAdapter adapter;
     private Handler manejador;
     private List<UsuarioEstandar> usuarios;
-    private int posicion = -1;
+    private Dialog dialog;
     public FragGestEstandarLista() {
         // Required empty public constructor
     }
@@ -81,32 +89,61 @@ public class FragGestEstandarLista extends Fragment {
         manejador = new MyHandler();
         usuarios = new ArrayList<UsuarioEstandar>();
         listView = (ListView) view.findViewById(R.id.gest_estandar_listview);
+        DialogoFiltros();
         obtenerMasDatos();
         OnclickDelMaterialButton(view.findViewById(R.id.gest_estandar_MaterialButtonFiltrar));
         OnclickDelMaterialButton(view.findViewById(R.id.gest_estandar_MaterialButtonTodos));
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 int first = view.getFirstVisiblePosition();
                 int count = view.getChildCount();
 
-                /*if (scrollState == SCROLL_STATE_FLING || (view.getLastVisiblePosition() == usuarios.size()-1) ) {
+                if (scrollState == SCROLL_STATE_FLING || (view.getLastVisiblePosition() == usuarios.size()-1) ) {
                     userScrolled = true;
                 } else {
                     userScrolled = false;
-                }*/
+                }
                  //userScrolled = scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL;
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //Revisa si el scroll llego al ultimo item
-                if(/*userScrolled &&*/ view.getLastVisiblePosition() == usuarios.size()-1 && listView.getCount() >= TAM_PAGINA && cargando == false){
+                if(userScrolled && view.getLastVisiblePosition() == usuarios.size()-1 && cargando == false){
                     cargando = true;
                     Thread thread = new ThreadMoreData();
                     thread.start();
                 }
             }
+        });*/
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                mensajeToast(motionEvent.getAction() +"");
+
+                if(view == listView && (motionEvent.getAction() == MotionEvent.ACTION_MOVE || motionEvent.getAction() == MotionEvent.ACTION_DOWN || motionEvent.getAction() == MotionEvent.ACTION_UP)) {
+                    userScrolled = true;
+                } else {
+                    userScrolled = false;
+                }
+                return false;
+            }
+        });
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {}
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount){
+                if(userScrolled && view.getLastVisiblePosition() == usuarios.size()-1 && cargando == false ){
+                    cargando = true;
+                    Thread thread = new ThreadMoreData();
+                    thread.start();
+                }
+            }
+
         });
         return view;
     }
@@ -168,33 +205,16 @@ public class FragGestEstandarLista extends Fragment {
             edadTV.setText(actual.getEdad() + " años");
             TextView estadoTV = (TextView) itemView.findViewById(R.id.item_gest_estandar_estado);
             estadoTV.setText(actual.isEstado()? "Activado" : "Desactivado");
-            //MaterialCardView panel = (MaterialCardView) itemView.findViewById(R.id.item_gest_estandar_panel);
             MaterialButton estado = (MaterialButton) itemView.findViewById(R.id.item_gest_estandar_MaterialButtonEstado);
             estado.setText(actual.isEstado()? "Desactivar" : "Activar");
             MaterialButton eliminar = (MaterialButton) itemView.findViewById(R.id.item_gest_estandar_MaterialButtonEliminar);
-            //panel.setTag(position);
             estado.setTag(position);
             eliminar.setTag(position);
-            //OnclickDelMaterialCardView(panel);
             OnclickDelMaterialButton(estado);
             OnclickDelMaterialButton(eliminar);
             return itemView;
         }
     }
-
-
-    public void OnclickDelMaterialCardView(View view) {
-        MaterialCardView miMaterialCardView = (MaterialCardView) view;
-        miMaterialCardView.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                UsuarioEstandar escogido = usuarios.get((int)v.getTag());
-                GlobalUsuarios.getInstance().setUserE(escogido);
-                mensajeToast(escogido.getCorreo());
-                //Reemplazo de fragment
-            }// fin del onclick
-        });
-    }// fin de OnclickDelMaterialCardView
 
     public void OnclickDelMaterialButton(View view) {
         MaterialButton miMaterialButton = (MaterialButton)  view;
@@ -217,10 +237,12 @@ public class FragGestEstandarLista extends Fragment {
                         DialogSiNO("¿Eliminar usuario?", contenido, "ELIMINAR");
                         break;
                     case R.id.gest_estandar_MaterialButtonFiltrar:
-                        DailogoFiltros();
+                        dialog.show();
                         break;
                     case R.id.gest_estandar_MaterialButtonTodos:
-
+                        FiltrosUsuarioEstandar.getInstance().setUsarFiltros(false);
+                        usuarios.clear();
+                        obtenerMasDatos();
                     default:
                         break;
                 }// fin de casos
@@ -257,25 +279,92 @@ public class FragGestEstandarLista extends Fragment {
         alert11.show();
     };
 
-    private void DailogoFiltros(){
-        Dialog dialog = new Dialog(getActivity());
+    private void DialogoFiltros(){
+        dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.filtros_u_estandar);
-        dialog.setTitle("Filtrar");
-        dialog.show();
+        MaterialCardView limpiar = (MaterialCardView) dialog.findViewById(R.id.filtros_estandar_MaterialCardViewLimpiar);
+        MaterialCardView buscar = (MaterialCardView) dialog.findViewById(R.id.filtros_estandar_MaterialCardViewBuscar);
+        MaterialCardView cancelar = (MaterialCardView) dialog.findViewById(R.id.filtros_estandar_MaterialCardViewCancelar);
+        final TextInputEditText usuario = (TextInputEditText) dialog.findViewById(R.id.filtros_estandar_usuario);
+        final TextInputEditText correo = (TextInputEditText) dialog.findViewById(R.id.filtros_estandar_correo);
+        final TextInputEditText edadMin = (TextInputEditText) dialog.findViewById(R.id.filtros_estandar_edadMin);
+        final TextInputEditText edadMax = (TextInputEditText) dialog.findViewById(R.id.filtros_estandar_edadMax);
+        final RadioGroup rg = (RadioGroup) dialog.findViewById(R.id.filtros_estandar_radioG);
+        limpiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FiltrosUsuarioEstandar.getInstance().reiniciarFiltros();
+                usuario.setText("");
+                correo.setText("");
+                edadMin.setText("");
+                edadMax.setText("");
+                rg.clearCheck();
+            }
+        });
+        buscar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FiltrosUsuarioEstandar.getInstance().setUsuario(usuario.getText().toString());
+                FiltrosUsuarioEstandar.getInstance().setCorreo(correo.getText().toString());
+                switch (rg.getCheckedRadioButtonId()){
+                    case R.id.filtros_estandar_radioActivo:
+                        FiltrosUsuarioEstandar.getInstance().setRadioEstado(1);
+                        break;
+                    case R.id.filtros_estandar_radioDesactivo:
+                        FiltrosUsuarioEstandar.getInstance().setRadioEstado(0);
+                        break;
+                    default:
+                        FiltrosUsuarioEstandar.getInstance().setRadioEstado(-1);
+                        break;
+                }
+                try{
+                    FiltrosUsuarioEstandar.getInstance().setEdadMin(Integer.parseInt(edadMin.getText().toString()));
+                } catch (NumberFormatException ex){
+                    FiltrosUsuarioEstandar.getInstance().setEdadMin(-1);
+                }
+                try{
+                    FiltrosUsuarioEstandar.getInstance().setEdadMax(Integer.parseInt(edadMax.getText().toString()));
+                } catch (NumberFormatException ex){
+                    FiltrosUsuarioEstandar.getInstance().setEdadMax(-1);
+                }
+                FiltrosUsuarioEstandar.getInstance().setUsarFiltros(true);
+                usuarios.clear();
+                obtenerMasDatos();
+                dialog.cancel();
+            }
+        });
+        cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
     };
 
     private void obtenerMasDatos() {
         //Consultar a la base
-        int idMinimo;
-        if(usuarios.size() == 0){
-            idMinimo = 0;
-        } else {
-            idMinimo = (usuarios.get(usuarios.size()-1)).getId();
-        }
+        int idMinimo = (usuarios.size() == 0 ? 0 : (usuarios.get(usuarios.size()-1)).getId());
         String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, ue.fechaNac, TIMESTAMPDIFF(YEAR, ue.fechaNac, CURDATE()) as edad FROM Usuarios u, UsuariosEstandar ue WHERE u.id = ue.idUsuario AND u.id > '" + idMinimo + "'";
         //Agregar fitros
+        if(FiltrosUsuarioEstandar.getInstance().isUsarFiltros()) {
+            if (!FiltrosUsuarioEstandar.getInstance().getUsuario().equals("")) {
+                query += " AND u.usuario LIKE '%" + FiltrosUsuarioEstandar.getInstance().getUsuario() + "%'";
+            }
+            if (!FiltrosUsuarioEstandar.getInstance().getCorreo().equals("")) {
+                query += " AND u.correo LIKE '%" + FiltrosUsuarioEstandar.getInstance().getCorreo() + "%'";
+            }
+            if (FiltrosUsuarioEstandar.getInstance().getEdadMin() != -1) {
+                query += " AND TIMESTAMPDIFF(YEAR, ue.fechaNac, CURDATE()) >= '" + FiltrosUsuarioEstandar.getInstance().getEdadMin() + "'";
+            }
+            if (FiltrosUsuarioEstandar.getInstance().getEdadMax() != -1) {
+                query += " AND TIMESTAMPDIFF(YEAR, ue.fechaNac, CURDATE()) <= '" + FiltrosUsuarioEstandar.getInstance().getEdadMax() + "'";
+            }
+            if(FiltrosUsuarioEstandar.getInstance().getRadioEstado() != -1){
+                query += " AND u.estado = '" + FiltrosUsuarioEstandar.getInstance().getRadioEstado() + "'";
+            }
+        }
+        //Fin filtros
         //Limite despues de los filtros
         query += " ORDER BY u.id LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/usuariosEstandarObtener.php?query=" + query;
@@ -291,23 +380,23 @@ public class FragGestEstandarLista extends Fragment {
                         if(jsonOb.has("usuarios")) {
                             JSONArray users = jsonOb.getJSONArray("usuarios");
                             SimpleDateFormat formatoFecha = new SimpleDateFormat("yyyy-MM-dd");
-                            if (users.length() != 0) {
-                                for (int i = 0; i < users.length(); i++) {
-                                    JSONObject usuario = users.getJSONObject(i);
-                                usuarios.add(new UsuarioEstandar(
-                                        usuario.getInt("id"),
-                                        usuario.getInt("tipo"),
-                                        usuario.getInt("edad"),
-                                        usuario.getInt("estado") != 0,
-                                        usuario.getString("correo"),
-                                        usuario.getString("usuario"),
-                                        formatoFecha.parse(usuario.getString("fechaNac"))));
-                                }
+                            for (int i = 0; i < users.length(); i++) {
+                                JSONObject usuario = users.getJSONObject(i);
+                            usuarios.add(new UsuarioEstandar(
+                                    usuario.getInt("id"),
+                                    usuario.getInt("tipo"),
+                                    usuario.getInt("edad"),
+                                    usuario.getInt("estado") != 0,
+                                    usuario.getString("correo"),
+                                    usuario.getString("usuario"),
+                                    formatoFecha.parse(usuario.getString("fechaNac"))));
                             }
-
+                        }
+                        if(usuarios.size() == 0){
+                            mensajeToast("No se encontraron usuarios");
                         }
                         if(inicial){
-                            adapter = new EstandarListAdapter();;
+                            adapter = new EstandarListAdapter();
                             listView.setAdapter(adapter);
                             inicial = false;
                         } else {
@@ -382,6 +471,8 @@ public class FragGestEstandarLista extends Fragment {
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
                         mensajeToast("Exito: Se elimino correctamente");
+                        usuarios.remove(posicion);
+                        posicion = -1;
                         adapter.actualizarDatos();
                         //Enviar correo al usuario
                     } else {
@@ -397,7 +488,7 @@ public class FragGestEstandarLista extends Fragment {
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> parametros = new HashMap<>();
-                    parametros.put("id", Integer.toString(GlobalComercios.getInstance().getSeccion().getId()));
+                    parametros.put("id", Integer.toString(usuarios.get(posicion).getId()));
                     return parametros;
                 }
             };
