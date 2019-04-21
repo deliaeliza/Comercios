@@ -197,7 +197,8 @@ public class FragHomeComercio extends Fragment {
         for(int i=0;i<calificaciones.size();i++){
             suma=suma+calificaciones.get(i);
         }
-        ratingBarCali.setRating(suma/calificaciones.size());
+        ratingBarCali.setRating((float)1.3);
+        //ratingBarCali.setRating(suma/calificaciones.size());
     }
 
 }
