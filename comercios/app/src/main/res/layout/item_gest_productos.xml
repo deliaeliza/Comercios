@@ -2,7 +2,7 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_gest_comercio_panel"
+    android:id="@+id/item_gest_producto_panel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
@@ -99,11 +99,12 @@
             android:id="@+id/item_gest_producto_descripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="64dp"
             android:text="@string/descripcion_lbl"
             android:textSize="16sp"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="134dp" />
+            app:layout_constraintStart_toEndOf="@+id/item_gest_producto_ImgVProducto"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/item_gest_producto_lblEstado"
