@@ -68,12 +68,13 @@ public class FragMenuInferiorComercio extends Fragment {
                     fragmentTransaction.commit();
                     return true;
                 } else if (item.getItemId() == R.id.menuIferiorComercio_modificar) {
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    //No forma parte de l primera entrega
+                    //FragmentManager fm = getFragmentManager();
+                    //FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     //FragProductoListarComercio  mifrag = new FragProductoListarComercio ();
-                    FragActInfoProductos mifrag = new FragActInfoProductos();
-                    fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
-                    fragmentTransaction.commit();
+                    //FragActInfoProductos mifrag = new FragActInfoProductos();
+                    //fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
+                    //fragmentTransaction.commit();
                     return true;
                 }
                 return false;
