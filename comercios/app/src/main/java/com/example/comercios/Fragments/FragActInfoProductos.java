@@ -31,10 +31,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Modelo.Seccion;
@@ -53,6 +56,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -486,7 +491,77 @@ public class FragActInfoProductos extends Fragment {
 
 
 
+    public void enviarDatosModificar() {
+        String url = Util.urlWebService + "/productoModificar.php?";
 
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.trim().equalsIgnoreCase("")) {
+                    //GlobalComercios.getInstance().getProducto().setNombre(nombre.getText().toString());
+                    //GlobalComercios.getInstance().getProducto().setPrecio(Integer.parseInt(precio.getText().toString()));
+                    //GlobalComercios.getInstance().getProducto().setDescripcion(desc.getText().toString());
+                    //GlobalComercios.getInstance().getProducto().setEstado(true);
+                    mensajeToast("Exito: Se actualizo correctamente");
+                } else {
+                    mensajeToast(response);
+                    //nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());
+                    //precio.setText(GlobalComercios.getInstance().getProducto().getPrecio());
+                    //desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
+                    //estado.set
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("No se ha podido conectar" + error.getMessage());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("idComercio", Integer.toString(GlobalComercios.getInstance().getComercio().getId()));
+                parametros.put("idComercio", 4 + "");
+                parametros.put("idProducto", Integer.toString(GlobalComercios.getInstance().getProducto().getId()));
+                parametros.put("idProducto", 2 + "");
+                String update = "UPDATE Productos SET nombre='"+nombre.getText().toString() + "'";
+                if(precio.getText().toString().equals("")){
+                    update += ", precio = null";
+                } else {
+                    update += ", precio = '" + precio.getText().toString() + "'";
+                }
+                if(desc.getText().toString().equals("")){
+                    update += ", descripcion = null";
+                } else {
+                    update += ", descripcion = '" + desc.getText().toString() + "'";
+                }
+                //if(estado == true){
+                    update += ", estado = '1'";
+                //} else {
+                    //update += ", estado = '0'";
+                //}
+                //update += " WHERE id='" + GlobalComercios.getInstance().getProducto().getId() + "'";
+                update += " WHERE id='" + 2 + "'";
+                parametros.put("update", update);
+                int cantImg = GlobalComercios.getInstance().getImageViews().size();
+                parametros.put("cantImg", Integer.toString(cantImg));
+                parametros.put("cantSec", Integer.toString(idSec.size()));
+                int idImgen = 1;
+                for (Bitmap img : GlobalComercios.getInstance().getImageViews()) {
+                    parametros.put("img" + idImgen, convertirImgString(img));
+                    idImgen = idImgen + 1;
+                }
+                int idSe = 1;
+                for (Integer secid : idSec) {
+                    parametros.put("sec" + idSe, Integer.toString(secid));
+                    idSe = idSe + 1;
+                }
+                return parametros;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
+    }
     //*****************************************Fin Conexion web service*****************************************
     //**********************************************************************************************************
 

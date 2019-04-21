@@ -25,6 +25,7 @@ import com.example.comercios.Navigations.NavComercios;
 import com.example.comercios.Navigations.NavSuperUsuario;
 import com.example.comercios.Navigations.NavUsuarios;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,15 +40,15 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Login extends AppCompatActivity {
 
     JsonObjectRequest jsonObjectRequest;
-    private EditText correo;
-    private EditText password;
+    private TextInputEditText correo;
+    private TextInputEditText password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mensajeAB("Ingresar");
-        correo = (EditText) findViewById(R.id.Login_edtEmail);
-        password = (EditText) findViewById(R.id.Login_edtPass);
+        correo = (TextInputEditText) findViewById(R.id.Login_edtEmail);
+        password = (TextInputEditText) findViewById(R.id.Login_edtPass);
         OnclickDelMaterialButton(R.id.Login_btnIgresar);
         OnclickDelTextView(R.id.Login_txtRegistrar);
         OnclickDelTextView(R.id.Login_txtOlvido);
