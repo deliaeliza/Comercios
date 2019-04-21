@@ -74,7 +74,8 @@ public class FragActInfoProductos extends Fragment {
     private TextInputLayout tilCategoria, tilNombre, tilPrecio, tilDesc;
     private TextInputEditText categoria, nombre, precio, desc;
     private MaterialButton btnEliminar, btnCambiar, btnAgregar, btnModificar;
-    private viewPagerAdapter viewPager;
+    private ViewPager viewpager;
+    private viewPagerAdapter viewPagerAdapter;
     private String path;//almacena la ruta de la imagen
     File fileImagen;
     private boolean reemImg = false;
@@ -88,9 +89,9 @@ public class FragActInfoProductos extends Fragment {
         View view = inflater.inflate(R.layout.frag_act_info_productos, container, false);
         secciones = new ArrayList<>();
         idSec = new ArrayList<>();
-        ViewPager viewpager = (ViewPager) view.findViewById(R.id.act_prod_viewPager);
-        viewPager = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getImageViews());
-        viewpager.setAdapter(viewPager);
+        viewpager = (ViewPager) view.findViewById(R.id.act_prod_viewPager);
+        viewPagerAdapter = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getImageViews());
+        viewpager.setAdapter(viewPagerAdapter);
         viewpager.setOffscreenPageLimit(3);
         viewpager.setPageMargin(70);
 
@@ -106,6 +107,8 @@ public class FragActInfoProductos extends Fragment {
         btnCambiar = (MaterialButton) view.findViewById(R.id.act_prod_img_cambiar);
         btnAgregar = (MaterialButton) view.findViewById(R.id.act_prod_img_agregar);
         //btnModificar = (MaterialButton) view.findViewById(R.id.act_prod_modificar);
+        btnEliminar.setVisibility(View.GONE);
+        btnCambiar.setVisibility(View.GONE);
         //recuperarSeccionesComercio(GlobalComercios.getInstance().getComercio().getId());
         recuperarSeccionesComercio(4);
         //Permisos
@@ -202,15 +205,16 @@ public class FragActInfoProductos extends Fragment {
                             reemImg = false;
                             dialogoAgregarImagen();
                         }
-                        if(CANTIMG_MAX == GlobalComercios.getInstance().getImageViews().size()){
-                            btnAgregar.setEnabled(false);
-                            mensajeToast("Ha llegado al máximo de imagenes");
-                        }
                         break;
                     case R.id.act_prod_img_eliminar:
+                        viewPagerAdapter.notifyDataSetChanged();
                         if (GlobalComercios.getInstance().getImageViews().size() > 0) {
                             GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
-                            viewPager.notifyDataSetChanged();
+                            if(GlobalComercios.getInstance().getImageViews().size() == 0){
+                                btnEliminar.setVisibility(View.GONE);
+                                btnCambiar.setVisibility(View.GONE);
+                                viewpager.setBackgroundResource(R.drawable.ic_menu_camera);
+                            }
                         } else {
                             mensajeToast("No hay imagenes que borrar");
                         }
@@ -358,7 +362,15 @@ public class FragActInfoProductos extends Fragment {
         } else {
             GlobalComercios.getInstance().agregarImagenes(imagen1);
         }
-        viewPager.notifyDataSetChanged();
+        viewPagerAdapter.notifyDataSetChanged();
+        if(CANTIMG_MAX == GlobalComercios.getInstance().getImageViews().size()){
+            btnAgregar.setEnabled(false);
+            mensajeToast("Ha llegado al máximo de imagenes");
+        } else if(GlobalComercios.getInstance().getImageViews().size() == 1){
+            btnEliminar.setVisibility(View.VISIBLE);
+            btnCambiar.setVisibility(View.VISIBLE);
+            viewpager.setBackgroundResource(R.color.design_default_color_surface);
+        }
     }
     private Bitmap redimensionarImagen(Bitmap bitmap, float anchoNuevo, float altoNuevo) {
         int ancho = bitmap.getWidth();
@@ -477,7 +489,7 @@ public class FragActInfoProductos extends Fragment {
     public void mensajeToast(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
     public void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 
-    //Permisps
+    //Permisos
     private boolean solicitaPermisosVersionesSuperiores() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {//validamos si estamos en android menor a 6 para no buscar los permisos
             return true;
