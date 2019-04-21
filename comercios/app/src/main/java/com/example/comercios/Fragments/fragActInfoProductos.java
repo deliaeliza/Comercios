@@ -40,7 +40,7 @@ import java.util.ArrayList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragActInfoProductos extends Fragment {
+public class fragActInfoProductos extends Fragment {
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
     private static final int COD_FOTO = 20;
@@ -60,7 +60,7 @@ public class FragActInfoProductos extends Fragment {
     private MaterialButton btnEliminar, btnCambiar, btnAgregar, btnModificar;
     private viewPagerAdapter viewPager;
     private boolean reemImg = false;
-    public FragActInfoProductos() {
+    public fragActInfoProductos() {
         // Required empty public constructor
     }
 

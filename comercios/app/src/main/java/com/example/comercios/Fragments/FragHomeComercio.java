@@ -1,38 +1,41 @@
 package com.example.comercios.Fragments;
 
 
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.graphics.Bitmap;
+        import android.os.Bundle;
+        import android.app.Fragment;
+        import android.util.Log;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.ImageView;
+        import android.widget.RatingBar;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.comercios.Modelo.Categorias;
-import com.example.comercios.Modelo.Util;
-import com.example.comercios.Modelo.VolleySingleton;
-import com.example.comercios.R;
-import com.jaredrummler.materialspinner.MaterialSpinner;
+        import com.android.volley.AuthFailureError;
+        import com.android.volley.Request;
+        import com.android.volley.Response;
+        import com.android.volley.VolleyError;
+        import com.android.volley.toolbox.ImageRequest;
+        import com.android.volley.toolbox.JsonObjectRequest;
+        import com.example.comercios.Modelo.Categorias;
+        import com.example.comercios.Modelo.Util;
+        import com.example.comercios.Modelo.VolleySingleton;
+        import com.example.comercios.R;
+        import com.jaredrummler.materialspinner.MaterialSpinner;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+        import org.json.JSONArray;
+        import org.json.JSONException;
+        import org.json.JSONObject;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+        import java.math.BigDecimal;
+        import java.math.RoundingMode;
+        import java.util.ArrayList;
+        import java.util.HashMap;
+        import java.util.Map;
+
+        import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,7 +51,7 @@ public class FragHomeComercio extends Fragment {
     String SUrlImagen;
 
     JsonObjectRequest jsonObjectRequest3;
-    ArrayList<Integer> calificaciones;
+    ArrayList<Double> calificaciones;
     RatingBar ratingBarCali;
 
     public FragHomeComercio() {
@@ -71,7 +74,6 @@ public class FragHomeComercio extends Fragment {
         cargarDatosAnteriores2(view);
         ratingBarCali = (RatingBar)view.findViewById(R.id.FHomComercio_ratingBar);
         recuperarCalificacionesComercio();
-
         return view;
     }
     public void cargarCategorias2(View view){
@@ -96,7 +98,7 @@ public class FragHomeComercio extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
+                Mensaje("Categorias-- " + error.toString());
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
@@ -170,8 +172,14 @@ public class FragHomeComercio extends Fragment {
                     JSONObject objeto;
                     for(int i= 0;i<jsonCalificaciones.length();i++) {
                         objeto= jsonCalificaciones.getJSONObject(i);
-                        calificaciones.add(objeto.getInt("calificacion"));
+                        calificaciones.add(objeto.getDouble("calificacion"));
                     }
+                    double suma=0;
+                    for(int i=0;i<calificaciones.size();i++){
+                        suma=suma+calificaciones.get(i);
+                    }
+                    float prueba = (float)(suma/calificaciones.size());
+                    ratingBarCali.setRating((float)prueba);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -180,25 +188,15 @@ public class FragHomeComercio extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
+                Mensaje("Calificacioness" + error.toString());
+                mensajeAB(error.toString());
             }
         });
-        float suma=0;
-        for(int i=0;i<calificaciones.size();i++){
-            suma=suma+calificaciones.get(i);
-        }
-        ratingBarCali.setRating(suma/calificaciones.size());
 
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest3);
-        //calcularPromedioEstrellas();
+
     }
-    public void calcularPromedioEstrellas(){
-        float suma=0;
-        for(int i=0;i<calificaciones.size();i++){
-            suma=suma+calificaciones.get(i);
-        }
-        ratingBarCali.setRating((float)1.3);
-        //ratingBarCali.setRating(suma/calificaciones.size());
-    }
+
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 
 }
