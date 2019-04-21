@@ -96,6 +96,7 @@ public class FragActInfoProductos extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_act_info_productos, container, false);
+        mensajeAB("Modificar Producto");
         secciones = new ArrayList<>();
         idSec = new ArrayList<>();
         viewpager = (ViewPager) view.findViewById(R.id.act_prod_viewPager);
@@ -124,7 +125,7 @@ public class FragActInfoProductos extends Fragment {
         nombre.setText("Celular");
         //precio.setText(GlobalComercios.getInstance().getProducto().getPrecio());
         precio.setText(200 +"");
-        desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
+        //desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
         desc.setText("4 RAM, 128GB");
         //Permisos
         btnAgregar.setEnabled(solicitaPermisosVersionesSuperiores() == true);
@@ -238,7 +239,7 @@ public class FragActInfoProductos extends Fragment {
                         break;
                     case R.id.act_prod_modificar:
                         if (validarDatos()) {
-                            //enviarDatosRegistrar();
+                            enviarDatosModificar();
                         }
                         break;
                     case R.id.act_prod_img_cambiar:
@@ -494,9 +495,6 @@ public class FragActInfoProductos extends Fragment {
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
-
-
-
     public void enviarDatosModificar() {
         String url = Util.urlWebService + "/productoModificar.php?";
 
@@ -567,6 +565,9 @@ public class FragActInfoProductos extends Fragment {
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
+    }
+    public void recuperarImagenes(){
+
     }
     //*****************************************Fin Conexion web service*****************************************
     //**********************************************************************************************************
