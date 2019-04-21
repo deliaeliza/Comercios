@@ -102,7 +102,7 @@ public class FragProductoResgistrar extends Fragment {
         View view = inflater.inflate(R.layout.frag_producto_resgistrar, container, false);
         secciones = new ArrayList<>();
         idSec = new ArrayList<>();
-        recuperarCategoriasComercio(4);
+        recuperarCategoriasComercio(GlobalComercios.getInstance().getComercio().getId());
         ViewPager viewpager = (ViewPager) view.findViewById(R.id.fRegProd_viewPager);
         vie = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getImageViews());
         viewpager.setAdapter(vie);
@@ -315,7 +315,7 @@ public class FragProductoResgistrar extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<>();
-                parametros.put("idComercio", Integer.toString(4));
+                parametros.put("idComercio", Integer.toString(GlobalComercios.getInstance().getComercio().getId()));
                 parametros.put("nombre", nombre.getText().toString());
                 parametros.put("precio", precio.getText().toString());
                 parametros.put("descripcion", descripcion.getText().toString());

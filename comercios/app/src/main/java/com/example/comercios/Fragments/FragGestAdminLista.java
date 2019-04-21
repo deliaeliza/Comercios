@@ -82,11 +82,11 @@ public class FragGestAdminLista extends Fragment {
         obtenerMasDatos();
         OnclickDelMaterialButton(view.findViewById(R.id.gest_admin_MaterialButtonFiltrar));
         OnclickDelMaterialButton(view.findViewById(R.id.gest_admin_MaterialButtonTodos));
-
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int currentVisibleItemCount;
             private int currentFirstVisibleItem;
             private int totalItem;
+
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
@@ -95,6 +95,7 @@ public class FragGestAdminLista extends Fragment {
                     thread.start();
                 }
             }
+
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 currentFirstVisibleItem = firstVisibleItem;
