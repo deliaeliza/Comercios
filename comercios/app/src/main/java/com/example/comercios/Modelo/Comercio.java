@@ -1,5 +1,7 @@
 package com.example.comercios.Modelo;
 
+import android.graphics.Bitmap;
+
 import java.util.ArrayList;
 
 public class Comercio {
@@ -16,6 +18,8 @@ public class Comercio {
     private String descripcion;
     private String ubicacion;
     private String categoria;
+    private String urlImagen;
+    private Bitmap imagen = null;
     private ArrayList<Seccion> secciones;
 
     public Comercio(int id, int tipo, long telefono, int calificacion, boolean verificado, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
@@ -167,5 +171,19 @@ public class Comercio {
     }
     public void setSecciones(ArrayList<Seccion> secciones) {
         this.secciones = secciones;
+    }
+
+    public String getUrlImagen() {
+        return urlImagen;
+    }
+    public void setUrlImagen(String urlImagen) {
+        this.urlImagen = urlImagen;
+    }
+
+    public Bitmap getImagen() {
+        return imagen;
+    }
+    public void setImagen(Bitmap imagen) {
+        this.imagen = imagen;
     }
 }

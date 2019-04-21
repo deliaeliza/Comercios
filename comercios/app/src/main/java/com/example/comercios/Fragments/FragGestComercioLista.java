@@ -4,6 +4,7 @@ package com.example.comercios.Fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -25,6 +26,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Global.GlobalComercios;
@@ -284,7 +286,7 @@ public class FragGestComercioLista extends Fragment {
         } else {
             idMinimo = (comercios.get(comercios.size()-1)).getId();
         }
-        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, ct.nombre, c.verificado  FROM Usuarios u, Comercios c, Categorias ct WHERE u.id = c.idUsuario AND c.idCategoria = ct.id AND u.id > '" + idMinimo + "'";
+        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, u.urlImagen, ct.nombre, c.verificado  FROM Usuarios u, Comercios c, Categorias ct WHERE u.id = c.idUsuario AND c.idCategoria = ct.id AND u.id > '" + idMinimo + "'";
         //Agregar fitros
         //Limite despues de los filtros
         query += " ORDER BY u.id LIMIT " + TAM_PAGINA;
@@ -337,6 +339,21 @@ public class FragGestComercioLista extends Fragment {
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    private void cargarWebServicesImagen(final ImageView v, String urlImagen, final String correo) {
+        ImageRequest imagR = new ImageRequest(urlImagen, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                v.setImageBitmap(response);
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("No se encontro la imagen del comercio con correo: " + correo );
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
     }
 
     private void actualizarEstadoUsuario(){
