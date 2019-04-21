@@ -473,3 +473,4 @@ CALL PAregistrarAdministrador(1, 'adminprueaba17@gmail.com', 'Anonimo17', '123An
 CALL PAregistrarAdministrador(1, 'adminprueaba18@gmail.com', 'Anonimo18', '123Anonimo', 89658966215);
 CALL PAregistrarAdministrador(1, 'adminprueaba19@gmail.com', 'Anonimo19', '123Anonimo', 89648963215);
 CALL PAregistrarAdministrador(0, 'superusuario@gmail.com', 'root', '123Root', 89586321478);
+CALL PAregistrarComercio(2, 'esteesuncorreolargo@gmail.com', 'CorreoLargo', '123Largo', 50985508559, 'Esta es una tienda de ropa', 'Guapiles', 4);
