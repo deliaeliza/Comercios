@@ -145,7 +145,7 @@ public class FragActInfoUsuario extends Fragment {
                 Map<String,String> parametros = new HashMap<>();
                 //GlobalUsuarios.getInstance().getUserE().getId();
                 //id hay que tomarlo del usuario logueado
-                parametros.put("id",String.valueOf(GlobalUsuarios.getInstance().getUserE().getId()));
+                parametros.put("id","3");
 
                 if(!usuario.getText().toString().equalsIgnoreCase("")){
                     parametros.put("usuario",usuario.getText().toString());
@@ -179,7 +179,7 @@ public class FragActInfoUsuario extends Fragment {
     public void cargarInfoUsuario(){
         //id cambiarlos por el id del usuario logueado en la clase global
         //GlobalUsuarios.getInstance().getUserE().getId();
-        String url = Util.urlWebService + "/obtenerInfoEstandar.php?id="+GlobalUsuarios.getInstance().getUserE().getId();
+        String url = Util.urlWebService + "/obtenerInfoEstandar.php?id="+3;
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

@@ -10,7 +10,7 @@ public class Producto {
     public Producto(int id, boolean estado, int precio, String nombre, String descripcion) {
         this.id = id;
         this.estado = estado;
-        this.precio=precio;
+        this.precio = precio;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
