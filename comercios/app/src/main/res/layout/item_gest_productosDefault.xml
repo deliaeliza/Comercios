@@ -28,7 +28,7 @@
 
 
         <TextView
-            android:id="@+id/item_gest_producto_lblNombre"
+            android:id="@+id/item_gest_productoDef_lblNombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
@@ -40,17 +40,17 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/item_gest_producto_ImgVProducto"
+            android:id="@+id/item_gest_productoDef_ImgVProducto"
             android:layout_width="94dp"
             android:layout_height="93dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_lblNombre"
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_productoDef_lblNombre"
             app:srcCompat="@drawable/ic_menu_camera" />
 
         <TextView
-            android:id="@+id/item_gest_producto_nombre"
+            android:id="@+id/item_gest_productoDef_nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -61,7 +61,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/item_gest_producto_lblPrecio"
+            android:id="@+id/item_gest_productoDef_lblPrecio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -69,22 +69,22 @@
             android:text="Precio:"
             android:textSize="16sp"
             android:textStyle="bold|italic"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_producto_ImgVProducto"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_lblDescripcion" />
+            app:layout_constraintStart_toEndOf="@+id/item_gest_productoDef_ImgVProducto"
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_productoDef_lblDescripcion" />
 
         <TextView
-            android:id="@+id/item_gest_producto_precio"
+            android:id="@+id/item_gest_productoDef_precio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_marginTop="12dp"
             android:text="precio"
             android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_producto_lblPrecio"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_descripcion" />
+            app:layout_constraintStart_toEndOf="@+id/item_gest_productoDef_lblNombre"
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_productoDef_descripcion" />
 
         <TextView
-            android:id="@+id/item_gest_producto_lblDescripcion"
+            android:id="@+id/item_gest_productoDef_lblDescripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -96,7 +96,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/item_gest_producto_descripcion"
+            android:id="@+id/item_gest_productoDef_descripcion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
@@ -106,7 +106,7 @@
             tools:layout_editor_absoluteX="134dp" />
 
         <TextView
-            android:id="@+id/item_gest_producto_lblEstado"
+            android:id="@+id/item_gest_productoDef_lblEstado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -118,7 +118,7 @@
             app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_lblPrecio" />
 
         <TextView
-            android:id="@+id/item_gest_producto_estado"
+            android:id="@+id/item_gest_productoDef_estado"
             android:layout_width="wrap_content"
             android:layout_height="17dp"
             android:layout_marginStart="8dp"
@@ -129,18 +129,18 @@
             app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_precio" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/item_gest_producto_MaterialButtonEliminar"
+            android:id="@+id/item_gest_productoDef_MaterialButtonAdd"
             android:layout_width="260dp"
             android:layout_height="49dp"
             android:layout_marginTop="79dp"
             android:layout_marginBottom="2dp"
             android:onClick="onClick"
             android:paddingLeft="10dp"
-            android:text="Eliminar de sección"
+            android:text="Agregar a sección"
             android:textSize="16dp"
             app:backgroundTint="@color/error"
             app:cornerRadius="10dp"
-            app:icon="@drawable/trash_alt"
+            app:icon="@drawable/plus_square"
             app:iconSize="19dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_descripcion"

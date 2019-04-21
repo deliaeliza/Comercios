@@ -48,7 +48,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
         <ListView
-            android:id="@+id/gest_comercio_listview"
+            android:id="@+id/gest_productos_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"

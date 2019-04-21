@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
@@ -75,7 +74,7 @@ public class FragGestComercioLista extends Fragment {
         vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
         manejador = new MyHandler();
         comercios = new ArrayList<Comercio>();
-        listView = (ListView) view.findViewById(R.id.gest_comercio_listview);
+        listView = (ListView) view.findViewById(R.id.gest_productos_listview);
         obtenerMasDatos();
         OnclickDelMaterialButton(view.findViewById(R.id.gest_comercio_MaterialButtonFiltrar));
         OnclickDelMaterialButton(view.findViewById(R.id.gest_comercio_MaterialButtonTodos));
@@ -157,10 +156,10 @@ public class FragGestComercioLista extends Fragment {
             //MaterialCardView panel = (MaterialCardView) itemView.findViewById(R.id.item_gest_estandar_panel);
             MaterialButton estado = (MaterialButton) itemView.findViewById(R.id.item_gest_comercio_MaterialButtonEstado);
             estado.setText(actual.isEstado()? "Desactivar" : "Activar");
-            MaterialButton eliminar = (MaterialButton) itemView.findViewById(R.id.item_gest_comercio_MaterialButtonEliminar);
+            MaterialButton eliminar = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);
             MaterialButton verificar = (MaterialButton) itemView.findViewById(R.id.item_gest_comercio_MaterialButtonCheck);
             ImageView check = (ImageView) itemView.findViewById(R.id.item_gest_comercio_ImgVCheck);
-            ImageView imagen = (ImageView) itemView.findViewById(R.id.item_gest_comercio_ImgVComercio);
+            ImageView imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
 
 
             if(actual.getUrlImagen() != null && !actual.getUrlImagen().equals("")){
@@ -216,7 +215,7 @@ public class FragGestComercioLista extends Fragment {
                         DialogSiNO(usuarioModificar.isEstado()? "¿Desactivar usuario?" : "¿Activar usuario?",
                                 contenido, usuarioModificar.isEstado() ? "DESACTIVAR" : "ACTIVAR");
                         break;
-                    case R.id.item_gest_comercio_MaterialButtonEliminar:
+                    case R.id.item_gest_producto_MaterialButtonEliminar:
                         posicion = (int)v.getTag();
                         usuarioModificar = comercios.get(posicion);
                         contenido = "Nombre: " + usuarioModificar.getUsuario() + "\nCorreo: " + usuarioModificar.getCorreo();
