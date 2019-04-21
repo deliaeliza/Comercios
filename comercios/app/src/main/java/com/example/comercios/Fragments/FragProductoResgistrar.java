@@ -58,6 +58,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.FileProvider;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import static android.Manifest.permission.CAMERA;
@@ -588,4 +590,6 @@ public class FragProductoResgistrar extends Fragment {
         byte[] imagenByte = array.toByteArray();
         return Base64.encodeToString(imagenByte, Base64.DEFAULT);
     }
+
+
 }
