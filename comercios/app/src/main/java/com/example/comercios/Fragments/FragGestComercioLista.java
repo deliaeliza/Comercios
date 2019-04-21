@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
@@ -159,6 +160,13 @@ public class FragGestComercioLista extends Fragment {
             MaterialButton eliminar = (MaterialButton) itemView.findViewById(R.id.item_gest_comercio_MaterialButtonEliminar);
             MaterialButton verificar = (MaterialButton) itemView.findViewById(R.id.item_gest_comercio_MaterialButtonCheck);
             ImageView check = (ImageView) itemView.findViewById(R.id.item_gest_comercio_ImgVCheck);
+            ImageView imagen = (ImageView) itemView.findViewById(R.id.item_gest_comercio_ImgVComercio);
+
+
+            if(actual.getUrlImagen() != null && !actual.getUrlImagen().equals("")){
+                cargarWebServicesImagen(imagen, actual.getUrlImagen(), actual.getCorreo());
+            }
+
             if(actual.isVerificado()){
                 verificar.setVisibility(View.INVISIBLE);
                 check.setVisibility(View.VISIBLE);
@@ -281,7 +289,7 @@ public class FragGestComercioLista extends Fragment {
         } else {
             idMinimo = (comercios.get(comercios.size()-1)).getId();
         }
-        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, u.urlImagen, ct.nombre, c.verificado  FROM Usuarios u, Comercios c, Categorias ct WHERE u.id = c.idUsuario AND c.idCategoria = ct.id AND u.id > '" + idMinimo + "'";
+        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, c.urlImagen, ct.nombre, c.verificado  FROM Usuarios u, Comercios c, Categorias ct WHERE u.id = c.idUsuario AND c.idCategoria = ct.id AND u.id > '" + idMinimo + "'";
         //Agregar fitros
         //Limite despues de los filtros
         query += " ORDER BY u.id LIMIT " + TAM_PAGINA;
@@ -346,7 +354,7 @@ public class FragGestComercioLista extends Fragment {
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se encontro la imagen del comercio con correo: " + correo );
+                //mensajeToast("No se encontro la imagen del comercio con correo: " + correo );
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
