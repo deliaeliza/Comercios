@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoUsuario;
+import com.example.comercios.Fragments.FragHomeSuperUsuario;
+import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
 import com.example.comercios.Global.GlobalAdmin;
 import com.example.comercios.Global.GlobalSuperUsuario;
 import com.example.comercios.Global.GlobalUsuarios;
@@ -47,6 +50,11 @@ public class NavUsuarios extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
+            fragmentTransaction.commit();
             super.onBackPressed();
         }
     }
@@ -80,7 +88,11 @@ public class NavUsuarios extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.usuarioInicio) {
-            // Handle the camera action
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
+            fragmentTransaction.commit();
         } else if (id == R.id.usuarioMapa) {
 
         } else if (id == R.id.usuarioTodosComercios) {
@@ -96,7 +108,11 @@ public class NavUsuarios extends AppCompatActivity
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.acercaDe) {
-
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragAcercaDe mifrag = new FragAcercaDe ();
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "gestionarCom");
+            fragmentTransaction.commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout3);
