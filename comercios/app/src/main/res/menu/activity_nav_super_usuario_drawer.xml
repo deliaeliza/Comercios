@@ -10,22 +10,28 @@
             android:title="Inicio" />
     </group>
     <group android:checkableBehavior="single">
-        <menu>
-            <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/superUsuarioAdmin"
-                    android:icon="@drawable/user_cog"
-                    android:title="@string/adminAdmin_lbl" />
-                <item
-                    android:id="@+id/superUsuarioUsuarios"
-                    android:icon="@drawable/user_cog"
-                    android:title="@string/adminUsuarios_lbl" />
-                <item
-                    android:id="@+id/superUsuarioComercios"
-                    android:icon="@drawable/cog"
-                    android:title="@string/adminComercios_lbl" />
-            </group>
-        </menu>
+        <item android:title="Gestión ">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/superUsuarioadminRegistrar"
+                        android:icon="@drawable/user_plus"
+                        android:title="@string/registrarAdmin_lbl" />
+                    <item
+                        android:id="@+id/superUsuarioAdmin"
+                        android:icon="@drawable/user_cog"
+                        android:title="@string/adminAdmin_lbl" />
+                    <item
+                        android:id="@+id/superUsuarioUsuarios"
+                        android:icon="@drawable/user_cog"
+                        android:title="@string/adminUsuarios_lbl" />
+                    <item
+                        android:id="@+id/superUsuarioComercios"
+                        android:icon="@drawable/cog"
+                        android:title="@string/adminComercios_lbl" />
+                </group>
+            </menu>
+        </item>
     </group>
 
     <group android:checkableBehavior="single">

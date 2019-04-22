@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.comercios.Modelo.Util;
 import com.example.comercios.R;
 
 /**
@@ -25,7 +26,7 @@ public class FragHomeSuperUsuario extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mensajeAB("Shop World");
+        mensajeAB(Util.nombreApp);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.frag_home_super_usuario, container, false);
     }

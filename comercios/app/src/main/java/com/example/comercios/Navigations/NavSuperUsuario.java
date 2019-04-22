@@ -13,6 +13,7 @@ import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragGestAdminLista;
 import com.example.comercios.Fragments.FragGestComercioLista;
 import com.example.comercios.Fragments.FragGestEstandarLista;
+import com.example.comercios.Fragments.FragHomeAdmin;
 import com.example.comercios.Fragments.FragHomeComercio;
 import com.example.comercios.Fragments.FragHomeSuperUsuario;
 import com.example.comercios.Fragments.FragRegAdmin;
@@ -69,12 +70,24 @@ public class NavSuperUsuario extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            int ventanaActual = GlobalSuperUsuario.getInstance().getVentanaActual();
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragHomeSuperUsuario mifrag2 = new FragHomeSuperUsuario();
-            fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag2, "HomeSU");
-            fragmentTransaction.commit();
-            super.onBackPressed();
+            switch (ventanaActual) {
+                case R.layout.frag_home_super_usuario:
+                case R.layout.frag_reg_admin:
+                case R.layout.frag_acerca_de:
+                case R.layout.frag_gest_comercio_lista:
+                case R.layout.frag_gest_estandar_lista:
+                case R.layout.frag_gest_admin_lista:
+                    FragHomeSuperUsuario mifrag2 = new FragHomeSuperUsuario();
+                    fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag2, "HomeSU");
+                    fragmentTransaction.commit();
+                    break;
+                default:
+                    break;
+            }
+            //super.onBackPressed();
         }
     }
 
@@ -138,6 +151,12 @@ public class NavSuperUsuario extends AppCompatActivity
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragAcercaDe mifrag = new FragAcercaDe ();
             fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestionarComercioSU");
+            fragmentTransaction.commit();
+        }else if(id == R.id.superUsuarioadminRegistrar){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragRegAdmin mifrag = new FragRegAdmin ();
+            fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "agreagarAdminSU");
             fragmentTransaction.commit();
         }
 
