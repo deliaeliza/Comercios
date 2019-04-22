@@ -36,6 +36,20 @@ public class FragMenuInferiorComercio extends Fragment {
                 return definirVista(item);
             }
         });
+        if(GlobalComercios.getInstance().getOpcActual() == R.string.catalogo_lbl){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragSeccionResgistrar  mifrag = new FragSeccionResgistrar ();
+            fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
+            fragmentTransaction.commit();
+        } else {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragProductoResgistrar  mifrag = new FragProductoResgistrar ();
+            fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
+            fragmentTransaction.commit();
+        }
+
         return view;
     }
 
@@ -68,12 +82,14 @@ public class FragMenuInferiorComercio extends Fragment {
                     fragmentTransaction.commit();
                     return true;
                 } else if (item.getItemId() == R.id.menuIferiorComercio_modificar) {
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    //No forma parte de l primera entrega
+                    //FragmentManager fm = getFragmentManager();
+                    //FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     //FragProductoListarComercio  mifrag = new FragProductoListarComercio ();
-                    fragActInfoProductos mifrag = new fragActInfoProductos();
-                    fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
-                    fragmentTransaction.commit();
+                    //FragActInfoProductos mifrag = new FragActInfoProductos();
+                    //fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
+                    //fragmentTransaction.commit();
+
                     return true;
                 }
                 return false;

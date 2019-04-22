@@ -5,8 +5,10 @@ import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragGestComercioLista;
 import com.example.comercios.Fragments.FragGestEstandarLista;
+import com.example.comercios.Fragments.FragHomeAdmin;
 import com.example.comercios.Fragments.FragRegAdmin;
 import com.example.comercios.Global.GlobalAdmin;
 import com.example.comercios.Login;
@@ -45,18 +47,17 @@ public class NavAdmin extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        Intent setIntent = new Intent(Intent.ACTION_MAIN);
-        setIntent.addCategory(Intent.CATEGORY_HOME);
-        setIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(setIntent);
-        /*
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragHomeAdmin mifrag = new FragHomeAdmin ();
+            fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
+            fragmentTransaction.commit();
             super.onBackPressed();
-        }*/
-        //moveTaskToBack(true);
+        }
 
     }
 
@@ -81,6 +82,7 @@ public class NavAdmin extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -111,11 +113,25 @@ public class NavAdmin extends AppCompatActivity
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.nav_send) {
-
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragAcercaDe mifrag = new FragAcercaDe ();
+            fragmentTransaction.replace(R.id.contentAdmin, mifrag, "gestionarCom");
+            fragmentTransaction.commit();
+        }else if(id == R.id.adminHome){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragHomeAdmin mifrag = new FragHomeAdmin ();
+            fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
+            fragmentTransaction.commit();
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
 }

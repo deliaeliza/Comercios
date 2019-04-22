@@ -79,20 +79,24 @@ public class FragGestComercioLista extends Fragment {
         OnclickDelMaterialButton(view.findViewById(R.id.gest_comercio_MaterialButtonFiltrar));
         OnclickDelMaterialButton(view.findViewById(R.id.gest_comercio_MaterialButtonTodos));
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int currentVisibleItemCount;
+            private int currentFirstVisibleItem;
+            private int totalItem;
+
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                int first = view.getFirstVisiblePosition();
-                int count = view.getChildCount();
+                if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
+                        && scrollState == SCROLL_STATE_IDLE) {
+                    Thread thread = new ThreadMoreData();
+                    thread.start();
+                }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //Revisa si el scroll llego al ultimo item
-                if(/*userScrolled &&*/ view.getLastVisiblePosition() == comercios.size()-1 && listView.getCount() >= TAM_PAGINA && cargando == false){
-                    cargando = true;
-                    Thread thread = new ThreadMoreData();
-                    thread.start();
-                }
+                currentFirstVisibleItem = firstVisibleItem;
+                currentVisibleItemCount = visibleItemCount;
+                totalItem = totalItemCount;
             }
         });
         return view;

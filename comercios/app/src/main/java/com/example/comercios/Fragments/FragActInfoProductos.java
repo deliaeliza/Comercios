@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
@@ -130,7 +132,7 @@ public class fragActInfoProductos extends Fragment {
         desc.setText("4 RAM, 128GB");
         //Permisos
         btnAgregar.setEnabled(solicitaPermisosVersionesSuperiores() == true);
-
+        recuperarImagenes();
         OnclickDelMaterialButton(btnAgregar);
         OnclickDelMaterialButton(btnCambiar);
         OnclickDelMaterialButton(btnEliminar);
@@ -569,7 +571,7 @@ public class fragActInfoProductos extends Fragment {
     }
     public void recuperarImagenes(){
         //String url = Util.urlWebService + "/usuariosEstandarObtener.php?id='" + GlobalComercios.getInstance().getProducto().getId() + "'";
-        final String request = Util.urlWebService + "/usuariosEstandarObtener.php?id='" + 2 + "'";
+        final String request = Util.urlWebService + "/productoRecuperarUrls.php?id='" + 9 + "'";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, request, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -598,6 +600,24 @@ public class fragActInfoProductos extends Fragment {
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
+
+    private void cargarWebServicesImagen(String urlImagen) {
+        ImageRequest imagR = new ImageRequest(urlImagen, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                GlobalComercios.getInstance().agregarImagenes(response);
+                viewPagerAdapter.notifyDataSetChanged();
+                viewpager.setCurrentItem(GlobalComercios.getInstance().getImgActual());
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //mensajeToast("No se encontro la imagen del comercio con correo: " + correo );
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
+    }
+
     //*****************************************Fin Conexion web service*****************************************
     //**********************************************************************************************************
 
