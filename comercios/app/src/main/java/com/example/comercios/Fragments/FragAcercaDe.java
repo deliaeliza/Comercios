@@ -63,5 +63,7 @@ public class FragAcercaDe extends Fragment {
         });
     }// fin de OnclickDelMaterialButton
 
-    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
+    private void mensajeAB(String msg){
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);
+    };
 }
