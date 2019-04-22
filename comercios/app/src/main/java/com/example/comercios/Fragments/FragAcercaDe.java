@@ -10,6 +10,9 @@ import android.app.Fragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Global.GlobalSuperUsuario;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.R;
 
@@ -31,6 +34,9 @@ public class FragAcercaDe extends Fragment {
         // Inflate the layout for this fragment
         mensajeAB("Acerca de");
         GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_acerca_de);
+        GlobalAdmin.getInstance().setVentanaActual(R.layout.frag_acerca_de);
+        GlobalComercios.getInstance().setVentanaActual(R.layout.frag_acerca_de);
+        GlobalSuperUsuario.getInstance().setVentanaActual(R.layout.frag_acerca_de);
 
         return inflater.inflate(R.layout.frag_acerca_de, container, false);
     }
