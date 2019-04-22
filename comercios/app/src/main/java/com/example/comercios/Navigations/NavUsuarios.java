@@ -98,13 +98,13 @@ public class NavUsuarios extends AppCompatActivity
             fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioMapa) {
-
+            return false;
         } else if (id == R.id.usuarioTodosComercios) {
-
+            return false;
         } else if (id == R.id.usuarioActInformacion) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragActInfoUsuario mifrag = new FragActInfoUsuario ();
+            FragActInfoUsuario mifrag = new FragActInfoUsuario();
             fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "contendorActInformacion");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioEstandarcerrarSeion) {
@@ -114,7 +114,7 @@ public class NavUsuarios extends AppCompatActivity
         } else if (id == R.id.acercaDe) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragAcercaDe mifrag = new FragAcercaDe ();
+            FragAcercaDe mifrag = new FragAcercaDe();
             fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "gestionarCom");
             fragmentTransaction.commit();
         }

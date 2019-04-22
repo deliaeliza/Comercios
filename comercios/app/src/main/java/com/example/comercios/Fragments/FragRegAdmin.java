@@ -103,6 +103,7 @@ public class FragRegAdmin extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 validarContrasena();
+                validarConfContra();
             }
 
             @Override
@@ -158,6 +159,11 @@ public class FragRegAdmin extends Fragment {
                     telefono.setText("");
                     confContra.setText("");
                     contrasena.setText("");
+                    lyConfContra.setError(null);
+                    lyContrasena.setError(null);
+                    lyEmail.setError(null);
+                    lyTelefono.setError(null);
+                    lyUsuario.setError(null);
                     MensajeToast(response.trim());
                 } else {
                     MensajeToast(response.trim());

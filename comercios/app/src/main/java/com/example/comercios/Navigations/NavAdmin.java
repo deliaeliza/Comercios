@@ -128,6 +128,8 @@ public class NavAdmin extends AppCompatActivity
             FragHomeAdmin mifrag = new FragHomeAdmin ();
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
             fragmentTransaction.commit();
+        }else if(id == R.id.adminActInformacion){
+            return false;
         }
 
 
