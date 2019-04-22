@@ -114,6 +114,7 @@ package com.example.comercios.Fragments;
                 sql="SELECT p.id, p.nombre, p.descripcion, p.precio, p.estado " +
                         "FROM Productos p INNER JOIN SeccionesProductos sp ON p.id=sp.idProducto " +
                         "WHERE sp.idSeccion= '"+GlobalComercios.getInstance().getSeccion().getId() + "'";
+
             }
             String url = Util.urlWebService + "/obtenerProductosSeccion.php?query="+sql+"&idSeccion="+GlobalComercios.getInstance().getSeccion().getId();
 
@@ -144,6 +145,7 @@ package com.example.comercios.Fragments;
 
                             }
                             if(inicial){
+                                listView.setAdapter(null);
                                 adapter = new FragGestProductosSeccion.ProductosListAdapter();;
                                 listView.setAdapter(adapter);
                                 inicial = false;
@@ -189,9 +191,6 @@ package com.example.comercios.Fragments;
 
                 TextView precio = (TextView) itemView.findViewById(R.id.item_gest_producto_precio);
                 precio.setText(String.valueOf(actual.getPrecio()));
-
-                TextView descripcion = (TextView) itemView.findViewById(R.id.item_gest_producto_descripcion);
-                descripcion.setText(actual.getDescripcion());
 
                 TextView estado = (TextView) itemView.findViewById(R.id.item_gest_producto_estado);
                 estado.setText(actual.isEstado()? "Activo" : "Desactivo");

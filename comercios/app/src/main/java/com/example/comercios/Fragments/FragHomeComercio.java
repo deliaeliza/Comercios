@@ -48,7 +48,6 @@ public class FragHomeComercio extends Fragment {
 
     ImageView fotoComercioHome;
     TextView Usuario, Descripcion,Telefono,Categoria;
-    ArrayList<Categorias> categorias2;
     String SUrlImagen;
 
     JsonObjectRequest jsonObjectRequest3;
@@ -71,41 +70,13 @@ public class FragHomeComercio extends Fragment {
         Descripcion =(TextView) view.findViewById(R.id.FHomComercio_viewDescripcion);
         Categoria = (TextView)view.findViewById(R.id.FHomComercio_viewCategoria);
         Telefono = (TextView) view.findViewById(R.id.FHomComercio_viewTelefono);
-        cargarCategorias2(view);
         cargarDatosAnteriores2(view);
         ratingBarCali = (RatingBar)view.findViewById(R.id.FHomComercio_ratingBar);
         recuperarCalificacionesComercio();
         return view;
     }
-    public void cargarCategorias2(View view){
 
-        categorias2 = new ArrayList<>();
-        String url = Util.urlWebService + "/categoriasObtener.php";
-
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray jsonCategorias= response.getJSONArray("categoria");
-                    JSONObject obj;
-                    for(int i= 0;i<jsonCategorias.length();i++) {
-                        obj = jsonCategorias.getJSONObject(i);
-                        categorias2.add(new Categorias(obj.getInt("id"),obj.getString("nombre")));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-               // Mensaje("Categorias-- " + error.toString());
-            }
-        });
-        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
-    }
     private void cargarDatosAnteriores2(View view) {
-        //GlobalComercios.getInstance().getComercio().getId();
         String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+ GlobalComercios.getInstance().getComercio().getId();
 
         jsonObjectRequest2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -118,12 +89,7 @@ public class FragHomeComercio extends Fragment {
                         Usuario.setText(jsonComercio.getString("usuario"));
                         Descripcion.setText(jsonComercio.getString("descripcion"));
                         Telefono.setText(jsonComercio.getString("telefono"));
-
-                        for(int i=0;i<categorias2.size();i++){
-                            if(categorias2.get(i).getId() == Integer.parseInt(jsonComercio.getString("idCategoria"))){
-                                Categoria.setText(categorias2.get(i).getNombre());
-                            }
-                        }
+                        Categoria.setText(jsonComercio.getString("nombre"));
 
                         SUrlImagen =jsonComercio.getString("urlImagen");
                         String ruta_foto= Util.urlWebService +"/"+SUrlImagen;
@@ -162,7 +128,6 @@ public class FragHomeComercio extends Fragment {
 
     public void recuperarCalificacionesComercio(){
         calificaciones = new ArrayList<>();
-        //GlobalComercios.getInstance().getComercio().getId();
         String url = Util.urlWebService + "/obtenerCalificaciones.php?id="+GlobalComercios.getInstance().getComercio().getId();
 
         jsonObjectRequest3 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
