@@ -18,6 +18,10 @@ package com.example.comercios.Fragments;
 
         import androidx.appcompat.app.AppCompatActivity;
 
+        import com.android.volley.AuthFailureError;
+        import com.android.volley.DefaultRetryPolicy;
+        import com.android.volley.toolbox.StringRequest;
+        import com.example.comercios.Global.GlobalUsuarios;
         import com.example.comercios.Modelo.Comercio;
         import com.android.volley.Request;
         import com.android.volley.Response;
@@ -35,14 +39,18 @@ package com.example.comercios.Fragments;
         import org.json.JSONObject;
 
         import java.util.ArrayList;
+        import java.util.HashMap;
         import java.util.List;
+        import java.util.Map;
 
 
-   public class FragGestProductosSeccion extends Fragment {
+public class FragGestProductosSeccion extends Fragment {
 
     private final int TAM_PAGINA = 10;
     private boolean inicial = true;
     private View view;
+    private StringRequest stringRequest;
+
 
     private boolean cargando = false;
     private boolean userScrolled = false;
@@ -199,14 +207,14 @@ package com.example.comercios.Fragments;
                 MaterialButton buttonAction;
                 if(actual.isPertenece()){
                     buttonAction = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);
-                    buttonAction.setText("Eliminar");
+                    buttonAction.setText("Quitar de\n sección");
                     buttonAction.setIconResource(R.drawable.trash_alt);
                     buttonAction.setBackgroundColor(getResources().getColor(R.color.error));
                     buttonAction.setTag(position);
 
                 }else{
                     buttonAction = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);
-                    buttonAction.setText("Agregar");
+                    buttonAction.setText("Agregar a\n sección");
                     buttonAction.setIconResource(R.drawable.plus_square);
                     buttonAction.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
                     buttonAction.setTag(position);
@@ -227,11 +235,32 @@ package com.example.comercios.Fragments;
 
                 //OnclickDelMaterialCardView(panel);
 
-                //OnclickDelMaterialButton(eliminar);
+                OnclickDelMaterialButton(buttonAction);
 
                 return itemView;
             }
         }
+       public void OnclickDelMaterialButton(View view) {
+           MaterialButton miMaterialButton = (MaterialButton)  view;
+           miMaterialButton.setOnClickListener(new View.OnClickListener(){
+               @Override
+               public void onClick(View v) {
+                   switch (v.getId()) {
+
+                       case R.id.item_gest_producto_MaterialButtonEliminar:
+                           posicion = (int)v.getTag();
+                           Producto p =productosArray.get(posicion);
+                           Mensaje(""+p.isPertenece());
+                           actualizarProducto(p);
+                           break;
+                       default:
+                           break;
+                   }// fin de casos
+               }// fin del onclick
+           });
+       }// fin de OnclickDelMaterialButton
+
+
         public void Mensaje(String msg){ Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
 
         private class MyHandler extends Handler {
@@ -263,6 +292,43 @@ package com.example.comercios.Fragments;
             }
         }
        private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
+
+        public void actualizarProducto(Producto p){
+            String sql="";
+            if(p.isPertenece()){
+                sql+="";
+            }else{
+
+            }
+
+        String url = Util.urlWebService + "/actualizarInfoUsuario.php?query=";
+
+        stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                if (response.trim().equalsIgnoreCase("correcto")) {
+                    Mensaje("Actualización éxitosa");
+                    //dialogoRegresarMenuPrincial();
+
+                } else {
+
+                    Mensaje("Sucedio un error al intentar actualizar");
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+
+            public void onErrorResponse(VolleyError error) {
+                Mensaje("Intentelo mas tarde");
+            }
+        });
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
+
+    }
 
 
    }
