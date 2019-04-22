@@ -66,6 +66,7 @@ package com.example.comercios.Fragments;
             //LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             listView = (ListView) view.findViewById(R.id.listViewProductosSeccion);
             manejador = new MyHandler();
+            cargarProductosSeccion();
             RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.FGestProductoSec_radioGroup);
 
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
