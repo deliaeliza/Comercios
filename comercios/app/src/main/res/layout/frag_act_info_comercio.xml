@@ -19,8 +19,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fActInfoComercio_widUsuario"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/user_lbl"
                 app:counterEnabled="true"
@@ -35,7 +36,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtUsuario"
-                    android:layout_width="282dp"
+                    android:layout_width="match_parent"
                     android:maxLength="45"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
@@ -45,8 +46,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fActInfoComercio_widDescripcion"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/descripcion_lbl"
                 app:errorEnabled="true"
@@ -61,7 +63,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtDescripcion"
-                    android:layout_width="282dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="500"
                     android:backgroundTint="@color/design_default_color_surface"
@@ -72,8 +74,9 @@
 
             <com.jaredrummler.materialspinner.MaterialSpinner
                 android:id="@+id/fActInfoComercio_SPcategorias"
-                android:layout_width="281dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:backgroundTint="@color/cardview_shadow_start_color"
                 android:textColor="@color/cardview_dark_background"
@@ -92,8 +95,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fActInfoComercio_widTelefono"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/telefono_lbl"
                 app:errorEnabled="true"
@@ -108,7 +112,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtTelefono"
-                    android:layout_width="282dp"
+                    android:layout_width="match_parent"
                     android:maxLength="20"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
@@ -118,8 +122,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fActInfoComercio_widCorreo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/email_lbl"
                 app:errorEnabled="true"
@@ -134,7 +139,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtCorreo"
-                    android:layout_width="282dp"
+                    android:layout_width="match_parent"
                     android:maxLength="45"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
@@ -144,8 +149,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fActInfoComercio_widPass"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/pwd_lbl"
                 app:errorEnabled="true"
@@ -160,7 +166,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtPass"
-                    android:layout_width="282dp"
+                    android:layout_width="match_parent"
                     android:maxLength="45"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
@@ -170,8 +176,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fActInfoComercio_widConfiPass"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/confPWD_lbl"
                 app:errorEnabled="true"
@@ -186,7 +193,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtConfiPass"
-                    android:layout_width="282dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="45"
                     android:backgroundTint="@color/design_default_color_surface"
@@ -196,8 +203,9 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fActInfoComercio_widUbicacion"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/ubicacion_lbl"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -208,7 +216,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtUbicacion"
-                    android:layout_width="282dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
@@ -229,46 +237,43 @@
 
             <ImageView
                 android:id="@+id/fActInfoComercio_imagen"
-                android:layout_width="173dp"
-                android:layout_height="106dp"
-                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.285"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion"
                 app:srcCompat="@drawable/ic_menu_camera" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fActInfoComercio_cambiarFoto"
-                android:layout_width="103dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="38dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
                 android:text="Cambiar foto"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.794"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion" />
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_imagen" />
 
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fActInfoComercio_btnAct"
-                android:layout_width="282dp"
-                android:layout_height="58dp"
-                android:layout_marginTop="14dp"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="@color/colorAccent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
                 android:text="@string/actualizar_lbl"
                 android:textSize="18sp"
-                app:backgroundTint="@color/colorAccent"
-                app:cornerRadius="10dp"
+                app:cornerRadius="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.503"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_imagen">
-
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_cambiarFoto"
+                app:layout_constraintBottom_toBottomOf="parent">
             </com.google.android.material.button.MaterialButton>
-
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
-
 </FrameLayout>

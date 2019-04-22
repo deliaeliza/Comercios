@@ -33,43 +33,42 @@
             android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:layout_marginBottom="8dp"
             android:text="Nombre:"
             android:textSize="16sp"
             android:textStyle="bold|italic"
-            app:layout_constraintBottom_toTopOf="@+id/item_gest_producto_ImgVProducto"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/item_gest_producto_ImgVProducto"
-            android:layout_width="100dp"
-            android:layout_height="98dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="104dp"
+            android:layout_height="105dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_menu_camera"
-            tools:layout_editor_absoluteY="34dp" />
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_lblNombre"
+            app:srcCompat="@drawable/ic_menu_camera" />
 
         <TextView
             android:id="@+id/item_gest_producto_nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:text="User"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.007"
             app:layout_constraintStart_toEndOf="@+id/item_gest_producto_lblNombre"
-            tools:layout_editor_absoluteY="4dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/item_gest_producto_lblPrecio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="28dp"
             android:text="Precio:"
             android:textSize="16sp"
             android:textStyle="bold|italic"
@@ -80,8 +79,8 @@
             android:id="@+id/item_gest_producto_precio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="28dp"
             android:text="precio"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/item_gest_producto_lblPrecio"
@@ -91,8 +90,8 @@
             android:id="@+id/item_gest_producto_lblEstado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="28dp"
             android:text="Estado: "
             android:textSize="16sp"
             android:textStyle="bold|italic"
@@ -102,9 +101,9 @@
         <TextView
             android:id="@+id/item_gest_producto_estado"
             android:layout_width="wrap_content"
-            android:layout_height="17dp"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="28dp"
             android:text="estado"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/item_gest_producto_lblEstado"
@@ -112,15 +111,11 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/item_gest_producto_MaterialButtonEliminar"
-            android:layout_width="260dp"
-            android:layout_height="43dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="21dp"
             android:onClick="onClick"
-            android:paddingLeft="10dp"
-            android:text="Eliminar de sección"
+            android:text="Quitar de sección"
             android:textSize="16dp"
             app:backgroundTint="@color/error"
             app:cornerRadius="10dp"
@@ -128,8 +123,8 @@
             app:iconSize="19dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_producto_ImgVProducto"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_estado" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_ImgVProducto"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
