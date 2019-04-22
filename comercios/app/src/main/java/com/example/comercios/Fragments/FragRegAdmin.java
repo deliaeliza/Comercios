@@ -203,7 +203,7 @@ public class FragRegAdmin extends Fragment {
             lyEmail.setError(null);
             return true;
         }
-        lyEmail.setError("Email invalido");
+        lyEmail.setError("Correo invalido");
         return false;
     }
 
@@ -233,7 +233,7 @@ public class FragRegAdmin extends Fragment {
             lyContrasena.setError(null);
             return true;
         }
-        lyContrasena.setError("Descripcion invalida");
+        lyContrasena.setError("Contraseña invalida");
         return false;
     }
 
