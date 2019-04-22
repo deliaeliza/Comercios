@@ -21,6 +21,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Global.GlobalSuperUsuario;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -45,6 +46,7 @@ public class FragRegAdmin extends Fragment {
                              Bundle savedInstanceState) {
         mensajeAB("Registrar Administrador");
         GlobalAdmin.getInstance().setVentanaActual(R.layout.frag_reg_admin);
+        GlobalSuperUsuario.getInstance().setVentanaActual(R.layout.frag_reg_admin);
         View view = inflater.inflate(R.layout.frag_reg_admin, container, false);
         OnclickDelButton(view.findViewById(R.id.fRegAdmin_btnReg));
         email = (TextInputEditText) view.findViewById(R.id.fRegAdmin_edtEmail);

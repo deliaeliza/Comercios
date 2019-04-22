@@ -28,6 +28,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Global.GlobalAdmin;
 import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Global.GlobalSuperUsuario;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Administrador;
 import com.example.comercios.Modelo.UsuarioEstandar;
@@ -74,6 +75,7 @@ public class FragGestAdminLista extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.frag_gest_admin_lista, container, false);
+        GlobalSuperUsuario.getInstance().setVentanaActual(R.layout.frag_gest_admin_lista);
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
         manejador = new FragGestAdminLista.MyHandler();

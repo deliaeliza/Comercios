@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Modelo.Util;
 import com.example.comercios.R;
 
 /**
@@ -26,7 +27,7 @@ public class FragHomeAdmin extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mensajeAB("Shop World");
+        mensajeAB(Util.nombreApp);
         // Inflate the layout for this fragment
         GlobalAdmin.getInstance().setVentanaActual(R.layout.frag_home_admin);
         return inflater.inflate(R.layout.frag_home_admin, container, false);

@@ -38,4 +38,8 @@ public class Util {
     /**************************************************************/
     public static final Pattern PATRON_UN_CARACTER_ALFANUMERICO = Pattern.compile(".*[1-9a-zA-ZáéíóúÁÉÍÓÚñÑäëïöüÄËÏÜàèìòùÀÈÌÒÙýÝ].*");
     /**************************************************************/
+
+    /****************************NOMBRE DE LA APP**********************************/
+    public static  final String nombreApp = "ComerciosCR";
+
 }

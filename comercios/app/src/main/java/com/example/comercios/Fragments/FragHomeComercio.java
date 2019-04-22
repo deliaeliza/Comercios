@@ -63,7 +63,7 @@ public class FragHomeComercio extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mensajeAB("Shop World");
+        mensajeAB(Util.nombreApp);
         View view = inflater.inflate(R.layout.frag_home_comercio, container, false);
         GlobalComercios.getInstance().setVentanaActual(R.layout.frag_home_comercio);
         fotoComercioHome = (ImageView) view.findViewById(R.id.FHomComercio_ImgLocal);
