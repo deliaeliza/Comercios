@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoUsuario;
 import com.example.comercios.Fragments.FragHomeSuperUsuario;
 import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
 import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Global.GlobalSuperUsuario;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Login;
@@ -46,6 +49,11 @@ public class NavUsuarios extends AppCompatActivity
         fragmentTransaction.commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view3);
         navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+        TextView txtUsuario = (TextView) header.findViewById(R.id.NavHeaderUsuario_txtViewUsuario);
+        txtUsuario.setText(GlobalUsuarios.getInstance().getUserE().getUsuario());
+        TextView txtCorreo = (TextView) header.findViewById(R.id.NavHeaderUsuario_txtViewCorreo);
+        txtCorreo.setText(GlobalUsuarios.getInstance().getUserE().getCorreo());
     }
 
     @Override

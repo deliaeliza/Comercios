@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.comercios.Fragments.FragAcercaDe;
@@ -38,11 +39,6 @@ public class NavComercios extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-      /*  TextView usuario = (TextView)findViewById(R.id.NavHeaderComercios_txtViewUsuario);
-        usuario.setText(GlobalComercios.getInstance().getComercio().getUsuario());
-        TextView correo = (TextView)findViewById(R.id.NavHeaderComercio_txtViewCorreo);
-        correo.setText(GlobalComercios.getInstance().getComercio().getCorreo());*/
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         FragHomeComercio  mifrag2 = new FragHomeComercio();
@@ -51,6 +47,11 @@ public class NavComercios extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view2);
         navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+        TextView txtUsuario = (TextView) header.findViewById(R.id.NavHeaderComercios_txtViewUsuario);
+        txtUsuario.setText(GlobalComercios.getInstance().getComercio().getUsuario());
+        TextView txtCorreo = (TextView) header.findViewById(R.id.NavHeaderComercio_txtViewCorreo);
+        txtCorreo.setText(GlobalComercios.getInstance().getComercio().getCorreo());
     }
 
     @Override

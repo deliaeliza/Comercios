@@ -11,6 +11,7 @@ import com.example.comercios.Fragments.FragGestEstandarLista;
 import com.example.comercios.Fragments.FragHomeAdmin;
 import com.example.comercios.Fragments.FragRegAdmin;
 import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Global.GlobalSuperUsuario;
 import com.example.comercios.Login;
 import com.example.comercios.R;
 
@@ -24,6 +25,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 public class NavAdmin extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -47,6 +50,11 @@ public class NavAdmin extends AppCompatActivity
         fragmentTransaction.commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+        TextView txtUsuario = (TextView) header.findViewById(R.id.NavHeaderAdmin_txtViewUsuario);
+        txtUsuario.setText(GlobalAdmin.getInstance().getAdmin().getUsuario());
+        TextView txtCorreo = (TextView) header.findViewById(R.id.NavHeaderAdmin_txtViewCorreo);
+        txtCorreo.setText(GlobalAdmin.getInstance().getAdmin().getCorreo());
     }
 
     @Override
