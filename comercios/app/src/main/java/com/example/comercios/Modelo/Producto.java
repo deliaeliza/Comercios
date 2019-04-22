@@ -7,9 +7,10 @@ public class Producto {
     private String nombre;
     private String descripcion;
 
-    public Producto(int id, boolean estado, String nombre, String descripcion) {
+    public Producto(int id, boolean estado, int precio, String nombre, String descripcion) {
         this.id = id;
         this.estado = estado;
+        this.precio = precio;
         this.nombre = nombre;
         this.descripcion = descripcion;
     }
