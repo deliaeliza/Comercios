@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 
 public class FragGestComercioLista extends Fragment {
@@ -68,7 +69,7 @@ public class FragGestComercioLista extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        mensajeAB("Gestionar comercios");
         View view =inflater.inflate(R.layout.frag_gest_comercio_lista, container, false);
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
@@ -471,4 +472,6 @@ public class FragGestComercioLista extends Fragment {
     }
 
     public void mensajeToast(String msg){ Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
+
 }

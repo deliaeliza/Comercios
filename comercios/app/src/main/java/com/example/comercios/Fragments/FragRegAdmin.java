@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -40,6 +42,7 @@ public class FragRegAdmin extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mensajeAB("Registrar Administrador");
         View view = inflater.inflate(R.layout.frag_reg_admin, container, false);
         OnclickDelButton(view.findViewById(R.id.fRegAdmin_btnReg));
         email = (TextInputEditText) view.findViewById(R.id.fRegAdmin_edtEmail);
@@ -258,5 +261,7 @@ public class FragRegAdmin extends Fragment {
     public void MensajeToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
+
 
 }
