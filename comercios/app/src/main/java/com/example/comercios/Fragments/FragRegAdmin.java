@@ -103,7 +103,6 @@ public class FragRegAdmin extends Fragment {
             @Override
             public void afterTextChanged(Editable s) { }
         });
-
         return view;
     }
 

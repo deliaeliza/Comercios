@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -103,6 +104,7 @@ public class FragProductoResgistrar extends Fragment {
                              Bundle savedInstanceState) {
         mensajeAB("Registrar producto");
         View view = inflater.inflate(R.layout.frag_producto_resgistrar, container, false);
+        GlobalComercios.getInstance().getImageViews().clear();
         secciones = new ArrayList<>();
         idSec = new ArrayList<>();
         recuperarCategoriasComercio(GlobalComercios.getInstance().getComercio().getId());
@@ -163,7 +165,6 @@ public class FragProductoResgistrar extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-
         return view; // debe comentar el otro return
     }
 
@@ -316,6 +317,8 @@ public class FragProductoResgistrar extends Fragment {
                     precio.setText("");
                     descripcion.setText("");
                     mensaje(response);
+                    GlobalComercios.getInstance().getImageViews().clear();
+                    vie.notifyDataSetChanged();
                 } else {
                     mensaje(response);
                 }

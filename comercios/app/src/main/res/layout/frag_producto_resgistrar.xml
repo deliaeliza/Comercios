@@ -16,28 +16,6 @@ tools:context=".Fragments.FragProductoResgistrar">
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/fRegProd_tilEsgCat"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="10dp"
-            android:hint="Categorias"
-            app:errorEnabled="true"
-            app:errorTextColor="@color/cardview_shadow_start_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/fRegProd_edtTEsgCat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/design_default_color_surface"
-                android:ems="10"
-                android:inputType="text"/>
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fRegProd_txtNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,7 +29,7 @@ tools:context=".Fragments.FragProductoResgistrar">
             app:errorTextAppearance="@color/error"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fRegProd_tilEsgCat">
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegProd_edtNombre"
@@ -61,6 +39,28 @@ tools:context=".Fragments.FragProductoResgistrar">
                 android:ems="10"
                 android:inputType="text"
                 android:maxLength="45"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fRegProd_tilEsgCat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="10dp"
+            android:hint="Categorias"
+            app:errorEnabled="true"
+            app:errorTextColor="@color/cardview_shadow_start_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/fRegProd_txtNombre">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/fRegProd_edtTEsgCat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/design_default_color_surface"
+                android:ems="10"
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -77,7 +77,7 @@ tools:context=".Fragments.FragProductoResgistrar">
             app:errorTextAppearance="@color/error"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fRegProd_txtNombre">
+            app:layout_constraintTop_toBottomOf="@+id/fRegProd_tilEsgCat">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegProd_edtPrecio"

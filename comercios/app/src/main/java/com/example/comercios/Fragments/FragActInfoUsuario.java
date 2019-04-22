@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -63,6 +65,7 @@ public class FragActInfoUsuario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mensajeAB("Cuenta");
         View view = inflater.inflate(R.layout.frag_act_info_usuario, container, false);
         correo = (TextInputEditText) view.findViewById(R.id.fActInfoUser_edtEmail);
         LayoutCorreo = (TextInputLayout) view.findViewById(R.id.fActInfoUser_widEmail);
@@ -125,7 +128,7 @@ public class FragActInfoUsuario extends Fragment {
 
                 if (response.trim().equalsIgnoreCase("correcto")) {
                     Mensaje("Actualización éxitosa");
-                    dialogoRegresarMenuPrincial();
+                    //dialogoRegresarMenuPrincial();
 
                 } else {
 
@@ -206,7 +209,7 @@ public class FragActInfoUsuario extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
 
-    private void dialogoRegresarMenuPrincial() {
+    /*private void dialogoRegresarMenuPrincial() {
         final CharSequence[] opciones = {"si", "no"};
         final androidx.appcompat.app.AlertDialog.Builder alertOpciones = new androidx.appcompat.app.AlertDialog.Builder(getActivity());//estamos en fragment
         alertOpciones.setTitle("¿Desea regresar al menu principal?");
@@ -214,12 +217,12 @@ public class FragActInfoUsuario extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (opciones[i].equals("si")) {
-                    /*FragmentManager fm = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    FragMenuPrincipalUser mifrag = new FragMenuPrincipalUser ();
-                    fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "ID");
-                    fragmentTransaction.commit();*/
-                    dialogInterface.dismiss();
+                    //FragmentManager fm = getFragmentManager();
+                    //FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    //FragMenuPrincipalUser mifrag = new FragMenuPrincipalUser ();
+                    //fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "ID");
+                    //fragmentTransaction.commit();
+                    //dialogInterface.dismiss();
 
                 } else {
                     dialogInterface.dismiss();
@@ -227,7 +230,7 @@ public class FragActInfoUsuario extends Fragment {
             }
         });
         alertOpciones.show();
-    }
+    }*/
 
 
     private void OnTextChangedDelTextInputEditText(final TextInputEditText textInputEditText){
@@ -302,4 +305,6 @@ public class FragActInfoUsuario extends Fragment {
         LayoutConfPsw.setError("Las contraseñas no coinciden");
         return false;
     }
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
+
 }

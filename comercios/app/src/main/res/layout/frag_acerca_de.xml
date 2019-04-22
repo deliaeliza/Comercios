@@ -10,26 +10,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="Desarrolladores"
+            android:textColor="#070707"
+            android:textSize="24sp"
+            android:textStyle="bold|italic"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <ImageView
             android:id="@+id/imgJonathan"
             android:layout_width="95dp"
             android:layout_height="91dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="40dp"
             android:src="@drawable/jonathan"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="40dp"
             android:text="Cedula: \n116560954\n\nNombre: \nJonathan Vásquez Mora"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/imgJonathan"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
 
         <ImageView
@@ -38,7 +51,7 @@
             android:layout_height="91dp"
             android:layout_marginStart="28dp"
             android:layout_marginTop="60dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/delia"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imgJonathan" />
 
@@ -53,6 +66,15 @@
             app:layout_constraintStart_toEndOf="@+id/imgDelia"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
+        <ImageView
+            android:id="@+id/imgAngelo"
+            android:layout_width="95dp"
+            android:layout_height="91dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="60dp"
+            android:src="@drawable/angelo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgDelia" />
 
         <TextView
             android:id="@+id/textView3"
@@ -64,16 +86,6 @@
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/imgAngelo"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-        <ImageView
-            android:id="@+id/imgAngelo"
-            android:layout_width="95dp"
-            android:layout_height="91dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="60dp"
-            android:src="@mipmap/ic_launcher"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgDelia" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

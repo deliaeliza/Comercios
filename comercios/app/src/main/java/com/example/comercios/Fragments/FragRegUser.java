@@ -217,8 +217,8 @@ public class FragRegUser extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if (response.equalsIgnoreCase("Se registro correctamente")) {
-                    mensajeToast(response);
+                if (response.trim().equalsIgnoreCase("")) {
+                    mensajeToast("Se registro correctamente");
                     Intent intento = new Intent(getActivity().getApplicationContext(), Login.class);
                     startActivity(intento);
                 } else {
