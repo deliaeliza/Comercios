@@ -9,8 +9,11 @@ import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragGestComercioLista;
 import com.example.comercios.Fragments.FragGestEstandarLista;
 import com.example.comercios.Fragments.FragHomeAdmin;
+import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
 import com.example.comercios.Fragments.FragRegAdmin;
 import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Global.GlobalSuperUsuario;
+import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Login;
 import com.example.comercios.R;
 
@@ -24,6 +27,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 public class NavAdmin extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,9 +45,18 @@ public class NavAdmin extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        FragHomeAdmin mifrag = new FragHomeAdmin ();
+        fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
+        fragmentTransaction.commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+        TextView txtUsuario = (TextView) header.findViewById(R.id.NavHeaderAdmin_txtViewUsuario);
+        txtUsuario.setText(GlobalAdmin.getInstance().getAdmin().getUsuario());
+        TextView txtCorreo = (TextView) header.findViewById(R.id.NavHeaderAdmin_txtViewCorreo);
+        txtCorreo.setText(GlobalAdmin.getInstance().getAdmin().getCorreo());
     }
 
     @Override
@@ -51,12 +65,23 @@ public class NavAdmin extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            int ventanaActual = GlobalAdmin.getInstance().getVentanaActual();
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragHomeAdmin mifrag = new FragHomeAdmin ();
-            fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
-            fragmentTransaction.commit();
-            super.onBackPressed();
+            switch (ventanaActual) {
+                case R.layout.frag_home_admin:
+                case R.layout.frag_reg_admin:
+                case R.layout.frag_acerca_de:
+                case R.layout.frag_gest_comercio_lista:
+                case R.layout.frag_gest_estandar_lista:
+                    FragHomeAdmin mifrag = new FragHomeAdmin ();
+                    fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
+                    fragmentTransaction.commit();
+                    break;
+                default:
+                    break;
+            }
+            //super.onBackPressed();
         }
 
     }
@@ -124,6 +149,8 @@ public class NavAdmin extends AppCompatActivity
             FragHomeAdmin mifrag = new FragHomeAdmin ();
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
             fragmentTransaction.commit();
+        }else if(id == R.id.adminActInformacion){
+            return false;
         }
 
 

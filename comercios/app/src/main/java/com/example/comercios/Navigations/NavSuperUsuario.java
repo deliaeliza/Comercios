@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragGestAdminLista;
@@ -26,6 +28,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import org.w3c.dom.Text;
+
 public class NavSuperUsuario extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,8 +46,21 @@ public class NavSuperUsuario extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        FragHomeSuperUsuario mifrag = new FragHomeSuperUsuario();
+        fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestAdmins");
+        fragmentTransaction.commit();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view4);
         navigationView.setNavigationItemSelectedListener(this);
+        View header=navigationView.getHeaderView(0);
+
+        TextView txtUsuario = (TextView) header.findViewById(R.id.NavHeaderSuper_txtViewUsuario);
+        txtUsuario.setText(GlobalSuperUsuario.getInstance().getAdmin().getUsuario());
+        TextView txtCorreo = (TextView) header.findViewById(R.id.NavHeaderSuper_txtViewCorreo);
+        txtCorreo.setText(GlobalSuperUsuario.getInstance().getAdmin().getCorreo());
+
     }
 
     @Override
@@ -88,8 +105,13 @@ public class NavSuperUsuario extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.superUsuarioAdmin) {
+        if(id == R.id.superUsuarioHome){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragHomeSuperUsuario mifrag = new FragHomeSuperUsuario();
+            fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestAdmins");
+            fragmentTransaction.commit();
+        } else if (id == R.id.superUsuarioAdmin) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragGestAdminLista mifrag = new FragGestAdminLista();

@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoUsuario;
 import com.example.comercios.Fragments.FragHomeSuperUsuario;
 import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
 import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Global.GlobalSuperUsuario;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Login;
@@ -39,9 +42,18 @@ public class NavUsuarios extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
+        fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
+        fragmentTransaction.commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view3);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+        TextView txtUsuario = (TextView) header.findViewById(R.id.NavHeaderUsuario_txtViewUsuario);
+        txtUsuario.setText(GlobalUsuarios.getInstance().getUserE().getUsuario());
+        TextView txtCorreo = (TextView) header.findViewById(R.id.NavHeaderUsuario_txtViewCorreo);
+        txtCorreo.setText(GlobalUsuarios.getInstance().getUserE().getCorreo());
     }
 
     @Override
@@ -50,12 +62,21 @@ public class NavUsuarios extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            int ventanaActual = GlobalUsuarios.getInstance().getVentanaActual();
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
-            fragmentTransaction.commit();
-            super.onBackPressed();
+            switch (ventanaActual) {
+                case R.layout.frag_home_usuario_estandar:
+                case R.layout.frag_act_info_usuario:
+                case R.layout.frag_acerca_de:
+                    FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
+                    fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
+                    fragmentTransaction.commit();
+                    break;
+                default:
+                    break;
+            }
+            //super.onBackPressed();
         }
     }
 
@@ -94,13 +115,13 @@ public class NavUsuarios extends AppCompatActivity
             fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioMapa) {
-
+            return false;
         } else if (id == R.id.usuarioTodosComercios) {
-
+            return false;
         } else if (id == R.id.usuarioActInformacion) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragActInfoUsuario mifrag = new FragActInfoUsuario ();
+            FragActInfoUsuario mifrag = new FragActInfoUsuario();
             fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "contendorActInformacion");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioEstandarcerrarSeion) {
@@ -110,7 +131,7 @@ public class NavUsuarios extends AppCompatActivity
         } else if (id == R.id.acercaDe) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragAcercaDe mifrag = new FragAcercaDe ();
+            FragAcercaDe mifrag = new FragAcercaDe();
             fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "gestionarCom");
             fragmentTransaction.commit();
         }

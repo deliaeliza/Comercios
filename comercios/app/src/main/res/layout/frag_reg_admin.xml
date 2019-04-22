@@ -36,6 +36,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
+                    android:maxLength="45"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -61,6 +62,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
+                    android:maxLength="45"
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,6 +88,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
+                    android:maxLength="13"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -111,6 +114,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
+                    android:maxLength="45"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -120,8 +124,6 @@
                 android:layout_height="78dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/confPWD_lbl"
-                app:counterEnabled="true"
-                app:counterMaxLength="45"
                 app:counterOverflowTextAppearance="@color/error"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
@@ -136,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
+                    android:maxLength="45"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 

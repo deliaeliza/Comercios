@@ -30,18 +30,18 @@
         <item android:title="@string/infoGeneral_lbl">
             <menu>
                 <group android:checkableBehavior="single">
-                <item
-                    android:id="@+id/navComercios_cuenta"
-                    android:icon="@drawable/user_edit"
-                    android:title="@string/actInfoUsuario_lbl" />
-                <item
-                    android:id="@+id/navComercios_cerrar"
-                    android:icon="@drawable/door_open"
-                    android:title="@string/cerrarSesion_lbl" />
-                <item
-                    android:id="@+id/navComercios_acerca"
-                    android:icon="@drawable/address_card"
-                    android:title="@string/acercade_lbl" />
+                    <item
+                        android:id="@+id/navComercios_cuenta"
+                        android:icon="@drawable/user_edit"
+                        android:title="@string/actInfoUsuario_lbl" />
+                    <item
+                        android:id="@+id/navComercios_cerrar"
+                        android:icon="@drawable/door_open"
+                        android:title="@string/cerrarSesion_lbl" />
+                    <item
+                        android:id="@+id/navComercios_acerca"
+                        android:icon="@drawable/address_card"
+                        android:title="@string/acercade_lbl" />
                 </group>
             </menu>
         </item>

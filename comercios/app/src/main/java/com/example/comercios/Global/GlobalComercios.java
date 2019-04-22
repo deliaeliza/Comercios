@@ -5,6 +5,7 @@ import android.widget.ImageView;
 import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Producto;
 import com.example.comercios.Modelo.Seccion;
+import com.example.comercios.R;
 
 import java.util.ArrayList;
 
@@ -14,6 +15,9 @@ public class GlobalComercios {
     private Producto producto = null;
     private int opcActual;
     private int imgActual;
+
+
+    private int ventanaActual = R.layout.frag_home_comercio;
 
     private ArrayList<Bitmap> imageViewsProductos;
 
@@ -69,5 +73,14 @@ public class GlobalComercios {
     public Producto getProducto(){
         return producto;
     }
+
+    public int getVentanaActual() {
+        return ventanaActual;
+    }
+
+    public void setVentanaActual(int ventanaActual) {
+        this.ventanaActual = ventanaActual;
+    }
+
 
 }

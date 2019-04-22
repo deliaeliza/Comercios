@@ -66,6 +66,7 @@ public class FragActInfoUsuario extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mensajeAB("Cuenta");
+        GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_act_info_usuario);
         View view = inflater.inflate(R.layout.frag_act_info_usuario, container, false);
         correo = (TextInputEditText) view.findViewById(R.id.fActInfoUser_edtEmail);
         LayoutCorreo = (TextInputLayout) view.findViewById(R.id.fActInfoUser_widEmail);
@@ -92,21 +93,8 @@ public class FragActInfoUsuario extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.fActInfoUser_btnAct:
-                        if (!usuario.getText().toString().equalsIgnoreCase("") ||
-                                !correo.getText().toString().equalsIgnoreCase("") ||
-                                !password.getText().toString().equalsIgnoreCase("") ||
-                                !confiPassword.getText().toString().equalsIgnoreCase("")) {
-                            //si la deja vacia igualmente envio la anterior registrada, esto con todos los datos
-                            //sino esta vacia compara con la confirmacion y actualizo
-                            if (password.getText().toString().equals(confiPassword.getText().toString())) {
-                                LayoutConfPsw.setError(null);
-                                actualizarUsuario();
-                            } else {
-                                LayoutConfPsw.setError("Las contraseñas no coinciden");
-                                Mensaje("Las contraseñas no coinciden");
-                            }
-                        } else {
-                            Mensaje("Complete todos los datos");
+                        if(valdiarDatos()){
+                            actualizarUsuario();
                         }
                         break;
                     default:
@@ -248,7 +236,8 @@ public class FragActInfoUsuario extends Fragment {
                         validarUsuario();
                         break;
                     case R.id.fActInfoUser_edtPass:
-                        validarContrasena();
+                        //validarContrasena();
+                        LayoutPsw.setError(null);
                         validarConfContrasena();
                         break;
                     case R.id.fActInfoUser_edtConfPass:
@@ -262,11 +251,16 @@ public class FragActInfoUsuario extends Fragment {
             public void afterTextChanged(Editable s) {}
         });
     }
+    private boolean valdiarDatos(){
+        boolean c = validarCorreo();
+        boolean u = validarUsuario();
+        boolean con = validarContrasena();
+        boolean conf = validarConfContrasena();
+        return c && u && con && conf;
+    }
     private boolean validarCorreo(){
         String dato = correo.getText().toString();
-        if (dato.length() > 46)
-            return false;
-        if (dato.length() > 0 && dato.length() <= 45 && Patterns.EMAIL_ADDRESS.matcher(dato).find()) {
+        if (dato.length() > 0 && Patterns.EMAIL_ADDRESS.matcher(dato).find()) {
             LayoutCorreo.setError(null);
             return true;
         }
@@ -275,9 +269,7 @@ public class FragActInfoUsuario extends Fragment {
     }
     private boolean validarUsuario(){
         String dato = usuario.getText().toString();
-        if (dato.length() > 46)
-            return false;
-        if (dato.length() > 0 && dato.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+        if (dato.length() > 0 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
             LayoutUsuario.setError(null);
             return true;
         }
@@ -286,9 +278,7 @@ public class FragActInfoUsuario extends Fragment {
     }
     private boolean validarContrasena(){
         String dato = password.getText().toString();
-        if (dato.length() > 46)
-            return false;
-        if (dato.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+        if ((dato.length() > 0 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) || dato.length() == 0) {
             LayoutPsw.setError(null);
             return true;
         }
