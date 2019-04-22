@@ -216,7 +216,7 @@ public class FragGestComercioLista extends Fragment {
                         posicion = (int)v.getTag();
                         Comercio usuarioModificar = comercios.get(posicion);
                         String contenido = "Nombre: " + usuarioModificar.getUsuario() + "\nCorreo: " + usuarioModificar.getCorreo();
-                        DialogSiNO(usuarioModificar.isEstado()? "¿Desactivar usuario?" : "¿Activar usuario?",
+                        DialogSiNO(usuarioModificar.isEstado()? "¿Desactivar comercio?" : "¿Activar comercio?",
                                 contenido, usuarioModificar.isEstado() ? "DESACTIVAR" : "ACTIVAR");
                         break;
                     case R.id.item_gest_producto_MaterialButtonEliminar:
