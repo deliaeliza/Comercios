@@ -190,9 +190,6 @@ package com.example.comercios.Fragments;
                 TextView precio = (TextView) itemView.findViewById(R.id.item_gest_producto_precio);
                 precio.setText(String.valueOf(actual.getPrecio()));
 
-                TextView descripcion = (TextView) itemView.findViewById(R.id.item_gest_producto_descripcion);
-                descripcion.setText(actual.getDescripcion());
-
                 TextView estado = (TextView) itemView.findViewById(R.id.item_gest_producto_estado);
                 estado.setText(actual.isEstado()? "Activo" : "Desactivo");
 
