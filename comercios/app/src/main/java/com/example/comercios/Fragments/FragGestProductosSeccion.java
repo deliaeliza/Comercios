@@ -111,9 +111,9 @@ package com.example.comercios.Fragments;
                 sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
                         "from Productos p where p.idComercio =" +GlobalComercios.getInstance().getComercio().getId(); ;
             }else{
-                sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
-                        "from Productos p, SeccionesProductos sp " +
-                        "where p.id=sp.idProducto && sp.idSeccion= "+GlobalComercios.getInstance().getSeccion().getId();
+                sql="SELECT p.id, p.nombre, p.descripcion, p.precio, p.estado " +
+                        "FROM Productos p INNER JOIN SeccionesProductos sp ON p.id=sp.idProducto " +
+                        "WHERE sp.idSeccion= '"+GlobalComercios.getInstance().getSeccion().getId() + "'";
             }
             String url = Util.urlWebService + "/obtenerProductosSeccion.php?query="+sql+"&idSeccion="+GlobalComercios.getInstance().getSeccion().getId();
 
