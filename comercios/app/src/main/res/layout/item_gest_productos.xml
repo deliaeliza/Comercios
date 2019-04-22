@@ -31,12 +31,16 @@
             android:id="@+id/item_gest_producto_lblNombre"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
+            android:layout_marginBottom="8dp"
             android:text="Nombre:"
             android:textSize="16sp"
             android:textStyle="bold|italic"
+            app:layout_constraintBottom_toTopOf="@+id/item_gest_producto_ImgVProducto"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="16dp" />
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/item_gest_producto_ImgVProducto"
@@ -51,37 +55,43 @@
             android:id="@+id/item_gest_producto_nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
             android:text="User"
             android:textSize="16sp"
-            tools:layout_editor_absoluteX="87dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/item_gest_producto_lblNombre"
             tools:layout_editor_absoluteY="4dp" />
 
         <TextView
             android:id="@+id/item_gest_producto_lblPrecio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
             android:text="Precio:"
             android:textSize="16sp"
             android:textStyle="bold|italic"
             app:layout_constraintStart_toEndOf="@+id/item_gest_producto_ImgVProducto"
-            tools:layout_editor_absoluteY="34dp" />
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_nombre" />
 
         <TextView
             android:id="@+id/item_gest_producto_precio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
             android:text="precio"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/item_gest_producto_lblPrecio"
-            tools:layout_editor_absoluteY="34dp" />
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_nombre" />
 
         <TextView
             android:id="@+id/item_gest_producto_lblEstado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:text="Estado: "
             android:textSize="16sp"
@@ -102,8 +112,12 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/item_gest_producto_MaterialButtonEliminar"
-            android:layout_width="228dp"
-            android:layout_height="37dp"
+            android:layout_width="260dp"
+            android:layout_height="43dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
             android:onClick="onClick"
             android:paddingLeft="10dp"
             android:text="Eliminar de sección"
@@ -112,8 +126,10 @@
             app:cornerRadius="10dp"
             app:icon="@drawable/trash_alt"
             app:iconSize="19dp"
-            tools:layout_editor_absoluteX="132dp"
-            tools:layout_editor_absoluteY="92dp" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/item_gest_producto_ImgVProducto"
+            app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_estado" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
