@@ -25,19 +25,19 @@
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/FGestProductoSec_AddProd"
-                    android:layout_width="214dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Todos los productos" />
-
-                <RadioButton
                     android:id="@+id/FGestProductoSec_DelProd"
                     android:layout_width="214dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:checked="true"
                     android:text="Productos de la sección" />
+
+                <RadioButton
+                    android:id="@+id/FGestProductoSec_AddProd"
+                    android:layout_width="214dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Todos los productos" />
             </RadioGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
