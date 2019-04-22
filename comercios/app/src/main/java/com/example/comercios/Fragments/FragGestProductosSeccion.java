@@ -111,10 +111,7 @@ package com.example.comercios.Fragments;
                 sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
                         "from Productos p where p.idComercio =" +GlobalComercios.getInstance().getComercio().getId(); ;
             }else{
-               /* sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado from Productos p, Secciones s " +
-                        "where p.idComercio = s.idComercio && s.idComercio="+ GlobalComercios.getInstance().getComercio().getId()
-                        +" && s.id ="+GlobalComercios.getInstance().getSeccion().getId();
-*/
+
                 sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
                         "from Productos p, SeccionesProductos sp " +
                         "where p.id=sp.idProducto && sp.idSeccion= "+GlobalComercios.getInstance().getSeccion().getId();
