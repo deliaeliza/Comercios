@@ -2,45 +2,52 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
+
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/adminHome"
             android:icon="@drawable/home"
             android:title="@string/inicio_lbl" />
     </group>
+
     <group android:checkableBehavior="single">
-        <item android:title="Gestión">
+        <item android:title="Gestion ">
             <menu>
-                <item
-                    android:id="@+id/adminRegistrar"
-                    android:icon="@drawable/user_plus"
-                    android:title="@string/registrarAdmin_lbl" />
-                <item
-                    android:id="@+id/adminUsuarios"
-                    android:icon="@drawable/user_cog"
-                    android:title="@string/adminUsuarios_lbl" />
-                <item
-                    android:id="@+id/adminComercios"
-                    android:icon="@drawable/cog"
-                    android:title="@string/adminComercios_lbl" />
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/adminRegistrar"
+                        android:icon="@drawable/user_plus"
+                        android:title="@string/registrarAdmin_lbl" />
+                    <item
+                        android:id="@+id/adminUsuarios"
+                        android:icon="@drawable/user_cog"
+                        android:title="@string/adminUsuarios_lbl" />
+                    <item
+                        android:id="@+id/adminComercios"
+                        android:icon="@drawable/cog"
+                        android:title="@string/adminComercios_lbl" />
+                </group>
             </menu>
         </item>
     </group>
+
     <group android:checkableBehavior="single">
         <item android:title="@string/infoGeneral_lbl">
             <menu>
-                <item
-                    android:id="@+id/adminActInformacion"
-                    android:icon="@drawable/user_edit"
-                    android:title="@string/actInfoUsuario_lbl" />
-                <item
-                    android:id="@+id/adminCerrarSesion"
-                    android:icon="@drawable/door_open"
-                    android:title="@string/cerrarSesion_lbl" />
-                <item
-                    android:id="@+id/nav_send"
-                    android:icon="@drawable/address_card"
-                    android:title="@string/acercade_lbl" />
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/adminActInformacion"
+                        android:icon="@drawable/user_edit"
+                        android:title="@string/actInfoUsuario_lbl" />
+                    <item
+                        android:id="@+id/adminCerrarSesion"
+                        android:icon="@drawable/door_open"
+                        android:title="@string/cerrarSesion_lbl" />
+                    <item
+                        android:id="@+id/nav_send"
+                        android:icon="@drawable/address_card"
+                        android:title="@string/acercade_lbl" />
+                </group>
             </menu>
         </item>
     </group>
