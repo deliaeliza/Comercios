@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -163,7 +164,6 @@ public class FragProductoResgistrar extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-
         return view; // debe comentar el otro return
     }
 

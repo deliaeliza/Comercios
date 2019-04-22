@@ -42,6 +42,7 @@ public class FragMenuInferiorComercio extends Fragment {
             FragSeccionResgistrar  mifrag = new FragSeccionResgistrar ();
             fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
             fragmentTransaction.commit();
+
         } else {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
