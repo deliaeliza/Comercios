@@ -70,44 +70,16 @@ public class FragHomeComercio extends Fragment {
         Descripcion =(TextView) view.findViewById(R.id.FHomComercio_viewDescripcion);
         Categoria = (TextView)view.findViewById(R.id.FHomComercio_viewCategoria);
         Telefono = (TextView) view.findViewById(R.id.FHomComercio_viewTelefono);
-        cargarDatosAnteriores2(view);
+        Usuario.setText(GlobalComercios.getInstance().getComercio().getUsuario());
+        Descripcion.setText(GlobalComercios.getInstance().getComercio().getDescripcion());
+        Telefono.setText(Long.toString(GlobalComercios.getInstance().getComercio().getTelefono()));
+        Categoria.setText(GlobalComercios.getInstance().getComercio().getCategoria());
+        cargarWebServicesImagen2(Util.urlWebService + "/" + GlobalComercios.getInstance().getComercio().getUrlImagen());
         ratingBarCali = (RatingBar)view.findViewById(R.id.FHomComercio_ratingBar);
         recuperarCalificacionesComercio();
         return view;
     }
 
-    private void cargarDatosAnteriores2(View view) {
-        String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+ GlobalComercios.getInstance().getComercio().getId();
-
-        jsonObjectRequest2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    String r= String.valueOf(response.getJSONObject("comercio"));
-                    if(r!="") {
-                        JSONObject jsonComercio = response.getJSONObject("comercio");
-                        Usuario.setText(jsonComercio.getString("usuario"));
-                        Descripcion.setText(jsonComercio.getString("descripcion"));
-                        Telefono.setText(jsonComercio.getString("telefono"));
-                        Categoria.setText(jsonComercio.getString("nombre"));
-
-                        SUrlImagen =jsonComercio.getString("urlImagen");
-                        String ruta_foto= Util.urlWebService +"/"+SUrlImagen;
-                        cargarWebServicesImagen2(ruta_foto);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Mensaje("No se puede conectar " + error.toString());
-            }
-        });
-        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest2);
-
-    }
     private void cargarWebServicesImagen2(String ruta_foto) {
         ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
             @Override

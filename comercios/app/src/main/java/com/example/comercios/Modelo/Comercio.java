@@ -19,6 +19,7 @@ public class Comercio {
     private String ubicacion;
     private String categoria;
     private String urlImagen;
+    private int idCategoria;
     private Bitmap imagen = null;
     private ArrayList<Seccion> secciones;
 
@@ -39,6 +40,21 @@ public class Comercio {
         this.secciones = secciones;
     }
 
+    public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, String urlImagen, int idCategoria) {
+        this.id = id;
+        this.tipo = tipo;
+        this.telefono = telefono;
+        this.verificado = verificado;
+        this.estado = estado;
+        this.correo = correo;
+        this.usuario = usuario;
+        this.descripcion = descripcion;
+        this.ubicacion = ubicacion;
+        this.categoria = categoria;
+        this.urlImagen = urlImagen;
+        this.idCategoria = idCategoria;
+    }
+/*
     public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria) {
         this.id = id;
         this.tipo = tipo;
@@ -47,11 +63,10 @@ public class Comercio {
         this.estado = estado;
         this.correo = correo;
         this.usuario = usuario;
-        this.contrasena = contrasena;
         this.descripcion = descripcion;
         this.ubicacion = ubicacion;
         this.categoria = categoria;
-    }
+    }*/
 
     public Comercio(int id, int tipo, long telefono, int calificacion, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
         this.id = id;
@@ -186,5 +201,13 @@ public class Comercio {
     }
     public void setImagen(Bitmap imagen) {
         this.imagen = imagen;
+    }
+
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
     }
 }

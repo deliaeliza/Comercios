@@ -133,6 +133,13 @@ public class FragActInfoComercio extends Fragment  {
 
         ubicacion = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtUbicacion);
 
+
+        usuario.setText(GlobalComercios.getInstance().getComercio().getUsuario());
+        descripcion.setText(GlobalComercios.getInstance().getComercio().getDescripcion());
+        correo.setText(GlobalComercios.getInstance().getComercio().getCorreo());
+        ubicacion.setText(GlobalComercios.getInstance().getComercio().getUbicacion());
+        telefono.setText(Long.toString(GlobalComercios.getInstance().getComercio().getTelefono()));
+
         OnTextChangedDelTextInputEditText(descripcion);
         OnTextChangedDelTextInputEditText(usuario);
         OnTextChangedDelTextInputEditText(telefono);
@@ -140,8 +147,6 @@ public class FragActInfoComercio extends Fragment  {
         OnTextChangedDelTextInputEditText(password);
         OnTextChangedDelTextInputEditText(confiPassword);
 
-        cargarCategorias(view);
-        cargarDatosAnteriores(view);
         fotoComercio = view.findViewById(R.id.fActInfoComercio_imagen);
         //Permisos para camara
         btnFoto = view.findViewById(R.id.fActInfoComercio_cambiarFoto);
@@ -150,59 +155,15 @@ public class FragActInfoComercio extends Fragment  {
         }else{
             btnFoto.setEnabled(false);
         }
+
+        cargarCategorias(view);
+
+        cargarWebServicesImagen(Util.urlWebService +"/" + GlobalComercios.getInstance().getComercio().getUrlImagen());
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnUbicacion));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_cambiarFoto));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
 
         return view;
-
-    }
-
-    private void cargarDatosAnteriores(View view) {
-
-        //GlobalComercios.getInstance().getComercio().getId();
-        String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+ GlobalComercios.getInstance().getComercio().getId();
-
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    String r= String.valueOf(response.getJSONObject("comercio"));
-                    if(r!="") {
-                        JSONObject jsonComercio = response.getJSONObject("comercio");
-                        usuario.setText(jsonComercio.getString("usuario"));
-                        CUsuario = jsonComercio.getString("usuario");
-                        descripcion.setText(jsonComercio.getString("descripcion"));
-                        CDescripcion = jsonComercio.getString("descripcion");
-                        correo.setText(jsonComercio.getString("correo"));
-                        CCorreo=jsonComercio.getString("correo");
-                        ubicacion.setText(jsonComercio.getString("ubicacion"));
-                        CUbicacion=jsonComercio.getString("ubicacion");
-                        telefono.setText(jsonComercio.getString("telefono"));
-                        CTelefono = jsonComercio.getString("telefono");
-
-                        categoriaSeleccionada = Integer.parseInt(jsonComercio.getString("idCategoria"));
-                        for(int i=0;i<categorias.size();i++){
-                            if(categorias.get(i).getId() ==Integer.parseInt(jsonComercio.getString("idCategoria"))){
-                                spinner.setHint(categorias.get(i).getNombre());
-                            }
-                        }
-                        CContra = jsonComercio.getString("contrasena");
-                        CUrlImagen =jsonComercio.getString("urlImagen");
-                        String ruta_foto= Util.urlWebService +"/"+CUrlImagen;
-                        cargarWebServicesImagen(ruta_foto);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
-            }
-        });
-        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
 
     }
 
@@ -271,11 +232,6 @@ public class FragActInfoComercio extends Fragment  {
 
        final String imagenConveritda = convertirImgString(bitmap);
         String url = Util.urlWebService + "/actualizarInfoComercio.php?";
-
-      /*descripcion="+descripcion.getText().toString()
-                +"&categoria="+categoriaSeleccionada+"&telefono="+telefono.getText().toString()+
-                "&ubicacion="+ubicacion.getText().toString()+"&imagen="+imagenConveritda+"&id="+"38";
-*/
         stringRequest2 = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -388,10 +344,14 @@ public class FragActInfoComercio extends Fragment  {
         spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
             @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
                 categoriaSeleccionada=ObtenerIdCategoria(item);
-
             }
         });
-
+        categoriaSeleccionada = GlobalComercios.getInstance().getComercio().getIdCategoria();
+        for(int i=0;i<categorias.size();i++){
+            if(categorias.get(i).getId() == categoriaSeleccionada){
+                spinner.setHint(categorias.get(i).getNombre());
+            }
+        }
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
     private void mostrarDialogOpciones() {
@@ -563,6 +523,7 @@ public class FragActInfoComercio extends Fragment  {
             return bitmap;
         }
     }
+
     private int ObtenerIdCategoria(String cat){
         for(int i =0;i<categorias.size();i++){
             if(categorias.get(i).getNombre().equalsIgnoreCase(cat)){
