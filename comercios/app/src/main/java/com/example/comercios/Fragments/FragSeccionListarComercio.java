@@ -227,8 +227,8 @@ public class FragSeccionListarComercio extends Fragment {
     public void obtenerMasDatos() {
         //Consultar a la base
         int idMinimo = (secciones.size() == 0 ? 0 : (secciones.get(secciones.size()-1)).getId());
-        //String query = "SELECT s.id, s.nombre, (SELECT COUNT(*) FROM SeccionesProductos se WHERE se.idSeccion = s.id) AS cantidad FROM Secciones s WHERE s.idComercio='"+ GlobalComercios.getInstance().getComercio().getId() +"' AND s.id>'" + idMinimo +"' AND s.nombre <> 'DEFAULT'";
-        String query = "SELECT s.id, s.nombre, (SELECT COUNT(*) FROM SeccionesProductos se WHERE se.idSeccion = s.id) AS cantidad FROM Secciones s WHERE s.idComercio='4' AND s.id>'" + idMinimo +"' AND s.nombre <> 'DEFAULT'";
+        String query = "SELECT s.id, s.nombre, (SELECT COUNT(*) FROM SeccionesProductos se WHERE se.idSeccion = s.id) AS cantidad FROM Secciones s WHERE s.idComercio='"+ GlobalComercios.getInstance().getComercio().getId() +"' AND s.id>'" + idMinimo +"' AND s.nombre <> 'DEFAULT'";
+        //String query = "SELECT s.id, s.nombre, (SELECT COUNT(*) FROM SeccionesProductos se WHERE se.idSeccion = s.id) AS cantidad FROM Secciones s WHERE s.idComercio='4' AND s.id>'" + idMinimo +"' AND s.nombre <> 'DEFAULT'";
         //Agregar fitros
         if(FiltrosSeccion.getInstance().isUsarFiltros()) {
             if (!FiltrosSeccion.getInstance().getNombre().equals("")) {

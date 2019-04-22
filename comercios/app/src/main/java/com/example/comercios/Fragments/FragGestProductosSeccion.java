@@ -50,7 +50,10 @@ package com.example.comercios.Fragments;
     private List<Comercio> comercios;
 
     private FragGestProductosSeccion.ProductosListAdapter adapter;
+    private FragGestProductosSeccion.ProductosListAdapter adapter2;
+
     private List<Producto> productosArray;
+    private List<Producto> productosDefArray;
     private int posicion = -1;
 
     public FragGestProductosSeccion() {
@@ -68,7 +71,6 @@ package com.example.comercios.Fragments;
             manejador = new MyHandler();
             cargarProductosSeccion();
             RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.FGestProductoSec_radioGroup);
-
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                    RadioButton rb1 = (RadioButton) view.findViewById(R.id.FGestProductoSec_AddProd);
@@ -223,4 +225,59 @@ package com.example.comercios.Fragments;
             }
         }
 
+         public void cargarProductosSeccionDefault(){
+
+           productosArray = new ArrayList<>();
+           //por el momneto un 2 pero es el id de la seccion seleccionanada
+           GlobalComercios.getInstance().getSeccion().getId();
+           String url = Util.urlWebService + "/obtenerProductosSeccion.php?id="+
+                   GlobalComercios.getInstance().getComercio().getId();
+
+           JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
+                   null, new Response.Listener<JSONObject>() {
+               @Override
+               public void onResponse(JSONObject response) {
+
+                   try {
+                       JSONObject jsonOb = response.getJSONObject("datos");
+                       String mensajeError = jsonOb.getString("mensajeError");
+                       if(mensajeError.equalsIgnoreCase("")){
+                           if(jsonOb.has("productos")) {
+                               JSONArray productos = jsonOb.getJSONArray("productos");
+                               if (productos.length() != 0) {
+                                   for (int i = 0; i < productos.length(); i++) {
+                                       JSONObject producto = productos.getJSONObject(i);
+                                       productosArray.add(new Producto(
+                                               producto.getInt("id"),
+                                               producto.getInt("estado")!=0,
+                                               producto.getInt("precio"),
+                                               producto.getString("nombre"),
+                                               producto.getString("descripcion")));
+                                   }
+                               }
+
+                           }
+                           if(inicial){
+                               adapter = new FragGestProductosSeccion.ProductosListAdapter();;
+                               listView.setAdapter(adapter);
+                               inicial = false;
+                           } else {
+                               Message msg = manejador.obtainMessage(1);
+                               manejador.sendMessage(msg);
+                           }
+                       } else {
+                           Mensaje(mensajeError);
+                       }
+                   } catch (JSONException e) {
+                       e.printStackTrace();
+                   }
+               }
+           }, new Response.ErrorListener() {
+               @Override
+               public void onErrorResponse(VolleyError error) {
+                   Mensaje("No se puede conectar " + error.toString());
+               }
+           });
+           VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+       }
     }
