@@ -21,6 +21,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -68,6 +70,7 @@ public class FragSeccionListarComercio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mensajeAB("Secciones");
         View view =inflater.inflate(R.layout.frag_seccion_listar_comercio, container, false);
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
@@ -78,21 +81,28 @@ public class FragSeccionListarComercio extends Fragment {
         obtenerMasDatos();
         OnclickDelMaterialButton(view.findViewById(R.id.sec_listar_MaterialButtonFiltrar));
         OnclickDelMaterialButton(view.findViewById(R.id.sec_listar_MaterialButtonTodos));
+
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            private int currentVisibleItemCount;
+            private int currentFirstVisibleItem;
+            private int totalItem;
+
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //Revisa si el scroll llego al ultimo item
-                if(view.getLastVisiblePosition() == secciones.size()-1 && listView.getCount() >= TAM_PAGINA && cargando == false){
-                    cargando = true;
+                if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
+                        && scrollState == SCROLL_STATE_IDLE) {
                     Thread thread = new ThreadMoreData();
                     thread.start();
                 }
             }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                currentFirstVisibleItem = firstVisibleItem;
+                currentVisibleItemCount = visibleItemCount;
+                totalItem = totalItemCount;
+            }
+
         });
         return view;
     }
@@ -291,4 +301,5 @@ public class FragSeccionListarComercio extends Fragment {
     }
 
     public void mensajeToast(String msg){ Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 }
