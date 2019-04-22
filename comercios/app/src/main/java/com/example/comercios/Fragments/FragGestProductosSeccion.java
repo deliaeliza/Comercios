@@ -55,6 +55,9 @@ package com.example.comercios.Fragments;
     private List<Producto> productosArray;
     private List<Producto> productosDefArray;
     private int posicion = -1;
+    private RadioGroup radioGroup;
+
+
 
     public FragGestProductosSeccion() {
         // Required empty public constructor
@@ -69,17 +72,21 @@ package com.example.comercios.Fragments;
             //LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             listView = (ListView) view.findViewById(R.id.listViewProductosSeccion);
             manejador = new MyHandler();
-            cargarProductosSeccion();
-            RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.FGestProductoSec_radioGroup);
+            radioGroup = (RadioGroup) view.findViewById(R.id.FGestProductoSec_radioGroup);
+            productosArray= new ArrayList<>();
+
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
                    RadioButton rb1 = (RadioButton) view.findViewById(R.id.FGestProductoSec_AddProd);
                    RadioButton rb2 = (RadioButton) view.findViewById(R.id.FGestProductoSec_DelProd);
                    if (rb1.isChecked()) {
-                      //productos de la seccion default que se pueden agregar a la seccion seleccionanada
+                       //cargarProductosSeccion();
+                       productosArray.clear();
+                       cargarProductosSeccion();
                    }
                    if (rb2.isChecked()) {
                        //productos de la seccion que se pueden eliminar
+                       productosArray.clear();
                        cargarProductosSeccion();
                        //group.clearCheck();
                    }
@@ -91,10 +98,17 @@ package com.example.comercios.Fragments;
         }
         public void cargarProductosSeccion(){
 
-            productosArray = new ArrayList<>();
-            //por el momneto un 2 pero es el id de la seccion seleccionanada
-            GlobalComercios.getInstance().getSeccion().getId();
-            String url = Util.urlWebService + "/obtenerProductosSeccion.php?id="+GlobalComercios.getInstance().getSeccion().getId();
+           String sql;
+            //general
+            if(radioGroup.getCheckedRadioButtonId()==R.id.FGestProductoSec_AddProd){
+                sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
+                        "from Productos p where p.idComercio =" +GlobalComercios.getInstance().getComercio().getId(); ;
+            }else{
+                sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
+                        "from Productos p, SeccionesProductos sp " +
+                        "where p.id=sp.idProducto && sp.idSeccion= "+GlobalComercios.getInstance().getSeccion().getId();
+            }
+            String url = Util.urlWebService + "/obtenerProductosSeccion.php?query="+sql+"&idSeccion="+GlobalComercios.getInstance().getSeccion().getId();
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
                     null, new Response.Listener<JSONObject>() {
@@ -110,12 +124,14 @@ package com.example.comercios.Fragments;
                                 if (productos.length() != 0) {
                                     for (int i = 0; i < productos.length(); i++) {
                                         JSONObject producto = productos.getJSONObject(i);
+
                                         productosArray.add(new Producto(
                                                 producto.getInt("id"),
                                                 producto.getInt("estado")!=0,
                                                 producto.getInt("precio"),
                                                 producto.getString("nombre"),
-                                                producto.getString("descripcion")));
+                                                producto.getString("descripcion"),
+                                                producto.getInt("pertenece")==1));
                                     }
                                 }
 
@@ -173,8 +189,18 @@ package com.example.comercios.Fragments;
                 TextView estado = (TextView) itemView.findViewById(R.id.item_gest_producto_estado);
                 estado.setText(actual.isEstado()? "Activo" : "Desactivo");
 
-                //MaterialCardView panel = (MaterialCardView) itemView.findViewById(R.id.item_gest_estandar_panel);
-                MaterialButton eliminar = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);
+                MaterialButton buttonAction;
+                if(actual.isPertenece()){
+                    buttonAction = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);
+
+                }else{
+                    buttonAction = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);
+                    buttonAction.setText("Agregar");
+                    buttonAction.setIconResource(R.drawable.plus_square);
+                    buttonAction.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
+                    buttonAction.setTag(position);
+                }
+
                 ImageView imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
 
 
@@ -185,11 +211,12 @@ package com.example.comercios.Fragments;
 
                 //panel.setTag(position);
                 estado.setTag(position);
-                eliminar.setTag(position);
+                buttonAction.setTag(position);
+
 
                 //OnclickDelMaterialCardView(panel);
-            /*OnclickDelMaterialButton(estado);
-            OnclickDelMaterialButton(eliminar);
+            /*  OnclickDelMaterialButton(estado);
+                OnclickDelMaterialButton(eliminar);
 */
                 return itemView;
             }
@@ -225,59 +252,4 @@ package com.example.comercios.Fragments;
             }
         }
 
-         public void cargarProductosSeccionDefault(){
-
-           productosArray = new ArrayList<>();
-           //por el momneto un 2 pero es el id de la seccion seleccionanada
-           GlobalComercios.getInstance().getSeccion().getId();
-           String url = Util.urlWebService + "/obtenerProductosSeccion.php?id="+
-                   GlobalComercios.getInstance().getComercio().getId();
-
-           JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
-                   null, new Response.Listener<JSONObject>() {
-               @Override
-               public void onResponse(JSONObject response) {
-
-                   try {
-                       JSONObject jsonOb = response.getJSONObject("datos");
-                       String mensajeError = jsonOb.getString("mensajeError");
-                       if(mensajeError.equalsIgnoreCase("")){
-                           if(jsonOb.has("productos")) {
-                               JSONArray productos = jsonOb.getJSONArray("productos");
-                               if (productos.length() != 0) {
-                                   for (int i = 0; i < productos.length(); i++) {
-                                       JSONObject producto = productos.getJSONObject(i);
-                                       productosArray.add(new Producto(
-                                               producto.getInt("id"),
-                                               producto.getInt("estado")!=0,
-                                               producto.getInt("precio"),
-                                               producto.getString("nombre"),
-                                               producto.getString("descripcion")));
-                                   }
-                               }
-
-                           }
-                           if(inicial){
-                               adapter = new FragGestProductosSeccion.ProductosListAdapter();;
-                               listView.setAdapter(adapter);
-                               inicial = false;
-                           } else {
-                               Message msg = manejador.obtainMessage(1);
-                               manejador.sendMessage(msg);
-                           }
-                       } else {
-                           Mensaje(mensajeError);
-                       }
-                   } catch (JSONException e) {
-                       e.printStackTrace();
-                   }
-               }
-           }, new Response.ErrorListener() {
-               @Override
-               public void onErrorResponse(VolleyError error) {
-                   Mensaje("No se puede conectar " + error.toString());
-               }
-           });
-           VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
-       }
     }

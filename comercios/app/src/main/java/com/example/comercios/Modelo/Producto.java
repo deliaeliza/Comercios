@@ -6,6 +6,25 @@ public class Producto {
     private boolean estado;
     private String nombre;
     private String descripcion;
+    private boolean pertenece;
+
+
+    public boolean isPertenece() {
+        return pertenece;
+    }
+
+    public void setPertenece(boolean pertenece) {
+        this.pertenece = pertenece;
+    }
+
+    public Producto(int id, boolean estado, int precio, String nombre, String descripcion, boolean pertenece) {
+        this.id = id;
+        this.estado = estado;
+        this.precio = precio;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.pertenece = pertenece;
+    }
 
     public Producto(int id, boolean estado, int precio, String nombre, String descripcion) {
         this.id = id;
