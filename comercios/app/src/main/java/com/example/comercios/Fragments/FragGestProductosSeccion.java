@@ -75,6 +75,7 @@ package com.example.comercios.Fragments;
             listView = (ListView) view.findViewById(R.id.listViewProductosSeccion);
             manejador = new MyHandler();
             radioGroup = (RadioGroup) view.findViewById(R.id.FGestProductoSec_radioGroup);
+            //adapter = new FragGestProductosSeccion.ProductosListAdapter();
             productosArray= new ArrayList<>();
 
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -84,11 +85,13 @@ package com.example.comercios.Fragments;
                    if (rb1.isChecked()) {
                        //cargarProductosSeccion();
                        productosArray.clear();
+                      // adapter.actualizarDatos();
                        cargarProductosSeccion();
                    }
                    if (rb2.isChecked()) {
                        //productos de la seccion que se pueden eliminar
                        productosArray.clear();
+                       //adapter.actualizarDatos();
                        cargarProductosSeccion();
                        //group.clearCheck();
                    }
