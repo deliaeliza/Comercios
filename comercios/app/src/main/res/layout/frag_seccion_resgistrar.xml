@@ -44,6 +44,7 @@
                 android:backgroundTint="@color/design_default_color_surface"
                 android:ems="10"
                 android:inputType="text"
+                android:maxLength="50"
                 android:maxLines="1"
                 android:singleLine="true"
                 android:textSize="18sp" />
