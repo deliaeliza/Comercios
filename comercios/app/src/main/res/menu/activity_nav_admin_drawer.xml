@@ -3,12 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
+    <group android:checkableBehavior="single">
     <item
         android:id="@+id/adminHome"
         android:icon="@drawable/home"
         android:title="@string/inicio_lbl" />
-
+    </group>
     <group android:checkableBehavior="single">
+        <item android:title="Gestion ">
+            <menu>
+            <group android:checkableBehavior="single">
         <item
             android:id="@+id/adminRegistrar"
             android:icon="@drawable/user_plus"
@@ -21,10 +25,15 @@
             android:id="@+id/adminComercios"
             android:icon="@drawable/cog"
             android:title="@string/adminComercios_lbl" />
+            </group>
+        </menu>
+        </item>
     </group>
 
+    <group android:checkableBehavior="single">
     <item android:title="@string/infoGeneral_lbl">
         <menu>
+            <group android:checkableBehavior="single">
             <item
                 android:id="@+id/adminActInformacion"
                 android:icon="@drawable/user_edit"
@@ -37,7 +46,9 @@
                 android:id="@+id/nav_send"
                 android:icon="@drawable/address_card"
                 android:title="@string/acercade_lbl" />
+    </group>
         </menu>
     </item>
+    </group>
 
 </menu>
