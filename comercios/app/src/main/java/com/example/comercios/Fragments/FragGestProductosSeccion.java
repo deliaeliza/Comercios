@@ -130,6 +130,7 @@ package com.example.comercios.Fragments;
                             if(jsonOb.has("productos")) {
                                 JSONArray productos = jsonOb.getJSONArray("productos");
                                 if (productos.length() != 0) {
+                                    productosArray.clear();
                                     for (int i = 0; i < productos.length(); i++) {
                                         JSONObject producto = productos.getJSONObject(i);
 
@@ -198,6 +199,10 @@ package com.example.comercios.Fragments;
                 MaterialButton buttonAction;
                 if(actual.isPertenece()){
                     buttonAction = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);
+                    buttonAction.setText("Eliminar");
+                    buttonAction.setIconResource(R.drawable.trash_alt);
+                    buttonAction.setBackgroundColor(getResources().getColor(R.color.error));
+                    buttonAction.setTag(position);
 
                 }else{
                     buttonAction = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);
