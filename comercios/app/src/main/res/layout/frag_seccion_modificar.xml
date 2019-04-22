@@ -101,7 +101,7 @@
                 android:layout_marginEnd="26dp"
                 android:text="Gestionar productos"
                 android:textSize="18sp"
-                app:backgroundTint="@color/cardview_shadow_start_color"
+                app:backgroundTint="@color/colorPrimaryDark"
                 app:cornerRadius="10dp"
                 app:icon="@drawable/tasks"
                 app:iconSize="19dp"

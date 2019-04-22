@@ -23,7 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -57,9 +56,8 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import static android.Manifest.permission.CAMERA;
@@ -103,6 +101,7 @@ public class FragProductoResgistrar extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mensajeAB("Registrar producto");
         View view = inflater.inflate(R.layout.frag_producto_resgistrar, container, false);
         secciones = new ArrayList<>();
         idSec = new ArrayList<>();
@@ -129,11 +128,7 @@ public class FragProductoResgistrar extends Fragment {
         btnRemFoto.setVisibility(View.GONE);
 
         //Permisos
-        if (solicitaPermisosVersionesSuperiores()) {
-            btnElegirFoto.setEnabled(true);
-        } else {
-            btnElegirFoto.setEnabled(false);
-        }
+        btnElegirFoto.setEnabled(solicitaPermisosVersionesSuperiores() == true);
 
         OnclickDelButton(btnElegirFoto);
         OnclickDelButton(btnRemFoto);
@@ -161,21 +156,7 @@ public class FragProductoResgistrar extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validarPrecio();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        descripcion.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validarDescripcion();
+                lyPre.setError(null);
             }
 
             @Override
@@ -183,7 +164,12 @@ public class FragProductoResgistrar extends Fragment {
             }
         });
 
-        categoria.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        return view; // debe comentar el otro return
+    }
+
+    public void OnclickDelTextInputEditText(View v){
+        TextInputEditText txt = (TextInputEditText)v;
+        txt.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
@@ -230,12 +216,9 @@ public class FragProductoResgistrar extends Fragment {
                 }
             }
         });
-
-        return view; // debe comentar el otro return
     }
-
     public void OnclickDelButton(View view) {
-        Button miButton = (Button) view;
+        MaterialButton miButton = (MaterialButton) view;
         miButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -257,7 +240,7 @@ public class FragProductoResgistrar extends Fragment {
                             vie.notifyDataSetChanged();
 
                         } else {
-                            Mensaje("No hay imagenes que borrar");
+                            mensaje("No hay imagenes que borrar");
                         }
 
                         break;
@@ -271,7 +254,7 @@ public class FragProductoResgistrar extends Fragment {
                             reemImg = true;
                             mostrarDialogOpciones();
                         } else {
-                            Mensaje("Debe elegir al menos una imagen");
+                            mensaje("Debe elegir al menos una imagen");
                         }
                         break;
                     default:
@@ -280,10 +263,6 @@ public class FragProductoResgistrar extends Fragment {
             }// fin del onclick
         });
     }// fin de OnclickDelButton
-
-    public void Mensaje(String msg) {
-        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-    }
 
     public void recuperarCategoriasComercio(int idComercio) {
         String consulta = "select id, nombre from Secciones where nombre <> 'DEFAULT' and idComercio=" + idComercio;
@@ -297,20 +276,21 @@ public class FragProductoResgistrar extends Fragment {
                     JSONObject jsonOb = response.getJSONObject("datos");
                     String mensajeError = jsonOb.getString("mensajeError");
                     if (mensajeError.equalsIgnoreCase("")) {
-                        JSONArray seccion = jsonOb.getJSONArray("secciones");
-                        if (seccion.length() != 0) {
-                            for (int i = 0; i < seccion.length(); i++) {
-                                JSONObject sec = seccion.getJSONObject(i);
-                                secciones.add(new Seccion(sec.getInt("id"), sec.getString("nombre")));
+                            JSONArray seccion = jsonOb.getJSONArray("secciones");
+                            if (seccion.length() != 0) {
+                                for (int i = 0; i < seccion.length(); i++) {
+                                    JSONObject sec = seccion.getJSONObject(i);
+                                    secciones.add(new Seccion(sec.getInt("id"), sec.getString("nombre")));
+                                }
+                                nombreSec = new CharSequence[secciones.size()];
+                                for (int i = 0; i < secciones.size(); i++) {
+                                    nombreSec[i] = secciones.get(i).getNombre();
+                                }
+                                secEscogidas = new boolean[secciones.size()];
+                                OnclickDelTextInputEditText(categoria);
                             }
-                            nombreSec = new CharSequence[secciones.size()];
-                            for (int i = 0; i < secciones.size(); i++) {
-                                nombreSec[i] = secciones.get(i).getNombre();
-                            }
-                            secEscogidas = new boolean[secciones.size()];
-                        }
                     } else {
-                        Mensaje("No hay productos");
+                        mensaje("No hay productos");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -319,7 +299,7 @@ public class FragProductoResgistrar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
+                mensaje("No se puede conectar " + error.toString());
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -335,15 +315,15 @@ public class FragProductoResgistrar extends Fragment {
                     nombre.setText("");
                     precio.setText("");
                     descripcion.setText("");
-                    Mensaje(response);
+                    mensaje(response);
                 } else {
-                    Mensaje(response);
+                    mensaje(response);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se ha podido conectar" + error.getMessage());
+                mensaje("No se ha podido conectar" + error.getMessage());
             }
         }) {
             @Override
@@ -374,15 +354,9 @@ public class FragProductoResgistrar extends Fragment {
     }
 
     public boolean validaDatos() {
-        String nomb = nombre.getText().toString();
-        String pre = precio.getText().toString();
-        String descrip = descripcion.getText().toString();
-        if (nomb.length() > 45 && pre.length() > 10 && descrip.length() > 200)
-            return false;
-        if (validarNombre() && validarPrecio() && validarDescripcion()) {
-            return true;
-        }
-        return false;
+        boolean a = validarNombre();
+        boolean b = validarPrecio();
+        return a && b;
     }
 
     public boolean validarNombre() {
@@ -390,32 +364,25 @@ public class FragProductoResgistrar extends Fragment {
         if (nomb.length() > 0 && nomb.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(nomb).find()) {
             lyNombre.setError(null);
             return true;
-        } else {
-            lyNombre.setError("Nombre invalido");
         }
+        lyNombre.setError("Nombre invalido");
         return false;
     }
 
-    public boolean validarPrecio() {
-        String pre = precio.getText().toString();
-        if (pre.length() <= 10 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(pre).find()) {
-            lyPre.setError(null);
-            return true;
-        } else {
-            lyPre.setError("Precio invalido");
+    private boolean validarPrecio(){
+        String dato = precio.getText().toString();
+        if (dato.length() > 0) {
+            try {
+                int i = Integer.parseInt(precio.getText().toString().trim());
+                lyPre.setError(null);
+                return true;
+            } catch (NumberFormatException ex){
+                lyPre.setError("Precio invalido");
+                return false;
+            }
         }
-        return false;
-    }
-
-    public boolean validarDescripcion() {
-        String descrip = descripcion.getText().toString();
-        if (descrip.length() <= 200) {
-            lyDescr.setError(null);
-            return true;
-        } else {
-            lyDescr.setError("Descripcion invalida");
-        }
-        return false;
+        lyPre.setError(null);//El precio es opcional
+        return true;
     }
 
     private boolean solicitaPermisosVersionesSuperiores() {
@@ -518,6 +485,15 @@ public class FragProductoResgistrar extends Fragment {
             GlobalComercios.getInstance().agregarImagenes(imagen1);
        }
         vie.notifyDataSetChanged();
+        viewpager.setCurrentItem(GlobalComercios.getInstance().getImgActual());
+        if(CANTIMG_MAX == GlobalComercios.getInstance().getImageViews().size()){
+            btnElegirFoto.setEnabled(false);
+            mensaje("Ha llegado al máximo de imagenes");
+        } else if(GlobalComercios.getInstance().getImageViews().size() == 1){
+            btnElim.setVisibility(View.VISIBLE);
+            btnRemFoto.setVisibility(View.VISIBLE);
+            viewpager.setBackgroundResource(R.color.design_default_color_surface);
+        }
     }
 
     private Bitmap redimensionarImagen(Bitmap bitmap, float anchoNuevo, float altoNuevo) {
@@ -539,7 +515,7 @@ public class FragProductoResgistrar extends Fragment {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == MIS_PERMISOS) {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
-                Mensaje("Permisos aceptados");
+                mensaje("Permisos aceptados");
                 btnElegirFoto.setEnabled(true);
             }
         } else {
@@ -590,6 +566,11 @@ public class FragProductoResgistrar extends Fragment {
         byte[] imagenByte = array.toByteArray();
         return Base64.encodeToString(imagenByte, Base64.DEFAULT);
     }
+
+    public void mensaje(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 
 
 }

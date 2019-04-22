@@ -161,7 +161,12 @@ public class FragActInfoProductos extends Fragment {
             public void afterTextChanged(Editable s) {
             }
         });
-        categoria.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        return view;
+    }
+
+    private void OnFocusDelTextInputEditText(View v){
+        TextInputEditText txt = (TextInputEditText)v;
+        txt.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
@@ -208,9 +213,7 @@ public class FragActInfoProductos extends Fragment {
                 }
             }
         });
-        return view;
     }
-
     //**********************************************************************************************************
     //*************************************************Eventos ON***********************************************
     public void OnclickDelMaterialButton(View view) {
@@ -267,7 +270,7 @@ public class FragActInfoProductos extends Fragment {
     private boolean validarDatos(){
         boolean nom = validarNombre();
         boolean pre = validarPrecio();
-        return validarNombre() && validarPrecio();
+        return nom && pre;
     }
     private boolean validarNombre(){
         String dato = nombre.getText().toString();
@@ -280,7 +283,7 @@ public class FragActInfoProductos extends Fragment {
     }
     private boolean validarPrecio(){
         String dato = precio.getText().toString();
-        if (dato.length() > 0 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+        if (dato.length() > 0) {
             try {
                 int i = Integer.parseInt(precio.getText().toString().trim());
                 tilPrecio.setError(null);
@@ -436,8 +439,8 @@ public class FragActInfoProductos extends Fragment {
                                 nombreSec[i] = secciones.get(i).getNombre();
                             }
                             secEscogidas = new boolean[secciones.size()];
-                            //recuperarSeccionesProducto(GlobalComercios.getInstance().getProducto().getId());
-                            recuperarSeccionesProducto(2);
+                            recuperarSeccionesProducto(GlobalComercios.getInstance().getProducto().getId());
+                            OnFocusDelTextInputEditText(categoria);
                         }
                     } else {
                         mensajeToast("No hay secciones");

@@ -43,11 +43,11 @@ public class FragMenuInferiorComercio extends Fragment {
             fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
             fragmentTransaction.commit();
         } else {
-            //FragmentManager fm = getFragmentManager();
-            //FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            //FragProductoResgistrar  mifrag = new FragProductoResgistrar ();
-            //fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
-            //fragmentTransaction.commit();
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragProductoResgistrar  mifrag = new FragProductoResgistrar ();
+            fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferiorRegProductos");
+            fragmentTransaction.commit();
         }
 
         return view;

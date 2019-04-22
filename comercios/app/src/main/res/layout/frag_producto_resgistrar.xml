@@ -34,7 +34,7 @@ tools:context=".Fragments.FragProductoResgistrar">
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/design_default_color_surface"
                 android:ems="10"
-                android:inputType="text" />
+                android:inputType="text"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
