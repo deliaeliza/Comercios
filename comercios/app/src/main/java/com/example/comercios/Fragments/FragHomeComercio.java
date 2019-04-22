@@ -99,7 +99,7 @@ public class FragHomeComercio extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("Categorias-- " + error.toString());
+               // Mensaje("Categorias-- " + error.toString());
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
@@ -136,7 +136,7 @@ public class FragHomeComercio extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
+                //Mensaje("No se puede conectar " + error.toString());
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest2);
@@ -151,7 +151,7 @@ public class FragHomeComercio extends Fragment {
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("error al cargar la imagen");
+                //Mensaje("No se encontro la imagen");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
