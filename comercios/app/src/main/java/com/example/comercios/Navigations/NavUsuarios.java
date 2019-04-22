@@ -49,7 +49,7 @@ public class NavUsuarios extends AppCompatActivity
         fragmentTransaction.commit();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view3);
         navigationView.setNavigationItemSelectedListener(this);
-        View header=navigationView.getHeaderView(0);
+        View header = navigationView.getHeaderView(0);
         TextView txtUsuario = (TextView) header.findViewById(R.id.NavHeaderUsuario_txtViewUsuario);
         txtUsuario.setText(GlobalUsuarios.getInstance().getUserE().getUsuario());
         TextView txtCorreo = (TextView) header.findViewById(R.id.NavHeaderUsuario_txtViewCorreo);
@@ -62,12 +62,21 @@ public class NavUsuarios extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+            int ventanaActual = GlobalUsuarios.getInstance().getVentanaActual();
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
-            fragmentTransaction.commit();
-            super.onBackPressed();
+            switch (ventanaActual) {
+                case R.layout.frag_home_usuario_estandar:
+                case R.layout.frag_act_info_usuario:
+                case R.layout.frag_acerca_de:
+                    FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
+                    fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
+                    fragmentTransaction.commit();
+                    break;
+                default:
+                    break;
+            }
+            //super.onBackPressed();
         }
     }
 
