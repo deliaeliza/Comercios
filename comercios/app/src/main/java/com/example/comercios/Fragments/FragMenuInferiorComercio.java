@@ -91,7 +91,7 @@ public class FragMenuInferiorComercio extends Fragment {
                     //fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
                     //fragmentTransaction.commit();
 
-                    return true;
+                    return false;
                 }
                 return false;
             default:

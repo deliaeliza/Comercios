@@ -104,6 +104,7 @@ public class FragProductoResgistrar extends Fragment {
                              Bundle savedInstanceState) {
         mensajeAB("Registrar producto");
         View view = inflater.inflate(R.layout.frag_producto_resgistrar, container, false);
+        GlobalComercios.getInstance().getImageViews().clear();
         secciones = new ArrayList<>();
         idSec = new ArrayList<>();
         recuperarCategoriasComercio(GlobalComercios.getInstance().getComercio().getId());
@@ -316,6 +317,8 @@ public class FragProductoResgistrar extends Fragment {
                     precio.setText("");
                     descripcion.setText("");
                     mensaje(response);
+                    GlobalComercios.getInstance().getImageViews().clear();
+                    vie.notifyDataSetChanged();
                 } else {
                     mensaje(response);
                 }

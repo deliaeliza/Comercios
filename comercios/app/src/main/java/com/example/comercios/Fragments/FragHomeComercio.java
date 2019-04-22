@@ -63,7 +63,7 @@ public class FragHomeComercio extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        mensajeAB("Shop World");
         View view = inflater.inflate(R.layout.frag_home_comercio, container, false);
 
         fotoComercioHome = (ImageView) view.findViewById(R.id.FHomComercio_ImgLocal);
@@ -190,7 +190,6 @@ public class FragHomeComercio extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Mensaje("Calificacioness" + error.toString());
-                mensajeAB(error.toString());
             }
         });
 

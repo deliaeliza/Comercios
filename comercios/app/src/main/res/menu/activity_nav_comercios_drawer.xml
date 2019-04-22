@@ -8,15 +8,24 @@
             android:id="@+id/navComercios_inicio"
             android:icon="@drawable/home"
             android:title="@string/inicio_lbl" />
-        <item
-            android:id="@+id/navComercios_catalogo"
-            android:icon="@drawable/list_ul"
-            android:title="@string/catalogo_lbl"/>
-        <item
-            android:id="@+id/navComercios_productos"
-            android:icon="@drawable/shopping_cart"
-            android:title="@string/productos_lbl"/>
     </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Catalogo">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/navComercios_catalogo"
+                        android:icon="@drawable/list_ul"
+                        android:title="Secciones"/>
+                    <item
+                        android:id="@+id/navComercios_productos"
+                        android:icon="@drawable/shopping_cart"
+                        android:title="@string/productos_lbl"/>
+                </group>
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
         <item android:title="@string/infoGeneral_lbl">
             <menu>
                 <group android:checkableBehavior="single">
@@ -35,5 +44,6 @@
                 </group>
             </menu>
         </item>
+    </group>
 
 </menu>

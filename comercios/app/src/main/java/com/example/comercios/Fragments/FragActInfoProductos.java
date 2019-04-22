@@ -100,6 +100,7 @@ public class FragActInfoProductos extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_act_info_productos, container, false);
         mensajeAB("Modificar Producto");
+        GlobalComercios.getInstance().getImageViews().clear();
         secciones = new ArrayList<>();
         idSec = new ArrayList<>();
         viewpager = (ViewPager) view.findViewById(R.id.act_prod_viewPager);

@@ -9,8 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -27,7 +28,6 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 
 /**
@@ -48,6 +48,7 @@ public class FragSeccionResgistrar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.frag_seccion_resgistrar, container, false);
+        mensajeAB("Registrar Sección");
         OnclickDelButton(view.findViewById(R.id.fRegSec_btnReg));
         nombreSeccion = (TextInputEditText) view.findViewById(R.id.fRegSec_edtNombre);
         tilNombre = (TextInputLayout) view.findViewById(R.id.fRegSec_txtNombre);
@@ -88,15 +89,15 @@ public class FragSeccionResgistrar extends Fragment {
                 if (response.trim().equalsIgnoreCase("Se registro correctamente")) {
                     nombreSeccion.setText("");
                     tilNombre.setError(null);
-                    MensajeToast(response.trim());
+                    mensajeToast(response.trim());
                 } else {
-                    MensajeToast(response.trim());
+                    mensajeToast(response.trim());
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                MensajeToast("Intentelo mas tarde" + error.getMessage());
+                mensajeToast("Intentelo mas tarde" + error.getMessage());
             }
         }) {
             @Override
@@ -111,9 +112,10 @@ public class FragSeccionResgistrar extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
     }
 
-    public void MensajeToast(String msg) {
+    public void mensajeToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 
     private boolean validarDatos(){
         String dato = nombreSeccion.getText().toString();

@@ -19,6 +19,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -63,6 +65,7 @@ public class FragActInfoUsuario extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mensajeAB("Cuenta");
         View view = inflater.inflate(R.layout.frag_act_info_usuario, container, false);
         correo = (TextInputEditText) view.findViewById(R.id.fActInfoUser_edtEmail);
         LayoutCorreo = (TextInputLayout) view.findViewById(R.id.fActInfoUser_widEmail);
@@ -302,4 +305,6 @@ public class FragActInfoUsuario extends Fragment {
         LayoutConfPsw.setError("Las contraseñas no coinciden");
         return false;
     }
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
+
 }

@@ -62,6 +62,7 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import static android.Manifest.permission.CAMERA;
@@ -108,7 +109,7 @@ public class FragActInfoComercio extends Fragment  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        mensajeAB("Cuenta");
         View view = inflater.inflate(R.layout.frag_act_info_comercio, container, false);
 
         descripcion = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);
@@ -670,6 +671,7 @@ public class FragActInfoComercio extends Fragment  {
         LayoutConfPsw.setError("Las contraseñas no coinciden");
         return false;
     }
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 
 
 }

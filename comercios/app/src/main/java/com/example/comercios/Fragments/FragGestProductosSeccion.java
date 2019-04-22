@@ -16,6 +16,8 @@ package com.example.comercios.Fragments;
         import android.widget.TextView;
         import android.widget.Toast;
 
+        import androidx.appcompat.app.AppCompatActivity;
+
         import com.example.comercios.Modelo.Comercio;
         import com.android.volley.Request;
         import com.android.volley.Response;
@@ -67,7 +69,7 @@ package com.example.comercios.Fragments;
        @Override
        public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                 Bundle savedInstanceState) {
-
+            mensajeAB("Gestionar productos");
             view =inflater.inflate(R.layout.frag_gest_productos_seccion, container, false);
             //LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             listView = (ListView) view.findViewById(R.id.listViewProductosSeccion);
@@ -251,5 +253,7 @@ package com.example.comercios.Fragments;
                 cargarProductosSeccion();
             }
         }
+       private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 
-    }
+
+   }

@@ -20,20 +20,22 @@
                 android:id="@+id/fActInfoComercio_widUsuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="8dp"
                 android:hint="@string/user_lbl"
-                app:errorEnabled="true"
-                app:errorTextAppearance="@color/error"
                 app:counterEnabled="true"
                 app:counterMaxLength="45"
                 app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtUsuario"
                     android:layout_width="282dp"
+                    android:maxLength="45"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
@@ -60,6 +62,7 @@
                     android:id="@+id/fActInfoComercio_edtDescripcion"
                     android:layout_width="282dp"
                     android:layout_height="wrap_content"
+                    android:maxLength="500"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
                     android:inputType="textMultiLine" />
@@ -74,7 +77,9 @@
                 android:layout_marginTop="0dp"
                 android:textSize="18dp"
                 android:tooltipText="Categoria"
+                android:textColor="@color/cardview_dark_background"
                 app:cornerRadius="10dp"
+                android:backgroundTint="@color/cardview_shadow_start_color"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -104,6 +109,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtTelefono"
                     android:layout_width="282dp"
+                    android:maxLength="20"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
@@ -129,6 +135,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtCorreo"
                     android:layout_width="282dp"
+                    android:maxLength="45"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
@@ -154,6 +161,7 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtPass"
                     android:layout_width="282dp"
+                    android:maxLength="45"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
@@ -180,6 +188,7 @@
                     android:id="@+id/fActInfoComercio_edtConfiPass"
                     android:layout_width="282dp"
                     android:layout_height="wrap_content"
+                    android:maxLength="45"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
                     android:inputType="textPassword" />
