@@ -25,7 +25,7 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fRegSec_txtNombre"
-            android:layout_width="367dp"
+            android:layout_width="match_parent"
             android:layout_height="89dp"
             android:layout_marginTop="12dp"
             app:counterEnabled="true"
@@ -41,6 +41,8 @@
                 android:id="@+id/fRegSec_edtNombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
                 android:backgroundTint="@color/design_default_color_surface"
                 android:ems="10"
                 android:inputType="text"

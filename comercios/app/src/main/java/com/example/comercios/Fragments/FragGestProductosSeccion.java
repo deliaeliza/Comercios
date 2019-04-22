@@ -207,14 +207,14 @@ public class FragGestProductosSeccion extends Fragment {
                 MaterialButton buttonAction;
                 if(actual.isPertenece()){
                     buttonAction = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);
-                    buttonAction.setText("Quitar de\n sección");
+                    buttonAction.setText("Quitar de sección");
                     buttonAction.setIconResource(R.drawable.trash_alt);
                     buttonAction.setBackgroundColor(getResources().getColor(R.color.error));
                     buttonAction.setTag(position);
 
                 }else{
                     buttonAction = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);
-                    buttonAction.setText("Agregar a\n sección");
+                    buttonAction.setText("Agregar a sección");
                     buttonAction.setIconResource(R.drawable.plus_square);
                     buttonAction.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
                     buttonAction.setTag(position);
