@@ -111,6 +111,10 @@ package com.example.comercios.Fragments;
                 sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
                         "from Productos p where p.idComercio =" +GlobalComercios.getInstance().getComercio().getId(); ;
             }else{
+               /* sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado from Productos p, Secciones s " +
+                        "where p.idComercio = s.idComercio && s.idComercio="+ GlobalComercios.getInstance().getComercio().getId()
+                        +" && s.id ="+GlobalComercios.getInstance().getSeccion().getId();
+*/
                 sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
                         "from Productos p, SeccionesProductos sp " +
                         "where p.id=sp.idProducto && sp.idSeccion= "+GlobalComercios.getInstance().getSeccion().getId();
@@ -144,6 +148,7 @@ package com.example.comercios.Fragments;
 
                             }
                             if(inicial){
+                                listView.setAdapter(null);
                                 adapter = new FragGestProductosSeccion.ProductosListAdapter();;
                                 listView.setAdapter(adapter);
                                 inicial = false;
@@ -189,9 +194,6 @@ package com.example.comercios.Fragments;
 
                 TextView precio = (TextView) itemView.findViewById(R.id.item_gest_producto_precio);
                 precio.setText(String.valueOf(actual.getPrecio()));
-
-                TextView descripcion = (TextView) itemView.findViewById(R.id.item_gest_producto_descripcion);
-                descripcion.setText(actual.getDescripcion());
 
                 TextView estado = (TextView) itemView.findViewById(R.id.item_gest_producto_estado);
                 estado.setText(actual.isEstado()? "Activo" : "Desactivo");
