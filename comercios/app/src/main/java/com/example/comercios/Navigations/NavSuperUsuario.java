@@ -88,8 +88,13 @@ public class NavSuperUsuario extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.superUsuarioAdmin) {
+        if(id == R.id.superUsuarioHome){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragHomeSuperUsuario mifrag = new FragHomeSuperUsuario();
+            fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestAdmins");
+            fragmentTransaction.commit();
+        } else if (id == R.id.superUsuarioAdmin) {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragGestAdminLista mifrag = new FragGestAdminLista();
