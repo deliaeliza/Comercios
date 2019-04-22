@@ -40,7 +40,7 @@
 
                 android:text="Ver todo"
                 android:textSize="20sp"
-                app:backgroundTint="#BFBDBD"
+                app:backgroundTint="@color/colorPrimary"
                 app:cornerRadius="10dp"
                 app:icon="@drawable/search"
                 app:iconSize="20dp"

@@ -246,7 +246,6 @@ public class FragGestProductosSeccion extends Fragment {
                @Override
                public void onClick(View v) {
                    switch (v.getId()) {
-
                        case R.id.item_gest_producto_MaterialButtonEliminar:
                            posicion = (int)v.getTag();
                            Producto p =productosArray.get(posicion);
@@ -296,9 +295,11 @@ public class FragGestProductosSeccion extends Fragment {
         public void actualizarProducto(Producto p){
             String sql="";
             if(p.isPertenece()){
-                sql+="";
+                sql+="UPDATE SeccionesProductos SET idSeccion="+GlobalComercios.getInstance().getSeccion().getId()
+                        +"WHERE idProducto="+p.getId();
             }else{
-
+                sql+="UPDATE SeccionesProductos SET idSeccion="+GlobalComercios.getInstance().getSeccion().getId()+
+                        "WHERE idProducto="+p.getId();
             }
 
         String url = Util.urlWebService + "/actualizarInfoUsuario.php?query=";
