@@ -36,6 +36,20 @@ public class FragMenuInferiorComercio extends Fragment {
                 return definirVista(item);
             }
         });
+        if(GlobalComercios.getInstance().getOpcActual() == R.string.catalogo_lbl){
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragSeccionResgistrar  mifrag = new FragSeccionResgistrar ();
+            fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
+            fragmentTransaction.commit();
+        } else {
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragProductoResgistrar  mifrag = new FragProductoResgistrar ();
+            fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
+            fragmentTransaction.commit();
+        }
+
         return view;
     }
 
