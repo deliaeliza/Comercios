@@ -39,7 +39,7 @@
                 android:layout_marginEnd="20dp"
                 android:text="Ver todo"
                 android:textSize="18sp"
-                app:backgroundTint="#60000000"
+                app:backgroundTint="@color/colorPrimaryDark"
                 app:cornerRadius="10dp"
                 app:icon="@drawable/plus_square"
                 app:iconSize="19dp"
