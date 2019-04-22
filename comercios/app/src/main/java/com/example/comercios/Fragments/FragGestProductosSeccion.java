@@ -224,9 +224,9 @@ package com.example.comercios.Fragments;
 
 
                 //OnclickDelMaterialCardView(panel);
-            /*  OnclickDelMaterialButton(estado);
-                OnclickDelMaterialButton(eliminar);
-*/
+
+                //OnclickDelMaterialButton(eliminar);
+
                 return itemView;
             }
         }
