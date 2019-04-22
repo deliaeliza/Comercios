@@ -66,7 +66,7 @@ public class NavComercios extends AppCompatActivity
             FragHomeComercio  mifrag2 = new FragHomeComercio();
             fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "Home");
             fragmentTransaction.commit();
-            super.onBackPressed();
+            //super.onBackPressed();
         }
     }
 

@@ -66,6 +66,7 @@ public class FragActInfoUsuario extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mensajeAB("Cuenta");
+        GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_act_info_usuario);
         View view = inflater.inflate(R.layout.frag_act_info_usuario, container, false);
         correo = (TextInputEditText) view.findViewById(R.id.fActInfoUser_edtEmail);
         LayoutCorreo = (TextInputLayout) view.findViewById(R.id.fActInfoUser_widEmail);
