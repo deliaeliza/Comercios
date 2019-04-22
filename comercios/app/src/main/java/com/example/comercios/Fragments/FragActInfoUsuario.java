@@ -128,7 +128,7 @@ public class FragActInfoUsuario extends Fragment {
 
                 if (response.trim().equalsIgnoreCase("correcto")) {
                     Mensaje("Actualización éxitosa");
-                    dialogoRegresarMenuPrincial();
+                    //dialogoRegresarMenuPrincial();
 
                 } else {
 
@@ -209,7 +209,7 @@ public class FragActInfoUsuario extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
 
-    private void dialogoRegresarMenuPrincial() {
+    /*private void dialogoRegresarMenuPrincial() {
         final CharSequence[] opciones = {"si", "no"};
         final androidx.appcompat.app.AlertDialog.Builder alertOpciones = new androidx.appcompat.app.AlertDialog.Builder(getActivity());//estamos en fragment
         alertOpciones.setTitle("¿Desea regresar al menu principal?");
@@ -217,12 +217,12 @@ public class FragActInfoUsuario extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (opciones[i].equals("si")) {
-                    /*FragmentManager fm = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    FragMenuPrincipalUser mifrag = new FragMenuPrincipalUser ();
-                    fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "ID");
-                    fragmentTransaction.commit();*/
-                    dialogInterface.dismiss();
+                    //FragmentManager fm = getFragmentManager();
+                    //FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    //FragMenuPrincipalUser mifrag = new FragMenuPrincipalUser ();
+                    //fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "ID");
+                    //fragmentTransaction.commit();
+                    //dialogInterface.dismiss();
 
                 } else {
                     dialogInterface.dismiss();
@@ -230,7 +230,7 @@ public class FragActInfoUsuario extends Fragment {
             }
         });
         alertOpciones.show();
-    }
+    }*/
 
 
     private void OnTextChangedDelTextInputEditText(final TextInputEditText textInputEditText){

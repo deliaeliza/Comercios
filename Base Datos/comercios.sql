@@ -109,7 +109,7 @@ CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45)
 IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
 BEGIN
 	DECLARE idC INT;
-	SET idC = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
+	SET idC = (SELECT COALESCE(MAX(id),0) FROM comercioscr.Usuarios) + 1;
 	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
 	INSERT INTO comercioscr.Comercios(idUsuario, telefono, verificado, descripcion, ubicacion, idCategoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
     INSERT INTO comercioscr.Secciones(idComercio, nombre) values (idC, 'DEFAULT');
@@ -160,7 +160,7 @@ DELIMITER //
 CREATE PROCEDURE PAregistrarUsuarioEstandar(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), IN Pcontrasena VARCHAR(45), IN PfechaNac DATE)
 BEGIN
 	DECLARE idE INT;
-	SET idE = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
+	SET idE = (SELECT COALESCE(MAX(id),0) FROM comercioscr.Usuarios) + 1;
 	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idE, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
 	INSERT INTO comercioscr.UsuariosEstandar(idUsuario, fechaNac) VALUES (idE, PfechaNac);
 END;
@@ -185,8 +185,8 @@ ENGINE = InnoDB;
 DELIMITER //
 CREATE PROCEDURE PAregistrarAdministrador(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT)
 BEGIN
-	DECLARE idA INT;
-	SET idA = (SELECT COUNT(id) FROM comercioscr.Usuarios) + 1;
+	DECLARE idA INT DEFAULT 1;
+	SET idA = (SELECT COALESCE(MAX(id),0) FROM comercioscr.Usuarios) + 1;
 	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idA, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
 	INSERT INTO comercioscr.Administradores(idUsuario, telefono) VALUES (idA, Ptelefono);
 END;
@@ -295,7 +295,7 @@ CREATE TRIGGER TimagenesMaximo BEFORE UPDATE ON comercioscr.ProductoImagenes FOR
 BEGIN
 	DECLARE cantidad INT;
 	SELECT COUNT(id) INTO cantidad FROM comercioscr.ProductoImagenes WHERE comercioscr.ProductoImagenes.idProducto = NEW.idProducto;
-	IF(cantidad >= 10) THEN 
+	IF(cantidad >= 5) THEN 
 		SIGNAL SQLSTATE '45000' SET message_text = 'Ya llego al maximo de imagenes por producto';
 	END IF;
 END;
