@@ -71,6 +71,7 @@ public class FragSeccionListarComercio extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mensajeAB("Secciones");
+        //GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_listar_comercio);
         View view =inflater.inflate(R.layout.frag_seccion_listar_comercio, container, false);
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);

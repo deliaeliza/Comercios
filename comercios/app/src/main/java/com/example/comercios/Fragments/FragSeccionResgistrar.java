@@ -49,6 +49,7 @@ public class FragSeccionResgistrar extends Fragment {
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.frag_seccion_resgistrar, container, false);
         mensajeAB("Registrar Sección");
+        //GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_resgistrar);
         OnclickDelButton(view.findViewById(R.id.fRegSec_btnReg));
         nombreSeccion = (TextInputEditText) view.findViewById(R.id.fRegSec_edtNombre);
         tilNombre = (TextInputLayout) view.findViewById(R.id.fRegSec_txtNombre);

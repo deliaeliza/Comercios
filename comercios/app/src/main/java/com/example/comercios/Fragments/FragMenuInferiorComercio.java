@@ -37,11 +37,24 @@ public class FragMenuInferiorComercio extends Fragment {
             }
         });
         if(GlobalComercios.getInstance().getOpcActual() == R.string.catalogo_lbl){
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragSeccionResgistrar  mifrag = new FragSeccionResgistrar ();
-            fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
-            fragmentTransaction.commit();
+            if(GlobalComercios.getInstance().isAgregar()) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                FragSeccionResgistrar mifrag = new FragSeccionResgistrar();
+                fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
+                fragmentTransaction.commit();
+                GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_resgistrar);
+            } else {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                FragSeccionListarComercio mifrag = new FragSeccionListarComercio();
+                fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
+                fragmentTransaction.commit();
+                GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_listar_comercio);
+                GlobalComercios.getInstance().setAgregar(true);
+                menu.setSelectedItemId(R.id.menuIferiorComercio_modificar);
+            }
+
 
         } else {
             FragmentManager fm = getFragmentManager();
@@ -49,6 +62,7 @@ public class FragMenuInferiorComercio extends Fragment {
             FragProductoResgistrar  mifrag = new FragProductoResgistrar ();
             fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferiorRegProductos");
             fragmentTransaction.commit();
+            GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_resgistrar);
         }
 
         return view;
@@ -64,6 +78,7 @@ public class FragMenuInferiorComercio extends Fragment {
                     FragSeccionResgistrar  mifrag = new FragSeccionResgistrar ();
                     fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
                     fragmentTransaction.commit();
+                    GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_resgistrar);
                     return true;
                 } else if (item.getItemId() == R.id.menuIferiorComercio_modificar) {
                     FragmentManager fm = getFragmentManager();
@@ -71,6 +86,8 @@ public class FragMenuInferiorComercio extends Fragment {
                     FragSeccionListarComercio  mifrag = new FragSeccionListarComercio ();
                     fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
                     fragmentTransaction.commit();
+                    GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_listar_comercio);
+                    GlobalComercios.getInstance().setAgregar(true);
                     return true;
                 }
                 return false;
@@ -81,6 +98,7 @@ public class FragMenuInferiorComercio extends Fragment {
                     FragProductoResgistrar  mifrag = new FragProductoResgistrar ();
                     fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
                     fragmentTransaction.commit();
+                    GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_resgistrar);
                     return true;
                 } else if (item.getItemId() == R.id.menuIferiorComercio_modificar) {
                     //No forma parte de l primera entrega

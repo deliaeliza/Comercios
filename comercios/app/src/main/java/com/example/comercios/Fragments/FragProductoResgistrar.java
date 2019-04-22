@@ -103,6 +103,7 @@ public class FragProductoResgistrar extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mensajeAB("Registrar producto");
+        //GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_resgistrar);
         View view = inflater.inflate(R.layout.frag_producto_resgistrar, container, false);
         GlobalComercios.getInstance().getImageViews().clear();
         secciones = new ArrayList<>();

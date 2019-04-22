@@ -15,6 +15,7 @@ public class GlobalComercios {
     private Producto producto = null;
     private int opcActual;
     private int imgActual;
+    private boolean agregar = true;
 
 
     private int ventanaActual = R.layout.frag_home_comercio;
@@ -82,5 +83,11 @@ public class GlobalComercios {
         this.ventanaActual = ventanaActual;
     }
 
+    public boolean isAgregar() {
+        return agregar;
+    }
+    public void setAgregar(boolean agregar) {
+        this.agregar = agregar;
+    }
 
 }

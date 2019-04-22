@@ -110,6 +110,7 @@ public class FragActInfoComercio extends Fragment  {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mensajeAB("Cuenta");
+        GlobalComercios.getInstance().setVentanaActual(R.layout.frag_act_info_comercio);
         View view = inflater.inflate(R.layout.frag_act_info_comercio, container, false);
 
         descripcion = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);

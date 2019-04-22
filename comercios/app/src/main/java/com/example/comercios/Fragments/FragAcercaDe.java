@@ -1,6 +1,8 @@
 package com.example.comercios.Fragments;
 
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.LayoutInflater;
@@ -10,11 +12,13 @@ import android.app.Fragment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.comercios.Filtros.FiltrosSeccion;
 import com.example.comercios.Global.GlobalAdmin;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Global.GlobalSuperUsuario;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.R;
+import com.google.android.material.button.MaterialButton;
 
 
 /**
@@ -37,8 +41,27 @@ public class FragAcercaDe extends Fragment {
         GlobalAdmin.getInstance().setVentanaActual(R.layout.frag_acerca_de);
         GlobalComercios.getInstance().setVentanaActual(R.layout.frag_acerca_de);
         GlobalSuperUsuario.getInstance().setVentanaActual(R.layout.frag_acerca_de);
+        View v = inflater.inflate(R.layout.frag_acerca_de, container, false);
+        OnclickDelMaterialButton(v.findViewById(R.id.frag_btnVideo));
 
-        return inflater.inflate(R.layout.frag_acerca_de, container, false);
+        return v;
     }
+
+    public void OnclickDelMaterialButton(View view) {
+        MaterialButton miMaterialButton = (MaterialButton)  view;
+        miMaterialButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+                    case R.id.frag_btnVideo:
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=W6oivFUtkG8&feature=youtu.be")));
+                        break;
+                    default:
+                        break;
+                }// fin de casos
+            }// fin del onclick
+        });
+    }// fin de OnclickDelMaterialButton
+
     private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 }

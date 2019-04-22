@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoComercio;
+import com.example.comercios.Fragments.FragHomeAdmin;
 import com.example.comercios.Fragments.FragHomeComercio;
 import com.example.comercios.Fragments.FragMenuInferiorComercio;
+import com.example.comercios.Fragments.FragSeccionListarComercio;
 import com.example.comercios.Global.GlobalAdmin;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Login;
@@ -61,11 +63,30 @@ public class NavComercios extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
+
+            int ventanaActual = GlobalComercios.getInstance().getVentanaActual();
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragHomeComercio  mifrag2 = new FragHomeComercio();
-            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "Home");
-            fragmentTransaction.commit();
+            switch (ventanaActual) {
+                case R.layout.frag_seccion_modificar:
+                    GlobalComercios.getInstance().setAgregar(false);
+                    FragMenuInferiorComercio mifrag2 = new FragMenuInferiorComercio();
+                    fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "SECLC");
+                    fragmentTransaction.commit();
+                    break;
+                case R.layout.frag_seccion_listar_comercio:
+                case R.layout.frag_seccion_resgistrar:
+                case R.layout.frag_home_comercio:
+                case R.layout.frag_act_info_comercio:
+                case R.layout.frag_acerca_de:
+                case R.layout.frag_producto_resgistrar:
+                    FragHomeComercio  mifrag3 = new FragHomeComercio();
+                    fragmentTransaction.replace(R.id.comercio_contenedor, mifrag3, "Home");
+                    fragmentTransaction.commit();
+                    break;
+                default:
+                    break;
+            }
             //super.onBackPressed();
         }
     }

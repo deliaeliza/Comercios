@@ -56,6 +56,7 @@ public class FragSeccionModificar extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_seccion_modificar, container, false);
         mensajeAB("Modificar Sección");
+        GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_modificar);
         nombre = (TextInputEditText) view.findViewById(R.id.sec_modificar_TextInputEditText);
         tilNombre = (TextInputLayout) view.findViewById(R.id.sec_modificar_TextInputLayout);
         OnclickDelMaterialButtom(view.findViewById(R.id.sec_modificar_MaterialButtonAct));
