@@ -68,7 +68,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class fragActInfoProductos extends Fragment {
+public class FragActInfoProductos extends Fragment {
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
     private static final int COD_FOTO = 20;
@@ -91,7 +91,7 @@ public class fragActInfoProductos extends Fragment {
     private String path;//almacena la ruta de la imagen
     File fileImagen;
     private boolean reemImg = false;
-    public fragActInfoProductos() {
+    public FragActInfoProductos() {
         // Required empty public constructor
     }
 
