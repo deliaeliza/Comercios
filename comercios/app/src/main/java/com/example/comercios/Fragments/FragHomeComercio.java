@@ -189,7 +189,7 @@ public class FragHomeComercio extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("Calificacioness" + error.toString());
+                Mensaje(error.toString());
             }
         });
 

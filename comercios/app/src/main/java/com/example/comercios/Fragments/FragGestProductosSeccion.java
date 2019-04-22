@@ -76,7 +76,9 @@ package com.example.comercios.Fragments;
             manejador = new MyHandler();
             radioGroup = (RadioGroup) view.findViewById(R.id.FGestProductoSec_radioGroup);
             //adapter = new FragGestProductosSeccion.ProductosListAdapter();
+
             productosArray= new ArrayList<>();
+            cargarProductosSeccion();
 
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
