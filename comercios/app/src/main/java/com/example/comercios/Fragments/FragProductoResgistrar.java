@@ -1,6 +1,7 @@
 package com.example.comercios.Fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,7 +23,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -92,6 +92,7 @@ public class FragProductoResgistrar extends Fragment {
     File fileImagen;
     viewPagerAdapter vie;
     ViewPager viewpager;
+    ProgressDialog progreso;
     private boolean reemImg = false;
 
     public FragProductoResgistrar() {
@@ -301,22 +302,31 @@ public class FragProductoResgistrar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensaje("No se puede conectar " + error.toString());
+                mensaje("Inténtelo mas tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     public void enviarDatosRegistrar() {
+        progreso=new ProgressDialog(getActivity());
+        progreso.setMessage("Cargando...");
+        progreso.show();
         String url = Util.urlWebService + "/productoRegistrar.php?";
 
         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                progreso.hide();
                 if (response.trim().equalsIgnoreCase("Se registro correctamente")) {
                     nombre.setText("");
                     precio.setText("");
                     descripcion.setText("");
+                    lyNombre.setError(null);
+                    categoria.setText("");
+                    btnElim.setVisibility(View.GONE);
+                    btnRemFoto.setVisibility(View.GONE);
+                    viewpager.setBackgroundResource(R.drawable.ic_menu_camera);
                     mensaje(response);
                     GlobalComercios.getInstance().getImageViews().clear();
                     vie.notifyDataSetChanged();
@@ -327,7 +337,8 @@ public class FragProductoResgistrar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensaje("No se ha podido conectar" + error.getMessage());
+                mensaje("Inténtelo mas tarde");
+                progreso.hide();
             }
         }) {
             @Override
