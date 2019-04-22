@@ -74,7 +74,7 @@ public class Login extends AppCompatActivity {
                                 GlobalAdmin.getInstance().setAdmin(new Administrador(
                                         user.optInt("id"),
                                         tipo,
-                                        user.optLong("telefono"),
+                                        user.optLong("telAdmin"),
                                         estado != 0,
                                         user.optString("correo"),
                                         user.optString("usuario")
@@ -85,14 +85,16 @@ public class Login extends AppCompatActivity {
                                 GlobalComercios.getInstance().setComercio(new Comercio(
                                         user.optInt("id"),
                                         tipo,
-                                        user.optLong("telefono"),
+                                        user.optLong("telComercio"),
                                         user.optInt("verificado") !=0,
                                         estado != 0,
                                         user.optString("correo"),
                                         user.getString("usuario"),
                                         user.optString("descripcion"),
                                         user.optString("ubicacion"),
-                                        user.optString("nombreCat")
+                                        user.optString("nombreCat"),
+                                        user.optString("urlImagen"),
+                                        user.optInt("idCategoria")
                                 ));
 
                                 Intent intento = new Intent(getApplicationContext(), NavComercios.class);
