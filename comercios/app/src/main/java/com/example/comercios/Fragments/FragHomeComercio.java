@@ -19,6 +19,7 @@ package com.example.comercios.Fragments;
         import com.android.volley.VolleyError;
         import com.android.volley.toolbox.ImageRequest;
         import com.android.volley.toolbox.JsonObjectRequest;
+        import com.example.comercios.Global.GlobalComercios;
         import com.example.comercios.Modelo.Categorias;
         import com.example.comercios.Modelo.Util;
         import com.example.comercios.Modelo.VolleySingleton;
@@ -105,7 +106,7 @@ public class FragHomeComercio extends Fragment {
     }
     private void cargarDatosAnteriores2(View view) {
         //GlobalComercios.getInstance().getComercio().getId();
-        String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+"6";
+        String url = Util.urlWebService + "/obtenerInfoComercio.php?id="+ GlobalComercios.getInstance().getComercio().getId();
 
         jsonObjectRequest2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -162,7 +163,7 @@ public class FragHomeComercio extends Fragment {
     public void recuperarCalificacionesComercio(){
         calificaciones = new ArrayList<>();
         //GlobalComercios.getInstance().getComercio().getId();
-        String url = Util.urlWebService + "/obtenerCalificaciones.php?id="+"6";
+        String url = Util.urlWebService + "/obtenerCalificaciones.php?id="+GlobalComercios.getInstance().getComercio().getId();
 
         jsonObjectRequest3 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
