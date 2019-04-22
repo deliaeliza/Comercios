@@ -12,7 +12,7 @@
     </group>
 
     <group android:checkableBehavior="single">
-        <item android:title="Gestion ">
+        <item android:title="Gestión ">
             <menu>
                 <group android:checkableBehavior="single">
                     <item
