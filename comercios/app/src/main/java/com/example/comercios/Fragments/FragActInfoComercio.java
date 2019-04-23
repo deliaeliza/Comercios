@@ -98,9 +98,6 @@ public class FragActInfoComercio extends Fragment  {
     TextInputEditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
     TextInputLayout LayoutDescripcion,LayoutTelefono, LayoutCorreo,LayoutUsuario,LayoutPsw,LayoutConfPsw;
 
-    //para guardar la info actual del usuario
-    String CDescripcion,CUsuario,CTelefono,CCorreo,CContra,CUbicacion,CUrlImagen;
-
     public FragActInfoComercio() {
         // Required empty public constructor
     }
@@ -265,13 +262,13 @@ public class FragActInfoComercio extends Fragment  {
                 if(!descripcion.getText().toString().equalsIgnoreCase("")){
                     parametros.put("descripcion",descripcion.getText().toString());
                 }else{
-                    parametros.put("descripcion",CDescripcion);
+                    parametros.put("descripcion", GlobalComercios.getInstance().getComercio().getDescripcion());
                 }
 
                 if(!usuario.getText().toString().equalsIgnoreCase("")){
                     parametros.put("usuario",usuario.getText().toString());
                 }else{
-                    parametros.put("usuario",CUsuario);
+                    parametros.put("usuario",GlobalComercios.getInstance().getComercio().getUsuario());
                 }
 
                 parametros.put("categoria",String.valueOf(categoriaSeleccionada));
@@ -279,25 +276,25 @@ public class FragActInfoComercio extends Fragment  {
                 if(!telefono.getText().toString().equalsIgnoreCase("")){
                     parametros.put("telefono",telefono.getText().toString());
                 }else{
-                    parametros.put("telefono",CTelefono);
+                    parametros.put("telefono",Long.toString(GlobalComercios.getInstance().getComercio().getTelefono()));
                 }
 
                 if(!correo.getText().toString().equalsIgnoreCase("")){
                     parametros.put("correo",correo.getText().toString());
                 }else{
-                    parametros.put("correo",CCorreo);
+                    parametros.put("correo",GlobalComercios.getInstance().getComercio().getCorreo());
                 }
 
                 if(!password.getText().toString().equalsIgnoreCase("")){
                     parametros.put("contrasena",password.getText().toString());
                 }else {
-                    parametros.put("contrasena",CContra);
+                    parametros.put("contrasena",GlobalComercios.getInstance().getComercio().getContrasena());
                 }
 
                 if(!ubicacion.getText().toString().equalsIgnoreCase("")){
                     parametros.put("ubicacion",ubicacion.getText().toString());
                 }else {
-                    parametros.put("ubicacion",CUbicacion);
+                    parametros.put("ubicacion",GlobalComercios.getInstance().getComercio().getUbicacion());
                 }
 
                 parametros.put("imagen",imagenConveritda);

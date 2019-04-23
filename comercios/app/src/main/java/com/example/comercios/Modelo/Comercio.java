@@ -40,7 +40,7 @@ public class Comercio {
         this.secciones = secciones;
     }
 
-    public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, String urlImagen, int idCategoria) {
+    public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, String urlImagen, int idCategoria, String contrasena) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -53,6 +53,7 @@ public class Comercio {
         this.categoria = categoria;
         this.urlImagen = urlImagen;
         this.idCategoria = idCategoria;
+        this.contrasena = contrasena;
     }
 /*
     public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria) {
