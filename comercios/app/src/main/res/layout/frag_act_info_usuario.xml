@@ -14,9 +14,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fActInfoUser_widUser"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
             android:hint="@string/user_lbl"
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
@@ -31,7 +32,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fActInfoUser_edtUser"
-                android:layout_width="282dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="45"
                 android:backgroundTint="@color/design_default_color_surface"
@@ -41,9 +42,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fActInfoUser_widEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
             android:hint="@string/email_lbl"
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
@@ -58,7 +60,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fActInfoUser_edtEmail"
-                android:layout_width="282dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="45"
                 android:backgroundTint="@color/design_default_color_surface"
@@ -69,9 +71,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fActInfoUser_widPass"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
             android:hint="@string/pwd_lbl"
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
@@ -85,7 +88,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fActInfoUser_edtPass"
-                android:layout_width="282dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="45"
                 android:backgroundTint="@color/design_default_color_surface"
@@ -95,9 +98,10 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/fActInfoUser_widConfPass"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="20dp"
             android:hint="@string/confPWD_lbl"
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
@@ -109,7 +113,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fActInfoUser_edtConfPass"
-                android:layout_width="282dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="45"
                 android:backgroundTint="@color/design_default_color_surface"
@@ -120,13 +124,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fActInfoUser_btnAct"
-            android:layout_width="282dp"
+            android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="30dp"
             android:text="@string/actualizar_lbl"
             android:textSize="18sp"
             app:backgroundTint="@color/colorAccent"
-            app:cornerRadius="10dp"
+            app:cornerRadius="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"

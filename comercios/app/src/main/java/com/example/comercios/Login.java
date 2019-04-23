@@ -94,7 +94,8 @@ public class Login extends AppCompatActivity {
                                         user.optString("ubicacion"),
                                         user.optString("nombreCat"),
                                         user.optString("urlImagen"),
-                                        user.optInt("idCategoria")
+                                        user.optInt("idCategoria"),
+                                        user.optString("contrasena")
                                 ));
 
                                 Intent intento = new Intent(getApplicationContext(), NavComercios.class);

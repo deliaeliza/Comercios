@@ -98,9 +98,6 @@ public class FragActInfoComercio extends Fragment  {
     TextInputEditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
     TextInputLayout LayoutDescripcion,LayoutTelefono, LayoutCorreo,LayoutUsuario,LayoutPsw,LayoutConfPsw;
 
-    //para guardar la info actual del usuario
-    String CDescripcion,CUsuario,CTelefono,CCorreo,CContra,CUbicacion,CUrlImagen;
-
     public FragActInfoComercio() {
         // Required empty public constructor
     }
@@ -112,6 +109,9 @@ public class FragActInfoComercio extends Fragment  {
         mensajeAB("Cuenta");
         GlobalComercios.getInstance().setVentanaActual(R.layout.frag_act_info_comercio);
         View view = inflater.inflate(R.layout.frag_act_info_comercio, container, false);
+
+        categorias = new ArrayList<>();
+        categoriasArray= new ArrayList<>();
 
         descripcion = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);
         LayoutDescripcion = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widDescripcion);
@@ -132,7 +132,7 @@ public class FragActInfoComercio extends Fragment  {
         LayoutConfPsw = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widConfiPass);
 
         ubicacion = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtUbicacion);
-
+        spinner = (MaterialSpinner) view.findViewById(R.id.fActInfoComercio_SPcategorias);
 
         usuario.setText(GlobalComercios.getInstance().getComercio().getUsuario());
         descripcion.setText(GlobalComercios.getInstance().getComercio().getDescripcion());
@@ -262,13 +262,13 @@ public class FragActInfoComercio extends Fragment  {
                 if(!descripcion.getText().toString().equalsIgnoreCase("")){
                     parametros.put("descripcion",descripcion.getText().toString());
                 }else{
-                    parametros.put("descripcion",CDescripcion);
+                    parametros.put("descripcion", GlobalComercios.getInstance().getComercio().getDescripcion());
                 }
 
                 if(!usuario.getText().toString().equalsIgnoreCase("")){
                     parametros.put("usuario",usuario.getText().toString());
                 }else{
-                    parametros.put("usuario",CUsuario);
+                    parametros.put("usuario",GlobalComercios.getInstance().getComercio().getUsuario());
                 }
 
                 parametros.put("categoria",String.valueOf(categoriaSeleccionada));
@@ -276,25 +276,25 @@ public class FragActInfoComercio extends Fragment  {
                 if(!telefono.getText().toString().equalsIgnoreCase("")){
                     parametros.put("telefono",telefono.getText().toString());
                 }else{
-                    parametros.put("telefono",CTelefono);
+                    parametros.put("telefono",Long.toString(GlobalComercios.getInstance().getComercio().getTelefono()));
                 }
 
                 if(!correo.getText().toString().equalsIgnoreCase("")){
                     parametros.put("correo",correo.getText().toString());
                 }else{
-                    parametros.put("correo",CCorreo);
+                    parametros.put("correo",GlobalComercios.getInstance().getComercio().getCorreo());
                 }
 
                 if(!password.getText().toString().equalsIgnoreCase("")){
                     parametros.put("contrasena",password.getText().toString());
                 }else {
-                    parametros.put("contrasena",CContra);
+                    parametros.put("contrasena",GlobalComercios.getInstance().getComercio().getContrasena());
                 }
 
                 if(!ubicacion.getText().toString().equalsIgnoreCase("")){
                     parametros.put("ubicacion",ubicacion.getText().toString());
                 }else {
-                    parametros.put("ubicacion",CUbicacion);
+                    parametros.put("ubicacion",GlobalComercios.getInstance().getComercio().getUbicacion());
                 }
 
                 parametros.put("imagen",imagenConveritda);
@@ -311,11 +311,7 @@ public class FragActInfoComercio extends Fragment  {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
     public void cargarCategorias(View view){
-        categorias = new ArrayList<>();
-        categoriasArray= new ArrayList<>();
         String url = Util.urlWebService + "/categoriasObtener.php";
-
-       spinner = (MaterialSpinner) view.findViewById(R.id.fActInfoComercio_SPcategorias);
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -328,6 +324,21 @@ public class FragActInfoComercio extends Fragment  {
                         categoriasArray.add(obj.getString("nombre"));
                         categorias.add(new Categorias(obj.getInt("id"),obj.getString("nombre")));
                     }
+                    spinner.setItems(categoriasArray);
+
+                    for(int i = 0; i < categoriasArray.size(); i++){
+                        if(categoriasArray.get(i).equalsIgnoreCase(GlobalComercios.getInstance().getComercio().getCategoria())){
+                            spinner.setSelectedIndex(i);
+                            break;
+                        }
+                    }
+
+                    categoriaSeleccionada = GlobalComercios.getInstance().getComercio().getIdCategoria();
+                    spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+                        @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                            categoriaSeleccionada=ObtenerIdCategoria(item);
+                        }
+                    });
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -339,19 +350,6 @@ public class FragActInfoComercio extends Fragment  {
                 Mensaje("No se puede conectar " + error.toString());
             }
         });
-        spinner.setHint("Seleccione una categoria");
-        spinner.setItems(categoriasArray);
-        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                categoriaSeleccionada=ObtenerIdCategoria(item);
-            }
-        });
-        categoriaSeleccionada = GlobalComercios.getInstance().getComercio().getIdCategoria();
-        for(int i=0;i<categorias.size();i++){
-            if(categorias.get(i).getId() == categoriaSeleccionada){
-                spinner.setHint(categorias.get(i).getNombre());
-            }
-        }
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
     private void mostrarDialogOpciones() {
