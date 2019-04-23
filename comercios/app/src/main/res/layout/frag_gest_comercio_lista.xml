@@ -11,10 +11,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="36dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/gest_comercio_MaterialButtonFiltrar"
@@ -35,8 +37,8 @@
                 android:id="@+id/gest_comercio_MaterialButtonTodos"
                 android:layout_width="180dp"
                 android:layout_height="64dp"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="10dp"
 
                 android:text="Ver todo"
                 android:textSize="20sp"

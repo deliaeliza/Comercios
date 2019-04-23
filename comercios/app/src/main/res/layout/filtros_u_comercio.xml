@@ -12,11 +12,11 @@
         app:cardCornerRadius="8dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="338dp"
+            android:layout_height="468dp">
 
             <TextView
-                android:id="@+id/filtros_estandar_txt1"
+                android:id="@+id/filtros_comercio_txt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
@@ -31,27 +31,28 @@
                 android:id="@+id/filtros_estandar_line0"
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="16dp"
                 android:background="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_txt1" />
+                app:layout_constraintTop_toBottomOf="@+id/filtros_comercio_txt1" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filtros_estandar_tilUsuario"
+                android:id="@+id/filtros_comercio_tilNombre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:hint="Usuario"
+                android:hint="Nombre"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.603"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_line0">
+                app:layout_constraintTop_toTopOf="@+id/filtros_estandar_line0">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/filtros_estandar_usuario"
+                    android:id="@+id/filtros_comercio_nombre"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -62,19 +63,20 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filtros_estandar_tilCorreo"
+                android:id="@+id/filtros_comercio_tilCorreo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="44dp"
                 android:hint="Correo"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.974"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilUsuario">
+                app:layout_constraintTop_toBottomOf="@+id/filtros_comercio_tilNombre">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/filtros_estandar_correo"
+                    android:id="@+id/filtros_comercio_correo"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -84,66 +86,70 @@
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filtros_estandar_tilEdadMin"
-                android:layout_width="wrap_content"
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/filtros_comercio_selectCategoria"
+                android:layout_width="220dp"
+                android:layout_marginTop="20dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
-                android:hint="Edad mínima"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilCorreo">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/filtros_estandar_edadMin"
-                    android:layout_width="105dp"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/design_default_color_surface"
-                    android:ems="12"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filtros_estandar_tilEdadMax"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="36dp"
-                android:hint="Edad máxima"
+                android:backgroundTint="@color/cardview_shadow_start_color"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="18dp"
+                android:tooltipText="Categoria"
+                app:cornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilCorreo">
+                app:layout_constraintHorizontal_bias="0.52"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filtros_comercio_tilCorreo"
+                app:ms_arrow_tint="@color/colorPrimary"
+                app:ms_hint="Categorias">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/filtros_estandar_edadMax"
-                    android:layout_width="105dp"
+            </com.jaredrummler.materialspinner.MaterialSpinner>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/filtros_comercio_lblverificado"
+                android:layout_width="220dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="20dp"
+                android:hint="Categoria"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/filtros_comercio_selectCategoria">
+
+                <CheckBox
+                    android:id="@+id/filtros_comercio_chkVerficado"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/design_default_color_surface"
-                    android:ems="12"
-                    android:inputType="number" />
+                    android:layout_weight="1"
+                    android:text="CheckBox" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:id="@+id/filtros_estandar_txt2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="24dp"
+                android:layout_height="17dp"
+                android:layout_marginStart="84dp"
+                android:layout_marginTop="20dp"
                 android:text="Estado"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilEdadMax" />
+                app:layout_constraintTop_toBottomOf="@id/filtros_comercio_lblverificado" />
 
             <RadioGroup
-                android:id="@+id/filtros_estandar_radioG"
+                android:id="@+id/filtros_comercio_radioG"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_txt2">
 
                 <RadioButton
-                    android:id="@+id/filtros_estandar_radioActivo"
+                    android:id="@+id/filtros_comercio_radioActivo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -151,7 +157,7 @@
                     android:text="Activo" />
 
                 <RadioButton
-                    android:id="@+id/filtros_estandar_radioDesactivo"
+                    android:id="@+id/filtros_estanda_radioDesactivo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -162,16 +168,16 @@
                 android:id="@+id/filtros_estandar_line1"
                 android:layout_width="0dp"
                 android:layout_height="2dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
                 android:background="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_radioG" />
+                app:layout_constraintTop_toBottomOf="@+id/filtros_comercio_radioG" />
 
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/filtros_estandar_MaterialCardViewLimpiar"
+                android:id="@+id/filtros_comercio_MaterialCardViewLimpiar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -195,7 +201,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/filtros_estandar_MaterialCardViewBuscar"
+                android:id="@+id/filtros_comercio_MaterialCardViewBuscar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -219,7 +225,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/filtros_estandar_MaterialCardViewCancelar"
+                android:id="@+id/filtros_comercio_MaterialCardViewCancelar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -231,8 +237,8 @@
                 app:contentPaddingLeft="14dp"
                 app:contentPaddingRight="14dp"
                 app:contentPaddingTop="15dp"
-                app:layout_constraintEnd_toStartOf="@+id/filtros_estandar_MaterialCardViewBuscar"
-                app:layout_constraintStart_toEndOf="@+id/filtros_estandar_MaterialCardViewLimpiar"
+                app:layout_constraintEnd_toStartOf="@+id/filtros_comercio_MaterialCardViewBuscar"
+                app:layout_constraintStart_toEndOf="@+id/filtros_comercio_MaterialCardViewLimpiar"
                 app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_line1">
 
                 <TextView

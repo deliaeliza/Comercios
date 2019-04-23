@@ -234,7 +234,7 @@ public class FragGestComercioLista extends Fragment {
                         contenido = "Nombre: " + usuarioModificar.getUsuario() + "\nCorreo: " + usuarioModificar.getCorreo();
                         DialogSiNO("¿Verificar comercio?", contenido, "VERIFICAR");
                         break;
-                    case R.id.gest_estandar_MaterialButtonFiltrar:
+                    case R.id.gest_comercio_MaterialButtonFiltrar:
                         DailogoFiltros();
                         break;
                     case R.id.gest_estandar_MaterialButtonTodos:
@@ -282,7 +282,7 @@ public class FragGestComercioLista extends Fragment {
         Dialog dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.filtros_u_estandar);
+        dialog.setContentView(R.layout.filtros_u_comercio);
         dialog.setTitle("Filtrar");
         dialog.show();
     };

@@ -16,7 +16,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/filtros_estandar_txt1"
+                android:id="@+id/filtros_comercio_txt1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="14dp"
@@ -36,10 +36,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_txt1" />
+                app:layout_constraintTop_toBottomOf="@+id/filtros_comercio_txt1" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filtros_estandar_tilUsuario"
+                android:id="@+id/filtros_comercio_tilUsuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -51,7 +51,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_line0">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/filtros_estandar_usuario"
+                    android:id="@+id/filtros_comercio_usuario"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -62,7 +62,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/filtros_estandar_tilCorreo"
+                android:id="@+id/filtros_comercio_tilCorreo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -71,7 +71,7 @@
                 android:hint="Correo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilUsuario">
+                app:layout_constraintTop_toBottomOf="@+id/filtros_comercio_tilUsuario">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/filtros_estandar_correo"
@@ -92,7 +92,7 @@
                 android:layout_marginTop="8dp"
                 android:hint="Edad mínima"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilCorreo">
+                app:layout_constraintTop_toBottomOf="@+id/filtros_comercio_tilCorreo">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/filtros_estandar_edadMin"
@@ -111,7 +111,7 @@
                 android:layout_marginEnd="36dp"
                 android:hint="Edad máxima"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/filtros_estandar_tilCorreo">
+                app:layout_constraintTop_toBottomOf="@+id/filtros_comercio_tilCorreo">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/filtros_estandar_edadMax"

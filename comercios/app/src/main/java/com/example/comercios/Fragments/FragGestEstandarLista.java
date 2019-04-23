@@ -1,7 +1,6 @@
 package com.example.comercios.Fragments;
 
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,13 +10,9 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -37,8 +32,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Filtros.FiltrosUsuarioEstandar;
 import com.example.comercios.Global.GlobalAdmin;
-import com.example.comercios.Global.GlobalComercios;
-import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.UsuarioEstandar;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
@@ -46,7 +39,6 @@ import com.example.comercios.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -298,7 +290,7 @@ public class FragGestEstandarLista extends Fragment {
         MaterialCardView limpiar = (MaterialCardView) dialog.findViewById(R.id.filtros_estandar_MaterialCardViewLimpiar);
         MaterialCardView buscar = (MaterialCardView) dialog.findViewById(R.id.filtros_estandar_MaterialCardViewBuscar);
         MaterialCardView cancelar = (MaterialCardView) dialog.findViewById(R.id.filtros_estandar_MaterialCardViewCancelar);
-        final TextInputEditText usuario = (TextInputEditText) dialog.findViewById(R.id.filtros_estandar_usuario);
+        final TextInputEditText usuario = (TextInputEditText) dialog.findViewById(R.id.filtros_comercio_usuario);
         final TextInputEditText correo = (TextInputEditText) dialog.findViewById(R.id.filtros_estandar_correo);
         final TextInputEditText edadMin = (TextInputEditText) dialog.findViewById(R.id.filtros_estandar_edadMin);
         final TextInputEditText edadMax = (TextInputEditText) dialog.findViewById(R.id.filtros_estandar_edadMax);
