@@ -11,6 +11,7 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -88,16 +89,20 @@ public class FragGestEstandarLista extends Fragment {
         obtenerMasDatos();
         OnclickDelMaterialButton(view.findViewById(R.id.gest_estandar_MaterialButtonFiltrar));
         OnclickDelMaterialButton(view.findViewById(R.id.gest_estandar_MaterialButtonTodos));
-        /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 int first = view.getFirstVisiblePosition();
                 int count = view.getChildCount();
 
-                if (scrollState == SCROLL_STATE_FLING || (view.getLastVisiblePosition() == usuarios.size()-1) ) {
+               // if (scrollState == SCROLL_STATE_FLING || (view.getLastVisiblePosition() == usuarios.size()-1) ) {
+                if (scrollState == SCROLL_STATE_FLING) {
+
                     userScrolled = true;
+                    mensajeAB("SI");
                 } else {
                     userScrolled = false;
+                    mensajeAB("NO");
                 }
                  //userScrolled = scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL;
             }
@@ -111,23 +116,24 @@ public class FragGestEstandarLista extends Fragment {
                     thread.start();
                 }
             }
-        });*/
-        /*
+        });
+
         listView.setOnTouchListener(new View.OnTouchListener() {
+
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                mensajeToast(motionEvent.getAction() +"");
-
-                if(view == listView && (motionEvent.getAction() == MotionEvent.ACTION_MOVE || motionEvent.getAction() == MotionEvent.ACTION_DOWN || motionEvent.getAction() == MotionEvent.ACTION_UP)) {
+                mensajeAB(motionEvent.getAction()+ "");
+                if(view == listView && motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
                     userScrolled = true;
+                    //mensajeAB("SI");
                 } else {
                     userScrolled = false;
+                    //mensajeAB("NO");
                 }
                 return false;
             }
-        });*/
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        });
+        /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int currentVisibleItemCount;
             private int currentFirstVisibleItem;
             private int totalItem;
@@ -148,7 +154,7 @@ public class FragGestEstandarLista extends Fragment {
                 totalItem = totalItemCount;
             }
 
-        });
+        });*/
         return view;
     }
 
