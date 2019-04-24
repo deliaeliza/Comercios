@@ -99,10 +99,8 @@ public class FragGestEstandarLista extends Fragment {
                 if (scrollState == SCROLL_STATE_FLING) {
 
                     userScrolled = true;
-                    mensajeAB("SI");
                 } else {
                     userScrolled = false;
-                    mensajeAB("NO");
                 }
                  //userScrolled = scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL;
             }
@@ -122,13 +120,10 @@ public class FragGestEstandarLista extends Fragment {
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                mensajeAB(motionEvent.getAction()+ "");
                 if(view == listView && motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
                     userScrolled = true;
-                    //mensajeAB("SI");
                 } else {
                     userScrolled = false;
-                    //mensajeAB("NO");
                 }
                 return false;
             }
