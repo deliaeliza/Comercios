@@ -54,7 +54,7 @@ public class FragAcercaDe extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.frag_btnVideo:
-                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=W6oivFUtkG8&feature=youtu.be")));
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=5P9D0LWiGfo&feature=youtu.be")));
                         break;
                     default:
                         break;
