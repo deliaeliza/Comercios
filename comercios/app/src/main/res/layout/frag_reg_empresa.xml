@@ -2,23 +2,288 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.FragRegEmpresa">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fRegEmpContenedor"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
-        <TextView
-            android:id="@+id/fRegEmp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="56dp"
-            android:layout_marginTop="68dp"
-            android:text="Hola mundo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragRegComercio_contenedor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fragRegComercio_widUsuario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/user_lbl"
+                app:counterEnabled="true"
+                app:counterMaxLength="45"
+                app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fragRegComercio_edtUsuario"
+                    android:layout_width="match_parent"
+                    android:maxLength="45"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fragRegComercio_widDescripcion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/descripcion_lbl"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:counterEnabled="true"
+                app:counterMaxLength="500"
+                app:counterOverflowTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_widUsuario">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fragRegComercio_edtDescripcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="500"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textMultiLine" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/fragRegComercio_SPcategorias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="12dp"
+                android:backgroundTint="@color/cardview_shadow_start_color"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="18dp"
+                android:tooltipText="Categoria"
+                app:cornerRadius="10dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragRegComercio_widDescripcion"
+                app:layout_constraintVertical_bias="0.022"
+                app:ms_arrow_tint="@color/colorPrimary">
+
+            </com.jaredrummler.materialspinner.MaterialSpinner>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fragRegComercio_widTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/telefono_lbl"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:counterEnabled="true"
+                app:counterMaxLength="20"
+                app:counterOverflowTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_SPcategorias">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fragRegComercio_edtTelefono"
+                    android:layout_width="match_parent"
+                    android:maxLength="20"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fragRegComercio_widCorreo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/email_lbl"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:counterEnabled="true"
+                app:counterMaxLength="45"
+                app:counterOverflowTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_widTelefono">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fragRegComercio_edtCorreo"
+                    android:layout_width="match_parent"
+                    android:maxLength="45"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textEmailAddress" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fragRegComercio_widPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/pwd_lbl"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:counterEnabled="true"
+                app:counterMaxLength="45"
+                app:counterOverflowTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_widCorreo">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fragRegComercio_edtPass"
+                    android:layout_width="match_parent"
+                    android:maxLength="45"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fragRegComercio_widConfiPass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/confPWD_lbl"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
+                app:counterEnabled="true"
+                app:counterMaxLength="45"
+                app:counterOverflowTextAppearance="@color/error"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_widPass">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fragRegComercio_edtConfiPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="45"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fragRegComercio_widUbicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/ubicacion_lbl"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_widConfiPass">
+
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/fragRegComercio_edtUbicacion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/design_default_color_surface"
+                    android:ems="12"
+                    android:inputType="textMultiLine">
+
+                </com.google.android.material.textfield.TextInputEditText>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/fragRegComercio_btnUbicacion"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="72dp"
+                    android:visibility="visible"
+                    android:text="Obtener ubicación"
+                    android:textSize="14dp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <ImageView
+                android:id="@+id/fragRegComercio_imagen"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_widUbicacion"
+                app:srcCompat="@drawable/ic_menu_camera" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fragRegComercio_elegirFoto"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="104dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@android:color/transparent"
+                android:paddingLeft="25dp"
+                android:paddingTop="7dp"
+                app:icon="@drawable/plus"
+                app:iconGravity="textStart"
+                app:iconSize="20dp"
+                app:iconTint="@color/colorPrimaryDark"
+                app:layout_constraintBottom_toTopOf="@+id/fragRegComercio_btnAct"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.938"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragRegComercio_widUbicacion" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fragRegComercio_btnAct"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="15dp"
+                android:backgroundTint="@color/colorAccent"
+                android:text="@string/registro_lbl"
+                android:textSize="18sp"
+                app:cornerRadius="3dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_elegirFoto">
+            </com.google.android.material.button.MaterialButton>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </FrameLayout>
