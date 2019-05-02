@@ -420,47 +420,8 @@ public class FragActInfoProductos extends Fragment {
     public void recuperarSeccionesComercio(int idComercio) {
         String consulta = "SELECT id, nombre FROM Secciones WHERE nombre <> 'DEFAULT' AND idComercio='" + idComercio + "'";
 
-        String url = Util.urlWebService + "/seccionesObtener.php?query=" + consulta;
+        String url = Util.urlWebService + "/seccionesObtenerPertenece.php?query=" + consulta + "&idProducto='"+ GlobalComercios.getInstance().getProducto() +"'";
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONObject jsonOb = response.getJSONObject("datos");
-                    String mensajeError = jsonOb.getString("mensajeError");
-                    if (mensajeError.equalsIgnoreCase("")) {
-                        JSONArray seccion = jsonOb.getJSONArray("secciones");
-                        if (seccion.length() != 0) {
-                            for (int i = 0; i < seccion.length(); i++) {
-                                JSONObject sec = seccion.getJSONObject(i);
-                                secciones.add(new Seccion(sec.getInt("id"), sec.getString("nombre")));
-                            }
-                            nombreSec = new CharSequence[secciones.size()];
-                            for (int i = 0; i < secciones.size(); i++) {
-                                nombreSec[i] = secciones.get(i).getNombre();
-                            }
-                            secEscogidas = new boolean[secciones.size()];
-                            recuperarSeccionesProducto(GlobalComercios.getInstance().getProducto().getId());
-                            OnFocusDelTextInputEditText(categoria);
-                        }
-                    } else {
-                        mensajeToast("No hay secciones");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
-            }
-        });
-        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
-    }
-    public void recuperarSeccionesProducto(int idProducto) {
-        String query = "SELECT s.id, s.nombre FROM SeccionesProductos sp INNER JOIN Secciones s ON sp.idSeccion = s.id WHERE sp.idProducto='" + idProducto + "'";
-        String url = Util.urlWebService + "/seccionesObtener.php?query=" + query;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -471,24 +432,25 @@ public class FragActInfoProductos extends Fragment {
                         JSONArray seccion = jsonOb.getJSONArray("secciones");
                         if (seccion.length() != 0) {
                             String escogidas = "";
+                            secEscogidas = new boolean[seccion.length()];
+                            nombreSec = new CharSequence[seccion.length()];
                             for (int i = 0; i < seccion.length(); i++) {
                                 JSONObject sec = seccion.getJSONObject(i);
-                                int id = sec.getInt("id");
-                                for(int j = 0; j < secciones.size(); j++){
-                                    if(secciones.get(j).getId() == id) {
-                                        secEscogidas[j] = true;
-                                        idSec.add(id);
-                                        if(!escogidas.equals("")){
-                                            escogidas += "-";
-                                        }
-                                        escogidas += secciones.get(j).getNombre();
-                                        break;
+                                secciones.add(new Seccion(sec.getInt("id"), sec.getString("nombre")));
+                                nombreSec[i] = sec.getString("nombre");
+                                if(sec.getInt("pertenece") == 1){
+                                    secEscogidas[i] = true;
+                                    if(!escogidas.equals("")){
+                                        escogidas += "-";
                                     }
-
+                                    escogidas += sec.getString("nombre");
                                 }
                             }
                             categoria.setText(escogidas);
+                            OnFocusDelTextInputEditText(categoria);
                         }
+                    } else {
+                        mensajeToast("No hay secciones");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -535,16 +497,16 @@ public class FragActInfoProductos extends Fragment {
                 parametros.put("idComercio", 4 + "");
                 //parametros.put("idProducto", Integer.toString(GlobalComercios.getInstance().getProducto().getId()));
                 parametros.put("idProducto", 2 + "");
-                String update = "UPDATE Productos SET nombre='"+nombre.getText().toString() + "'";
+                String update = "UPDATE Productos SET nombre='"+nombre.getText().toString().trim() + "'";
                 if(precio.getText().toString().equals("")){
                     update += ", precio = null";
                 } else {
-                    update += ", precio = '" + precio.getText().toString() + "'";
+                    update += ", precio = '" + precio.getText().toString().trim() + "'";
                 }
                 if(desc.getText().toString().equals("")){
                     update += ", descripcion = null";
                 } else {
-                    update += ", descripcion = '" + desc.getText().toString() + "'";
+                    update += ", descripcion = '" + desc.getText().toString().trim() + "'";
                 }
                 //if(estado == true){
                 update += ", estado = '1'";

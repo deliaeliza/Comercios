@@ -12,6 +12,7 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -87,7 +88,6 @@ public class FragSeccionListarComercio extends Fragment {
             private int currentVisibleItemCount;
             private int currentFirstVisibleItem;
             private int totalItem;
-
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (totalItem - currentFirstVisibleItem == currentVisibleItemCount
@@ -107,6 +107,8 @@ public class FragSeccionListarComercio extends Fragment {
         });
         return view;
     }
+
+
 
     private class MyHandler extends Handler {
         @Override
