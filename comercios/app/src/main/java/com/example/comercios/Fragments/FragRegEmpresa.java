@@ -1,14 +1,22 @@
 package com.example.comercios.Fragments;
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -32,6 +40,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import com.android.volley.AuthFailureError;
@@ -60,6 +69,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import static android.Manifest.permission.CAMERA;
@@ -78,6 +89,8 @@ public class FragRegEmpresa extends Fragment {
     ArrayList<String> categoriasArray;
     Bitmap bitmap;
     Button btnFoto;
+    Button btnUbicacion;
+    String cordenadas;
 
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
@@ -91,8 +104,11 @@ public class FragRegEmpresa extends Fragment {
 
     ///objetos de la interfaz
     int categoriaSeleccionada;
-    TextInputEditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
-    TextInputLayout LayoutDescripcion,LayoutTelefono, LayoutCorreo,LayoutUsuario,LayoutPsw,LayoutConfPsw;
+    TextInputEditText descripcion, telefono, correo, password, confiPassword, ubicacion, usuario;
+    TextInputLayout LayoutDescripcion, LayoutTelefono, LayoutCorreo, LayoutUsuario, LayoutPsw, LayoutConfPsw;
+    private int requestCode;
+    private String[] permissions;
+    private int[] grantResults;
 
     public FragRegEmpresa() {
         // Required empty public constructor
@@ -107,20 +123,20 @@ public class FragRegEmpresa extends Fragment {
         GlobalComercios.getInstance().setVentanaActual(R.layout.frag_reg_empresa);
 
         categorias = new ArrayList<>();
-        categoriasArray= new ArrayList<>();
+        categoriasArray = new ArrayList<>();
 
         descripcion = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtDescripcion);
-        LayoutDescripcion = (TextInputLayout)view.findViewById(R.id.fragRegComercio_widDescripcion);
-        usuario= (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtUsuario);
-        LayoutUsuario = (TextInputLayout)view.findViewById(R.id.fragRegComercio_widUsuario);
+        LayoutDescripcion = (TextInputLayout) view.findViewById(R.id.fragRegComercio_widDescripcion);
+        usuario = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtUsuario);
+        LayoutUsuario = (TextInputLayout) view.findViewById(R.id.fragRegComercio_widUsuario);
         telefono = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtTelefono);
-        LayoutTelefono = (TextInputLayout)view.findViewById(R.id.fragRegComercio_widTelefono);
+        LayoutTelefono = (TextInputLayout) view.findViewById(R.id.fragRegComercio_widTelefono);
         correo = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtCorreo);
-        LayoutCorreo = (TextInputLayout)view.findViewById(R.id.fragRegComercio_widCorreo);
+        LayoutCorreo = (TextInputLayout) view.findViewById(R.id.fragRegComercio_widCorreo);
         password = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtPass);
-        LayoutPsw = (TextInputLayout)view.findViewById(R.id.fragRegComercio_widPass);
+        LayoutPsw = (TextInputLayout) view.findViewById(R.id.fragRegComercio_widPass);
         confiPassword = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtConfiPass);
-        LayoutConfPsw = (TextInputLayout)view.findViewById(R.id.fragRegComercio_widConfiPass);
+        LayoutConfPsw = (TextInputLayout) view.findViewById(R.id.fragRegComercio_widConfiPass);
         ubicacion = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtUbicacion);
         spinner = (MaterialSpinner) view.findViewById(R.id.fragRegComercio_SPcategorias);
 
@@ -134,13 +150,20 @@ public class FragRegEmpresa extends Fragment {
         fotoComercio = view.findViewById(R.id.fragRegComercio_imagen);
         //Permisos para camara
         btnFoto = view.findViewById(R.id.fragRegComercio_elegirFoto);
-        if(solicitaPermisosVersionesSuperiores()){
+        if (solicitaPermisosVersionesSuperiores()) {
             btnFoto.setEnabled(true);
-        }else{
+        } else {
             btnFoto.setEnabled(false);
         }
+        btnUbicacion = view.findViewById(R.id.fragRegComercio_btnUbicacion);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+        } else {
+            btnUbicacion.setEnabled(false);
+        }
         cargarCategorias(view);
-        OnclickDelButton(view.findViewById(R.id.fragRegComercio_btnUbicacion));
+        OnclickDelButton(btnUbicacion);
         OnclickDelButton(view.findViewById(R.id.fragRegComercio_elegirFoto));
         OnclickDelButton(view.findViewById(R.id.fragRegComercio_btnAct));
 
@@ -148,24 +171,25 @@ public class FragRegEmpresa extends Fragment {
     }
 
     public void OnclickDelButton(final View view) {
-        MaterialButton miButton = (MaterialButton)  view;
-        miButton.setOnClickListener(new View.OnClickListener(){
+        MaterialButton miButton = (MaterialButton) view;
+        miButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-
                     case R.id.fragRegComercio_btnAct:
 
 
                         break;
                     case R.id.fragRegComercio_btnUbicacion:
-
+                        locationStart();
                         break;
 
                     case R.id.fragRegComercio_elegirFoto:
                         mostrarDialogOpciones();
                         break;
-                    default:break; }// fin de casos
+                    default:
+                        break;
+                }// fin de casos
             }
         });
     }
@@ -372,6 +396,13 @@ public class FragRegEmpresa extends Fragment {
         } else {
             solicitarPermisosManual();
         }
+
+        /*if (requestCode == 1000) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationStart();
+                return;
+            }
+        }*/
     }
 
     private void solicitarPermisosManual() {
@@ -557,6 +588,97 @@ public class FragRegEmpresa extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
     }
 
-    ;
 
+    /*---------------------------------------------UBICACION--------------------------------------------------------------*/
+
+    private void locationStart() {
+        LocationManager mlocManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Localizacion Local = new Localizacion();
+        Local.setMainActivity(this);
+        final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (!gpsEnabled) {
+            Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(settingsIntent);
+        }
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+            return;
+        }
+        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) Local);
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) Local);
+
+        cordenadas = "Localizacion agregada";
+        ubicacion.setText("");
+    }
+
+    public void setLocation(Location loc) {
+        //Obtener la direccion de la calle a partir de la latitud y la longitud
+        if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
+            try {
+                Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+                List<Address> list = geocoder.getFromLocation(
+                        loc.getLatitude(), loc.getLongitude(), 1);
+                if (!list.isEmpty()) {
+                    Address DirCalle = list.get(0);
+                   ubicacion.setText(DirCalle.getAddressLine(0));
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class Localizacion implements LocationListener {
+        FragRegEmpresa mainActivity;
+
+        public FragRegEmpresa getMainActivity() {
+            return mainActivity;
+        }
+
+        public void setMainActivity(FragRegEmpresa mainActivity) {
+            this.mainActivity = mainActivity;
+        }
+
+        @Override
+        public void onLocationChanged(Location loc) {
+            // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
+            // debido a la deteccion de un cambio de ubicacion
+
+            loc.getLatitude();
+            loc.getLongitude();
+
+            String Text = loc.getLatitude() + "()" + loc.getLongitude();
+            cordenadas = Text;
+            this.mainActivity.setLocation(loc);
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            // Este metodo se ejecuta cuando el GPS es desactivado
+            cordenadas = "GPS Desactivado";
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            // Este metodo se ejecuta cuando el GPS es activado
+            cordenadas = "GPS Activado";
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            switch (status) {
+                case LocationProvider.AVAILABLE:
+                    Log.d("debug", "LocationProvider.AVAILABLE");
+                    break;
+                case LocationProvider.OUT_OF_SERVICE:
+                    Log.d("debug", "LocationProvider.OUT_OF_SERVICE");
+                    break;
+                case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                    Log.d("debug", "LocationProvider.TEMPORARILY_UNAVAILABLE");
+                    break;
+            }
+        }
+    }
 }
