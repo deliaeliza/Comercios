@@ -1,11 +1,17 @@
 package com.example.comercios.Modelo;
 
+import android.graphics.Bitmap;
+
+import java.util.ArrayList;
+
 public class Producto {
     private int id;
     private int precio;
     private boolean estado;
     private String nombre;
     private String descripcion;
+    private String[] urlsImagenes;
+    private ArrayList<Bitmap> imagenes;
     private boolean pertenece;
 
 
@@ -32,6 +38,23 @@ public class Producto {
         this.precio = precio;
         this.nombre = nombre;
         this.descripcion = descripcion;
+    }
+    public Producto(int id, boolean estado, int precio, String nombre, String descripcion, String[] urlsImagenes) {
+        this.id = id;
+        this.estado = estado;
+        this.precio = precio;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.urlsImagenes = urlsImagenes;
+    }
+
+    public Producto(int id, boolean estado, int precio, String nombre, String descripcion, ArrayList<Bitmap> imagenes) {
+        this.id = id;
+        this.estado = estado;
+        this.precio = precio;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.imagenes = imagenes;
     }
 
     public Producto(boolean estado, String nombre, String descripcion) {
@@ -70,5 +93,19 @@ public class Producto {
     }
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String[] getUrlsImagenes() {
+        return urlsImagenes;
+    }
+    public void setUrlsImagenes(String[] urlsImagenes) {
+        this.urlsImagenes = urlsImagenes;
+    }
+
+    public ArrayList<Bitmap> getImagenes() {
+        return imagenes;
+    }
+    public void setImagenes(ArrayList<Bitmap> imagenes) {
+        this.imagenes = imagenes;
     }
 }

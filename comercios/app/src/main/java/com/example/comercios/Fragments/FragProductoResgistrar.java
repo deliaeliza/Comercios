@@ -579,6 +579,7 @@ public class FragProductoResgistrar extends Fragment {
         ByteArrayOutputStream array = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, MIS_PERMISOS, array);
         byte[] imagenByte = array.toByteArray();
+
         return Base64.encodeToString(imagenByte, Base64.DEFAULT);
     }
 

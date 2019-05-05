@@ -97,7 +97,6 @@ public class FragGestEstandarLista extends Fragment {
 
                // if (scrollState == SCROLL_STATE_FLING || (view.getLastVisiblePosition() == usuarios.size()-1) ) {
                 if (scrollState == SCROLL_STATE_FLING) {
-
                     userScrolled = true;
                 } else {
                     userScrolled = false;
@@ -107,7 +106,6 @@ public class FragGestEstandarLista extends Fragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //Revisa si el scroll llego al ultimo item
                 if(userScrolled && view.getLastVisiblePosition() == usuarios.size()-1 && cargando == false){
                     cargando = true;
                     Thread thread = new ThreadMoreData();
@@ -122,6 +120,13 @@ public class FragGestEstandarLista extends Fragment {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if(view == listView && motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
                     userScrolled = true;
+                    mensajeAB(listView.getLastVisiblePosition() +"");
+                    if(userScrolled && listView.getLastVisiblePosition() == usuarios.size()-1 && cargando == false){
+                        mensajeAB(listView.getLastVisiblePosition() +"");
+                        cargando = true;
+                        Thread thread = new ThreadMoreData();
+                        thread.start();
+                    }
                 } else {
                     userScrolled = false;
                 }
