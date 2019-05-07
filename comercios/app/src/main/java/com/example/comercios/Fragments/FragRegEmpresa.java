@@ -73,6 +73,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
@@ -156,9 +158,8 @@ public class FragRegEmpresa extends Fragment {
             btnFoto.setEnabled(false);
         }
         btnUbicacion = view.findViewById(R.id.fragRegComercio_btnUbicacion);
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+        if (solicitaPermisosVersionesSuperioresGPS()) {
+            btnUbicacion.setEnabled(true);
         } else {
             btnUbicacion.setEnabled(false);
         }
@@ -384,6 +385,23 @@ public class FragRegEmpresa extends Fragment {
         return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui
     }
 
+    private boolean solicitaPermisosVersionesSuperioresGPS() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {//validamos si estamos en android menor a 6 para no buscar los permisos
+            return true;
+        }
+        //validamos si los permisos ya fueron aceptados
+        if ((getActivity().checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) && getActivity().checkSelfPermission(ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }
+        if ((shouldShowRequestPermissionRationale(ACCESS_COARSE_LOCATION) || (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)))) {
+            cargarDialogoRecomendacion();
+        } else {
+            requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
+        }
+        return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -437,6 +455,21 @@ public class FragRegEmpresa extends Fragment {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MIS_PERMISOS);
+            }
+        });
+        dialogo.show();
+    }
+
+    private void cargarDialogoRecomendacionGPS() {
+        androidx.appcompat.app.AlertDialog.Builder dialogo = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+        dialogo.setTitle("Permisos Desactivados");
+        dialogo.setMessage("Debe aceptar los permisos para el correcto funcionamiento de la App");
+
+        dialogo.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
             }
         });
         dialogo.show();
