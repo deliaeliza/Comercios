@@ -114,10 +114,13 @@ public class FragGestProductosSeccion extends Fragment {
         public void cargarProductosSeccion(){
 
            String sql;
-            //general
             if(radioGroup.getCheckedRadioButtonId()==R.id.FGestProductoSec_AddProd){
-                sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
-                        "from Productos p where p.idComercio =" +GlobalComercios.getInstance().getComercio().getId(); ;
+               /* sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
+                        "from Productos p where p.idComercio =" +GlobalComercios.getInstance().getComercio().getId();*/
+
+                sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado FROM Productos p INNER JOIN SeccionesProductos sp ON p.id=sp.idProducto " +
+                        "where sp.idSeccion <> "+GlobalComercios.getInstance().getSeccion().getId()+" and p.idComercio ="+GlobalComercios.getInstance().getComercio().getId()+";";
+
             }else{
 
                 sql="SELECT p.id, p.nombre, p.descripcion, p.precio, p.estado " +
@@ -222,18 +225,12 @@ public class FragGestProductosSeccion extends Fragment {
 
                 ImageView imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
 
-
           /*  if(actual.getUrlImagen() != null && !actual.getUrlImagen().equals("")){
                 cargarWebServicesImagen(imagen, actual.getUrlImagen(), actual.getCorreo());
             }*/
-
-
                 //panel.setTag(position);
                 estado.setTag(position);
                 buttonAction.setTag(position);
-
-
-                //OnclickDelMaterialCardView(panel);
 
                 OnclickDelMaterialButton(buttonAction);
 
@@ -293,7 +290,8 @@ public class FragGestProductosSeccion extends Fragment {
        private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 
         public void actualizarProducto(Producto p){
-            String sql="";
+            mensajeAB(""+p.getId());
+            /*String sql="";
             if(p.isPertenece()){
                 sql+="UPDATE SeccionesProductos SET idSeccion="+GlobalComercios.getInstance().getSeccion().getId()
                         +"WHERE idProducto="+p.getId();
@@ -327,7 +325,7 @@ public class FragGestProductosSeccion extends Fragment {
         });
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);*/
 
     }
 

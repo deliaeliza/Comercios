@@ -85,9 +85,7 @@
                 app:icon="@drawable/trash_alt"
                 app:iconSize="16dp"
 
-
                 app:iconGravity="textStart"
-
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sec_modificar_TextInputLayout" />
@@ -105,7 +103,6 @@
                 app:cornerRadius="10dp"
                 app:icon="@drawable/tasks"
                 app:iconSize="19dp"
-                android:enabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sec_modificar_MaterialButtonEliminar" />
