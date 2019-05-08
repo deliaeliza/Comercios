@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -35,6 +36,7 @@ import com.example.comercios.Modelo.Producto;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.google.android.material.card.MaterialCardView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +44,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,15 +57,12 @@ public class FragVerProductosGrid extends Fragment {
     private boolean inicial = true;
     private boolean cargando = false;
     private boolean userScrolled = false;
-    private int posicion = -1;
     private View vistaInferior;
     private GridView gridView;
     private ProductoGridAdapter adapter;
-    private Handler manejador;
+    //private Handler manejador;
     private List<Producto> productos;
-
-    private float mTouchPosition;
-    private float mReleasePosition;
+    private int minPosicion = -1;
 
     public FragVerProductosGrid() {
         // Required empty public constructor
@@ -79,26 +80,31 @@ public class FragVerProductosGrid extends Fragment {
         //manejador = new MyHandler();
         productos = new ArrayList<Producto>();
         gridView = (GridView) view.findViewById(R.id.gridViewVerProductos);
-        //gridView.addFooterView(vistaInferior);
-        //vistaInferior.setVisibility(View.GONE);
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int mLastFirstVisibleItem;
 
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-                int first = view.getFirstVisiblePosition();
+                //int first = view.getFirstVisiblePosition();
                 int visibles = view.getChildCount();
                 int total = view.getCount();
-
-                // if (scrollState == SCROLL_STATE_FLING || (view.getLastVisiblePosition() == usuarios.size()-1) ) {
                 if (scrollState == SCROLL_STATE_FLING || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
                     userScrolled = true;
                 } else {
                     userScrolled = false;
-                    //vistaInferior.setVisibility(View.GONE);
                 }
-
-                if (mLastFirstVisibleItem < first || ( visibles <= total && visibles <= TAM_PAGINA)  ) {
+                /*if (mLastFirstVisibleItem < first || ( visibles <= total && visibles <= TAM_PAGINA) || (view.getLastVisiblePosition() == productos.size()-1 && view.getLastVisiblePosition() >= TAM_PAGINA)) {
+                    if(view.getLastVisiblePosition() + 1 == productos.size()){
+                        if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
+                            cargando = true;
+                            //Thread thread = new ThreadMoreData();
+                            //thread.start();
+                            obtenerMasDatos();
+                        }
+                    }
+                }*/
+                //mLastFirstVisibleItem = first;
+                if (/*mLastFirstVisibleItem < first || */( visibles <= total && visibles <= TAM_PAGINA)) {
                     if(view.getLastVisiblePosition() + 1 == productos.size()){
                         if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
                             cargando = true;
@@ -108,16 +114,13 @@ public class FragVerProductosGrid extends Fragment {
                         }
                     }
                 }
-                mLastFirstVisibleItem = first;
-
-                //userScrolled = scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL;
+                //mLastFirstVisibleItem = first;
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 //Revisa si el scroll llego al ultimo item
-                //mensajeAB(view.getLastVisiblePosition() + "");
-                if (mLastFirstVisibleItem < firstVisibleItem || visibleItemCount <= totalItemCount) {
+                if (mLastFirstVisibleItem < firstVisibleItem || visibleItemCount <= TAM_PAGINA) {
                     if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
                         cargando = true;
                         //Thread thread = new ThreadMoreData();
@@ -125,59 +128,9 @@ public class FragVerProductosGrid extends Fragment {
                         obtenerMasDatos();
                     }
                 }
-                /*if (mLastFirstVisibleItem > firstVisibleItem) {
-                    mensajeAB("arriba");
-                }*/
                 mLastFirstVisibleItem = firstVisibleItem;
             }
         });
-
-        /*gridView.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-            boolean abajo;
-
-                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-                    mTouchPosition = motionEvent.getY();
-                    if (mTouchPosition - mReleasePosition > 0) {
-                        abajo = true;
-                    } else {
-                        abajo = false;
-                    }
-                }else if(motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    mReleasePosition = motionEvent.getY();
-                    if (mTouchPosition - mReleasePosition > 0) {
-                        abajo = true;
-                    } else {
-                        abajo = false;
-                    }
-                }
-
-                if (mTouchPosition - mReleasePosition > 0) {
-                    abajo = true;
-                } else {
-                    abajo = false;
-                }
-                //MotionEvent.
-                if (view == gridView && motionEvent.getAction() == MotionEvent.ACTION_MOVE) {
-                    userScrolled = true;
-                    //mensajeAB(gridView.getLastVisiblePosition() + "");
-                    if (userScrolled && gridView.getLastVisiblePosition() == productos.size() - 1 && cargando == false && abajo) {
-                        //mensajeAB(gridView.getLastVisiblePosition() + "");
-                        cargando = true;
-
-                        //Thread thread = new ThreadMoreData();
-                        //thread.start();
-                        obtenerMasDatos();
-                    }
-                } else {
-                    userScrolled = false;
-                    //vistaInferior.setVisibility(View.GONE);
-                }
-                return false;
-            }
-        });*/
         obtenerMasDatos();
 
         return view;
@@ -195,7 +148,9 @@ public class FragVerProductosGrid extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Make sure we have a view to work with (may have been given null)
+
             View itemView = convertView;
+
             if (itemView == null) {
                 itemView = getActivity().getLayoutInflater().inflate(R.layout.item_ver_productos_grid, parent, false);
             }
@@ -206,15 +161,62 @@ public class FragVerProductosGrid extends Fragment {
             productoTV.setText(actual.getNombre());
             TextView precioTV = (TextView) itemView.findViewById(R.id.item_ver_prod_grid_txtPrecio);
             precioTV.setText("₡ " + actual.getPrecio());
-            ViewPager viewPager = (ViewPager) itemView.findViewById(R.id.item_ver_prod_grid_viewPager);
-
-            viewPagerAdapter viewPAdaptador = new viewPagerAdapter(itemView.getContext(), actual.getImagenes());
+            final ViewPager viewPager = (ViewPager) itemView.findViewById(R.id.item_ver_prod_grid_viewPager);
+            final int paginas = actual.getImagenes().size();
+            final viewPagerAdapter viewPAdaptador = new viewPagerAdapter(itemView.getContext(), actual.getImagenes());
+            viewPAdaptador.setItem(itemView);
             viewPager.setAdapter(viewPAdaptador);
-
             itemView.setTag(position);
+            if(paginas > 1 && position > minPosicion) {
+                Timer timer;
+                final Handler handler = new Handler();
+                final Runnable update = new Runnable() {
+                    int pagActual = 0;
+                    public void run() {
+                        if (pagActual == paginas) {
+                            pagActual = 0;
+                        }
+                        viewPager.setCurrentItem(pagActual++, false);
+                    }
+                };
+                timer = new Timer(); //This will create a new Thread
+                timer.schedule(new TimerTask() { //task to be scheduled
+                    @Override
+                    public void run() {
+                        handler.post(update);
+                    }
+                }, 500, 3000);
+
+            }
+            if(position == productos.size() -1){
+                minPosicion = position;
+            }
+            OnclickDelMaterialCardView((MaterialCardView)itemView);
+            //OnclickDelViewPager(viewPager, (MaterialCardView)itemView);
             return itemView;
         }
     }
+    /*public void OnclickDelViewPager(ViewPager view, final MaterialCardView card) {
+        view.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                card.performClick();
+            }// fin del onclick
+        });
+    }// fin de OnclickDelViewPager*/
+    public void OnclickDelMaterialCardView(MaterialCardView view) {
+        view.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                int position = (int)v.getTag();
+                Producto escogido = productos.get(position);
+                String message = "Elegiste item No.  " + (position)
+                        + ", con nombre  " + escogido.getNombre();
+                mensajeToast(message);
+            }// fin del onclick
+        });
+    }// fin de OnclickDelMaterialCardView
+
 
     private class MyHandler extends Handler {
         @Override
@@ -273,6 +275,7 @@ public class FragVerProductosGrid extends Fragment {
                     String mensajeError = jsonOb.getString("mensajeError");
                     if (mensajeError.equalsIgnoreCase("")) {
                         if (jsonOb.has("productos")) {
+                            //minPosicion = productos.size() - 1;
                             JSONArray productosJson = jsonOb.getJSONArray("productos");
                             for (int i = 0; i < productosJson.length(); i++) {
                                 JSONObject producto = productosJson.getJSONObject(i);
@@ -292,25 +295,26 @@ public class FragVerProductosGrid extends Fragment {
                                         imagenes
                                 ));
                             }
-                        }
-                        if (productos.size() == 0) {
-                            mensajeToast("No hay productos que mostrar");
-                        }
-                        if (inicial) {
-                            adapter = new ProductoGridAdapter();
-                            gridView.setAdapter(adapter);
-                            inicial = false;
-                        } else {
+                            if (inicial) {
+                                adapter = new ProductoGridAdapter();
+                                gridView.setAdapter(adapter);
+                                inicial = false;
+                            } else {
                             /*try {
                                 Thread.sleep(2000);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }*/
-                            //Message msg = manejador.obtainMessage(1);
-                            //manejador.sendMessage(msg);
-                            adapter.actualizarDatos();
-                            cargando = false;
+                                //Message msg = manejador.obtainMessage(1);
+                                //manejador.sendMessage(msg);
+                                adapter.actualizarDatos();
+                                cargando = false;
+                            }
                         }
+                        if (productos.size() == 0) {
+                            mensajeToast("No hay productos que mostrar");
+                        }
+
                     } else {
                         mensajeToast(mensajeError);
                     }
@@ -337,15 +341,8 @@ public class FragVerProductosGrid extends Fragment {
 
     public void mensajeToast(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-    }
-
-    ;
-
+    };
     private void mensajeAB(String msg) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
-    }
-
-    ;
-
-
+    };
 }

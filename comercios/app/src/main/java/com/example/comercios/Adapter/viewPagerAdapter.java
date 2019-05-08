@@ -3,6 +3,7 @@ package com.example.comercios.Adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class viewPagerAdapter extends PagerAdapter {
 
     private Context context;
     private ArrayList<Bitmap> imagenes;
+    private View item;
     public viewPagerAdapter(Context context, ArrayList<Bitmap> imagenes) {
         this.context = context;
         this.imagenes = imagenes;
@@ -41,6 +43,14 @@ public class viewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position){
         ImageView img = new ImageView(context);
+        img.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                if(item != null){
+                    item.performClick();
+                }
+            }// fin del onclick
+        });
         img.setScaleType(ImageView.ScaleType.CENTER_CROP);
         img.setImageBitmap(imagenes.get(position));
         container.addView(img,0);
@@ -51,6 +61,9 @@ public class viewPagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object){
         container.removeView((ImageView) object);
+    }
+    public void setItem(View item){
+        this.item = item;
     }
 }
 
