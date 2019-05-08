@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
-                android:hint="@string/user_lbl"
+                android:hint="@string/empresa_lbl"
                 app:counterEnabled="true"
                 app:counterMaxLength="45"
                 app:counterOverflowTextAppearance="@color/error"
