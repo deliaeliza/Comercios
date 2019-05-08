@@ -92,7 +92,8 @@ public class FragRegEmpresa extends Fragment {
     Bitmap bitmap;
     Button btnFoto;
     Button btnUbicacion;
-    String cordenadas;
+    String latitud;
+    String longitud;
 
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
@@ -178,8 +179,10 @@ public class FragRegEmpresa extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.fragRegComercio_btnAct:
-
-
+                        if(validarCorreo() && validarDescripcion() && validarTelefono() &&
+                                validarUsuario() && validarContrasena() && validarConfContrasena()){
+                            registrarComercio();
+                        }
                         break;
                     case R.id.fragRegComercio_btnUbicacion:
                         locationStart();
@@ -196,7 +199,6 @@ public class FragRegEmpresa extends Fragment {
     }
 
     private void registrarComercio() {
-
         final ProgressDialog progreso = new ProgressDialog(getActivity());
         progreso.setMessage("Esperando respuesta...");
         progreso.show();
@@ -207,9 +209,7 @@ public class FragRegEmpresa extends Fragment {
             @Override
             public void onResponse(String response) {
                 progreso.hide();
-                if (response.trim().equalsIgnoreCase("correcto")) {
-
-
+                if (response.trim().equalsIgnoreCase("registra")) {
                     Mensaje("Se registro correctamente");
                 } else {
                     Mensaje("No se registro correctamente");
@@ -217,7 +217,6 @@ public class FragRegEmpresa extends Fragment {
             }
         }, new Response.ErrorListener() {
             @Override
-
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
                 Mensaje("Intentelo mas tarde");
@@ -234,6 +233,9 @@ public class FragRegEmpresa extends Fragment {
                 parametros.put("contrasena", password.getText().toString());
                 parametros.put("ubicacion", ubicacion.getText().toString());
                 parametros.put("imagen", imagenConveritda);
+                parametros.put("tipo", Integer.toString(Util.USUARIO_COMERCIO));
+                parametros.put("latitud", latitud);
+                parametros.put("longitud", longitud);
                 return parametros;
             }
         };
@@ -641,7 +643,7 @@ public class FragRegEmpresa extends Fragment {
         mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) Local);
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) Local);
 
-        cordenadas = "Localizacion agregada";
+        //cordenadas = "Localizacion agregada";
         ubicacion.setText("");
     }
 
@@ -679,24 +681,24 @@ public class FragRegEmpresa extends Fragment {
             // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
             // debido a la deteccion de un cambio de ubicacion
 
-            loc.getLatitude();
-            loc.getLongitude();
+            latitud = Double.toString(loc.getLatitude());
+            longitud = Double.toString(loc.getLongitude());
 
-            String Text = loc.getLatitude() + "()" + loc.getLongitude();
-            cordenadas = Text;
+            //String Text = loc.getLatitude() + "()" + loc.getLongitude();
+            //cordenadas = Text;
             this.mainActivity.setLocation(loc);
         }
 
         @Override
         public void onProviderDisabled(String provider) {
             // Este metodo se ejecuta cuando el GPS es desactivado
-            cordenadas = "GPS Desactivado";
+            //cordenadas = "GPS Desactivado";
         }
 
         @Override
         public void onProviderEnabled(String provider) {
             // Este metodo se ejecuta cuando el GPS es activado
-            cordenadas = "GPS Activado";
+            //cordenadas = "GPS Activado";
         }
 
         @Override

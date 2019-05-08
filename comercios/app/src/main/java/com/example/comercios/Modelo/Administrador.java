@@ -29,6 +29,16 @@ public class Administrador {
         this.contrasena = contrasena;
     }
 
+    public Administrador(int id, int tipo, long telefono, boolean estado, String correo, String usuario, String contrasena) {
+        this.tipo = tipo;
+        this.id = id;
+        this.estado = estado;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.usuario = usuario;
+        this.contrasena = contrasena;
+    }
+
     public Administrador(int id, int tipo, long telefono, boolean estado, String correo, String usuario) {
         this.id = id;
         this.tipo = tipo;

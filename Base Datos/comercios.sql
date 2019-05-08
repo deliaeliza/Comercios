@@ -88,6 +88,8 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Comercios` (
   `idCategoria` INT NOT NULL,
   `verificado` TINYINT(1) NOT NULL,
   `descripcion` VARCHAR(500) NOT NULL,
+  `latitud` VARCHAR(100) NOT NULL,
+  `longitud` VARCHAR(100) NOT NULL,
   `ubicacion` VARCHAR(200) NOT NULL,
   `urlImagen` VARCHAR(100) NULL,
   UNIQUE INDEX `idUsuario_UNIQUE` (`idUsuario`),
@@ -106,12 +108,12 @@ ENGINE = InnoDB;
 
 DELIMITER //
 CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), 
-IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT, IN Pdescripcion VARCHAR(500), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
+IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT, IN Pdescripcion VARCHAR(500), IN Platitud VARCHAR(100), IN Plongitud VARCHAR(100), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
 BEGIN
 	DECLARE idC INT;
 	SET idC = (SELECT COALESCE(MAX(id),0) FROM comercioscr.Usuarios) + 1;
 	INSERT INTO comercioscr.Usuarios(id, tipo, correo, usuario, contrasena, estado) VALUES (idC, Ptipo, Pcorreo, Pusuario, Pcontrasena, TRUE);
-	INSERT INTO comercioscr.Comercios(idUsuario, telefono, verificado, descripcion, ubicacion, idCategoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Pubicacion, Pcategoria);
+	INSERT INTO comercioscr.Comercios(idUsuario, telefono, verificado, descripcion, latitud, longitud, ubicacion, idCategoria) VALUES (idC, Ptelefono, FALSE, Pdescripcion, Platitud, Plongitud, Pubicacion, Pcategoria);
     INSERT INTO comercioscr.Secciones(idComercio, nombre) values (idC, 'DEFAULT');
     END;
 //
@@ -396,9 +398,9 @@ INSERT INTO comercioscr.Categorias(nombre) VALUES ('Otro');
 
 
 
-CALL PAregistrarComercio(2, 'empresa1@gmail.com', 'Empresa1', '123Empresa1', 50685505001, 'Esta es una tienda de tecnologia', 'Heredia', 5);
-CALL PAregistrarComercio(2, 'empresa2@gmail.com', 'Empresa2', '123Empresa2', 50850015001, 'Este es un restaurante', 'Puntarenas', 1);
-CALL PAregistrarComercio(2, 'empresa3@gmail.com', 'Empresa3', '123Empresa3', 50985508550, 'Esta es una tienda de ropa', 'San jose', 4);
+CALL PAregistrarComercio(2, 'empresa1@gmail.com', 'Empresa1', '123Empresa1', 50685505001, 'Esta es una tienda de tecnologia', '22424243434', '34343433434', 'Heredia', 5);
+CALL PAregistrarComercio(2, 'empresa2@gmail.com', 'Empresa2', '123Empresa2', 50850015001, 'Este es un restaurante', '22424243434','34343433434', 'Puntarenas', 1);
+CALL PAregistrarComercio(2, 'empresa3@gmail.com', 'Empresa3', '123Empresa3', 50985508550, 'Esta es una tienda de ropa', '22424243434','34343433434', 'San jose', 4);
 
 INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (4, 'Celulares');
 INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (4, 'Computadoras');
@@ -473,4 +475,4 @@ CALL PAregistrarAdministrador(1, 'adminprueaba17@gmail.com', 'Anonimo17', '123An
 CALL PAregistrarAdministrador(1, 'adminprueaba18@gmail.com', 'Anonimo18', '123Anonimo', 89658966215);
 CALL PAregistrarAdministrador(1, 'adminprueaba19@gmail.com', 'Anonimo19', '123Anonimo', 89648963215);
 CALL PAregistrarAdministrador(0, 'superusuario@gmail.com', 'root', '123Root', 89586321478);
-CALL PAregistrarComercio(2, 'esteesuncorreolargo@gmail.com', 'CorreoLargo', '123Largo', 50985508559, 'Esta es una tienda de ropa', 'Guapiles', 4);
+CALL PAregistrarComercio(2, 'esteesuncorreolargo@gmail.com', 'CorreoLargo', '123Largo', 50985508559, 'Esta es una tienda de ropa', '22424243434','34343433434','Guapiles', 4);

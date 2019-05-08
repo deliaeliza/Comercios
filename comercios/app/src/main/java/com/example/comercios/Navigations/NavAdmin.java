@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.comercios.Fragments.FragAcercaDe;
+import com.example.comercios.Fragments.FragActInfoAdmin;
 import com.example.comercios.Fragments.FragGestComercioLista;
 import com.example.comercios.Fragments.FragGestEstandarLista;
 import com.example.comercios.Fragments.FragHomeAdmin;
@@ -74,6 +75,7 @@ public class NavAdmin extends AppCompatActivity
                 case R.layout.frag_acerca_de:
                 case R.layout.frag_gest_comercio_lista:
                 case R.layout.frag_gest_estandar_lista:
+                case R.layout.frag_act_info_admin:
                     FragHomeAdmin mifrag = new FragHomeAdmin ();
                     fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
                     fragmentTransaction.commit();
@@ -150,7 +152,11 @@ public class NavAdmin extends AppCompatActivity
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
             fragmentTransaction.commit();
         }else if(id == R.id.adminActInformacion){
-            return false;
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragActInfoAdmin mifrag = new FragActInfoAdmin ();
+            fragmentTransaction.replace(R.id.contentAdmin, mifrag, "actInfoAdmin");
+            fragmentTransaction.commit();
         }
 
 

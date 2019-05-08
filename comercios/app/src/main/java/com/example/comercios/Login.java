@@ -77,7 +77,8 @@ public class Login extends AppCompatActivity {
                                         user.optLong("telAdmin"),
                                         estado != 0,
                                         user.optString("correo"),
-                                        user.optString("usuario")
+                                        user.optString("usuario"),
+                                        user.optString("contrasena")
                                 ));
                                 Intent intento = new Intent(getApplicationContext(), NavAdmin.class);
                                 startActivity(intento);
