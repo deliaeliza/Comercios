@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoUsuario;
+import com.example.comercios.Fragments.FragEmpresasMaps;
 import com.example.comercios.Fragments.FragHomeSuperUsuario;
 import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
 import com.example.comercios.Fragments.FragVerProductosGrid;
@@ -116,7 +117,11 @@ public class NavUsuarios extends AppCompatActivity
             fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioMapa) {
-            return false;
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragEmpresasMaps mifrag = new FragEmpresasMaps();
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "mapasComercios");
+            fragmentTransaction.commit();
         } else if (id == R.id.usuarioTodosComercios) {
             //QUITAR DE AUÍ
             FragmentManager fm = getFragmentManager();
