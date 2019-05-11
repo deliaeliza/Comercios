@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Fragments.Frag_ver_comercios_lista">
+    tools:context=".Fragments.FragVerComerciosLista">
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/frag_ver_comercios_lista_tablayout"
         android:layout_width="match_parent"

@@ -94,6 +94,17 @@ public class Comercio {
         this.categoria = categoria;
         this.urlImagen = urlImagen;
     }
+    public Comercio(int id, int tipo, boolean verificado, boolean estado, String correo, String usuario, String categoria, String urlImagen, Bitmap imagen) {
+        this.id = id;
+        this.tipo = tipo;
+        this.verificado = verificado;
+        this.estado = estado;
+        this.correo = correo;
+        this.usuario = usuario;
+        this.categoria = categoria;
+        this.urlImagen = urlImagen;
+        this.imagen = imagen;
+    }
 
     public int getId() {
         return id;
