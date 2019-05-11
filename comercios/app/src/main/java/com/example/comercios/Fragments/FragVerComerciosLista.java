@@ -164,6 +164,8 @@ public class FragVerComerciosLista extends Fragment {
                                     comercios.add(new Comercio(
                                             usuario.getInt("id"),
                                             usuario.getInt("tipo"),
+                                            usuario.getInt("calificacion"),
+                                            usuario.getInt("cantidad"),
                                             usuario.getInt("verificado") == 1,
                                             usuario.getInt("estado") == 1,
                                             usuario.getString("correo"),

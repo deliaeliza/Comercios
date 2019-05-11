@@ -9,6 +9,7 @@ public class Comercio {
     private int tipo;
     private long telefono;
     private int calificacion; //Promedio de todos usuariosEstandar que lo han calificado
+    private int cantCalificaciones;
     private boolean verificado;
     private boolean estado;
     private String codigoRestablecer;
@@ -94,9 +95,11 @@ public class Comercio {
         this.categoria = categoria;
         this.urlImagen = urlImagen;
     }
-    public Comercio(int id, int tipo, boolean verificado, boolean estado, String correo, String usuario, String categoria, String urlImagen, Bitmap imagen) {
+    public Comercio(int id, int tipo, int calificacion, int cantCalificaciones, boolean verificado, boolean estado, String correo, String usuario, String categoria, String urlImagen, Bitmap imagen) {
         this.id = id;
         this.tipo = tipo;
+        this.calificacion = calificacion;
+        this.cantCalificaciones = cantCalificaciones;
         this.verificado = verificado;
         this.estado = estado;
         this.correo = correo;
@@ -129,6 +132,13 @@ public class Comercio {
     }
     public void setCalificacion(int calificacion) {
         this.calificacion = calificacion;
+    }
+
+    public int getCantCalificaciones() {
+        return cantCalificaciones;
+    }
+    public void setCantCalificaciones(int cantCalificaciones) {
+        this.cantCalificaciones = cantCalificaciones;
     }
 
     public boolean isVerificado() {
