@@ -136,7 +136,7 @@ public class FragVerComerciosLista extends Fragment {
         } else {
             idMinimo = (comercios.get(comercios.size()-1)).getId();
         }
-        String query = "SELECT u.*, c.*, COUNT(ca.calificacion) cantidad, AVG(ca.calificacion) calificacion" +
+        String query = "SELECT u.*, c.*, COUNT(ca.calificacion) cantidad, IFNULL(AVG(ca.calificacion), 0) calificacion" +
                 " FROM Comercios c INNER JOIN Usuarios u ON c.idUsuario = u.id" +
                 " LEFT OUTER JOIN Calificaciones ca ON c.idUsuario = ca.idComercio WHERE c.idUsuario>'"+idMinimo+"' AND u.estado='1'";
         //Agregar fitros
@@ -238,6 +238,7 @@ public class FragVerComerciosLista extends Fragment {
             todos.setText("Todos");
             todos.setIcon(recuperarIcono("Todos"));
             todos.setTag(-1);
+            tabLayout.addTab(todos);
             for(Categorias c: categorias){
                 TabLayout.Tab t = tabLayout.newTab();
                 t.setText(c.getNombre());
@@ -253,7 +254,7 @@ public class FragVerComerciosLista extends Fragment {
             case "Bar": return R.drawable.glass_martini_alt;
             case "Cafe": return R.drawable.coffee;
             case "Deportes": return R.drawable.bicycle;
-            case "Famarcia": return R.drawable.capsules;
+            case "Farmacia": return R.drawable.capsules;
             case "Ferreteria": return R.drawable.hammer;
             case "Hotel": return R.drawable.hotel;
             case "Jugueteria": return R.drawable.robot;
@@ -294,12 +295,12 @@ public class FragVerComerciosLista extends Fragment {
                 ImageView imagen = (ImageView) itemView.findViewById(R.id.item_ver_comercio_imageview);
                 imagen.setImageBitmap(actual.getImagen());
             }
-            if(!actual.isVerificado()){
-                verificado.setVisibility(View.GONE);
-            } else {
+            if(actual.isVerificado()){
                 verificado.setVisibility(View.VISIBLE);
+            } else {
+                verificado.setVisibility(View.GONE);
             }
-
+            //rating.setNu
             return itemView;
         }
     }

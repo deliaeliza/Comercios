@@ -14,6 +14,7 @@ import com.example.comercios.Fragments.FragActInfoUsuario;
 import com.example.comercios.Fragments.FragEmpresasMaps;
 import com.example.comercios.Fragments.FragHomeSuperUsuario;
 import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
+import com.example.comercios.Fragments.FragVerComerciosLista;
 import com.example.comercios.Fragments.FragVerProductosGrid;
 import com.example.comercios.Global.GlobalAdmin;
 import com.example.comercios.Global.GlobalComercios;
@@ -123,10 +124,9 @@ public class NavUsuarios extends AppCompatActivity
             fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "mapasComercios");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioTodosComercios) {
-            //QUITAR DE AUÍ
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragVerProductosGrid mifrag = new FragVerProductosGrid();
+            FragVerComerciosLista mifrag = new FragVerComerciosLista();
             fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "contendorProductos");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioActInformacion) {
