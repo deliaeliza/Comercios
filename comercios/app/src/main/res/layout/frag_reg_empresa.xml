@@ -274,7 +274,7 @@
                 android:layout_height="51dp"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="80dp"
                 android:backgroundTint="@color/colorAccent"
                 android:text="@string/registro_lbl"
                 android:textSize="18sp"
