@@ -81,7 +81,7 @@ public class FragGestEstandarLista extends Fragment {
         GlobalAdmin.getInstance().setVentanaActual(R.layout.frag_gest_estandar_lista);
         View view =inflater.inflate(R.layout.frag_gest_estandar_lista, container, false);
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
+        vistaInferior = view.findViewById(R.id.fragGestEstandar_carganfo);
         manejador = new MyHandler();
         usuarios = new ArrayList<UsuarioEstandar>();
         listView = (ListView) view.findViewById(R.id.gest_estandar_listview);
@@ -96,7 +96,7 @@ public class FragGestEstandarLista extends Fragment {
                 int count = view.getChildCount();
 
                // if (scrollState == SCROLL_STATE_FLING || (view.getLastVisiblePosition() == usuarios.size()-1) ) {
-                if (scrollState == SCROLL_STATE_FLING) {
+                if (scrollState == SCROLL_STATE_FLING || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
                     userScrolled = true;
                 } else {
                     userScrolled = false;
@@ -108,12 +108,13 @@ public class FragGestEstandarLista extends Fragment {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if(userScrolled && view.getLastVisiblePosition() == usuarios.size()-1 && cargando == false){
                     cargando = true;
-                    Thread thread = new ThreadMoreData();
-                    thread.start();
+                    //Thread thread = new ThreadMoreData();
+                    //thread.start();
+                    obtenerMasDatos();
                 }
             }
         });
-
+/*
         listView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -132,7 +133,7 @@ public class FragGestEstandarLista extends Fragment {
                 }
                 return false;
             }
-        });
+        });*/
         /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int currentVisibleItemCount;
             private int currentFirstVisibleItem;
@@ -155,6 +156,7 @@ public class FragGestEstandarLista extends Fragment {
             }
 
         });*/
+        //obtenerMasDatos();
         return view;
     }
 
@@ -353,6 +355,7 @@ public class FragGestEstandarLista extends Fragment {
     };
 
     private void obtenerMasDatos() {
+        vistaInferior.setVisibility(View.VISIBLE);
         //Consultar a la base
         int idMinimo = (usuarios.size() == 0 ? 0 : (usuarios.get(usuarios.size()-1)).getId());
         String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, ue.fechaNac, TIMESTAMPDIFF(YEAR, ue.fechaNac, CURDATE()) as edad FROM Usuarios u, UsuariosEstandar ue WHERE u.id = ue.idUsuario AND u.id > '" + idMinimo + "'";
@@ -415,8 +418,13 @@ public class FragGestEstandarLista extends Fragment {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }*/
-                            Message msg = manejador.obtainMessage(1);
-                            manejador.sendMessage(msg);
+                            //Message msg = manejador.obtainMessage(1);
+                            //manejador.sendMessage(msg);
+
+                            adapter.actualizarDatos();
+                            //listView.removeFooterView(vistaInferior);
+
+                            cargando = false;
                         }
                     } else {
                         mensajeToast(mensajeError);
@@ -426,11 +434,13 @@ public class FragGestEstandarLista extends Fragment {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                vistaInferior.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mensajeToast("No se puede conectar " + error.toString());
+                vistaInferior.setVisibility(View.GONE);
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
