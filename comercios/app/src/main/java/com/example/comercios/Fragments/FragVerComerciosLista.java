@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Modelo.Categorias;
@@ -56,6 +57,7 @@ public class FragVerComerciosLista extends Fragment {
     private boolean inicial = true;
     private boolean userScrolled = false;
     private boolean cargando = false;
+    private boolean vaciar = false;
     private Handler manejador;
 
     private TabLayout tabLayout;
@@ -96,6 +98,7 @@ public class FragVerComerciosLista extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if(userScrolled && view.getLastVisiblePosition() == comercios.size()-1 && cargando == false){
+                    vaciar = false;
                     cargando = true;
                     Thread thread = new ThreadMoreData();
                     thread.start();
@@ -105,8 +108,8 @@ public class FragVerComerciosLista extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int idCategoria = (int)tab.getTag();
-                if(idCategoria != 1){
+                if(!inicial){
+                    vaciar = true;
                     cargando = true;
                     comercios.clear();
                     Thread thread = new ThreadMoreData();
@@ -179,6 +182,8 @@ public class FragVerComerciosLista extends Fragment {
             public void onResponse(JSONObject response) {
 
                 try {
+                    if(vaciar)
+                        comercios.clear();
                     JSONObject jsonOb = response.getJSONObject("datos");
                     String mensajeError = jsonOb.getString("mensajeError");
                     if(mensajeError.equalsIgnoreCase("")){
@@ -207,7 +212,9 @@ public class FragVerComerciosLista extends Fragment {
                                             usuario.getString("descripcion"),
                                             categoria,
                                             usuario.isNull("urlImagen") ? null : Util.urlWebService + "/" +usuario.getString("urlImagen"),
-                                            usuario.isNull("imagen")? null : convertirStringToImg(usuario.getString("imagen"))));
+                                            usuario.getDouble("latitud"),
+                                            usuario.getDouble("longitud"),
+                                            usuario.getString("ubicacion")));
                                 }
                             }
 
@@ -235,12 +242,6 @@ public class FragVerComerciosLista extends Fragment {
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
-    private Bitmap convertirStringToImg(String imgCodificada) {
-        byte[] stringDecodificado = Base64.decode(imgCodificada, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(stringDecodificado, 0, stringDecodificado.length);
-        return decodedByte;
-    }
-
 
     private void cargarCategorias(){
         String url = Util.urlWebService + "/categoriasObtener.php";
@@ -328,10 +329,12 @@ public class FragVerComerciosLista extends Fragment {
             ImageView verificado = (ImageView) itemView.findViewById(R.id.item_ver_comercio_verificado);
             RatingBar rating = (RatingBar) itemView.findViewById(R.id.item_ver_comercio_rating);
             ImageView imagen = (ImageView) itemView.findViewById(R.id.item_ver_comercio_imageview);
-            if(actual.getUrlImagen() != null){
+            if(actual.getUrlImagen() == null){
+                imagen.setImageResource(R.drawable.ic_menu_camera);
+            } else if (actual.getImagen() != null){
                 imagen.setImageBitmap(actual.getImagen());
             } else {
-                imagen.setImageResource(R.drawable.ic_menu_camera);
+                cargarWebServicesImagen(actual.getUrlImagen(), imagen, position);
             }
             if(actual.isVerificado()){
                 verificado.setVisibility(View.VISIBLE);
@@ -346,7 +349,23 @@ public class FragVerComerciosLista extends Fragment {
             return itemView;
         }
     }
-
+    private void cargarWebServicesImagen(String ruta_foto, final ImageView imagen, final int posicion) {
+        ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                if(comercios.size() < posicion) {
+                    imagen.setImageBitmap(response);
+                    comercios.get(posicion).setImagen(response);
+                }
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("error al cargar la imagen");
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
+    }
     private void mensajeToast(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
     private void mensajeAB(String msg) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
