@@ -22,6 +22,8 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -77,8 +79,8 @@ public class FragVerComerciosLista extends Fragment {
         tabLayout = (TabLayout)view.findViewById(R.id.frag_ver_comercios_lista_tablayout);
         listView = (ListView)view.findViewById(R.id.frag_ver_comercios_lista_listview);
         categorias = new ArrayList();
-        cargarCategorias();
         comercios = new ArrayList();
+        cargarCategorias();
         manejador = new MyHandler();
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -98,6 +100,7 @@ public class FragVerComerciosLista extends Fragment {
                 }
             }
         });
+        //tabLayout.addOnTabSelectedListener(new T);
         return view;
     }
     private class MyHandler extends Handler {
@@ -146,7 +149,7 @@ public class FragVerComerciosLista extends Fragment {
         }
         //Limite despues de los filtros
         query += " GROUP BY c.idUsuario ORDER BY u.usuario LIMIT " + TAM_PAGINA;
-        String url = Util.urlWebService + "/comerciosObtener.php?query=" + query;
+        String url = Util.urlWebService + "/comerciosListar.php?query=" + query;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -161,6 +164,13 @@ public class FragVerComerciosLista extends Fragment {
                             if (users.length() != 0) {
                                 for (int i = 0; i < users.length(); i++) {
                                     JSONObject usuario = users.getJSONObject(i);
+                                    String categoria = "";
+                                    for(Categorias c: categorias){
+                                        if(c.getId() == usuario.getInt("categoria")){
+                                            categoria = c.getNombre();
+                                            break;
+                                        }
+                                    }
                                     comercios.add(new Comercio(
                                             usuario.getInt("id"),
                                             usuario.getInt("tipo"),
@@ -170,7 +180,8 @@ public class FragVerComerciosLista extends Fragment {
                                             usuario.getInt("estado") == 1,
                                             usuario.getString("correo"),
                                             usuario.getString("usuario"),
-                                            usuario.getString("nombre"),
+                                            usuario.getString("descripcion"),
+                                            categoria,
                                             usuario.getString("urlImagen") != null ? Util.urlWebService + "/" +usuario.getString("urlImagen") : null,
                                             usuario.getString("imagen") != null ? convertirStringToImg(usuario.getString("imagen")) : null));
                                 }
@@ -247,6 +258,7 @@ public class FragVerComerciosLista extends Fragment {
                 tabLayout.addTab(t);
             }
         }
+        obtenerMasDatos();
     }
     private int recuperarIcono(String categoria){
         switch (categoria){
@@ -306,4 +318,8 @@ public class FragVerComerciosLista extends Fragment {
     }
 
     private void mensajeToast(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
+    private void mensajeAB(String msg) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
+    };
+
 }

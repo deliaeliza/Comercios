@@ -95,7 +95,7 @@ public class Comercio {
         this.categoria = categoria;
         this.urlImagen = urlImagen;
     }
-    public Comercio(int id, int tipo, int calificacion, int cantCalificaciones, boolean verificado, boolean estado, String correo, String usuario, String categoria, String urlImagen, Bitmap imagen) {
+    public Comercio(int id, int tipo, int calificacion, int cantCalificaciones, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String categoria, String urlImagen, Bitmap imagen) {
         this.id = id;
         this.tipo = tipo;
         this.calificacion = calificacion;
@@ -104,6 +104,7 @@ public class Comercio {
         this.estado = estado;
         this.correo = correo;
         this.usuario = usuario;
+        this.descripcion = descripcion;
         this.categoria = categoria;
         this.urlImagen = urlImagen;
         this.imagen = imagen;
