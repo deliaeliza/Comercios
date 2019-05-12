@@ -115,12 +115,12 @@ public class FragGestProductosSeccion extends Fragment {
 
            String sql;
             if(radioGroup.getCheckedRadioButtonId()==R.id.FGestProductoSec_AddProd){
-               /* sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
-                        "from Productos p where p.idComercio =" +GlobalComercios.getInstance().getComercio().getId();*/
+                sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
+                        "from Productos p where p.idComercio =" +GlobalComercios.getInstance().getComercio().getId();
 
-                sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado FROM Productos p INNER JOIN SeccionesProductos sp ON p.id=sp.idProducto " +
+                /*sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado FROM Productos p INNER JOIN SeccionesProductos sp ON p.id=sp.idProducto " +
                         "where sp.idSeccion <> "+GlobalComercios.getInstance().getSeccion().getId()+" and p.idComercio ="+GlobalComercios.getInstance().getComercio().getId()+";";
-
+*/
             }else{
 
                 sql="SELECT p.id, p.nombre, p.descripcion, p.precio, p.estado " +
