@@ -114,7 +114,7 @@ public class FragGestEstandarLista extends Fragment {
                 }
             }
         });
-/*
+
         listView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
@@ -125,15 +125,16 @@ public class FragGestEstandarLista extends Fragment {
                     if(userScrolled && listView.getLastVisiblePosition() == usuarios.size()-1 && cargando == false){
                         mensajeAB(listView.getLastVisiblePosition() +"");
                         cargando = true;
-                        Thread thread = new ThreadMoreData();
-                        thread.start();
+                        //Thread thread = new ThreadMoreData();
+                        //thread.start();
+                        obtenerMasDatos();
                     }
                 } else {
                     userScrolled = false;
                 }
                 return false;
             }
-        });*/
+        });
         /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int currentVisibleItemCount;
             private int currentFirstVisibleItem;
