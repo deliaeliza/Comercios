@@ -95,9 +95,10 @@ public class Comercio {
         this.categoria = categoria;
         this.urlImagen = urlImagen;
     }
-    public Comercio(int id, int tipo, float calificacion, int cantCalificaciones, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String categoria, String urlImagen, Bitmap imagen) {
+    public Comercio(int id, int tipo, long telefono, float calificacion, int cantCalificaciones, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String categoria, String urlImagen, Bitmap imagen) {
         this.id = id;
         this.tipo = tipo;
+        this.telefono = telefono;
         this.calificacion = calificacion;
         this.cantCalificaciones = cantCalificaciones;
         this.verificado = verificado;

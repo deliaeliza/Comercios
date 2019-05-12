@@ -19,6 +19,9 @@
         android:id="@+id/frag_ver_comercios_lista_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercios_lista_tablayout" />
 </LinearLayout>

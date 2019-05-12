@@ -5,19 +5,14 @@
     android:id="@+id/item_gest_comercio_panel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="20dp"
-    android:clickable="false"
-    android:paddingBottom="5dp"
-    app:cardBackgroundColor="@color/design_default_color_surface"
+    android:clickable="true"
+    android:focusable="true"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
     app:cardMaxElevation="5dp"
     app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="false"
-    app:contentPadding="3dp"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="8dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
@@ -26,48 +21,46 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/item_ver_comercio_imageview"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_menu_camera" />
-
-        <RatingBar
-            android:id="@+id/item_ver_comercio_rating"
-            style="?android:attr/ratingBarStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#e0e0e0"
-            android:isIndicator="true"
-            android:numStars="5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/item_ver_comercio_verificado"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="3dp"
-            android:tint="#022DEC"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/check_circle" />
         <TextView
             android:id="@+id/item_ver_comercio_nombre"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:text="Negocio"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_ver_comercio_imageview" />
+            app:layout_constraintTop_toTopOf="parent" />
+        <ImageView
+            android:id="@+id/item_ver_comercio_verificado"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:tint="#022DEC"
+            app:layout_constraintStart_toEndOf="@+id/item_ver_comercio_nombre"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/check_circle" />
+        <ImageView
+            android:id="@+id/item_ver_comercio_imageview"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/item_ver_comercio_nombre"
+            app:srcCompat="@drawable/ic_menu_camera" />
 
+        <RatingBar
+            android:id="@+id/item_ver_comercio_rating"
+            style="?android:attr/ratingBarStyleIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:isIndicator="true"
+            android:layout_centerHorizontal="true"
+            android:numStars="5"
+            android:stepSize="0.001"
+            app:layout_constraintStart_toEndOf="@+id/item_ver_comercio_imageview"
+            app:layout_constraintTop_toBottomOf="@+id/item_ver_comercio_nombre" />
         <TextView
             android:id="@+id/item_ver_comercio_lblContacto"
             android:layout_width="wrap_content"
@@ -77,8 +70,8 @@
             android:text="Contactenos:"
             android:textSize="16sp"
             android:textStyle="bold|italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_ver_comercio_nombre" />
+            app:layout_constraintStart_toEndOf="@+id/item_ver_comercio_imageview"
+            app:layout_constraintTop_toBottomOf="@+id/item_ver_comercio_rating" />
 
         <TextView
             android:id="@+id/item_ver_comercio_correo"
@@ -88,7 +81,7 @@
             android:layout_marginTop="2dp"
             android:text="correo"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/item_ver_comercio_imageview"
             app:layout_constraintTop_toBottomOf="@+id/item_ver_comercio_lblContacto" />
 
         <TextView
@@ -99,7 +92,7 @@
             android:layout_marginTop="2dp"
             android:text="telefono"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/item_ver_comercio_imageview"
             app:layout_constraintTop_toBottomOf="@+id/item_ver_comercio_correo" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,7 @@ package com.example.comercios.Fragments;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -100,7 +102,28 @@ public class FragVerComerciosLista extends Fragment {
                 }
             }
         });
-        //tabLayout.addOnTabSelectedListener(new T);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int idCategoria = (int)tab.getTag();
+                if(idCategoria != 1){
+                    cargando = true;
+                    comercios.clear();
+                    Thread thread = new ThreadMoreData();
+                    thread.start();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                mensajeAB("Eres un idiota");
+            }
+        });
         return view;
     }
     private class MyHandler extends Handler {
@@ -174,6 +197,7 @@ public class FragVerComerciosLista extends Fragment {
                                     comercios.add(new Comercio(
                                             usuario.getInt("id"),
                                             usuario.getInt("tipo"),
+                                            usuario.getLong("telefono"),
                                             (float)usuario.getDouble("calificacion"),
                                             usuario.getInt("cantidad"),
                                             usuario.getInt("verificado") == 1,
@@ -284,7 +308,7 @@ public class FragVerComerciosLista extends Fragment {
 
     private class ComercioListAdapter extends ArrayAdapter<Comercio> {
         public ComercioListAdapter() {
-            super(getActivity(), R.layout.item_gest_comercio, comercios);
+            super(getActivity(), R.layout.item_ver_comercios, comercios);
         }
         public void actualizarDatos(){
             this.notifyDataSetChanged();
@@ -294,7 +318,7 @@ public class FragVerComerciosLista extends Fragment {
             // Make sure we have a view to work with (may have been given null)
             View itemView = convertView;
             if (itemView == null) {
-                itemView = getActivity().getLayoutInflater().inflate(R.layout.item_gest_comercio, parent, false);
+                itemView = getActivity().getLayoutInflater().inflate(R.layout.item_ver_comercios, parent, false);
             }
             Comercio actual = comercios.get(position);
             // Fill the view
@@ -303,9 +327,11 @@ public class FragVerComerciosLista extends Fragment {
             TextView telefonoTV = (TextView) itemView.findViewById(R.id.item_ver_comercio_telefono);
             ImageView verificado = (ImageView) itemView.findViewById(R.id.item_ver_comercio_verificado);
             RatingBar rating = (RatingBar) itemView.findViewById(R.id.item_ver_comercio_rating);
+            ImageView imagen = (ImageView) itemView.findViewById(R.id.item_ver_comercio_imageview);
             if(actual.getUrlImagen() != null){
-                ImageView imagen = (ImageView) itemView.findViewById(R.id.item_ver_comercio_imageview);
                 imagen.setImageBitmap(actual.getImagen());
+            } else {
+                imagen.setImageResource(R.drawable.ic_menu_camera);
             }
             if(actual.isVerificado()){
                 verificado.setVisibility(View.VISIBLE);
@@ -315,7 +341,7 @@ public class FragVerComerciosLista extends Fragment {
             nombreTV.setText(actual.getUsuario());
             correoTV.setText(actual.getCorreo());
             telefonoTV.setText(actual.getTelefono() + "");
-            //rating.setNu
+            rating.setRating(actual.getCalificacion());
             itemView.setTag(actual.getId());
             return itemView;
         }
