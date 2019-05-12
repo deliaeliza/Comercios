@@ -174,7 +174,7 @@ public class FragVerComerciosLista extends Fragment {
                                     comercios.add(new Comercio(
                                             usuario.getInt("id"),
                                             usuario.getInt("tipo"),
-                                            usuario.getInt("calificacion"),
+                                            (float)usuario.getDouble("calificacion"),
                                             usuario.getInt("cantidad"),
                                             usuario.getInt("verificado") == 1,
                                             usuario.getInt("estado") == 1,
@@ -189,7 +189,7 @@ public class FragVerComerciosLista extends Fragment {
 
                         }
                         if(inicial){
-                            adapter = new ComercioListAdapter();;
+                            adapter = new ComercioListAdapter();
                             listView.setAdapter(adapter);
                             inicial = false;
                         } else {

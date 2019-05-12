@@ -8,7 +8,7 @@ public class Comercio {
     private int id;
     private int tipo;
     private long telefono;
-    private int calificacion; //Promedio de todos usuariosEstandar que lo han calificado
+    private float calificacion; //Promedio de todos usuariosEstandar que lo han calificado
     private int cantCalificaciones;
     private boolean verificado;
     private boolean estado;
@@ -24,7 +24,7 @@ public class Comercio {
     private Bitmap imagen = null;
     private ArrayList<Seccion> secciones;
 
-    public Comercio(int id, int tipo, long telefono, int calificacion, boolean verificado, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
+    public Comercio(int id, int tipo, long telefono, float calificacion, boolean verificado, boolean estado, String codigoRestablecer, String correo, String usuario, String contrasena, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -70,7 +70,7 @@ public class Comercio {
         this.categoria = categoria;
     }*/
 
-    public Comercio(int id, int tipo, long telefono, int calificacion, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
+    public Comercio(int id, int tipo, long telefono, float calificacion, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -95,7 +95,7 @@ public class Comercio {
         this.categoria = categoria;
         this.urlImagen = urlImagen;
     }
-    public Comercio(int id, int tipo, int calificacion, int cantCalificaciones, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String categoria, String urlImagen, Bitmap imagen) {
+    public Comercio(int id, int tipo, float calificacion, int cantCalificaciones, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String categoria, String urlImagen, Bitmap imagen) {
         this.id = id;
         this.tipo = tipo;
         this.calificacion = calificacion;
@@ -128,10 +128,10 @@ public class Comercio {
         this.telefono = telefono;
     }
 
-    public int getCalificacion() {
+    public float getCalificacion() {
         return calificacion;
     }
-    public void setCalificacion(int calificacion) {
+    public void setCalificacion(float calificacion) {
         this.calificacion = calificacion;
     }
 
