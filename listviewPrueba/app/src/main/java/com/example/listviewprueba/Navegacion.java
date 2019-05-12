@@ -20,6 +20,7 @@ public class Navegacion extends AppCompatActivity {
         crearCategorias();
         for(Categoria c: categorias){
             TabLayout.Tab t = tabLayout.newTab();
+            t.setIcon(R.drawable.artelec);
             t.setText(c.getNombre());
             t.setTag(c.getId());
             //t.setIcon(c.getFont()); //Se le debe pasar el icono

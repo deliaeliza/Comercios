@@ -19,8 +19,8 @@ public class Registrar extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar);
-        mostrarFrag(true);
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.Reg_rg);
+        //mostrarFrag(true);
+        /*RadioGroup radioGroup = (RadioGroup) findViewById(R.id.Reg_rg);
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rbUser = (RadioButton) findViewById(R.id.Reg_radioUser);
@@ -31,23 +31,23 @@ public class Registrar extends AppCompatActivity {
                     mostrarFrag(false);
                 }
             }
-        });
+        });*/
         mensajeAB("Unetenos");
     }
 
 
-    private void mostrarFrag(boolean mostrarUser){
+    /*private void mostrarFrag(boolean mostrarUser){
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         if(mostrarUser) {
             FragRegUser mifrag = new FragRegUser();
-            fragmentTransaction.replace(R.id.Reg_contenido, mifrag, "idFragRegUser");
+            fragmentTransaction.replace(R.id., mifrag, "idFragRegUser");
         } else {
             FragRegEmpresa mifrag = new FragRegEmpresa();
             fragmentTransaction.replace(R.id.Reg_contenido, mifrag, "idFragRegEmp");
         }
         fragmentTransaction.commit();
-    }
+    }*/
 
     public void mensajeAB(String msg){getSupportActionBar().setTitle(msg);};
     public void mensaje(String msg){

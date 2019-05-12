@@ -27,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -361,7 +360,7 @@ public class FragActInfoComercio extends Fragment  {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (opciones[i].equals("Tomar Foto")){
-                    abriCamara();
+                    abrirCamara();
                 }else{
                     if (opciones[i].equals("Elegir de Galeria")){
                         Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -376,7 +375,7 @@ public class FragActInfoComercio extends Fragment  {
         });
         builder.show();
     }
-    private void abriCamara() {
+    private void abrirCamara() {
         File miFile = new File(Environment.getExternalStorageDirectory(), DIRECTORIO_IMAGEN);
         boolean isCreada = miFile.exists();
         if (isCreada == false) {

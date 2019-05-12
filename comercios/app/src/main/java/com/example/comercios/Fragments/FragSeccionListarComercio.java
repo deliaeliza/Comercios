@@ -275,7 +275,7 @@ public class FragSeccionListarComercio extends Fragment {
                             mensajeToast("No se encontraron secciones");
                         }
                         if(inicial){
-                            adapter = new SeccionListAdapter();;
+                            adapter = new SeccionListAdapter();
                             listView.setAdapter(adapter);
                             inicial = false;
                         } else {
