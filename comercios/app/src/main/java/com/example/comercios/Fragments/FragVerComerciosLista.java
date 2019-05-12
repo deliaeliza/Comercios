@@ -182,8 +182,8 @@ public class FragVerComerciosLista extends Fragment {
                                             usuario.getString("usuario"),
                                             usuario.getString("descripcion"),
                                             categoria,
-                                            usuario.getString("urlImagen") != null ? Util.urlWebService + "/" +usuario.getString("urlImagen") : null,
-                                            usuario.getString("imagen") != null ? convertirStringToImg(usuario.getString("imagen")) : null));
+                                            usuario.isNull("urlImagen") ? null : Util.urlWebService + "/" +usuario.getString("urlImagen"),
+                                            usuario.isNull("imagen")? null : convertirStringToImg(usuario.getString("imagen"))));
                                 }
                             }
 
@@ -312,7 +312,11 @@ public class FragVerComerciosLista extends Fragment {
             } else {
                 verificado.setVisibility(View.GONE);
             }
+            nombreTV.setText(actual.getUsuario());
+            correoTV.setText(actual.getCorreo());
+            telefonoTV.setText(actual.getTelefono() + "");
             //rating.setNu
+            itemView.setTag(actual.getId());
             return itemView;
         }
     }
