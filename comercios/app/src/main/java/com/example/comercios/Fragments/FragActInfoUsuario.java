@@ -1,14 +1,9 @@
 package com.example.comercios.Fragments;
 
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
+
 import android.os.Bundle;
-import android.app.Fragment;
-import android.provider.Settings;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -20,6 +15,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;

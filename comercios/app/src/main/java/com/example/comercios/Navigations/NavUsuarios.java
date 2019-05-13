@@ -1,7 +1,6 @@
 package com.example.comercios.Navigations;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,16 +11,12 @@ import android.widget.TextView;
 import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoUsuario;
 import com.example.comercios.Fragments.FragEmpresasMaps;
-import com.example.comercios.Fragments.FragHomeSuperUsuario;
 import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
 import com.example.comercios.Fragments.FragVerComerciosLista;
-import com.example.comercios.Fragments.FragVerProductosGrid;
-import com.example.comercios.Global.GlobalAdmin;
-import com.example.comercios.Global.GlobalComercios;
-import com.example.comercios.Global.GlobalSuperUsuario;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Login;
 import com.example.comercios.R;
+import com.example.comercios.ViewPager.ViewPagerNoSwipe;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -29,10 +24,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 public class NavUsuarios extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private MyPagerAdapter myPagerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +43,11 @@ public class NavUsuarios extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        FragmentManager fm = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
-        fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
-        fragmentTransaction.commit();
+        GlobalUsuarios.viewPagerNoSwipe = (ViewPagerNoSwipe) findViewById(R.id.content_nav_usuarios_viewpager);
+        myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
+        GlobalUsuarios.viewPagerNoSwipe.setAdapter(myPagerAdapter);
+        GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_INICIO, false);
+        //GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(5);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view3);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
@@ -66,15 +64,11 @@ public class NavUsuarios extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             int ventanaActual = GlobalUsuarios.getInstance().getVentanaActual();
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
             switch (ventanaActual) {
                 case R.layout.frag_home_usuario_estandar:
                 case R.layout.frag_act_info_usuario:
                 case R.layout.frag_acerca_de:
-                    FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
-                    fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
-                    fragmentTransaction.commit();
+
                     break;
                 default:
                     break;
@@ -112,43 +106,71 @@ public class NavUsuarios extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.usuarioInicio) {
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
-            fragmentTransaction.commit();
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_INICIO);
+            GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
         } else if (id == R.id.usuarioMapa) {
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragEmpresasMaps mifrag = new FragEmpresasMaps();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "mapasComercios");
-            fragmentTransaction.commit();
+            GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_MAPA);
         } else if (id == R.id.usuarioTodosComercios) {
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragVerComerciosLista mifrag = new FragVerComerciosLista();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "contendorProductos");
-            fragmentTransaction.commit();
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_LISTACOMERCIOS);
+            //GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
         } else if (id == R.id.usuarioActInformacion) {
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragActInfoUsuario mifrag = new FragActInfoUsuario();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "contendorActInformacion");
-            fragmentTransaction.commit();
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_CUENTA);
+            GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
         } else if (id == R.id.usuarioEstandarcerrarSeion) {
             GlobalUsuarios.getInstance().setUserE(null);
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.acercaDe) {
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragAcercaDe mifrag = new FragAcercaDe();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "gestionarCom");
-            fragmentTransaction.commit();
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_ACERCA);
+            GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout3);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private static class MyPagerAdapter extends FragmentPagerAdapter {
+        private static int NUM_ITEMS = 6;
+
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        // Returns total number of pages
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case GlobalUsuarios.PAGINA_INICIO:
+                    return new FragHomeUsuarioEstandar();
+                case GlobalUsuarios.PAGINA_CUENTA:
+                    return new FragActInfoUsuario();
+                case GlobalUsuarios.PAGINA_ACERCA:
+                    //return new FragAcercaDe();
+                case GlobalUsuarios.PAGINA_MAPA:
+                    return new FragEmpresasMaps();
+                case GlobalUsuarios.PAGINA_LISTACOMERCIOS:
+                    return new FragVerComerciosLista();
+                case GlobalUsuarios.PAGINA_VER_COMERCIOS:
+                    //return new
+                default:
+                    return null;
+            }
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "Page " + position;
+        }
+
+    }
+
 }
