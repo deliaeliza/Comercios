@@ -92,7 +92,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mapView = (MapView) view.findViewById(R.id.mapa_contenedor);
-        mapView.onCreate(null);
+        mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
     }
