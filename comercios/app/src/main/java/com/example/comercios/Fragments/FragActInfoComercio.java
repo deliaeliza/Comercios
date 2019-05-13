@@ -176,7 +176,7 @@ public class FragActInfoComercio extends Fragment  {
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("error al cargar la imagen");
+                mensajeToast("error al cargar la imagen");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
@@ -204,11 +204,11 @@ public class FragActInfoComercio extends Fragment  {
                                 actulizarInformacion();
                             }
                             else {
-                                Mensaje("Las contrase;as no coinciden");
+                                mensajeToast("Las contrase;as no coinciden");
                             }
 
                         }else{
-                            Mensaje("Error,Complete los datos que desea modificar");
+                            mensajeToast("Error,Complete los datos que desea modificar");
                         }
                         break;
 
@@ -236,10 +236,10 @@ public class FragActInfoComercio extends Fragment  {
             public void onResponse(String response) {
                 progreso.hide();
                 if (response.trim().equalsIgnoreCase("correcto")) {
-                    Mensaje("Actualización éxitosa");
+                    mensajeToast("Actualización éxitosa");
                 } else {
 
-                    Mensaje("Sucedio un error al intentar actualizar");
+                    mensajeToast("Sucedio un error al intentar actualizar");
 
                 }
             }
@@ -248,7 +248,7 @@ public class FragActInfoComercio extends Fragment  {
 
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Mensaje("Intentelo mas tarde");
+                mensajeToast("Intentelo mas tarde");
             }
         }){
             @Override
@@ -306,10 +306,10 @@ public class FragActInfoComercio extends Fragment  {
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest2);
 
     }
-    public void Mensaje(String msg){
+    private void mensajeToast(String msg){
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
-    public void cargarCategorias(View view){
+    private void cargarCategorias(View view){
         String url = Util.urlWebService + "/categoriasObtener.php";
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -346,7 +346,7 @@ public class FragActInfoComercio extends Fragment  {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
+                mensajeToast("No se puede conectar " + error.toString());
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
@@ -458,7 +458,7 @@ public class FragActInfoComercio extends Fragment  {
         if (requestCode == MIS_PERMISOS) {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
-                Mensaje("Permisos aceptados");
+                mensajeToast("Permisos aceptados");
                 btnFoto.setEnabled(true);
             }
         } else {
