@@ -33,6 +33,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.comercios.Modelo.Categorias;
+import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -65,10 +66,12 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     GoogleMap mGoogleMap;
     MapView mapView;
     private ArrayList<Categorias> categorias;
+    private ArrayList<Comercio> comercios;
     private TabLayout tabLayout;
     private final int MIS_PERMISOS = 100;
     private double latitud;
     private double longitud;
+    private boolean moverCamara = false;
 
     public FragEmpresasMaps() {
         // Required empty public constructor
@@ -80,11 +83,27 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_empresas_maps, container, false);
         categorias = new ArrayList<>();
+        comercios = new ArrayList<>();
+        tabLayout = (TabLayout) view.findViewById(R.id.fragEmpMap_menuNavigationTab);
         cargarCategorias();
-        tabLayout = (TabLayout)view.findViewById(R.id.fragEmpMap_menuNavigationTab);
-        if(solicitaPermisosVersionesSuperioresGPS()){
-            locationStart();
-        }
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if(mGoogleMap != null){
+                    mGoogleMap.clear();
+                    recuperarComerios();
+                }
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                //mensajeAB("Eres un idiota");
+            }
+        });
         return view;
     }
 
@@ -98,31 +117,103 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap){
+    public void onMapReady(GoogleMap googleMap) {
         MapsInitializer.initialize(getActivity());
         mGoogleMap = googleMap;
-        //mGoogleMap.setMyLocationEnabled(true);
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        //googleMap.setMapStyle(MapStyleOptions.lo)
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(latitud, longitud)).title("Estatua de la libertad").snippet("Espero ir un dia"));
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
         mGoogleMap.getUiSettings().setZoomControlsEnabled(true);
+        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
 
-        CameraPosition camaraPosition =  CameraPosition.builder().target(new LatLng(latitud,longitud)).zoom(30).build();
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camaraPosition));
+        if (solicitaPermisosVersionesSuperioresGPS()) {
+            locationStart();
+        }
+        moverCamara = true;
     }
 
-    private void cargarCategorias(){
+    private void recuperarComerios() {
+        String query = "SELECT u.*, c.*, COUNT(ca.calificacion) cantidad, IFNULL(AVG(ca.calificacion), 0) calificacion" +
+                " FROM Comercios c INNER JOIN Usuarios u ON c.idUsuario = u.id" +
+                " LEFT OUTER JOIN Calificaciones ca ON c.idUsuario = ca.idComercio WHERE u.estado='1'";
+        //Agregar fitros
+        int idCategoria = (int) tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag();
+        if (idCategoria != -1) {
+            query += " AND c.idCategoria='" + idCategoria + "'";
+        }
+        //Limite despues de los filtros
+        query += " GROUP BY c.idUsuario";
+        String url = Util.urlWebService + "/comerciosListar.php?query=" + query;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    comercios.clear();
+                    JSONObject jsonOb = response.getJSONObject("datos");
+                    String mensajeError = jsonOb.getString("mensajeError");
+                    if (mensajeError.equalsIgnoreCase("")) {
+                        if (jsonOb.has("usuarios")) {
+                            JSONArray users = jsonOb.getJSONArray("usuarios");
+                            if (users.length() != 0) {
+                                for (int i = 0; i < users.length(); i++) {
+                                    JSONObject usuario = users.getJSONObject(i);
+                                    String categoria = "";
+                                    for (Categorias c : categorias) {
+                                        if (c.getId() == usuario.getInt("categoria")) {
+                                            categoria = c.getNombre();
+                                            break;
+                                        }
+                                    }
+                                    comercios.add(new Comercio(
+                                            usuario.getInt("id"),
+                                            usuario.getInt("tipo"),
+                                            usuario.getLong("telefono"),
+                                            (float) usuario.getDouble("calificacion"),
+                                            usuario.getInt("cantidad"),
+                                            usuario.getInt("verificado") == 1,
+                                            usuario.getInt("estado") == 1,
+                                            usuario.getString("correo"),
+                                            usuario.getString("usuario"),
+                                            usuario.getString("descripcion"),
+                                            categoria,
+                                            usuario.isNull("urlImagen") ? null : Util.urlWebService + "/" + usuario.getString("urlImagen"),
+                                            usuario.getDouble("latitud"),
+                                            usuario.getDouble("longitud"),
+                                            usuario.getString("ubicacion")));
+                                }
+                                for (Comercio c : comercios) {
+                                    LatLng lg = new LatLng(c.getLatitud(),c.getLongitud());
+                                    mGoogleMap.addMarker(new MarkerOptions().position(lg).title(c.getUsuario()).snippet(c.getDescripcion()));
+                                }
+                            }
+                        }
+                    } else {
+                        mensajeToast(mensajeError);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("No se puede conectar " + error.toString());
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    private void cargarCategorias() {
         String url = Util.urlWebService + "/categoriasObtener.php";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray jsonCategorias= response.getJSONArray("categoria");
+                    JSONArray jsonCategorias = response.getJSONArray("categoria");
                     JSONObject obj;
-                    for(int i= 0;i<jsonCategorias.length();i++) {
+                    for (int i = 0; i < jsonCategorias.length(); i++) {
                         obj = jsonCategorias.getJSONObject(i);
-                        categorias.add(new Categorias(obj.getInt("id"),obj.getString("nombre")));
+                        categorias.add(new Categorias(obj.getInt("id"), obj.getString("nombre")));
                     }
                     cargarTabLayout();
                 } catch (JSONException e) {
@@ -138,14 +229,14 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
 
-    private void cargarTabLayout(){
-        if(categorias != null){
+    private void cargarTabLayout() {
+        if (categorias != null) {
             TabLayout.Tab todos = tabLayout.newTab();
             todos.setText("Todos");
             todos.setIcon(recuperarIcono("Todos"));
             todos.setTag(-1);
             tabLayout.addTab(todos);
-            for(Categorias c: categorias){
+            for (Categorias c : categorias) {
                 TabLayout.Tab t = tabLayout.newTab();
                 t.setText(c.getNombre());
                 t.setIcon(recuperarIcono(c.getNombre()));
@@ -153,30 +244,53 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                 tabLayout.addTab(t);
             }
         }
+        recuperarComerios();
     }
-    private int recuperarIcono(String categoria){
-        switch (categoria){
-            case "Todos": return R.drawable.store_alt;
-            case "Bar": return R.drawable.glass_martini_alt;
-            case "Cafe": return R.drawable.coffee;
-            case "Deportes": return R.drawable.bicycle;
-            case "Farmacia": return R.drawable.capsules;
-            case "Ferreteria": return R.drawable.hammer;
-            case "Hotel": return R.drawable.hotel;
-            case "Jugueteria": return R.drawable.robot;
-            case "Libreria": return R.drawable.book;
-            case "Musica": return R.drawable.guitar;
-            case "Restaurante": return R.drawable.utensils;
-            case "Ropa": return R.drawable.tshirt;
-            case "Tecnologia": return R.drawable.laptop;
-            case "Videojuegos": return R.drawable.gamepad;
-            case "Zapateria": return R.drawable.shoe_prints;
-            case "Otro": return R.drawable.shopping_cart;
-            default: return -1;
+
+    private int recuperarIcono(String categoria) {
+        switch (categoria) {
+            case "Todos":
+                return R.drawable.store_alt;
+            case "Bar":
+                return R.drawable.glass_martini_alt;
+            case "Cafe":
+                return R.drawable.coffee;
+            case "Deportes":
+                return R.drawable.bicycle;
+            case "Farmacia":
+                return R.drawable.capsules;
+            case "Ferreteria":
+                return R.drawable.hammer;
+            case "Hotel":
+                return R.drawable.hotel;
+            case "Jugueteria":
+                return R.drawable.robot;
+            case "Libreria":
+                return R.drawable.book;
+            case "Musica":
+                return R.drawable.guitar;
+            case "Restaurante":
+                return R.drawable.utensils;
+            case "Ropa":
+                return R.drawable.tshirt;
+            case "Tecnologia":
+                return R.drawable.laptop;
+            case "Videojuegos":
+                return R.drawable.gamepad;
+            case "Zapateria":
+                return R.drawable.shoe_prints;
+            case "Otro":
+                return R.drawable.shopping_cart;
+            default:
+                return -1;
         }
     }
 
-    private void mensajeToast(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
+    private void mensajeToast(String msg) {
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
+    }
+
+    ;
 
     private void cargarDialogoRecomendacionGPS() {
         androidx.appcompat.app.AlertDialog.Builder dialogo = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
@@ -187,7 +301,9 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                // mGoogleMap.setMyLocationEnabled(true);
                 requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
+                // mGoogleMap.setMyLocationEnabled(true);
             }
         });
         dialogo.show();
@@ -195,15 +311,18 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
     private boolean solicitaPermisosVersionesSuperioresGPS() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {//validamos si estamos en android menor a 6 para no buscar los permisos
+            //mGoogleMap.setMyLocationEnabled(true);
             return true;
         }
         //validamos si los permisos ya fueron aceptados
         if ((getActivity().checkSelfPermission(ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) && getActivity().checkSelfPermission(ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mGoogleMap.setMyLocationEnabled(true);
             return true;
         }
         if ((shouldShowRequestPermissionRationale(ACCESS_COARSE_LOCATION) || (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)))) {
             cargarDialogoRecomendacionGPS();
         } else {
+            mGoogleMap.setMyLocationEnabled(true);
             requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
         }
         return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui
@@ -264,7 +383,6 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     }
 
 
-
     public class Localizacion implements LocationListener {
         FragEmpresasMaps mainActivity;
 
@@ -283,10 +401,11 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
             latitud = loc.getLatitude();
             longitud = loc.getLongitude();
-
-            //String Text = loc.getLatitude() + "()" + loc.getLongitude();
-            //cordenadas = Text;
-            //this.mainActivity.setLocation(loc);
+            if(moverCamara){
+                CameraPosition camaraPosition = CameraPosition.builder().target(new LatLng(latitud, longitud)).zoom(15).build();
+                mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camaraPosition));
+                moverCamara = false;
+            }
         }
 
         @Override
