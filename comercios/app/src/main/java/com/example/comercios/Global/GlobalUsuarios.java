@@ -12,9 +12,9 @@ public class GlobalUsuarios {
     public static final int PAGINA_INICIO = 0;
     public static final int PAGINA_CUENTA = 1;
     public static final int PAGINA_ACERCA = 2;
-    public static final int PAGINA_MAPA = 3;
-    public static final int PAGINA_LISTACOMERCIOS = 4;
-    public static final int PAGINA_VER_COMERCIOS = 5;
+    //public static final int PAGINA_MAPA = 3;
+    public static final int PAGINA_LISTACOMERCIOS = 3;
+    public static final int PAGINA_VER_COMERCIOS = 4;
 
 
 

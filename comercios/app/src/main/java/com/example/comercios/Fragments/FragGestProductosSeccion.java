@@ -1,7 +1,5 @@
 package com.example.comercios.Fragments;
 
-        import android.app.Fragment;
-        import android.content.Context;
         import android.os.Bundle;
         import android.os.Handler;
         import android.os.Message;
@@ -17,6 +15,7 @@ package com.example.comercios.Fragments;
         import android.widget.Toast;
 
         import androidx.appcompat.app.AppCompatActivity;
+        import androidx.fragment.app.Fragment;
 
         import com.android.volley.AuthFailureError;
         import com.android.volley.DefaultRetryPolicy;

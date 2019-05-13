@@ -165,7 +165,7 @@ public class FragVerComerciosLista extends Fragment {
             query += " AND c.idCategoria='"+idCategoria+"'";
         }
         //Limite despues de los filtros
-        query += " GROUP BY c.idUsuario ORDER BY u.usuario LIMIT " + TAM_PAGINA;
+        query += " GROUP BY c.idUsuario ORDER BY u.id LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/comerciosListar.php?query=" + query;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -210,9 +210,11 @@ public class FragVerComerciosLista extends Fragment {
                             }
 
                         }
-                        if(inicial){
+                        if(listView.getAdapter() == null){
                             adapter = new ComercioListAdapter();
                             listView.setAdapter(adapter);
+                        }
+                        if(inicial){
                             inicial = false;
                         } else {
                             Message msg = manejador.obtainMessage(1);
@@ -344,9 +346,10 @@ public class FragVerComerciosLista extends Fragment {
         ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
-                if(comercios.size() < posicion) {
-                    imagen.setImageBitmap(response);
+                if(posicion < comercios.size()) {
+                    //imagen.setImageBitmap(response);
                     comercios.get(posicion).setImagen(response);
+                    adapter.actualizarDatos();
                 }
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {

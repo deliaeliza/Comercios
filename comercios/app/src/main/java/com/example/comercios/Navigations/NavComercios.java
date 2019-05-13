@@ -1,7 +1,7 @@
 package com.example.comercios.Navigations;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -42,7 +42,7 @@ public class NavComercios extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         FragHomeComercio  mifrag2 = new FragHomeComercio();
         fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "Home");
@@ -65,7 +65,7 @@ public class NavComercios extends AppCompatActivity
         } else {
 
             int ventanaActual = GlobalComercios.getInstance().getVentanaActual();
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             switch (ventanaActual) {
                 case R.layout.frag_seccion_modificar:
@@ -121,7 +121,7 @@ public class NavComercios extends AppCompatActivity
 
         if (id == R.id.navComercios_inicio) {
             // Handle the camera action
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragHomeComercio  mifrag2 = new FragHomeComercio();
             fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "Home");
@@ -129,7 +129,7 @@ public class NavComercios extends AppCompatActivity
 
         } else if (id == R.id.navComercios_catalogo) {
             GlobalComercios.getInstance().setOpcActual(R.string.catalogo_lbl);
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragMenuInferiorComercio  mifrag = new FragMenuInferiorComercio();
             fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
@@ -137,14 +137,14 @@ public class NavComercios extends AppCompatActivity
 
         } else if(id == R.id.navComercios_productos){
             GlobalComercios.getInstance().setOpcActual(R.string.productos_lbl); //En el fragment pregunta cual es.
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragMenuInferiorComercio  mifrag = new FragMenuInferiorComercio();
             fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
             fragmentTransaction.commit();
 
         }else if (id == R.id.navComercios_cuenta) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragActInfoComercio mifrag = new FragActInfoComercio();
             fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
@@ -155,7 +155,7 @@ public class NavComercios extends AppCompatActivity
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.navComercios_acerca) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragAcercaDe mifrag = new FragAcercaDe ();
             fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "gestionarCom");

@@ -47,7 +47,8 @@ public class NavUsuarios extends AppCompatActivity
         myPagerAdapter = new MyPagerAdapter(getSupportFragmentManager());
         GlobalUsuarios.viewPagerNoSwipe.setAdapter(myPagerAdapter);
         GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_INICIO, false);
-        //GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(5);
+        GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
+        GlobalUsuarios.viewPagerNoSwipe.setPagingEnabled(false);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view3);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
@@ -106,23 +107,23 @@ public class NavUsuarios extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.usuarioInicio) {
-            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_INICIO);
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_INICIO, false);
             GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
         } else if (id == R.id.usuarioMapa) {
             GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
-            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_MAPA);
+            //GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_MAPA, false);
         } else if (id == R.id.usuarioTodosComercios) {
-            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_LISTACOMERCIOS);
-            //GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_LISTACOMERCIOS, false);
+            GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
         } else if (id == R.id.usuarioActInformacion) {
-            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_CUENTA);
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_CUENTA, false);
             GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
         } else if (id == R.id.usuarioEstandarcerrarSeion) {
             GlobalUsuarios.getInstance().setUserE(null);
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.acercaDe) {
-            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_ACERCA);
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_ACERCA, false);
             GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
         }
 
@@ -132,7 +133,7 @@ public class NavUsuarios extends AppCompatActivity
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 6;
+        private static int NUM_ITEMS = 4;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -153,13 +154,13 @@ public class NavUsuarios extends AppCompatActivity
                 case GlobalUsuarios.PAGINA_CUENTA:
                     return new FragActInfoUsuario();
                 case GlobalUsuarios.PAGINA_ACERCA:
-                    //return new FragAcercaDe();
-                case GlobalUsuarios.PAGINA_MAPA:
-                    return new FragEmpresasMaps();
+                    return new FragAcercaDe();
+                /*case GlobalUsuarios.PAGINA_MAPA:
+                    return new FragEmpresasMaps();*/
                 case GlobalUsuarios.PAGINA_LISTACOMERCIOS:
                     return new FragVerComerciosLista();
-                case GlobalUsuarios.PAGINA_VER_COMERCIOS:
-                    //return new
+                /*case GlobalUsuarios.PAGINA_VER_COMERCIOS:
+                    //return new*/
                 default:
                     return null;
             }
