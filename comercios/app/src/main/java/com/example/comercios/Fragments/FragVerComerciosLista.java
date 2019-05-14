@@ -25,11 +25,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.example.comercios.ViewPager.ViewPagerNoSwipe;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
@@ -268,6 +270,7 @@ public class FragVerComerciosLista extends Fragment {
             todos.setIcon(recuperarIcono("Todos"));
             todos.setTag(-1);
             tabLayout.addTab(todos);
+            ViewPagerNoSwipe v = GlobalUsuarios.viewPagerNoSwipe;
             for(Categorias c: categorias){
                 TabLayout.Tab t = tabLayout.newTab();
                 t.setText(c.getNombre());

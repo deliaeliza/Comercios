@@ -107,24 +107,29 @@ public class NavUsuarios extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.usuarioInicio) {
-            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_INICIO, false);
             GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
+            myPagerAdapter.notifyDataSetChanged();
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_INICIO, false);
         } else if (id == R.id.usuarioMapa) {
             GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
-            //GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_MAPA, false);
+            myPagerAdapter.notifyDataSetChanged();
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_MAPA, false);
         } else if (id == R.id.usuarioTodosComercios) {
+            GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
+            myPagerAdapter.notifyDataSetChanged();
             GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_LISTACOMERCIOS, false);
-            GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
         } else if (id == R.id.usuarioActInformacion) {
-            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_CUENTA, false);
             GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
+            myPagerAdapter.notifyDataSetChanged();
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_CUENTA, false);
         } else if (id == R.id.usuarioEstandarcerrarSeion) {
             GlobalUsuarios.getInstance().setUserE(null);
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.acercaDe) {
-            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_ACERCA, false);
             GlobalUsuarios.viewPagerNoSwipe.setOffscreenPageLimit(0);
+            myPagerAdapter.notifyDataSetChanged();
+            GlobalUsuarios.viewPagerNoSwipe.setCurrentItem(GlobalUsuarios.PAGINA_ACERCA, false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout3);
@@ -133,7 +138,7 @@ public class NavUsuarios extends AppCompatActivity
     }
 
     private static class MyPagerAdapter extends FragmentPagerAdapter {
-        private static int NUM_ITEMS = 4;
+        private static int NUM_ITEMS = 5;
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
@@ -143,6 +148,11 @@ public class NavUsuarios extends AppCompatActivity
         @Override
         public int getCount() {
             return NUM_ITEMS;
+        }
+
+        @Override
+        public int getItemPosition(Object object){
+            return POSITION_NONE;
         }
 
         // Returns the fragment to display for that page
@@ -155,8 +165,8 @@ public class NavUsuarios extends AppCompatActivity
                     return new FragActInfoUsuario();
                 case GlobalUsuarios.PAGINA_ACERCA:
                     return new FragAcercaDe();
-                /*case GlobalUsuarios.PAGINA_MAPA:
-                    return new FragEmpresasMaps();*/
+                case GlobalUsuarios.PAGINA_MAPA:
+                    return new FragEmpresasMaps();
                 case GlobalUsuarios.PAGINA_LISTACOMERCIOS:
                     return new FragVerComerciosLista();
                 /*case GlobalUsuarios.PAGINA_VER_COMERCIOS:
