@@ -396,7 +396,7 @@ public class FragRegEmpresa extends Fragment {
             return true;
         }
         if ((shouldShowRequestPermissionRationale(ACCESS_COARSE_LOCATION) || (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)))) {
-            cargarDialogoRecomendacionGPS();
+            cargarDialogoRecomendacion();
         } else {
             requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
         }
