@@ -95,6 +95,8 @@ public class Login extends AppCompatActivity {
                                         user.optString("ubicacion"),
                                         user.optString("nombreCat"),
                                         user.optString("urlImagen"),
+                                        user.optString("longitud"),
+                                        user.optString("latitud"),
                                         user.optInt("idCategoria"),
                                         user.optString("contrasena")
                                 ));

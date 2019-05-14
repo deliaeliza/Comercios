@@ -2,14 +2,23 @@ package com.example.comercios.Fragments;
 
 
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
@@ -57,11 +66,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
 import static android.Manifest.permission.CAMERA;
@@ -96,6 +108,9 @@ public class FragActInfoComercio extends Fragment  {
     int categoriaSeleccionada;
     TextInputEditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
     TextInputLayout LayoutDescripcion,LayoutTelefono, LayoutCorreo,LayoutUsuario,LayoutPsw,LayoutConfPsw;
+    String latitud, longitud;
+    boolean eliminoFoto;
+
 
     public FragActInfoComercio() {
         // Required empty public constructor
@@ -109,6 +124,7 @@ public class FragActInfoComercio extends Fragment  {
         GlobalComercios.getInstance().setVentanaActual(R.layout.frag_act_info_comercio);
         View view = inflater.inflate(R.layout.frag_act_info_comercio, container, false);
 
+        eliminoFoto=false;
         categorias = new ArrayList<>();
         categoriasArray= new ArrayList<>();
 
@@ -138,6 +154,8 @@ public class FragActInfoComercio extends Fragment  {
         correo.setText(GlobalComercios.getInstance().getComercio().getCorreo());
         ubicacion.setText(GlobalComercios.getInstance().getComercio().getUbicacion());
         telefono.setText(Long.toString(GlobalComercios.getInstance().getComercio().getTelefono()));
+        latitud = GlobalComercios.getInstance().getComercio().getLatitud();
+        longitud = GlobalComercios.getInstance().getComercio().getLongitud();
 
         OnTextChangedDelTextInputEditText(descripcion);
         OnTextChangedDelTextInputEditText(usuario);
@@ -161,6 +179,7 @@ public class FragActInfoComercio extends Fragment  {
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnUbicacion));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_cambiarFoto));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
+        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_eliminarFoto));
 
         return view;
 
@@ -181,7 +200,6 @@ public class FragActInfoComercio extends Fragment  {
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
     }
-
     public void OnclickDelButton(final View view) {
 
         Button miButton = (Button)  view;
@@ -213,11 +231,18 @@ public class FragActInfoComercio extends Fragment  {
                         break;
 
                     case R.id.fActInfoComercio_btnUbicacion:
+                        locationStart();
 
                         break;
 
                     case R.id.fActInfoComercio_cambiarFoto:
                         mostrarDialogOpciones();
+                        break;
+                    case R.id.fActInfoComercio_eliminarFoto:
+
+                        fotoComercio.setImageResource(R.drawable.ic_menu_camera);
+                        eliminoFoto=true;
+
                         break;
                     default:break; }// fin de casos
             }
@@ -230,6 +255,7 @@ public class FragActInfoComercio extends Fragment  {
        progreso.show();
 
        final String imagenConveritda = convertirImgString(bitmap);
+
         String url = Util.urlWebService + "/actualizarInfoComercio.php?";
         stringRequest2 = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -254,50 +280,64 @@ public class FragActInfoComercio extends Fragment  {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros = new HashMap<>();
-                //id hay que tomarlo del usuario logueado
-                //GlobalComercios.getInstance().getComercio().getId();
                 parametros.put("id",String.valueOf(GlobalComercios.getInstance().getComercio().getId()));
 
                 if(!descripcion.getText().toString().equalsIgnoreCase("")){
                     parametros.put("descripcion",descripcion.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setDescripcion(descripcion.getText().toString());
                 }else{
                     parametros.put("descripcion", GlobalComercios.getInstance().getComercio().getDescripcion());
                 }
 
                 if(!usuario.getText().toString().equalsIgnoreCase("")){
                     parametros.put("usuario",usuario.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setUsuario(usuario.getText().toString());
                 }else{
                     parametros.put("usuario",GlobalComercios.getInstance().getComercio().getUsuario());
                 }
 
                 parametros.put("categoria",String.valueOf(categoriaSeleccionada));
+                GlobalComercios.getInstance().getComercio().setIdCategoria(categoriaSeleccionada);
 
                 if(!telefono.getText().toString().equalsIgnoreCase("")){
                     parametros.put("telefono",telefono.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setTelefono(Long.parseLong(telefono.getText().toString()));
                 }else{
                     parametros.put("telefono",Long.toString(GlobalComercios.getInstance().getComercio().getTelefono()));
                 }
 
                 if(!correo.getText().toString().equalsIgnoreCase("")){
                     parametros.put("correo",correo.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setCorreo(correo.getText().toString());
                 }else{
                     parametros.put("correo",GlobalComercios.getInstance().getComercio().getCorreo());
                 }
 
                 if(!password.getText().toString().equalsIgnoreCase("")){
                     parametros.put("contrasena",password.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setContrasena(password.getText().toString());
                 }else {
                     parametros.put("contrasena",GlobalComercios.getInstance().getComercio().getContrasena());
                 }
 
                 if(!ubicacion.getText().toString().equalsIgnoreCase("")){
                     parametros.put("ubicacion",ubicacion.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setUbicacion(ubicacion.getText().toString());
                 }else {
                     parametros.put("ubicacion",GlobalComercios.getInstance().getComercio().getUbicacion());
                 }
+                parametros.put("latitud", latitud);
+                GlobalComercios.getInstance().getComercio().setLatitud(latitud);
 
-                parametros.put("imagen",imagenConveritda);
+                parametros.put("longitud", longitud);
+                GlobalComercios.getInstance().getComercio().setLongitud(longitud);
 
+                if(!eliminoFoto) {
+                    parametros.put("imagen", imagenConveritda);
+                }
+                else{
+                    parametros.put("imagen", null);
+                }
                 return parametros;
             }
         };
@@ -402,7 +442,6 @@ public class FragActInfoComercio extends Fragment  {
             startActivityForResult(takePictureIntent,COD_FOTO);
         }
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -411,6 +450,7 @@ public class FragActInfoComercio extends Fragment  {
                 Uri miPath=data.getData();
                 fotoComercio.setImageURI(miPath);
                 try {
+                    eliminoFoto=false;
                     bitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),miPath);
                     fotoComercio.setImageBitmap(bitmap);
                 } catch (IOException e) {
@@ -426,7 +466,7 @@ public class FragActInfoComercio extends Fragment  {
                                 Log.i("Path",""+path);
                             }
                         });
-
+                eliminoFoto=false;
                 bitmap= BitmapFactory.decodeFile(path);
                 fotoComercio.setImageBitmap(bitmap);
 
@@ -435,8 +475,7 @@ public class FragActInfoComercio extends Fragment  {
         bitmap=redimensionarImagen(bitmap,600,800);
 
     }
-    //permisos
-    /////////////////////////////////////////////////////////////////////////
+    //permisos/////////////////////////////////////////////////////////////////////////
     private boolean solicitaPermisosVersionesSuperiores() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {//validamos si estamos en android menor a 6 para no buscar los permisos
             return true;
@@ -520,7 +559,6 @@ public class FragActInfoComercio extends Fragment  {
             return bitmap;
         }
     }
-
     private int ObtenerIdCategoria(String cat){
         for(int i =0;i<categorias.size();i++){
             if(categorias.get(i).getNombre().equalsIgnoreCase(cat)){
@@ -529,7 +567,6 @@ public class FragActInfoComercio extends Fragment  {
         }
         return -1;
     }
-
     private void OnTextChangedDelTextInputEditText(final TextInputEditText textInputEditText){
         textInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -632,5 +669,98 @@ public class FragActInfoComercio extends Fragment  {
     }
     private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 
+    /*---------------------------------------------UBICACION--------------------------------------------------------------*/
 
+    private void locationStart() {
+        LocationManager mlocManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Localizacion Local = new Localizacion();
+        Local.setMainActivity(this);
+        final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        if (!gpsEnabled) {
+            Intent settingsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(settingsIntent);
+        }
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,}, 1000);
+            return;
+        }
+        mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) Local);
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) Local);
+
+        //cordenadas = "Localizacion agregada";
+        ubicacion.setText("");
+    }
+
+    public void setLocation(Location loc) {
+        //Obtener la direccion de la calle a partir de la latitud y la longitud
+        if (loc.getLatitude() != 0.0 && loc.getLongitude() != 0.0) {
+            try {
+                Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+                List<Address> list = geocoder.getFromLocation(
+                        loc.getLatitude(), loc.getLongitude(), 1);
+                if (!list.isEmpty()) {
+                    Address DirCalle = list.get(0);
+                    ubicacion.setText(DirCalle.getAddressLine(0));
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class Localizacion implements LocationListener {
+        FragActInfoComercio mainActivity;
+
+        public FragActInfoComercio getMainActivity() {
+            return mainActivity;
+        }
+
+        public void setMainActivity(FragActInfoComercio mainActivity) {
+            this.mainActivity = mainActivity;
+        }
+
+        @Override
+        public void onLocationChanged(Location loc) {
+            // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
+            // debido a la deteccion de un cambio de ubicacion
+
+            latitud = Double.toString(loc.getLatitude());
+            longitud = Double.toString(loc.getLongitude());
+
+            //String Text = loc.getLatitude() + "()" + loc.getLongitude();
+            //cordenadas = Text;
+            this.mainActivity.setLocation(loc);
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            // Este metodo se ejecuta cuando el GPS es desactivado
+            //cordenadas = "GPS Desactivado";
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            // Este metodo se ejecuta cuando el GPS es activado
+            //cordenadas = "GPS Activado";
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            switch (status) {
+                case LocationProvider.AVAILABLE:
+                    Log.d("debug", "LocationProvider.AVAILABLE");
+                    break;
+                case LocationProvider.OUT_OF_SERVICE:
+                    Log.d("debug", "LocationProvider.OUT_OF_SERVICE");
+                    break;
+                case LocationProvider.TEMPORARILY_UNAVAILABLE:
+                    Log.d("debug", "LocationProvider.TEMPORARILY_UNAVAILABLE");
+                    break;
+            }
+        }
+    }
+    ////////////////////////////////////////LOCALIZACION/////////////////////////////////////////////////////////
 }
+

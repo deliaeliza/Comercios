@@ -37,11 +37,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtUsuario"
                     android:layout_width="match_parent"
-                    android:maxLength="45"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textMultiLine" />
+                    android:inputType="textMultiLine"
+                    android:maxLength="45" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -51,11 +51,11 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/descripcion_lbl"
-                app:errorEnabled="true"
-                app:errorTextAppearance="@color/error"
                 app:counterEnabled="true"
                 app:counterMaxLength="500"
                 app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,10 +65,10 @@
                     android:id="@+id/fActInfoComercio_edtDescripcion"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="500"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textMultiLine" />
+                    android:inputType="textMultiLine"
+                    android:maxLength="500" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -100,11 +100,11 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/telefono_lbl"
-                app:errorEnabled="true"
-                app:errorTextAppearance="@color/error"
                 app:counterEnabled="true"
                 app:counterMaxLength="20"
                 app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -113,11 +113,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtTelefono"
                     android:layout_width="match_parent"
-                    android:maxLength="20"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:maxLength="20" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -127,11 +127,11 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/email_lbl"
-                app:errorEnabled="true"
-                app:errorTextAppearance="@color/error"
                 app:counterEnabled="true"
                 app:counterMaxLength="45"
                 app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -140,11 +140,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtCorreo"
                     android:layout_width="match_parent"
-                    android:maxLength="45"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:maxLength="45" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -154,11 +154,11 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/pwd_lbl"
-                app:errorEnabled="true"
-                app:errorTextAppearance="@color/error"
                 app:counterEnabled="true"
                 app:counterMaxLength="45"
                 app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -167,11 +167,11 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtPass"
                     android:layout_width="match_parent"
-                    android:maxLength="45"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:maxLength="45" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -181,11 +181,11 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/confPWD_lbl"
-                app:errorEnabled="true"
-                app:errorTextAppearance="@color/error"
                 app:counterEnabled="true"
                 app:counterMaxLength="45"
                 app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -195,10 +195,10 @@
                     android:id="@+id/fActInfoComercio_edtConfiPass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLength="45"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:maxLength="45" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -208,6 +208,7 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/ubicacion_lbl"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -228,8 +229,7 @@
                     android:id="@+id/fActInfoComercio_btnUbicacion"
                     android:layout_width="130dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="72dp"
-                    android:visibility="invisible"
+                    android:layout_marginLeft="100dp"
                     android:text="Obtener ubicación"
                     android:textSize="14dp" />
 
@@ -248,32 +248,62 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fActInfoComercio_cambiarFoto"
-                android:layout_width="wrap_content"
+                android:layout_width="40dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="10dp"
-                android:text="Cambiar foto"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="104dp"
+                android:layout_marginEnd="48dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@android:color/transparent"
+                android:paddingLeft="25dp"
+                android:paddingTop="7dp"
+                app:icon="@drawable/ic_autorenew"
+                app:iconGravity="textStart"
+                app:iconSize="20dp"
+                app:iconTint="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.938"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_imagen" />
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fActInfoComercio_eliminarFoto"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="104dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginHorizontal="320dp"
+                android:layout_marginStart="278dp"
+                android:layout_marginEnd="318dp"
+                android:backgroundTint="@android:color/transparent"
+                android:paddingLeft="25dp"
+                android:paddingTop="7dp"
+
+                app:icon="@drawable/delete"
+                app:iconGravity="textStart"
+                app:iconSize="20dp"
+                app:iconTint="@color/colorPrimaryDark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.938"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fActInfoComercio_btnAct"
                 android:layout_width="match_parent"
                 android:layout_height="51dp"
                 android:layout_marginHorizontal="20dp"
-                android:backgroundTint="@color/colorAccent"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="15dp"
+                android:backgroundTint="@color/colorAccent"
                 android:text="@string/actualizar_lbl"
                 android:textSize="18sp"
                 app:cornerRadius="3dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_cambiarFoto"
-                app:layout_constraintBottom_toBottomOf="parent">
-            </com.google.android.material.button.MaterialButton>
+                app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_cambiarFoto"></com.google.android.material.button.MaterialButton>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </FrameLayout>
