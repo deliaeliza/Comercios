@@ -1,7 +1,7 @@
 package com.example.comercios.Fragments;
 
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;

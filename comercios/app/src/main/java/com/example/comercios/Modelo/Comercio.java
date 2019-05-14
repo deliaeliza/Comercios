@@ -22,8 +22,6 @@ public class Comercio {
     private String ubicacion;
     private String categoria;
     private String urlImagen;
-    private String latitud;
-    private String longitud;
     private int idCategoria;
     private Bitmap imagen = null;
     private ArrayList<Seccion> secciones;
@@ -48,7 +46,7 @@ public class Comercio {
         this.secciones = secciones;
     }
 
-    public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, String urlImagen,String longitud,String latitud ,int idCategoria, String contrasena) {
+    public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, String urlImagen,double longitud,double latitud ,int idCategoria, String contrasena) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -60,8 +58,8 @@ public class Comercio {
         this.ubicacion = ubicacion;
         this.categoria = categoria;
         this.urlImagen = urlImagen;
-        this.longitud = longitud;
         this.latitud = latitud;
+        this.longitud = longitud;
         this.idCategoria = idCategoria;
         this.contrasena = contrasena;
     }
@@ -238,21 +236,6 @@ public class Comercio {
         this.imagen = imagen;
     }
 
-    public String getLatitud() {
-        return latitud;
-    }
-
-    public void setLatitud(String latitud) {
-        this.latitud = latitud;
-    }
-
-    public String getLongitud() {
-        return longitud;
-    }
-
-    public void setLongitud(String longitud) {
-        this.longitud = longitud;
-    }
 
     public int getIdCategoria() {
         return idCategoria;

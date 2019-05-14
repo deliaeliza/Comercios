@@ -41,9 +41,11 @@ import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -105,24 +107,16 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                //mensajeAB("Eres un idiota");
             }
         });
+        MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
+                .findFragmentById(R.id.mapa_contenedor);
+        mapFragment.getMapAsync(this);
         return view;
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mapView = (MapView) view.findViewById(R.id.mapa_contenedor);
-        mapView.onCreate(savedInstanceState);
-        mapView.onResume();
-        mapView.getMapAsync(this);
-    }
-
-    @Override
     public void onMapReady(GoogleMap googleMap) {
-        MapsInitializer.initialize(getActivity());
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
