@@ -3,6 +3,8 @@ package com.example.comercios;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -32,9 +34,8 @@ public class Registrar extends AppCompatActivity {
                 }
             }
         });*/
-        mensajeAB("Unetenos");
+        //mensajeAB("Unetenos");
     }
-
 
     /*private void mostrarFrag(boolean mostrarUser){
         FragmentManager fm = getFragmentManager();
