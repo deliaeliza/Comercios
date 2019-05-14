@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
@@ -32,6 +33,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
@@ -82,6 +84,8 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_empresas_maps, container, false);
+        GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_empresas_maps);
+        mensajeAB("Comercios");
         categorias = new ArrayList<>();
         comercios = new ArrayList<>();
         tabLayout = (TabLayout) view.findViewById(R.id.fragEmpMap_menuNavigationTab);
@@ -435,5 +439,9 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             }
         }
     }
+
+    private void mensajeAB(String msg) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
+    };
 
 }

@@ -71,6 +71,8 @@ public class FragVerComerciosLista extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =inflater.inflate(R.layout.frag_ver_comercios_lista, container, false);
+        GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_ver_comercios_lista);
+        mensajeAB("Comercios");
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
         tabLayout = (TabLayout)view.findViewById(R.id.frag_ver_comercios_lista_tablayout);
@@ -117,7 +119,7 @@ public class FragVerComerciosLista extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                mensajeAB("Eres un idiota");
+                //mensajeAB("Eres un idiota");
             }
         });
         return view;
@@ -270,7 +272,6 @@ public class FragVerComerciosLista extends Fragment {
             todos.setIcon(recuperarIcono("Todos"));
             todos.setTag(-1);
             tabLayout.addTab(todos);
-            ViewPagerNoSwipe v = GlobalUsuarios.viewPagerNoSwipe;
             for(Categorias c: categorias){
                 TabLayout.Tab t = tabLayout.newTab();
                 t.setText(c.getNombre());
