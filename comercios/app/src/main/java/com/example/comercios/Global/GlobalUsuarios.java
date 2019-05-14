@@ -1,13 +1,15 @@
 package com.example.comercios.Global;
 
+import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.UsuarioEstandar;
 import com.example.comercios.R;
 
 public class GlobalUsuarios {
 
     private UsuarioEstandar userE = null;
-    private static GlobalUsuarios instance = null;
+    private Comercio comercio = null; //Comercio escojido
 
+    private static GlobalUsuarios instance = null;
     private int ventanaActual = R.layout.frag_home_usuario_estandar;
 
     protected GlobalUsuarios() {

@@ -21,7 +21,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -42,6 +41,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -51,6 +51,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Global.GlobalGeneral;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
@@ -123,7 +124,7 @@ public class FragRegEmpresa extends Fragment {
                              Bundle savedInstanceState) {
         mensajeAB("Registrarme");
         View view = inflater.inflate(R.layout.frag_reg_empresa, container, false);
-        GlobalComercios.getInstance().setVentanaActual(R.layout.frag_reg_empresa);
+        GlobalGeneral.getInstance().setVentanaActual(R.layout.frag_reg_empresa);
 
         categorias = new ArrayList<>();
         categoriasArray = new ArrayList<>();

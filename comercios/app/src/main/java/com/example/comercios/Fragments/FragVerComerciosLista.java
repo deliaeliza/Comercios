@@ -3,42 +3,35 @@ package com.example.comercios.Fragments;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RatingBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.tabs.TabLayout;
-import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +49,7 @@ public class FragVerComerciosLista extends Fragment {
     private boolean inicial = true;
     private boolean userScrolled = false;
     private boolean cargando = false;
+    private boolean vaciar = false;
     private Handler manejador;
 
     private TabLayout tabLayout;
@@ -76,6 +70,8 @@ public class FragVerComerciosLista extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view =inflater.inflate(R.layout.frag_ver_comercios_lista, container, false);
+        GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_ver_comercios_lista);
+        mensajeAB("Comercios");
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
         tabLayout = (TabLayout)view.findViewById(R.id.frag_ver_comercios_lista_tablayout);
@@ -96,6 +92,7 @@ public class FragVerComerciosLista extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if(userScrolled && view.getLastVisiblePosition() == comercios.size()-1 && cargando == false){
+                    vaciar = false;
                     cargando = true;
                     Thread thread = new ThreadMoreData();
                     thread.start();
@@ -105,8 +102,8 @@ public class FragVerComerciosLista extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                int idCategoria = (int)tab.getTag();
-                if(idCategoria != 1){
+                if(!inicial){
+                    vaciar = true;
                     cargando = true;
                     comercios.clear();
                     Thread thread = new ThreadMoreData();
@@ -121,7 +118,7 @@ public class FragVerComerciosLista extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                mensajeAB("Eres un idiota");
+                //mensajeAB("Eres un idiota");
             }
         });
         return view;
@@ -171,7 +168,7 @@ public class FragVerComerciosLista extends Fragment {
             query += " AND c.idCategoria='"+idCategoria+"'";
         }
         //Limite despues de los filtros
-        query += " GROUP BY c.idUsuario ORDER BY u.usuario LIMIT " + TAM_PAGINA;
+        query += " GROUP BY c.idUsuario ORDER BY u.id LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/comerciosListar.php?query=" + query;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -179,6 +176,8 @@ public class FragVerComerciosLista extends Fragment {
             public void onResponse(JSONObject response) {
 
                 try {
+                    if(vaciar)
+                        comercios.clear();
                     JSONObject jsonOb = response.getJSONObject("datos");
                     String mensajeError = jsonOb.getString("mensajeError");
                     if(mensajeError.equalsIgnoreCase("")){
@@ -207,14 +206,18 @@ public class FragVerComerciosLista extends Fragment {
                                             usuario.getString("descripcion"),
                                             categoria,
                                             usuario.isNull("urlImagen") ? null : Util.urlWebService + "/" +usuario.getString("urlImagen"),
-                                            usuario.isNull("imagen")? null : convertirStringToImg(usuario.getString("imagen"))));
+                                            usuario.getDouble("latitud"),
+                                            usuario.getDouble("longitud"),
+                                            usuario.getString("ubicacion")));
                                 }
                             }
 
                         }
-                        if(inicial){
+                        if(listView.getAdapter() == null){
                             adapter = new ComercioListAdapter();
                             listView.setAdapter(adapter);
+                        }
+                        if(inicial){
                             inicial = false;
                         } else {
                             Message msg = manejador.obtainMessage(1);
@@ -235,12 +238,6 @@ public class FragVerComerciosLista extends Fragment {
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
-    private Bitmap convertirStringToImg(String imgCodificada) {
-        byte[] stringDecodificado = Base64.decode(imgCodificada, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(stringDecodificado, 0, stringDecodificado.length);
-        return decodedByte;
-    }
-
 
     private void cargarCategorias(){
         String url = Util.urlWebService + "/categoriasObtener.php";
@@ -328,10 +325,12 @@ public class FragVerComerciosLista extends Fragment {
             ImageView verificado = (ImageView) itemView.findViewById(R.id.item_ver_comercio_verificado);
             RatingBar rating = (RatingBar) itemView.findViewById(R.id.item_ver_comercio_rating);
             ImageView imagen = (ImageView) itemView.findViewById(R.id.item_ver_comercio_imageview);
-            if(actual.getUrlImagen() != null){
+            if(actual.getUrlImagen() == null){
+                imagen.setImageResource(R.drawable.ic_menu_camera);
+            } else if (actual.getImagen() != null){
                 imagen.setImageBitmap(actual.getImagen());
             } else {
-                imagen.setImageResource(R.drawable.ic_menu_camera);
+                cargarWebServicesImagen(actual.getUrlImagen(), imagen, position);
             }
             if(actual.isVerificado()){
                 verificado.setVisibility(View.VISIBLE);
@@ -346,7 +345,24 @@ public class FragVerComerciosLista extends Fragment {
             return itemView;
         }
     }
-
+    private void cargarWebServicesImagen(String ruta_foto, final ImageView imagen, final int posicion) {
+        ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                if(posicion < comercios.size()) {
+                    //imagen.setImageBitmap(response);
+                    comercios.get(posicion).setImagen(response);
+                    adapter.actualizarDatos();
+                }
+            }
+        }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("error al cargar la imagen");
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
+    }
     private void mensajeToast(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
     private void mensajeAB(String msg) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);

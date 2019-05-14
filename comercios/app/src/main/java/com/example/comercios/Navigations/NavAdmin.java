@@ -1,7 +1,7 @@
 package com.example.comercios.Navigations;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -10,11 +10,8 @@ import com.example.comercios.Fragments.FragActInfoAdmin;
 import com.example.comercios.Fragments.FragGestComercioLista;
 import com.example.comercios.Fragments.FragGestEstandarLista;
 import com.example.comercios.Fragments.FragHomeAdmin;
-import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
 import com.example.comercios.Fragments.FragRegAdmin;
 import com.example.comercios.Global.GlobalAdmin;
-import com.example.comercios.Global.GlobalSuperUsuario;
-import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Login;
 import com.example.comercios.R;
 
@@ -46,7 +43,7 @@ public class NavAdmin extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         FragHomeAdmin mifrag = new FragHomeAdmin ();
         fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
@@ -67,7 +64,7 @@ public class NavAdmin extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             int ventanaActual = GlobalAdmin.getInstance().getVentanaActual();
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             switch (ventanaActual) {
                 case R.layout.frag_home_admin:
@@ -118,19 +115,19 @@ public class NavAdmin extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.adminRegistrar) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragRegAdmin mifrag = new FragRegAdmin ();
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "agreagarAdmin");
             fragmentTransaction.commit();
         } else if (id == R.id.adminUsuarios) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragGestEstandarLista mifrag = new FragGestEstandarLista ();
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "gestionarEstandar");
             fragmentTransaction.commit();
         } else if (id == R.id.adminComercios) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragGestComercioLista mifrag = new FragGestComercioLista ();
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "gestionarComercio");
@@ -140,19 +137,19 @@ public class NavAdmin extends AppCompatActivity
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.nav_send) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragAcercaDe mifrag = new FragAcercaDe ();
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "gestionarCom");
             fragmentTransaction.commit();
         }else if(id == R.id.adminHome){
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragHomeAdmin mifrag = new FragHomeAdmin ();
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
             fragmentTransaction.commit();
         }else if(id == R.id.adminActInformacion){
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragActInfoAdmin mifrag = new FragActInfoAdmin ();
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "actInfoAdmin");

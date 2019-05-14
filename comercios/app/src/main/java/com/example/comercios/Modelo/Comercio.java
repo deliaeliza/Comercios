@@ -7,9 +7,11 @@ import java.util.ArrayList;
 public class Comercio {
     private int id;
     private int tipo;
-    private long telefono;
-    private float calificacion; //Promedio de todos usuariosEstandar que lo han calificado
     private int cantCalificaciones;
+    private float calificacion; //Promedio de todos usuariosEstandar que lo han calificado
+    private double latitud;
+    private double longitud;
+    private long telefono;
     private boolean verificado;
     private boolean estado;
     private String codigoRestablecer;
@@ -102,7 +104,7 @@ public class Comercio {
         this.categoria = categoria;
         this.urlImagen = urlImagen;
     }
-    public Comercio(int id, int tipo, long telefono, float calificacion, int cantCalificaciones, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String categoria, String urlImagen, Bitmap imagen) {
+    public Comercio(int id, int tipo, long telefono, float calificacion, int cantCalificaciones, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String categoria, String urlImagen, double latitud, double longitud, String ubicacion) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -115,7 +117,9 @@ public class Comercio {
         this.descripcion = descripcion;
         this.categoria = categoria;
         this.urlImagen = urlImagen;
-        this.imagen = imagen;
+        this.latitud = latitud;
+        this.longitud = longitud;
+        this.ubicacion = ubicacion;
     }
 
     public int getId() {
@@ -256,5 +260,19 @@ public class Comercio {
 
     public void setIdCategoria(int idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public double getLatitud() {
+        return latitud;
+    }
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 }

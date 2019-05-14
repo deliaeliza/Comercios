@@ -1,5 +1,6 @@
 package com.example.comercios.Fragments;
 
+
 import android.app.Fragment;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -22,6 +23,48 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.example.comercios.Global.GlobalUsuarios;
+import com.example.comercios.Modelo.Comercio;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Modelo.Producto;
+import com.example.comercios.Modelo.Util;
+import com.example.comercios.Modelo.VolleySingleton;
+import com.example.comercios.R;
+import com.google.android.material.button.MaterialButton;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Comercio;

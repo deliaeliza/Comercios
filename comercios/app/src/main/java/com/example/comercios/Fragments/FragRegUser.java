@@ -4,7 +4,6 @@ package com.example.comercios.Fragments;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Patterns;
@@ -14,12 +13,15 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.comercios.Global.GlobalGeneral;
 import com.example.comercios.Login;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
@@ -61,6 +63,7 @@ public class FragRegUser extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_reg_user, container, false);
+        GlobalGeneral.getInstance().setVentanaActual(R.layout.frag_reg_user);
         correo = (TextInputEditText) view.findViewById(R.id.fRegUser_edtEmail);
         tilCorreo = (TextInputLayout) view.findViewById(R.id.fRegUser_widEmail);
         usuario = (TextInputEditText) view.findViewById(R.id.fRegUser_edtUser);

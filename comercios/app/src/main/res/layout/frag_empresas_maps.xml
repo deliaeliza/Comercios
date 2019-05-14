@@ -22,7 +22,6 @@
             android:id="@+id/mapa_contenedor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginEnd="6dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

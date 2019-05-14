@@ -1,7 +1,7 @@
 package com.example.comercios.Navigations;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -47,7 +47,7 @@ public class NavSuperUsuario extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         FragHomeSuperUsuario mifrag = new FragHomeSuperUsuario();
         fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestAdmins");
@@ -71,7 +71,7 @@ public class NavSuperUsuario extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             int ventanaActual = GlobalSuperUsuario.getInstance().getVentanaActual();
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             switch (ventanaActual) {
                 case R.layout.frag_home_super_usuario:
@@ -119,25 +119,25 @@ public class NavSuperUsuario extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if(id == R.id.superUsuarioHome){
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragHomeSuperUsuario mifrag = new FragHomeSuperUsuario();
             fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestAdmins");
             fragmentTransaction.commit();
         } else if (id == R.id.superUsuarioAdmin) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragGestAdminLista mifrag = new FragGestAdminLista();
             fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestAdmins");
             fragmentTransaction.commit();
         } else if (id == R.id.superUsuarioUsuarios) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragGestEstandarLista mifrag = new FragGestEstandarLista ();
             fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestionarEstandarSU");
             fragmentTransaction.commit();
         } else if (id == R.id.superUsuarioComercios) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragGestComercioLista mifrag = new FragGestComercioLista ();
             fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestionarComercioSU");
@@ -147,13 +147,13 @@ public class NavSuperUsuario extends AppCompatActivity
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.nav_send4) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragAcercaDe mifrag = new FragAcercaDe ();
             fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestionarComercioSU");
             fragmentTransaction.commit();
         }else if(id == R.id.superUsuarioadminRegistrar){
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragRegAdmin mifrag = new FragRegAdmin ();
             fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "agreagarAdminSU");

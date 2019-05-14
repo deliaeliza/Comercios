@@ -1,7 +1,6 @@
 package com.example.comercios.Navigations;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -15,10 +14,6 @@ import com.example.comercios.Fragments.FragEmpresasMaps;
 import com.example.comercios.Fragments.FragHomeSuperUsuario;
 import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
 import com.example.comercios.Fragments.FragVerComerciosLista;
-import com.example.comercios.Fragments.FragVerProductosGrid;
-import com.example.comercios.Global.GlobalAdmin;
-import com.example.comercios.Global.GlobalComercios;
-import com.example.comercios.Global.GlobalSuperUsuario;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Login;
 import com.example.comercios.R;
@@ -29,10 +24,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
 
 public class NavUsuarios extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +43,13 @@ public class NavUsuarios extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        FragmentManager fm = getFragmentManager();
+
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
-        fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
+        FragHomeUsuarioEstandar mifrag = new FragHomeUsuarioEstandar();
+        fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "homeusuario");
         fragmentTransaction.commit();
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view3);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
@@ -66,14 +66,16 @@ public class NavUsuarios extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             int ventanaActual = GlobalUsuarios.getInstance().getVentanaActual();
-            FragmentManager fm = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fm.beginTransaction();
             switch (ventanaActual) {
                 case R.layout.frag_home_usuario_estandar:
                 case R.layout.frag_act_info_usuario:
                 case R.layout.frag_acerca_de:
-                    FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
-                    fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
+                case R.layout.frag_empresas_maps:
+                case R.layout.frag_ver_comercios_lista:
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    FragHomeUsuarioEstandar mifrag = new FragHomeUsuarioEstandar();
+                    fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "homeusuario");
                     fragmentTransaction.commit();
                     break;
                 default:
@@ -110,40 +112,39 @@ public class NavUsuarios extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.usuarioInicio) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragHomeUsuarioEstandar mifrag2 = new FragHomeUsuarioEstandar();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "HomeSU");
+            FragHomeUsuarioEstandar mifrag = new FragHomeUsuarioEstandar();
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "homeusuario");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioMapa) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragEmpresasMaps mifrag = new FragEmpresasMaps();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "mapasComercios");
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "mapausuario");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioTodosComercios) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragVerComerciosLista mifrag = new FragVerComerciosLista();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "contendorProductos");
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "listcomerciosusuario");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioActInformacion) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragActInfoUsuario mifrag = new FragActInfoUsuario();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "contendorActInformacion");
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "usuarioInfoActUsuario");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioEstandarcerrarSeion) {
             GlobalUsuarios.getInstance().setUserE(null);
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
         } else if (id == R.id.acercaDe) {
-            FragmentManager fm = getFragmentManager();
+            FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragAcercaDe mifrag = new FragAcercaDe();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "gestionarCom");
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "acercaUsuario");
             fragmentTransaction.commit();
         }
 
@@ -151,4 +152,5 @@ public class NavUsuarios extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }
