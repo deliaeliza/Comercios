@@ -381,22 +381,26 @@ CALL PAregistrarAdministrador(1, 'deliaeliza72@gmail.com', 'Elizabeth', '123Deli
 CALL PAregistrarAdministrador(1, 'angelocalderon.17@hotmail.com', 'Angelo', '123Angelo', 0050686096895);
 
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Restaurante');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Hotel');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Bar');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Cafe');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Ropa');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Tecnologia');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Farmacia');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Deportes');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Musica');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Videojuegos');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Jugueteria');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Ferreteria');
+INSERT INTO comercioscr.Categorias(nombre) VALUES ('Zapateria');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Libreria');
 INSERT INTO comercioscr.Categorias(nombre) VALUES ('Otro');
 
 
 
-CALL PAregistrarComercio(2, 'empresa1@gmail.com', 'Empresa1', '123Empresa1', 50685505001, 'Esta es una tienda de tecnologia', '9.763592', '-85.103710', 'Heredia', 4);
-CALL PAregistrarComercio(2, 'empresa2@gmail.com', 'Empresa2', '123Empresa2', 50850015001, 'Este es un restaurante', '9.554728','-84.299090', 'Puntarenas', 1);
-CALL PAregistrarComercio(2, 'empresa3@gmail.com', 'Empresa3', '123Empresa3', 50985508550, 'Esta es una tienda de ropa', '9.897555','-84.007210', 'San jose', 3);
+CALL PAregistrarComercio(2, 'empresa1@gmail.com', 'Empresa1', '123Empresa1', 50685505001, 'Esta es una tienda de tecnologia', '22424243434', '34343433434', 'Heredia', 5);
+CALL PAregistrarComercio(2, 'empresa2@gmail.com', 'Empresa2', '123Empresa2', 50850015001, 'Este es un restaurante', '22424243434','34343433434', 'Puntarenas', 1);
+CALL PAregistrarComercio(2, 'empresa3@gmail.com', 'Empresa3', '123Empresa3', 50985508550, 'Esta es una tienda de ropa', '22424243434','34343433434', 'San jose', 4);
 
 INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (4, 'Celulares');
 INSERT INTO comercioscr.Secciones(idComercio, nombre) VALUES (4, 'Computadoras');
@@ -471,58 +475,4 @@ CALL PAregistrarAdministrador(1, 'adminprueaba17@gmail.com', 'Anonimo17', '123An
 CALL PAregistrarAdministrador(1, 'adminprueaba18@gmail.com', 'Anonimo18', '123Anonimo', 89658966215);
 CALL PAregistrarAdministrador(1, 'adminprueaba19@gmail.com', 'Anonimo19', '123Anonimo', 89648963215);
 CALL PAregistrarAdministrador(0, 'superusuario@gmail.com', 'root', '123Root', 89586321478);
-
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Restaurante');
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Bar');
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Ropa');
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Tecnologia');
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Farmacia');
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Deportes');
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Videojuegos');
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Jugueteria');
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Ferreteria');
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Libreria');
-INSERT INTO comercioscr.Categorias(nombre) VALUES ('Otro');
-
-
-CALL PAregistrarComercio(2, 'esteesuncorreolargo@gmail.com', 'CorreoLargo', '123Largo', 50985508559, 'Esta es una tienda de ropa', '10.522734','-84.691628','Guapiles', 4);
-
-CALL PAregistrarComercio(2, 'correobaruno@gmail.com', 'Bar Uno', '123Bar', 50985963200, 'Esta es un bar en heredia', '9.997917',' -84.117712','Heredia', 2);
-CALL PAregistrarComercio(2, 'correobardos@gmail.com', 'Bar Dos', '123Bar', 50985963201, 'Esta es un bar en San Jose', '9.929982','-84.089479','San Jose', 2);
-
-CALL PAregistrarComercio(2, 'correodeportesuno@gmail.com', 'Deportes Uno', '123Deportes', 50985963205, 'Esta es una tienda de deportes', '10.014453','-84.214481','Alajuela', 6);
-CALL PAregistrarComercio(2, 'correodeportesdos@gmail.com', 'Deportes Dos', '123Deportes', 50985963206, 'Esta es una tienda de deportes', '9.862436','-83.916134','Cartago', 6);
-
-CALL PAregistrarComercio(2, 'correofarmaciauno@gmail.com', 'Farmacia Uno', '123Farmacia', 50985963207, 'Esta es una farmacia', '10.002352','-84.118487','Heredia', 5);
-CALL PAregistrarComercio(2, 'correofarmaciados@gmail.com', 'Farmacia Dos', '123Farmacia', 50985963208, 'Esta es una farmacia', '10.244688','-83.663090','Limon', 5);
-
-CALL PAregistrarComercio(2, 'correoferreteriauno@gmail.com', 'Ferreteria Uno', '123Ferreteria', 50985963209, 'Esta es una ferreteria', '9.863414','-83.916826','Cartago', 9);
-CALL PAregistrarComercio(2, 'correoferreteriados@gmail.com', 'Ferreteria Dos', '123Ferreteria', 50985963210, 'Esta es una ferreteria', '9.927843','-84.068321','San Jose', 9);
-
-CALL PAregistrarComercio(2, 'correojugueteriauno@gmail.com', 'Jugueteria Uno', '123Jugueteria', 50985963211, 'Esta es una tienda de jueguetes', '10.446413','-85.605335','Guanacaste', 8);
-CALL PAregistrarComercio(2, 'correojugueteriados@gmail.com', 'Jugueteria Dos', '123Jugueteria', 50985963212, 'Esta es una tienda de juguetes', '9.098414','-83.644657','Puntarenas', 8);
-
-CALL PAregistrarComercio(2, 'correolibreriauno@gmail.com', 'Libreria Uno', '123Libreria', 50985963213, 'Esta es una tienda de libros', '9.936402','-84.067011','San Jose', 10);
-CALL PAregistrarComercio(2, 'correolibreriados@gmail.com', 'Libreria Dos', '123Libreria', 50985963214, 'Esta es una tienda de libros', '9.865042','-83.914183','Cartago', 10);
-
-CALL PAregistrarComercio(2, 'correootrouno@gmail.com', 'Otro uno', '123Otro', 50985963215, 'Esta es una tienda de articulos variados', '10.006891','-84.108148','Heredia', 11);
-CALL PAregistrarComercio(2, 'correootrodos@gmail.com', 'Otro dos', '123Otro', 50985963216, 'Esta es una tienda de articulos variados', '9.082975','-83.649265','Puntarenas', 11);
-
-CALL PAregistrarComercio(2, 'correorestauranteuno@gmail.com', 'Restaurante Uno', '123Restaurante', 50985963217, 'Este es un restaurante', '9.942434','-84.053863','San Jose', 1);
-CALL PAregistrarComercio(2, 'correorestaurantedos@gmail.com', 'Restaurante Dos', '123Restaurante', 50985963218, 'Este es un restaurante', '9.995154','-84.107911','Heredia', 1);
-
-CALL PAregistrarComercio(2, 'correoropauno@gmail.com', 'Ropa Uno', '123Ropa', 50985963219, 'Esta es una tienda de ropa', '9.863574','-83.913254','Cartago', 3);
-CALL PAregistrarComercio(2, 'correoropados@gmail.com', 'Ropa Dos', '123Ropa', 50985963220, 'Esta es una tienda de ropa', '10.091047','-84.308136','Alajuela', 3);
-
-CALL PAregistrarComercio(2, 'correotecnologiauno@gmail.com', 'Tecnologia Uno', '123Tecnologia', 50985963221, 'Esta es una tienda de computadoras', '9.990092','-84.113126','Heredia', 4);
-CALL PAregistrarComercio(2, 'correotecnologiados@gmail.com', 'Tecnologia Dos', '123Tecnologia', 50985963222, 'Esta es una tienda de arreglo de tecnologias', '9.923408','-84.071023','San Jose', 4);
-
-CALL PAregistrarComercio(2, 'correovideojuegosuno@gmail.com', 'Videojuegos Uno', '123Videojuegos', 50985963223, 'Esta es una tienda de videojuegos', '9.991317','-84.120384','Heredia', 7);
-CALL PAregistrarComercio(2, 'correovideojuegosdos@gmail.com', 'Videojuegos Dos', '123Videojuegos', 50985963224, 'Esta es una tienda de venta de videojuegos', '9.856422','-83.913931','Cartago', 7);
-
-
-
-
-
-
-
+CALL PAregistrarComercio(2, 'esteesuncorreolargo@gmail.com', 'CorreoLargo', '123Largo', 50985508559, 'Esta es una tienda de ropa', '22424243434','34343433434','Guapiles', 4);

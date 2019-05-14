@@ -14,7 +14,6 @@ import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -63,6 +62,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -71,7 +71,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FragActInfoComercio extends Fragment  {
+public class FragActInfoComercio extends Fragment {
     StringRequest stringRequest;
     StringRequest stringRequest2;
     ImageView fotoComercio;

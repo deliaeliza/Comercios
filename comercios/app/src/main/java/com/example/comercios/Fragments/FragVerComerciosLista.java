@@ -25,11 +25,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.example.comercios.ViewPager.ViewPagerNoSwipe;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
@@ -165,7 +167,7 @@ public class FragVerComerciosLista extends Fragment {
             query += " AND c.idCategoria='"+idCategoria+"'";
         }
         //Limite despues de los filtros
-        query += " GROUP BY c.idUsuario ORDER BY u.usuario LIMIT " + TAM_PAGINA;
+        query += " GROUP BY c.idUsuario ORDER BY u.id LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/comerciosListar.php?query=" + query;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -210,9 +212,11 @@ public class FragVerComerciosLista extends Fragment {
                             }
 
                         }
-                        if(inicial){
+                        if(listView.getAdapter() == null){
                             adapter = new ComercioListAdapter();
                             listView.setAdapter(adapter);
+                        }
+                        if(inicial){
                             inicial = false;
                         } else {
                             Message msg = manejador.obtainMessage(1);
@@ -266,6 +270,7 @@ public class FragVerComerciosLista extends Fragment {
             todos.setIcon(recuperarIcono("Todos"));
             todos.setTag(-1);
             tabLayout.addTab(todos);
+            ViewPagerNoSwipe v = GlobalUsuarios.viewPagerNoSwipe;
             for(Categorias c: categorias){
                 TabLayout.Tab t = tabLayout.newTab();
                 t.setText(c.getNombre());
@@ -344,9 +349,10 @@ public class FragVerComerciosLista extends Fragment {
         ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
-                if(comercios.size() < posicion) {
-                    imagen.setImageBitmap(response);
+                if(posicion < comercios.size()) {
+                    //imagen.setImageBitmap(response);
                     comercios.get(posicion).setImagen(response);
+                    adapter.actualizarDatos();
                 }
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
