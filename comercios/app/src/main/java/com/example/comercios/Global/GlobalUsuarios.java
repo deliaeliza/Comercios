@@ -3,7 +3,6 @@ package com.example.comercios.Global;
 import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.UsuarioEstandar;
 import com.example.comercios.R;
-import com.example.comercios.ViewPager.ViewPagerNoSwipe;
 
 public class GlobalUsuarios {
 

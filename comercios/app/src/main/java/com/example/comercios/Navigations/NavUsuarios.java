@@ -17,7 +17,6 @@ import com.example.comercios.Fragments.FragVerComerciosLista;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Login;
 import com.example.comercios.R;
-import com.example.comercios.ViewPager.ViewPagerNoSwipe;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;

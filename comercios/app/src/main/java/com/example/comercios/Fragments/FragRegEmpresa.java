@@ -51,6 +51,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Global.GlobalGeneral;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
@@ -123,7 +124,7 @@ public class FragRegEmpresa extends Fragment {
                              Bundle savedInstanceState) {
         mensajeAB("Registrarme");
         View view = inflater.inflate(R.layout.frag_reg_empresa, container, false);
-        GlobalComercios.getInstance().setVentanaActual(R.layout.frag_reg_empresa);
+        GlobalGeneral.getInstance().setVentanaActual(R.layout.frag_reg_empresa);
 
         categorias = new ArrayList<>();
         categoriasArray = new ArrayList<>();

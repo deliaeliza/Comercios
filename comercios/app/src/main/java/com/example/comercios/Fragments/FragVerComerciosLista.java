@@ -31,7 +31,6 @@ import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
-import com.example.comercios.ViewPager.ViewPagerNoSwipe;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
