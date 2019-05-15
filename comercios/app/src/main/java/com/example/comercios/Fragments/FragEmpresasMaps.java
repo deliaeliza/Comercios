@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -20,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -28,11 +31,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.comercios.Global.GlobalGeneral;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Comercio;
@@ -50,7 +56,12 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
@@ -67,7 +78,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
-    GoogleMap mGoogleMap;
+    GoogleMap mGoogleMap = null;
     MapView mapView;
     private ArrayList<Categorias> categorias;
     private ArrayList<Comercio> comercios;
@@ -76,6 +87,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     private double latitud;
     private double longitud;
     private boolean moverCamara = false;
+    private String opcionEscogida = "";
 
     public FragEmpresasMaps() {
         // Required empty public constructor
@@ -95,11 +107,12 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(mGoogleMap != null){
+                if (mGoogleMap != null) {
                     mGoogleMap.clear();
                     recuperarComerios();
                 }
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
@@ -113,6 +126,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                 .findFragmentById(R.id.mapa_contenedor);
         mapFragment.getMapAsync(this);
         return view;
+
     }
 
     @Override
@@ -126,8 +140,129 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         if (solicitaPermisosVersionesSuperioresGPS()) {
             locationStart();
         }
+
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                DialogoInformacion(marker);
+            }
+        });
+
         moverCamara = true;
     }
+
+    private void DialogoInformacion(final Marker marker){
+        View view = getLayoutInflater().inflate(R.layout.frag_dialogo_maps, null);
+        BottomSheetDialog dialog = new BottomSheetDialog(getActivity(),R.style.CustomBottomSheetDialogTheme);
+        dialog.setContentView(view);
+        TextView duracion= (TextView) dialog.findViewById(R.id.fragDialgMaps_duracion);
+        TextView distancia= (TextView) dialog.findViewById(R.id.fragDialgMaps_km);
+        TextView nombre = (TextView) dialog.findViewById(R.id.fragDialgMaps_nomEmp);
+        nombre.setText(marker.getTitle());
+        MaterialButton verMas = (MaterialButton) dialog.findViewById(R.id.fragDialgMaps_verMas);
+        final MaterialCardView btnBus = (MaterialCardView)dialog.findViewById(R.id.fragDialgMaps_bus);
+        final MaterialCardView btnCaminar = (MaterialCardView)dialog.findViewById(R.id.fragDialgMaps_caminar);
+        final MaterialCardView btnCar = (MaterialCardView)dialog.findViewById(R.id.fragDialgMaps_car);
+        final MaterialCardView btnBicicleta = (MaterialCardView)dialog.findViewById(R.id.fragDialgMaps_bicicleta);
+        MaterialCardView btnIr = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_ir);
+
+        verMas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                FragRegUser mifrag = new FragRegUser();
+                fragmentTransaction.replace(R.id.registros_content, mifrag, "regUser");
+                fragmentTransaction.commit();*/
+            }
+        });
+        btnBus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opcionEscogida = "transit";
+                btnBicicleta.setChecked(false);
+                btnCaminar.setChecked(false);
+                btnCar.setChecked(false);
+                btnBus.setChecked(true);
+            }
+        });
+        btnCaminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opcionEscogida = "walking";
+                btnBicicleta.setChecked(false);
+                btnCaminar.setChecked(true);
+                btnCar.setChecked(false);
+                btnBus.setChecked(false);
+            }
+        });
+        btnCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opcionEscogida = "driving";
+                btnBicicleta.setChecked(false);
+                btnCaminar.setChecked(false);
+                btnCar.setChecked(true);
+                btnBus.setChecked(false);
+            }
+        });
+        btnBicicleta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                opcionEscogida = "bicycling";
+                btnBicicleta.setChecked(true);
+                btnCaminar.setChecked(false);
+                btnCar.setChecked(false);
+                btnBus.setChecked(false);
+            }
+        });
+        btnIr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!opcionEscogida.equalsIgnoreCase("")){
+                    recuperarRuta(new LatLng(latitud,longitud),marker.getPosition(),opcionEscogida);
+                }
+            }
+        });
+        dialog.show();
+    }
+
+    //-------------------------------------- Mapas rutas _----------------------------------------------------------------
+
+    private void recuperarRuta(LatLng partida, LatLng llegada, String modo) {
+        String url = Util.URL_API_DIRECTIONS + "/json?" +
+                "origin=" + partida.latitude + "," + partida.longitude +
+                "&destination=" + llegada.latitude + "," + llegada.longitude +
+                "&mode=" + modo + "&key=" + Util.key;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray routes = response.getJSONArray("routes");
+                    JSONObject bounds = routes.getJSONObject(0);
+                    JSONArray legs = bounds.optJSONArray("legs");
+                    String distance = legs.optJSONObject(0).optJSONObject("distance").getString("text");
+                    String duration = legs.optJSONObject(0).optJSONObject("duration").getString("text");
+                    JSONArray steps = legs.optJSONObject(0).optJSONArray("steps");
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+               }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("No se puede conectar");
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+
+    //-------------------------------------- Mapas rutas _----------------------------------------------------------------
+
 
     private void recuperarComerios() {
         String query = "SELECT u.*, c.*, COUNT(ca.calificacion) cantidad, IFNULL(AVG(ca.calificacion), 0) calificacion" +
@@ -180,7 +315,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                                             usuario.getString("ubicacion")));
                                 }
                                 for (Comercio c : comercios) {
-                                    LatLng lg = new LatLng(c.getLatitud(),c.getLongitud());
+                                    LatLng lg = new LatLng(c.getLatitud(), c.getLongitud());
                                     mGoogleMap.addMarker(new MarkerOptions().position(lg).title(c.getUsuario()).snippet(c.getDescripcion()));
                                 }
                             }
@@ -399,7 +534,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
             latitud = loc.getLatitude();
             longitud = loc.getLongitude();
-            if(moverCamara){
+            if (moverCamara) {
                 CameraPosition camaraPosition = CameraPosition.builder().target(new LatLng(latitud, longitud)).zoom(15).build();
                 mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camaraPosition));
                 moverCamara = false;
@@ -436,6 +571,9 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
     private void mensajeAB(String msg) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
-    };
+    }
+
+    ;
+
 
 }
