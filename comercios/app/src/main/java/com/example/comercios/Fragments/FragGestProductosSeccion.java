@@ -3,6 +3,7 @@ package com.example.comercios.Fragments;
 
 import androidx.fragment.app.Fragment;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -250,6 +251,8 @@ public class FragGestProductosSeccion extends Fragment {
             }
             Producto actual = productosArray.get(position);
             // Fill the view
+            imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
+            obtenerImagenesProducto(actual);
 
             TextView nombre = (TextView) itemView.findViewById(R.id.item_gest_producto_nombre);
             nombre.setText(actual.getNombre());
@@ -276,9 +279,7 @@ public class FragGestProductosSeccion extends Fragment {
                 buttonAction.setTag(position);
             }
 
-            imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
-            imagen.setImageResource(R.drawable.ic_menu_camera);
-            obtenerImagenesProducto(actual);
+
             //panel.setTag(position);
             estado.setTag(position);
             buttonAction.setTag(position);
@@ -298,7 +299,6 @@ public class FragGestProductosSeccion extends Fragment {
                     case R.id.item_gest_producto_MaterialButtonEliminar:
                         posicion = (int) v.getTag();
                         Producto p = productosArray.get(posicion);
-                        Mensaje("" + p.isPertenece());
                         actualizarProducto(p);
                         break;
                     default:
@@ -350,7 +350,7 @@ public class FragGestProductosSeccion extends Fragment {
 
     private void obtenerImagenesProducto(Producto p) {
 
-        String url = Util.urlWebService + "/obtenerImagenesProducto.php?id=" + p.getId();
+        String url = Util.urlWebService + "/obtenerImagenesProducto.php?id=1";
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -400,12 +400,18 @@ public class FragGestProductosSeccion extends Fragment {
     }
 
     public void actualizarProducto(Producto p) {
+
+
         idP = p.getId();
         if (p.isPertenece()) {
             op = "2";
         } else {
             op = "1";
         }
+        final ProgressDialog progreso = new ProgressDialog(getActivity());
+        progreso.setMessage("Esperando respuesta...");
+        progreso.show();
+
         String url = Util.urlWebService + "/productoSeccionAdministrar.php?";
         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -416,11 +422,14 @@ public class FragGestProductosSeccion extends Fragment {
 
                 } else {
                     Mensaje("Sucedio un error al intentar actualizar");
+
                 }
+                progreso.hide();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progreso.hide();
                 Mensaje("Intentelo mas tarde");
             }
         }) {

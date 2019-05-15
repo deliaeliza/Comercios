@@ -279,7 +279,7 @@
                 android:backgroundTint="@android:color/transparent"
                 android:paddingLeft="25dp"
                 android:paddingTop="7dp"
-
+                android:visibility="invisible"
                 app:icon="@drawable/delete"
                 app:iconGravity="textStart"
                 app:iconSize="20dp"
