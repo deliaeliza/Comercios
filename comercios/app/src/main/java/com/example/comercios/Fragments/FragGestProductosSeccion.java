@@ -2,6 +2,7 @@ package com.example.comercios.Fragments;
 
 
 import androidx.fragment.app.Fragment;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -111,11 +112,13 @@ public class FragGestProductosSeccion extends Fragment {
     private List<Producto> productosDefArray;
     private int posicion = -1;
     private RadioGroup radioGroup;
+    JsonObjectRequest jsonObjectRequest;
 
 
     Bitmap bitmap;
-    ImageView imagenes;
-
+    ImageView imagen;
+    String op = "";
+    Integer idP;
 
     public FragGestProductosSeccion() {
         // Required empty public constructor
@@ -129,7 +132,9 @@ public class FragGestProductosSeccion extends Fragment {
         view = inflater.inflate(R.layout.frag_gest_productos_seccion, container, false);
         listView = (ListView) view.findViewById(R.id.listViewProductosSeccion);
         manejador = new MyHandler();
+
         radioGroup = (RadioGroup) view.findViewById(R.id.FGestProductoSec_radioGroup);
+
 
         productosArray = new ArrayList<>();
         cargarProductosSeccion();
@@ -271,11 +276,9 @@ public class FragGestProductosSeccion extends Fragment {
                 buttonAction.setTag(position);
             }
 
-            //imagenes = (ImageView) itemView.findViewById(R.id.item_gest_producto_viewPProducto);
-
-          /*  if(actual.getUrlImagen() != null && !actual.getUrlImagen().equals("")){
-                cargarWebServicesImagen(imagen, actual.getUrlImagen(), actual.getCorreo());
-            }*/
+            imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
+            imagen.setImageResource(R.drawable.ic_menu_camera);
+            obtenerImagenesProducto(actual);
             //panel.setTag(position);
             estado.setTag(position);
             buttonAction.setTag(position);
@@ -304,7 +307,6 @@ public class FragGestProductosSeccion extends Fragment {
             }// fin del onclick
         });
     }// fin de OnclickDelMaterialButton
-
 
     public void Mensaje(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
@@ -346,7 +348,38 @@ public class FragGestProductosSeccion extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
     }
 
-    private void obtenerImagenesProducto() {
+    private void obtenerImagenesProducto(Producto p) {
+
+        String url = Util.urlWebService + "/obtenerImagenesProducto.php?id=" + p.getId();
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONArray jsonFotos = response.getJSONArray("imagenes");
+                    JSONObject obj;
+                    obj = jsonFotos.getJSONObject(0);
+                    String url2 = obj.getString("Imagen");
+                    if (url2 != "null") {
+                        cargarWebServicesImagen(Util.urlWebService + "/" +
+                                url2);
+                    } else {
+                        imagen.setImageResource(R.drawable.ic_menu_camera);
+                    }
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Mensaje("No se puede conectar " + error.toString());
+            }
+        });
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
 
     }
 
@@ -354,55 +387,55 @@ public class FragGestProductosSeccion extends Fragment {
         ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
-                imagenes.setImageBitmap(response);
-                bitmap = response;
+                imagen.setImageBitmap(response);
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("error al cargar la imagen");
+                //Mensaje("error al cargar la imagen"); si hay error le pongo la imagen de la camara
+                imagen.setImageResource(R.drawable.ic_menu_camera);
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
     }
 
     public void actualizarProducto(Producto p) {
-        mensajeAB("" + p.getId());
-            /*String sql="";
-            if(p.isPertenece()){
-                sql+="UPDATE SeccionesProductos SET idSeccion="+GlobalComercios.getInstance().getSeccion().getId()
-                        +"WHERE idProducto="+p.getId();
-            }else{
-                sql+="UPDATE SeccionesProductos SET idSeccion="+GlobalComercios.getInstance().getSeccion().getId()+
-                        "WHERE idProducto="+p.getId();
-            }
-
-        String url = Util.urlWebService + "/actualizarInfoUsuario.php?query=";
-
+        idP = p.getId();
+        if (p.isPertenece()) {
+            op = "2";
+        } else {
+            op = "1";
+        }
+        String url = Util.urlWebService + "/productoSeccionAdministrar.php?";
         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 if (response.trim().equalsIgnoreCase("correcto")) {
                     Mensaje("Actualización éxitosa");
-                    //dialogoRegresarMenuPrincial();
+                    cargarProductosSeccion();
 
                 } else {
-
                     Mensaje("Sucedio un error al intentar actualizar");
-
                 }
             }
         }, new Response.ErrorListener() {
             @Override
-
             public void onErrorResponse(VolleyError error) {
                 Mensaje("Intentelo mas tarde");
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("idSeccion", String.valueOf(GlobalComercios.getInstance().getSeccion().getId()));
+                parametros.put("idProducto", String.valueOf(idP));
+                parametros.put("idComercio", String.valueOf(GlobalComercios.getInstance().getComercio().getId()));
+                parametros.put("operacion", op);
+                return parametros;
+            }
+        };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);*/
-
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
     }
 }

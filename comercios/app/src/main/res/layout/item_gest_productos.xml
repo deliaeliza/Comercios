@@ -34,25 +34,25 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:text="Nombre:"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold|italic"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/item_gest_producto_viewPProducto"
+        <ImageView
+            android:id="@+id/item_gest_producto_ImgVProducto"
             android:layout_width="83dp"
             android:layout_height="78dp"
             android:layout_marginHorizontal="30dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/ic_menu_camera"
+            android:src="@drawable/ic_menu_camera"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_lblNombre">
 
-        </androidx.viewpager.widget.ViewPager>
+        </ImageView>
 
 
         <TextView
@@ -63,7 +63,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="8dp"
             android:text="User"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.007"
             app:layout_constraintStart_toEndOf="@+id/item_gest_producto_lblNombre"
@@ -78,7 +78,7 @@
             android:text="Precio:"
             android:textSize="16sp"
             android:textStyle="bold|italic"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_producto_viewPProducto"
+            app:layout_constraintStart_toEndOf="@+id/item_gest_producto_ImgVProducto"
             app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_nombre" />
 
         <TextView
@@ -94,21 +94,21 @@
 
         <TextView
             android:id="@+id/item_gest_producto_lblEstado"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="54dp"
+            android:layout_height="21dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
             android:text="Estado: "
             android:textSize="16sp"
             android:textStyle="bold|italic"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_producto_viewPProducto"
+            app:layout_constraintStart_toEndOf="@+id/item_gest_producto_ImgVProducto"
             app:layout_constraintTop_toBottomOf="@+id/item_gest_producto_lblPrecio" />
 
         <TextView
             android:id="@+id/item_gest_producto_estado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="12dp"
             android:layout_marginTop="20dp"
             android:text="estado"
             android:textSize="16sp"

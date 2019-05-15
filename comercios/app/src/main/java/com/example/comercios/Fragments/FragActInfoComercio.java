@@ -109,8 +109,8 @@ public class FragActInfoComercio extends Fragment {
     TextInputEditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
     TextInputLayout LayoutDescripcion,LayoutTelefono, LayoutCorreo,LayoutUsuario,LayoutPsw,LayoutConfPsw;
     Double latitud, longitud;
-    boolean eliminoFoto;
-
+    boolean eliminoFoto = false;
+    boolean sinfoto=false;
 
     public FragActInfoComercio() {
         // Required empty public constructor
@@ -124,7 +124,6 @@ public class FragActInfoComercio extends Fragment {
         GlobalComercios.getInstance().setVentanaActual(R.layout.frag_act_info_comercio);
         View view = inflater.inflate(R.layout.frag_act_info_comercio, container, false);
 
-        eliminoFoto=false;
         categorias = new ArrayList<>();
         categoriasArray= new ArrayList<>();
 
@@ -193,12 +192,15 @@ public class FragActInfoComercio extends Fragment {
             public void onResponse(Bitmap response) {
                 fotoComercio.setImageBitmap(response);
                 bitmap=response;
+
+
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mensajeToast("error al cargar la imagen");
                 btnEliminarFoto.setVisibility(View.INVISIBLE);
+                sinfoto=true;
 
             }
         });
@@ -267,7 +269,9 @@ public class FragActInfoComercio extends Fragment {
                 progreso.hide();
                 if (response.trim().equalsIgnoreCase("correcto")) {
                     mensajeToast("Actualización éxitosa");
+                    mensajeAB(response);
                 } else {
+                    mensajeAB(response);
                     mensajeToast("Sucedio un error al intentar actualizar");
                 }
             }
@@ -275,6 +279,8 @@ public class FragActInfoComercio extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
+                //*************eliminar
+                mensajeAB(error.toString());
                 mensajeToast("Intentelo mas tarde");
             }
         }){
@@ -333,11 +339,16 @@ public class FragActInfoComercio extends Fragment {
                 parametros.put("longitud", String.valueOf(longitud));
                 GlobalComercios.getInstance().getComercio().setLongitud(longitud);
 
-                if(!eliminoFoto) {
+                if(!sinfoto){
+                    parametros.put("imagen", "nada");
+                }else{
                     parametros.put("imagen", imagenConveritda);
                 }
-                else{
-                    parametros.put("imagen", null);
+
+                if(eliminoFoto) {
+                    parametros.put("operacion", "2");
+                }else{
+                    parametros.put("operacion","1");
                 }
                 return parametros;
             }
@@ -454,6 +465,7 @@ public class FragActInfoComercio extends Fragment {
                     eliminoFoto=false;
                     bitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),miPath);
                     fotoComercio.setImageBitmap(bitmap);
+                    sinfoto=false;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -468,6 +480,7 @@ public class FragActInfoComercio extends Fragment {
                             }
                         });
                 eliminoFoto=false;
+                sinfoto=false;
                 bitmap= BitmapFactory.decodeFile(path);
                 fotoComercio.setImageBitmap(bitmap);
 
