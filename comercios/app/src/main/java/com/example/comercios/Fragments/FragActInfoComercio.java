@@ -109,8 +109,9 @@ public class FragActInfoComercio extends Fragment {
     TextInputEditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
     TextInputLayout LayoutDescripcion,LayoutTelefono, LayoutCorreo,LayoutUsuario,LayoutPsw,LayoutConfPsw;
     Double latitud, longitud;
-    boolean eliminoFoto = false;
-    boolean sinfoto=false;
+
+
+
 
     public FragActInfoComercio() {
         // Required empty public constructor
@@ -166,7 +167,7 @@ public class FragActInfoComercio extends Fragment {
         fotoComercio = view.findViewById(R.id.fActInfoComercio_imagen);
         //Permisos para camara
         btnFoto = view.findViewById(R.id.fActInfoComercio_cambiarFoto);
-        btnEliminarFoto =(Button) view.findViewById(R.id.fActInfoComercio_eliminarFoto);
+        btnEliminarFoto =view.findViewById(R.id.fActInfoComercio_eliminarFoto);
 
         if(solicitaPermisosVersionesSuperiores()){
             btnFoto.setEnabled(true);
@@ -199,8 +200,8 @@ public class FragActInfoComercio extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mensajeToast("error al cargar la imagen");
-                btnEliminarFoto.setVisibility(View.INVISIBLE);
-                sinfoto=true;
+                //btnEliminarFoto.setVisibility(View.INVISIBLE);
+
 
             }
         });
@@ -245,9 +246,8 @@ public class FragActInfoComercio extends Fragment {
                         mostrarDialogOpciones();
                         break;
                     case R.id.fActInfoComercio_eliminarFoto:
-
                         fotoComercio.setImageResource(R.drawable.ic_menu_camera);
-                        eliminoFoto=true;
+
 
                         break;
                     default:break; }// fin de casos
@@ -259,8 +259,6 @@ public class FragActInfoComercio extends Fragment {
        final ProgressDialog progreso = new ProgressDialog(getActivity());
        progreso.setMessage("Esperando respuesta...");
        progreso.show();
-
-       final String imagenConveritda = convertirImgString(bitmap);
 
         String url = Util.urlWebService + "/actualizarInfoComercio.php?";
         stringRequest2 = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -339,17 +337,10 @@ public class FragActInfoComercio extends Fragment {
                 parametros.put("longitud", String.valueOf(longitud));
                 GlobalComercios.getInstance().getComercio().setLongitud(longitud);
 
-                if(!sinfoto){
-                    parametros.put("imagen", "nada");
-                }else{
-                    parametros.put("imagen", imagenConveritda);
-                }
 
-                if(eliminoFoto) {
-                    parametros.put("operacion", "2");
-                }else{
-                    parametros.put("operacion","1");
-                }
+                final String imagenConveritda = convertirImgString(bitmap);
+                parametros.put("imagen", imagenConveritda);
+
                 return parametros;
             }
         };
@@ -461,17 +452,18 @@ public class FragActInfoComercio extends Fragment {
             case COD_SELECCIONA:
                 Uri miPath=data.getData();
                 fotoComercio.setImageURI(miPath);
+
                 try {
-                    eliminoFoto=false;
                     bitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),miPath);
                     fotoComercio.setImageBitmap(bitmap);
-                    sinfoto=false;
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
 
                 break;
             case COD_FOTO:
+
                 MediaScannerConnection.scanFile(getActivity(), new String[]{path}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
                             @Override
@@ -479,8 +471,7 @@ public class FragActInfoComercio extends Fragment {
                                 Log.i("Path",""+path);
                             }
                         });
-                eliminoFoto=false;
-                sinfoto=false;
+
                 bitmap= BitmapFactory.decodeFile(path);
                 fotoComercio.setImageBitmap(bitmap);
 
