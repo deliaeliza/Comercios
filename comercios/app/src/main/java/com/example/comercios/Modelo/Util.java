@@ -42,4 +42,22 @@ public class Util {
     /****************************NOMBRE DE LA APP**********************************/
     public static  final String nombreApp = "ComerciosCR";
 
+    /****************************KEY DE GOOGLE MAPS**********************************/
+    public static  final String key = "AIzaSyAAQYV5HnMFyCgFmgr-iUmYo1b26ldokJ8";
+
+    /****************************SERVICIO WEB DE DIRECTIONS**********************************/
+    public static  final String URL_API_DIRECTIONS = "https://maps.googleapis.com/maps/api/directions";
+
+    /****************************MODOS DE VIAJE**********************************/
+    public static final String  MODO_MANEJANDO = "";
+    public static final String  MODO_CAMINANDO = "";
+    public static final String  MODO_BICICLETA = "";
+    public static final String  MODO_BUS = "";
+
+    /****************************OPCION ESCOGIDA**********************************/
+    public static final int OPCION_MANEJANDO = 1;
+    public static final int OPCION_CAMINANDO = 2;
+    public static final int OPCION_BICICLETA = 3;
+    public static final int OPCION_BUS = 4;
+
 }

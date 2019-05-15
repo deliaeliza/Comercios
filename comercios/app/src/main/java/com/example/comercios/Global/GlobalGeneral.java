@@ -6,13 +6,16 @@ public class GlobalGeneral {
 
     private static GlobalGeneral instance = null;
 
-
     private int ventanaActual = R.layout.activity_login;
 
-    protected GlobalGeneral() {}
+
+    protected GlobalGeneral() {
+    }
 
     public static GlobalGeneral getInstance() {
-        if(instance == null) {instance = new GlobalGeneral(); }
+        if (instance == null) {
+            instance = new GlobalGeneral();
+        }
         return instance;
     }
 
