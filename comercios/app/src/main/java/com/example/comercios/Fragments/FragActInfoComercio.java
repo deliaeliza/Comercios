@@ -92,7 +92,7 @@ public class FragActInfoComercio extends Fragment {
     ArrayList<Categorias> categorias;
     ArrayList<String> categoriasArray;
     Bitmap bitmap;
-    Button btnFoto;
+    Button btnFoto,btnEliminarFoto;
 
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
@@ -108,7 +108,7 @@ public class FragActInfoComercio extends Fragment {
     int categoriaSeleccionada;
     TextInputEditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
     TextInputLayout LayoutDescripcion,LayoutTelefono, LayoutCorreo,LayoutUsuario,LayoutPsw,LayoutConfPsw;
-    String latitud, longitud;
+    Double latitud, longitud;
     boolean eliminoFoto;
 
 
@@ -167,6 +167,8 @@ public class FragActInfoComercio extends Fragment {
         fotoComercio = view.findViewById(R.id.fActInfoComercio_imagen);
         //Permisos para camara
         btnFoto = view.findViewById(R.id.fActInfoComercio_cambiarFoto);
+        btnEliminarFoto =(Button) view.findViewById(R.id.fActInfoComercio_eliminarFoto);
+
         if(solicitaPermisosVersionesSuperiores()){
             btnFoto.setEnabled(true);
         }else{
@@ -196,6 +198,8 @@ public class FragActInfoComercio extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mensajeToast("error al cargar la imagen");
+                btnEliminarFoto.setVisibility(View.INVISIBLE);
+
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
@@ -264,14 +268,11 @@ public class FragActInfoComercio extends Fragment {
                 if (response.trim().equalsIgnoreCase("correcto")) {
                     mensajeToast("Actualización éxitosa");
                 } else {
-
                     mensajeToast("Sucedio un error al intentar actualizar");
-
                 }
             }
         }, new Response.ErrorListener() {
             @Override
-
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
                 mensajeToast("Intentelo mas tarde");
@@ -326,10 +327,10 @@ public class FragActInfoComercio extends Fragment {
                 }else {
                     parametros.put("ubicacion",GlobalComercios.getInstance().getComercio().getUbicacion());
                 }
-                parametros.put("latitud", latitud);
+                parametros.put("latitud", String.valueOf(latitud));
                 GlobalComercios.getInstance().getComercio().setLatitud(latitud);
 
-                parametros.put("longitud", longitud);
+                parametros.put("longitud", String.valueOf(longitud));
                 GlobalComercios.getInstance().getComercio().setLongitud(longitud);
 
                 if(!eliminoFoto) {
@@ -726,8 +727,8 @@ public class FragActInfoComercio extends Fragment {
             // Este metodo se ejecuta cada vez que el GPS recibe nuevas coordenadas
             // debido a la deteccion de un cambio de ubicacion
 
-            latitud = Double.toString(loc.getLatitude());
-            longitud = Double.toString(loc.getLongitude());
+            latitud = loc.getLatitude();
+            longitud = loc.getLongitude();
 
             //String Text = loc.getLatitude() + "()" + loc.getLongitude();
             //cordenadas = Text;
