@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoUsuario;
 import com.example.comercios.Fragments.FragEmpresasMaps;
-import com.example.comercios.Fragments.FragHomeSuperUsuario;
 import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
 import com.example.comercios.Fragments.FragVerComerciosLista;
 import com.example.comercios.Global.GlobalUsuarios;
@@ -24,9 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
 
 public class NavUsuarios extends AppCompatActivity
@@ -75,7 +72,7 @@ public class NavUsuarios extends AppCompatActivity
                     FragmentManager fm = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     FragHomeUsuarioEstandar mifrag = new FragHomeUsuarioEstandar();
-                    fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "homeusuario");
+                    fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "home_usuarioEstandar");
                     fragmentTransaction.commit();
                     break;
                 default:
@@ -116,25 +113,25 @@ public class NavUsuarios extends AppCompatActivity
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragHomeUsuarioEstandar mifrag = new FragHomeUsuarioEstandar();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "homeusuario");
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "home_usuarioEstandar");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioMapa) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragEmpresasMaps mifrag = new FragEmpresasMaps();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "mapausuario");
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "vermapa_usuarioEstandar");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioTodosComercios) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragVerComerciosLista mifrag = new FragVerComerciosLista();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "listcomerciosusuario");
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "listacomercios_usuarioEstandar");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioActInformacion) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragActInfoUsuario mifrag = new FragActInfoUsuario();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "usuarioInfoActUsuario");
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "usuarioInfoAct_usuarioEstandar");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioEstandarcerrarSeion) {
             GlobalUsuarios.getInstance().setUserE(null);
@@ -144,13 +141,11 @@ public class NavUsuarios extends AppCompatActivity
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragAcercaDe mifrag = new FragAcercaDe();
-            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "acercaUsuario");
+            fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "acercade_usuarioEstandar");
             fragmentTransaction.commit();
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout3);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }
