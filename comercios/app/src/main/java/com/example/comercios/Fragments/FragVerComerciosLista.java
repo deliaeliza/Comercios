@@ -222,6 +222,9 @@ public class FragVerComerciosLista extends Fragment {
                                             usuario.getDouble("latitud"),
                                             usuario.getDouble("longitud"),
                                             usuario.getString("ubicacion")));
+                                    if(!usuario.isNull("urlImagen") && !usuario.getString("urlImagen").equalsIgnoreCase("")){
+                                        cargarWebServicesImagen(comercios.get(i).getUrlImagen(), i);
+                                    }
                                 }
                             }
 
@@ -339,12 +342,10 @@ public class FragVerComerciosLista extends Fragment {
             RatingBar rating = (RatingBar) itemView.findViewById(R.id.item_ver_comercio_rating);
             ImageView imagen = (ImageView) itemView.findViewById(R.id.item_ver_comercio_imageview);
             MaterialCardView materialCardView = (MaterialCardView) itemView.findViewById(R.id.item_ver_comercio_panel);
-            if(actual.getUrlImagen() == null){
-                imagen.setImageResource(R.drawable.ic_menu_camera);
-            } else if (actual.getImagen() != null){
+            if (actual.getImagen() != null){
                 imagen.setImageBitmap(actual.getImagen());
-            } else {
-                cargarWebServicesImagen(actual.getUrlImagen(), imagen, position);
+            }else {
+                imagen.setImageResource(R.drawable.images);
             }
             if(actual.isVerificado()){
                 verificado.setVisibility(View.VISIBLE);
@@ -355,19 +356,17 @@ public class FragVerComerciosLista extends Fragment {
             correoTV.setText(actual.getCorreo());
             telefonoTV.setText(actual.getTelefono() + "");
             rating.setRating(actual.getCalificacion());
-            materialCardView.setTag(actual.getId());
+            materialCardView.setTag(position);
             OnclickDelMaterialCardView(materialCardView);
             return itemView;
         }
     }
-    private void cargarWebServicesImagen(String ruta_foto, final ImageView imagen, final int posicion) {
+    private void cargarWebServicesImagen(String ruta_foto, final int posicion) {
         ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
                 if(posicion < comercios.size()) {
-                    //imagen.setImageBitmap(response);
                     comercios.get(posicion).setImagen(response);
-                    adapter.actualizarDatos();
                 }
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
