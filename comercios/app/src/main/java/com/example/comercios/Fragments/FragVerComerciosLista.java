@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -31,6 +32,7 @@ import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
@@ -123,6 +125,17 @@ public class FragVerComerciosLista extends Fragment {
         });
         return view;
     }
+    public void OnclickDelMaterialCardView(final MaterialCardView miMaterialCardView) {
+
+        miMaterialCardView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                int pos = (int)miMaterialCardView.getTag();
+                Comercio elegijo = comercios.get(pos);
+                mensajeToast("Posicion:" + pos + "\nNombre: " + elegijo.getUsuario());
+            }// fin del onclick
+        });
+    }// fin de OnclickDelMaterialCardView
     private class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg){
@@ -259,7 +272,7 @@ public class FragVerComerciosLista extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, intentelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
@@ -325,6 +338,7 @@ public class FragVerComerciosLista extends Fragment {
             ImageView verificado = (ImageView) itemView.findViewById(R.id.item_ver_comercio_verificado);
             RatingBar rating = (RatingBar) itemView.findViewById(R.id.item_ver_comercio_rating);
             ImageView imagen = (ImageView) itemView.findViewById(R.id.item_ver_comercio_imageview);
+            MaterialCardView materialCardView = (MaterialCardView) itemView.findViewById(R.id.item_ver_comercio_panel);
             if(actual.getUrlImagen() == null){
                 imagen.setImageResource(R.drawable.ic_menu_camera);
             } else if (actual.getImagen() != null){
@@ -341,7 +355,8 @@ public class FragVerComerciosLista extends Fragment {
             correoTV.setText(actual.getCorreo());
             telefonoTV.setText(actual.getTelefono() + "");
             rating.setRating(actual.getCalificacion());
-            itemView.setTag(actual.getId());
+            materialCardView.setTag(actual.getId());
+            OnclickDelMaterialCardView(materialCardView);
             return itemView;
         }
     }

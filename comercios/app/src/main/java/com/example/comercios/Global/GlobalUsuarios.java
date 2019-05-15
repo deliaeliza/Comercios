@@ -8,7 +8,7 @@ public class GlobalUsuarios {
 
     private UsuarioEstandar userE = null;
     private Comercio comercio = null; //Comercio escojido
-
+    private int idSeccion = -1; //Seccion escojida
     private static GlobalUsuarios instance = null;
     private int ventanaActual = R.layout.frag_home_usuario_estandar;
 
@@ -38,4 +38,17 @@ public class GlobalUsuarios {
         this.ventanaActual = ventanaActual;
     }
 
+    public Comercio getComercio() {
+        return comercio;
+    }
+    public void setComercio(Comercio comercio) {
+        this.comercio = comercio;
+    }
+
+    public int getIdSeccion() {
+        return idSeccion;
+    }
+    public void setIdSeccion(int idSeccion) {
+        this.idSeccion = idSeccion;
+    }
 }
