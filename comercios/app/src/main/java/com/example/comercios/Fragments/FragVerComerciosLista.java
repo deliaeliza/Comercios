@@ -1,6 +1,7 @@
 package com.example.comercios.Fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -62,6 +63,8 @@ public class FragVerComerciosLista extends Fragment {
     private ArrayList<Categorias> categorias;
     private ArrayList<Comercio> comercios;
 
+    ProgressDialog progreso;
+
     public FragVerComerciosLista() {
         // Required empty public constructor
     }
@@ -80,6 +83,8 @@ public class FragVerComerciosLista extends Fragment {
         listView = (ListView)view.findViewById(R.id.frag_ver_comercios_lista_listview);
         categorias = new ArrayList();
         comercios = new ArrayList();
+        progreso = new ProgressDialog(getActivity());
+        progreso.setMessage("Cargando...");
         cargarCategorias();
         manejador = new MyHandler();
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -245,17 +250,20 @@ public class FragVerComerciosLista extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                progreso.hide();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, intentelo más tarde");
+                progreso.hide();
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
     private void cargarCategorias(){
+        progreso.show();
         String url = Util.urlWebService + "/categoriasObtener.php";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -269,12 +277,14 @@ public class FragVerComerciosLista extends Fragment {
                     }
                     cargarTabLayout();
                 } catch (JSONException e) {
+                    progreso.hide();
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progreso.hide();
                 mensajeToast("Error, intentelo más tarde");
             }
         });
