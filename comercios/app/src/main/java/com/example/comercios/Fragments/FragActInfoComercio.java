@@ -167,7 +167,7 @@ public class FragActInfoComercio extends Fragment {
         fotoComercio = view.findViewById(R.id.fActInfoComercio_imagen);
         //Permisos para camara
         btnFoto = view.findViewById(R.id.fActInfoComercio_cambiarFoto);
-        btnEliminarFoto =view.findViewById(R.id.fActInfoComercio_eliminarFoto);
+        //btnEliminarFoto =view.findViewById(R.id.fActInfoComercio_eliminarFoto);
 
         if(solicitaPermisosVersionesSuperiores()){
             btnFoto.setEnabled(true);
@@ -181,7 +181,7 @@ public class FragActInfoComercio extends Fragment {
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnUbicacion));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_cambiarFoto));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
-        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_eliminarFoto));
+        //OnclickDelButton(view.findViewById(R.id.fActInfoComercio_eliminarFoto));
 
         return view;
 
@@ -247,8 +247,6 @@ public class FragActInfoComercio extends Fragment {
                         break;
                     case R.id.fActInfoComercio_eliminarFoto:
                         fotoComercio.setImageResource(R.drawable.ic_menu_camera);
-
-
                         break;
                     default:break; }// fin de casos
             }
@@ -336,7 +334,6 @@ public class FragActInfoComercio extends Fragment {
 
                 parametros.put("longitud", String.valueOf(longitud));
                 GlobalComercios.getInstance().getComercio().setLongitud(longitud);
-
 
                 final String imagenConveritda = convertirImgString(bitmap);
                 parametros.put("imagen", imagenConveritda);

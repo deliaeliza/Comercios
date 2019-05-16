@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/cardview_light_background"
+        app:cardCornerRadius="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dialogo_calificar_comercio_txt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="14dp"
+                android:layout_marginTop="20dp"
+                android:text="Calificar"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/dialogo_calificar_comercio_line0"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="10dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogo_calificar_comercio_txt1" />
+
+            <RatingBar
+                android:id="@+id/dialogo_calificar_comercio_ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginHorizontal="10dp"
+                android:numStars="5"
+                android:stepSize="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogo_calificar_comercio_line0" />
+
+            <TextView
+                android:id="@+id/dialogo_calificar_comercio_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
+                android:text="Calificación invalida"
+                android:textSize="16sp"
+                android:textColor="@color/design_default_color_error"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogo_calificar_comercio_ratingBar" />
+
+
+            <View
+                android:id="@+id/dialogo_calificar_comercio_line1"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogo_calificar_comercio_error" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/dialogo_calificar_comercio_MaterialCardViewCancelar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                app:strokeColor="@color/colorAccent"
+                app:strokeWidth="2dp"
+                app:cardCornerRadius="10dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false"
+                app:contentPaddingBottom="15dp"
+                app:contentPaddingLeft="14dp"
+                app:contentPaddingRight="14dp"
+                app:contentPaddingTop="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogo_calificar_comercio_line1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cancelar"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/dialogo_calificar_comercio_MaterialCardViewCalificar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:clickable="true"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="2dp"
+                app:cardCornerRadius="10dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false"
+                app:contentPaddingBottom="15dp"
+                app:contentPaddingLeft="14dp"
+                app:contentPaddingRight="14dp"
+                app:contentPaddingTop="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/dialogo_calificar_comercio_line1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calificar"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="16sp" />
+            </com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</ScrollView>

@@ -13,6 +13,7 @@ public class Producto {
     private String[] urlsImagenes;
     private ArrayList<Bitmap> imagenes;
     private boolean pertenece;
+    private String urlPrueba;
 
 
     public boolean isPertenece() {
@@ -30,6 +31,16 @@ public class Producto {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.pertenece = pertenece;
+    }
+    ///Angelo
+    public Producto(int id,boolean estado, int precio, String nombre, String descripcion, boolean pertenece, String urlPrueba) {
+        this.id = id;
+        this.estado = estado;
+        this.precio = precio;
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.pertenece = pertenece;
+        this.urlPrueba = urlPrueba;
     }
 
     public Producto(int id, boolean estado, int precio, String nombre, String descripcion) {
@@ -65,6 +76,14 @@ public class Producto {
 
     public int getId() {
         return id;
+    }
+
+    public String getUrlPrueba() {
+        return urlPrueba;
+    }
+
+    public void setUrlPrueba(String urlPrueba) {
+        this.urlPrueba = urlPrueba;
     }
 
     public int getPrecio() {

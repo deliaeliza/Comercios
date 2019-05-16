@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.CAMERA" /> <!-- - para usar la camara desde la App -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- escribir en memoria para guardar las fotos -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:allowBackup="true"

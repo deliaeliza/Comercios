@@ -12,6 +12,7 @@ import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoUsuario;
 import com.example.comercios.Fragments.FragEmpresasMaps;
 import com.example.comercios.Fragments.FragHomeUsuarioEstandar;
+import com.example.comercios.Fragments.FragVerComercio;
 import com.example.comercios.Fragments.FragVerComerciosLista;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Login;
@@ -73,6 +74,23 @@ public class NavUsuarios extends AppCompatActivity
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     FragHomeUsuarioEstandar mifrag = new FragHomeUsuarioEstandar();
                     fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "home_usuarioEstandar");
+                    fragmentTransaction.commit();
+                    break;
+                case R.layout.frag_ver_comercio:
+                    fm = getSupportFragmentManager();
+                    fragmentTransaction = fm.beginTransaction();
+                    FragVerComercio actual = (FragVerComercio)fm.findFragmentByTag("comerciover_usuarioEstandar");
+                    FragVerComerciosLista lista = (FragVerComerciosLista)fm.findFragmentByTag("listacomercios_usuarioEstandar");
+                    if(lista != null){
+                        lista.actualizarComercio(GlobalUsuarios.getInstance().getComercio(), GlobalUsuarios.getInstance().getPosComercio());
+                        fragmentTransaction.show(lista);
+                    } else {
+                        FragEmpresasMaps mapa = (FragEmpresasMaps)fm.findFragmentByTag("vermapa_usuarioEstandar");
+                        if(mapa != null){
+                            fragmentTransaction.show(mapa);
+                        }
+                    }
+                    fragmentTransaction.remove(actual);
                     fragmentTransaction.commit();
                     break;
                 default:
