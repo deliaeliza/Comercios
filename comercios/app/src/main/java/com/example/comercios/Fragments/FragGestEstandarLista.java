@@ -440,7 +440,7 @@ public class FragGestEstandarLista extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, intentelo más tarde");
                 vistaInferior.setVisibility(View.GONE);
             }
         });
@@ -468,7 +468,7 @@ public class FragGestEstandarLista extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    mensajeToast("No se puede conectar " + error.toString());
+                    mensajeToast("Error, intentelo más tarde");
                 }
             }) {
                 @Override
@@ -503,7 +503,7 @@ public class FragGestEstandarLista extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    mensajeToast("No se puede conectar " + error.toString());
+                    mensajeToast("Error, intentelo más tarde");
                 }
             }) {
                 @Override

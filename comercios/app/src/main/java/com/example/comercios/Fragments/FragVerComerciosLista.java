@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -21,6 +20,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -109,35 +110,41 @@ public class FragVerComerciosLista extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(!inicial){
-                    vaciar = true;
-                    cargando = true;
-                    comercios.clear();
-                    Thread thread = new ThreadMoreData();
-                    thread.start();
-                }
+                vaciar = true;
+                cargando = true;
+                comercios.clear();
+                Thread thread = new ThreadMoreData();
+                thread.start();
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
             }
-
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                //mensajeAB("Eres un idiota");
             }
         });
         return view;
     }
-    public void OnclickDelMaterialCardView(final MaterialCardView miMaterialCardView) {
+    private void OnclickDelMaterialCardView(final MaterialCardView miMaterialCardView) {
 
         miMaterialCardView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 int pos = (int)miMaterialCardView.getTag();
                 Comercio elegijo = comercios.get(pos);
-                mensajeToast("Posicion:" + pos + "\nNombre: " + elegijo.getUsuario());
+                GlobalUsuarios.getInstance().setComercio(elegijo);
+                GlobalUsuarios.getInstance().setPosComercio(pos);
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                FragVerComercio mifrag = new FragVerComercio();
+                FragVerComerciosLista fragment = (FragVerComerciosLista) fm.findFragmentByTag("listacomercios_usuarioEstandar");
+
+                fragmentTransaction.hide(fragment);
+                fragmentTransaction.add(R.id.Usuario_contenedor, mifrag, "comerciover_usuarioEstandar");
+                fragmentTransaction.show(mifrag);
+                fragmentTransaction.commit();
             }// fin del onclick
         });
     }// fin de OnclickDelMaterialCardView
@@ -227,9 +234,6 @@ public class FragVerComerciosLista extends Fragment {
                                             usuario.getDouble("latitud"),
                                             usuario.getDouble("longitud"),
                                             usuario.getString("ubicacion")));
-                                    if(!usuario.isNull("urlImagen") && !usuario.getString("urlImagen").equalsIgnoreCase("")){
-                                        cargarWebServicesImagen(comercios.get(i).getUrlImagen(), i);
-                                    }
                                 }
                             }
 
@@ -237,12 +241,15 @@ public class FragVerComerciosLista extends Fragment {
                         if(listView.getAdapter() == null){
                             adapter = new ComercioListAdapter();
                             listView.setAdapter(adapter);
-                        }
-                        if(inicial){
-                            inicial = false;
                         } else {
                             Message msg = manejador.obtainMessage(1);
                             manejador.sendMessage(msg);
+                        }
+                        for(int i = 0; i < comercios.size(); i++){
+                            Comercio c = comercios.get(i);
+                            if(c.getUrlImagen() != null && c.getUrlImagen() != ""){
+                                cargarWebServicesImagen(c.getUrlImagen(), i);
+                            }
                         }
                     } else {
                         mensajeToast(mensajeError);
@@ -305,7 +312,6 @@ public class FragVerComerciosLista extends Fragment {
                 tabLayout.addTab(t);
             }
         }
-        obtenerMasDatos();
     }
     private int recuperarIcono(String categoria){
         switch (categoria){
@@ -371,12 +377,14 @@ public class FragVerComerciosLista extends Fragment {
             return itemView;
         }
     }
+
     private void cargarWebServicesImagen(String ruta_foto, final int posicion) {
         ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
                 if(posicion < comercios.size()) {
                     comercios.get(posicion).setImagen(response);
+                    adapter.actualizarDatos();
                 }
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
@@ -391,5 +399,12 @@ public class FragVerComerciosLista extends Fragment {
     private void mensajeAB(String msg) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
     };
-
+    public boolean actualizarComercio(Comercio c, int pos){
+        if(comercios != null && pos < comercios.size() && pos >= 0 &&c != null){
+            comercios.set(pos, c);
+            adapter.actualizarDatos();
+            return true;
+        }
+        return false;
+    }
 }

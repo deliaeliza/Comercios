@@ -8,6 +8,7 @@ public class GlobalUsuarios {
 
     private UsuarioEstandar userE = null;
     private Comercio comercio = null; //Comercio escojido
+    private int posComercio = -1; //Permite actualizar la calificacion
     private int idSeccion = -1; //Seccion escojida
     private static GlobalUsuarios instance = null;
     private int ventanaActual = R.layout.frag_home_usuario_estandar;
@@ -50,5 +51,12 @@ public class GlobalUsuarios {
     }
     public void setIdSeccion(int idSeccion) {
         this.idSeccion = idSeccion;
+    }
+
+    public int getPosComercio() {
+        return posComercio;
+    }
+    public void setPosComercio(int posComercio) {
+        this.posComercio = posComercio;
     }
 }

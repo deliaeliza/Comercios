@@ -31,12 +31,12 @@
                 android:layout_marginStart="20dp"
                 android:text="Comercio"
                 android:textStyle="bold"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_imageview" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/frag_ver_comercio_info_verificado"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:layout_marginTop="13dp"
@@ -60,24 +60,41 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_nombre" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/frag_ver_comercio_info_calificar_btn"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/frag_ver_comercio_info_calificar_MaterialCardView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="10dp"
-                android:text="Calificar"
-                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:strokeWidth="2dp"
+                app:strokeColor="@color/colorPrimary"
+                app:cardBackgroundColor="@color/design_default_color_surface"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="5dp"
+                app:cardMaxElevation="5dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false"
+                app:contentPadding="8dp"
                 app:layout_constraintStart_toEndOf="@+id/frag_ver_comercio_info_ratingBar"
-                app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_nombre" />
+                app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_nombre" >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Calificar"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"
+                    />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/frag_ver_comercio_info_cantVotos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cantidad votos"
-                android:textSize="10sp"
-                android:layout_marginStart="25dp"
+                android:textSize="12sp"
+                android:layout_marginStart="30dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_ratingBar"
                 />
@@ -85,10 +102,11 @@
             <TextView
                 android:id="@+id/frag_ver_comercio_info_descrip"
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="50dp"
+                android:textSize="16sp"
                 android:scrollbars="vertical"
                 android:text="Descripción"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -100,64 +118,99 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Ubicación"
-                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:layout_marginTop="15dp"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="50dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_descrip"/>
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/frag_ver_comercio_info_correo_MaterialCardView"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="11dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingBottom="6dp"
+                android:paddingTop="5dp"
+                app:cardBackgroundColor="@color/design_default_color_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
+                app:cardMaxElevation="5dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false"
+                app:contentPadding="3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_ubicacion">
+
+                <ImageView
+                    android:layout_width="19dp"
+                    android:layout_height="20dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:src="@drawable/envelope_solid"
+                    android:tint="@color/colorAccent" />
+            </com.google.android.material.card.MaterialCardView>
+
             <TextView
                 android:id="@+id/frag_ver_comercio_info_correo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Correo"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="16sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@id/frag_ver_comercio_info_correo_MaterialCardView"
                 app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_ubicacion"
                 />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/frag_ver_comercio_info_correo_btn"
-                android:layout_width="50dp"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/frag_ver_comercio_info_telefono_MaterialCardView"
+                android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:backgroundTint="@android:color/transparent"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="11dp"
+                android:layout_marginBottom="6dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:paddingBottom="3dp"
+                android:paddingTop="5dp"
+                app:cardBackgroundColor="@color/design_default_color_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
+                app:cardMaxElevation="5dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false"
+                app:contentPadding="3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_correo"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-                app:icon="@drawable/envelope_solid"
-                app:iconTint="@color/colorAccent"
-                app:iconSize="20dp"
-                app:iconGravity="start"
-                app:layout_constraintStart_toEndOf="@+id/frag_ver_comercio_info_correo"
-                app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_ubicacion" />
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="19dp"
+                    android:paddingLeft="5dp"
+                    android:paddingTop="5dp"
+                    android:src="@drawable/phone_solid"
+                    android:tint="@color/colorAccent" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/frag_ver_comercio_info_telefono"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Teléfono"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="16sp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@+id/frag_ver_comercio_info_telefono_MaterialCardView"
                 app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_correo"
                 />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/frag_ver_comercio_info_telefono_btn"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:backgroundTint="@android:color/transparent"
-                app:icon="@drawable/phone_solid"
-                app:iconTint="@color/colorAccent"
-                app:iconSize="20dp"
-                app:iconGravity="start"
-                app:layout_constraintStart_toEndOf="@+id/frag_ver_comercio_info_telefono"
-                app:layout_constraintTop_toBottomOf="@+id/frag_ver_comercio_info_correo" />
         </android.support.constraint.ConstraintLayout>
+
     </ScrollView>
 
 </FrameLayout>
