@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -31,14 +30,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.comercios.Global.GlobalGeneral;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Comercio;
@@ -52,15 +48,11 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
@@ -69,18 +61,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
-    GoogleMap mGoogleMap = null;
+    GoogleMap mGoogleMap;
     MapView mapView;
     private ArrayList<Categorias> categorias;
     private ArrayList<Comercio> comercios;
@@ -133,11 +122,20 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                 .findFragmentById(R.id.mapa_contenedor);
         mapFragment.getMapAsync(this);
         return view;
-
     }
+
+    /*@Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mapView = (MapView) view.findViewById(R.id.mapa_contenedor);
+        mapView.onCreate(null);
+        mapView.onResume();
+        mapView.getMapAsync(this);
+    }*/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        MapsInitializer.initialize(getActivity());
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         mGoogleMap.getUiSettings().setZoomGesturesEnabled(true);
@@ -161,7 +159,6 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     private void DialogoInformacion(final Marker marker) {
         View view = getLayoutInflater().inflate(R.layout.frag_dialogo_maps, null);
         BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.CustomBottomSheetDialogTheme);
-        dialog.getWindow().setLocalFocus(false,true);
         dialog.setContentView(view);
 
         rutas = new ArrayList<>();
@@ -170,13 +167,13 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
         duracion = (TextView) dialog.findViewById(R.id.fragDialgMaps_duracion);
         distancia = (TextView) dialog.findViewById(R.id.fragDialgMaps_km);
-        recuperarRuta(new LatLng(latitud,longitud),marker.getPosition(),"walking");
+        recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), "walking");
         TextView nombre = (TextView) dialog.findViewById(R.id.fragDialgMaps_nomEmp);
         nombre.setText(marker.getTitle());
-        MaterialButton verMas = (MaterialButton) dialog.findViewById(R.id.fragDialgMaps_verMas);
+        MaterialCardView verMas = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_verMas);
         final MaterialCardView btnBus = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_bus);
         final MaterialCardView btnCaminar = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_caminar);
-        btnCaminar.setCardBackgroundColor(Color.LTGRAY);
+        //btnCaminar.setCardBackgroundColor(Color.parseColor("#FF5722"));
         final MaterialCardView btnCar = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_car);
         final MaterialCardView btnBicicleta = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_bicicleta);
         MaterialCardView btnIr = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_ir);
@@ -196,10 +193,10 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 opcionEscogida = "transit";
                 recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
-                btnBicicleta.setCardBackgroundColor(Color.WHITE);
-                btnCaminar.setCardBackgroundColor(Color.WHITE);
-                btnCar.setCardBackgroundColor(Color.WHITE);
-                btnBus.setCardBackgroundColor(Color.GRAY);
+                //btnBicicleta.setCardBackgroundColor(Color.WHITE);
+                //btnCaminar.setCardBackgroundColor(Color.WHITE);
+                //btnCar.setCardBackgroundColor(Color.WHITE);
+                //btnBus.setCardBackgroundColor(Color.parseColor("#FF5722"));
             }
         });
         btnCaminar.setOnClickListener(new View.OnClickListener() {
@@ -207,10 +204,10 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 opcionEscogida = "walking";
                 recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
-                btnBicicleta.setCardBackgroundColor(Color.WHITE);
-                btnCaminar.setCardBackgroundColor(Color.GRAY);
+                /*btnBicicleta.setCardBackgroundColor(Color.WHITE);
+                btnCaminar.setCardBackgroundColor(Color.parseColor("#FF5722"));
                 btnCar.setCardBackgroundColor(Color.WHITE);
-                btnBus.setCardBackgroundColor(Color.WHITE);
+                btnBus.setCardBackgroundColor(Color.WHITE);*/
             }
         });
         btnCar.setOnClickListener(new View.OnClickListener() {
@@ -218,10 +215,10 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 opcionEscogida = "driving";
                 recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
-                btnBicicleta.setCardBackgroundColor(Color.WHITE);
+                /*btnBicicleta.setCardBackgroundColor(Color.WHITE);
                 btnCaminar.setCardBackgroundColor(Color.WHITE);
-                btnCar.setCardBackgroundColor(Color.GRAY);
-                btnBus.setCardBackgroundColor(Color.WHITE);
+                btnCar.setCardBackgroundColor(Color.parseColor("#FF5722"));
+                btnBus.setCardBackgroundColor(Color.WHITE);*/
             }
         });
         btnBicicleta.setOnClickListener(new View.OnClickListener() {
@@ -229,10 +226,10 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 opcionEscogida = "bicycling";
                 recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
-                btnBicicleta.setCardBackgroundColor(Color.GRAY);
+                /*btnBicicleta.setCardBackgroundColor(Color.parseColor("#FF5722"));
                 btnCaminar.setCardBackgroundColor(Color.WHITE);
                 btnCar.setCardBackgroundColor(Color.WHITE);
-                btnBus.setCardBackgroundColor(Color.WHITE);
+                btnBus.setCardBackgroundColor(Color.WHITE);*/
             }
         });
         btnIr.setOnClickListener(new View.OnClickListener() {
@@ -251,7 +248,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
     private void recuperarRuta(LatLng partida, LatLng llegada, String modo) {
         String url = Util.URL_API_DIRECTIONS + "/json?" +
-                "origin=" + partida.latitude + "," + (partida.longitude+0.4) +
+                "origin=" + partida.latitude + "," + (partida.longitude) +
                 "&destination=" + llegada.latitude + "," + llegada.longitude +
                 "&mode=" + modo + "&key=" + Util.key;
 
@@ -264,6 +261,8 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                     JSONArray legs = bounds.optJSONArray("legs");
                     String durat = legs.optJSONObject(0).optJSONObject("duration").getString("text");
                     String dist = legs.optJSONObject(0).optJSONObject("distance").getString("text");
+                    duracionGeneral.clear();
+                    distanciaGeneral.clear();
                     duracionGeneral.put(durat, legs.optJSONObject(0).optJSONObject("duration").getInt("value"));
                     distanciaGeneral.put(dist, legs.optJSONObject(0).optJSONObject("distance").getInt("value"));
                     duracion.setText(durat);
@@ -271,7 +270,19 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                     rutas.clear();
                     JSONArray steps = legs.optJSONObject(0).optJSONArray("steps");
                     for (int i = 0; i < steps.length(); i++) {
-
+                        JSONObject obj = steps.optJSONObject(i);
+                        HashMap<String, Integer> tiempo = new HashMap<>();
+                        tiempo.put(obj.optJSONObject("duration").getString("text"),
+                                obj.optJSONObject("duration").getInt("value"));
+                        HashMap<String, Integer> km = new HashMap<>();
+                        km.put(obj.optJSONObject("distance").getString("text"),
+                                obj.optJSONObject("distance").getInt("value"));
+                        rutas.add(new Ruta(km, tiempo,
+                                new LatLng(obj.optJSONObject("end_location").getDouble("lat"),
+                                        obj.optJSONObject("end_location").getDouble("lng")),
+                                new LatLng(obj.optJSONObject("start_location").getDouble("lat"),
+                                        obj.optJSONObject("start_location").getDouble("lng"))
+                        ));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -280,7 +291,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar");
+                mensajeToast("Intentelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -481,8 +492,9 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         if ((shouldShowRequestPermissionRationale(ACCESS_COARSE_LOCATION) || (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)))) {
             cargarDialogoRecomendacionGPS();
         } else {
-            mGoogleMap.setMyLocationEnabled(true);
             requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
+            mGoogleMap.setMyLocationEnabled(true);
+            return true;
         }
         return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui
     }

@@ -41,15 +41,35 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.button.MaterialButton
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/fragDialgMaps_verMas"
                 android:layout_width="332dp"
-                android:layout_height="50dp"
-                android:text="Ver más información"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:paddingBottom="5dp"
+                app:cardBackgroundColor="@color/design_default_color_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="1dp"
+                app:cardMaxElevation="5dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="false"
+                app:contentPadding="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragDialgMaps_nomEmp" />
+                app:layout_constraintTop_toBottomOf="@+id/fragDialgMaps_nomEmp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ver más información"
+                    android:textSize="18sp"
+                    android:paddingLeft="70dp"
+                    android:textColor="@color/colorPrimary"/>
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/fragDialgMaps_km"
@@ -80,7 +100,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="77dp"
+                android:layout_marginStart="60dp"
                 android:layout_marginTop="13dp"
                 android:src="@drawable/road"
                 app:layout_constraintStart_toStartOf="parent"
@@ -90,7 +110,7 @@
                 android:id="@+id/imageView2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="72dp"
+                android:layout_marginStart="55dp"
                 android:layout_marginTop="13dp"
                 android:src="@drawable/clock"
                 app:layout_constraintStart_toEndOf="@+id/fragDialgMaps_km"
@@ -104,8 +124,8 @@
                 android:layout_marginTop="12dp"
                 android:clickable="true"
                 android:paddingBottom="5dp"
-                app:cardBackgroundColor="@color/design_default_color_surface"
-                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#433DE0"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="5dp"
                 app:cardMaxElevation="5dp"
                 app:cardPreventCornerOverlap="true"
@@ -117,12 +137,12 @@
                 app:layout_constraintVertical_bias="0.0">
 
                 <ImageView
-                    android:layout_width="40dp"
+                    android:layout_width="39dp"
                     android:layout_height="40dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
                     android:src="@drawable/walking"
-                    android:tint="@color/colorAccent" />
+                    android:tint="@color/iconWhite" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -133,8 +153,8 @@
                 android:layout_marginTop="12dp"
                 android:clickable="true"
                 android:paddingBottom="5dp"
-                app:cardBackgroundColor="@color/design_default_color_surface"
-                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#F82121"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="5dp"
                 app:cardMaxElevation="5dp"
                 app:cardPreventCornerOverlap="true"
@@ -146,12 +166,12 @@
                 app:layout_constraintVertical_bias="0.0">
 
                 <ImageView
-                    android:layout_width="40dp"
+                    android:layout_width="39dp"
                     android:layout_height="40dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
                     android:src="@drawable/bus"
-                    android:tint="@color/colorAccent" />
+                    android:tint="@color/iconWhite" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -162,8 +182,8 @@
                 android:layout_marginTop="12dp"
                 android:clickable="true"
                 android:paddingBottom="5dp"
-                app:cardBackgroundColor="@color/design_default_color_surface"
-                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#FFCB0D"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="5dp"
                 app:cardMaxElevation="5dp"
                 app:cardPreventCornerOverlap="true"
@@ -175,12 +195,12 @@
                 app:layout_constraintVertical_bias="0.04">
 
                 <ImageView
-                    android:layout_width="40dp"
+                    android:layout_width="38dp"
                     android:layout_height="40dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
                     android:src="@drawable/car"
-                    android:tint="@color/colorAccent" />
+                    android:tint="@color/iconWhite" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -192,8 +212,8 @@
                 android:layout_marginBottom="10dp"
                 android:clickable="true"
                 android:paddingBottom="5dp"
-                app:cardBackgroundColor="@color/design_default_color_surface"
-                app:cardCornerRadius="20dp"
+                app:cardBackgroundColor="#24CD1B"
+                app:cardCornerRadius="25dp"
                 app:cardElevation="5dp"
                 app:cardMaxElevation="5dp"
                 app:cardPreventCornerOverlap="true"
@@ -204,12 +224,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/fragDialgMaps_duracion">
 
                 <ImageView
-                    android:layout_width="40dp"
+                    android:layout_width="39dp"
                     android:layout_height="40dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
                     android:src="@drawable/bicycle"
-                    android:tint="@color/colorAccent" />
+                    android:tint="@color/iconWhite" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -222,7 +242,9 @@
                 android:clickable="true"
                 android:paddingBottom="5dp"
                 app:cardBackgroundColor="@color/design_default_color_surface"
-                app:cardCornerRadius="10dp"
+                app:cardCornerRadius="20dp"
+                app:strokeColor="@color/colorAccent"
+                app:strokeWidth="1dp"
                 app:cardElevation="5dp"
                 app:cardMaxElevation="5dp"
                 app:cardPreventCornerOverlap="true"

@@ -65,29 +65,14 @@ public class Registrar extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        int ventanaActual = GlobalUsuarios.getInstance().getVentanaActual();
-        switch (ventanaActual) {
-            case R.layout.frag_reg_empresa:
-            case R.layout.frag_reg_user:
-                Intent intento = new Intent(getApplicationContext(), Login.class);
-                startActivity(intento);
-                break;
-            default:
-                break;
-        }
-        //super.onBackPressed();
-
+        super.onBackPressed();
     }
 
     public void mensajeAB(String msg) {
         getSupportActionBar().setTitle(msg);
     }
 
-    ;
-
     public void mensaje(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
-
-    ;
 }
