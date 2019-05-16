@@ -52,6 +52,7 @@ import java.util.Map;
 
 public class FragGestProductosSeccion extends Fragment {
 
+    Integer indice=-1;
 
     private boolean inicial = true;
     private View view;
@@ -79,6 +80,8 @@ public class FragGestProductosSeccion extends Fragment {
     ImageView imagen;
     String op = "";
     Integer idP;
+
+
 
     public FragGestProductosSeccion() {
         // Required empty public constructor
@@ -124,12 +127,8 @@ public class FragGestProductosSeccion extends Fragment {
 
         String sql;
         if (radioGroup.getCheckedRadioButtonId() == R.id.FGestProductoSec_AddProd) {
-            sql = "Select p.id, p.nombre,p.descripcion, p.precio, p.estado, pI.imagen" +
-                    "from Productos p, ProductoImagenes pI " +
-                    "where p.idComercio =" + GlobalComercios.getInstance().getComercio().getId()
-                    +" and pI.idProducto = p.Id and pI.imagen='imgProductos/"+
-                    GlobalComercios.getInstance().getComercio().getId()+"-p.id"+;
-
+            sql = "Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
+                    "from Productos p where p.idComercio=" + GlobalComercios.getInstance().getComercio().getId()+";";
                 /*sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado FROM Productos p INNER JOIN SeccionesProductos sp ON p.id=sp.idProducto " +
                         "where sp.idSeccion <> "+GlobalComercios.getInstance().getSeccion().getId()+" and p.idComercio ="+GlobalComercios.getInstance().getComercio().getId()+";";
 */
@@ -163,21 +162,24 @@ public class FragGestProductosSeccion extends Fragment {
                                             producto.getInt("precio"),
                                             producto.getString("nombre"),
                                             producto.getString("descripcion"),
-                                            producto.getInt("pertenece") == 1));
+                                            producto.getInt("pertenece") == 1,
+                                                    " "));
+                                    obtenerImagenesProducto(producto.getInt("id"));
                                 }
+
                             }
 
                         }
                         if (inicial) {
                             listView.setAdapter(null);
                             adapter = new FragGestProductosSeccion.ProductosListAdapter();
-                            ;
                             listView.setAdapter(adapter);
                             inicial = false;
                         } else {
                             Message msg = manejador.obtainMessage(1);
                             manejador.sendMessage(msg);
                         }
+
                     } else {
                         Mensaje(mensajeError);
                     }
@@ -213,8 +215,6 @@ public class FragGestProductosSeccion extends Fragment {
             }
             Producto actual = productosArray.get(position);
             // Fill the view
-            imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
-            obtenerImagenesProducto(actual);
 
             TextView nombre = (TextView) itemView.findViewById(R.id.item_gest_producto_nombre);
             nombre.setText(actual.getNombre());
@@ -241,10 +241,13 @@ public class FragGestProductosSeccion extends Fragment {
                 buttonAction.setTag(position);
             }
 
-
             //panel.setTag(position);
             estado.setTag(position);
             buttonAction.setTag(position);
+
+            imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
+
+
 
             OnclickDelMaterialButton(buttonAction);
 
@@ -273,8 +276,6 @@ public class FragGestProductosSeccion extends Fragment {
     public void Mensaje(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
-
-    ;
 
     private class MyHandler extends Handler {
         @Override
@@ -310,26 +311,29 @@ public class FragGestProductosSeccion extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
     }
 
-    private void obtenerImagenesProducto(Producto p) {
+    private void obtenerImagenesProducto(int id) {
+        for(int i =0;i<productosArray.size();i++){
+            if(productosArray.get(i).getId()==id){
+                indice=i;
+            }
+        }
 
-        String url = Util.urlWebService + "/obtenerImagenesProducto.php?id=1";
+        String url = Util.urlWebService + "/obtenerImagenesProducto.php?id="+id;
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-
                     JSONArray jsonFotos = response.getJSONArray("imagenes");
                     JSONObject obj;
                     obj = jsonFotos.getJSONObject(0);
                     String url2 = obj.getString("Imagen");
                     if (url2 != "null") {
-                        cargarWebServicesImagen(Util.urlWebService + "/" +
-                                url2);
+                        if(indice!=-1) {
+                            productosArray.get(indice).setUrlPrueba(url2);
+                        }
                     } else {
                         imagen.setImageResource(R.drawable.ic_menu_camera);
                     }
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
 
