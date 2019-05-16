@@ -42,6 +42,7 @@ import com.example.comercios.Global.GlobalGeneral;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Comercio;
+import com.example.comercios.Modelo.Ruta;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
@@ -70,6 +71,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -88,6 +90,11 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     private double longitud;
     private boolean moverCamara = false;
     private String opcionEscogida = "";
+    TextView duracion;
+    TextView distancia;
+    HashMap<String, Integer> distanciaGeneral;
+    HashMap<String, Integer> duracionGeneral;
+    private ArrayList<Ruta> rutas;
 
     public FragEmpresasMaps() {
         // Required empty public constructor
@@ -151,19 +158,27 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         moverCamara = true;
     }
 
-    private void DialogoInformacion(final Marker marker){
+    private void DialogoInformacion(final Marker marker) {
         View view = getLayoutInflater().inflate(R.layout.frag_dialogo_maps, null);
-        BottomSheetDialog dialog = new BottomSheetDialog(getActivity(),R.style.CustomBottomSheetDialogTheme);
+        BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.CustomBottomSheetDialogTheme);
+        dialog.getWindow().setLocalFocus(false,true);
         dialog.setContentView(view);
-        TextView duracion= (TextView) dialog.findViewById(R.id.fragDialgMaps_duracion);
-        TextView distancia= (TextView) dialog.findViewById(R.id.fragDialgMaps_km);
+
+        rutas = new ArrayList<>();
+        distanciaGeneral = new HashMap<>();
+        duracionGeneral = new HashMap<>();
+
+        duracion = (TextView) dialog.findViewById(R.id.fragDialgMaps_duracion);
+        distancia = (TextView) dialog.findViewById(R.id.fragDialgMaps_km);
+        recuperarRuta(new LatLng(latitud,longitud),marker.getPosition(),"walking");
         TextView nombre = (TextView) dialog.findViewById(R.id.fragDialgMaps_nomEmp);
         nombre.setText(marker.getTitle());
         MaterialButton verMas = (MaterialButton) dialog.findViewById(R.id.fragDialgMaps_verMas);
-        final MaterialCardView btnBus = (MaterialCardView)dialog.findViewById(R.id.fragDialgMaps_bus);
-        final MaterialCardView btnCaminar = (MaterialCardView)dialog.findViewById(R.id.fragDialgMaps_caminar);
-        final MaterialCardView btnCar = (MaterialCardView)dialog.findViewById(R.id.fragDialgMaps_car);
-        final MaterialCardView btnBicicleta = (MaterialCardView)dialog.findViewById(R.id.fragDialgMaps_bicicleta);
+        final MaterialCardView btnBus = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_bus);
+        final MaterialCardView btnCaminar = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_caminar);
+        btnCaminar.setCardBackgroundColor(Color.LTGRAY);
+        final MaterialCardView btnCar = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_car);
+        final MaterialCardView btnBicicleta = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_bicicleta);
         MaterialCardView btnIr = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_ir);
 
         verMas.setOnClickListener(new View.OnClickListener() {
@@ -180,50 +195,55 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 opcionEscogida = "transit";
-                btnBicicleta.setChecked(false);
-                btnCaminar.setChecked(false);
-                btnCar.setChecked(false);
-                btnBus.setChecked(true);
+                recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
+                btnBicicleta.setCardBackgroundColor(Color.WHITE);
+                btnCaminar.setCardBackgroundColor(Color.WHITE);
+                btnCar.setCardBackgroundColor(Color.WHITE);
+                btnBus.setCardBackgroundColor(Color.GRAY);
             }
         });
         btnCaminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 opcionEscogida = "walking";
-                btnBicicleta.setChecked(false);
-                btnCaminar.setChecked(true);
-                btnCar.setChecked(false);
-                btnBus.setChecked(false);
+                recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
+                btnBicicleta.setCardBackgroundColor(Color.WHITE);
+                btnCaminar.setCardBackgroundColor(Color.GRAY);
+                btnCar.setCardBackgroundColor(Color.WHITE);
+                btnBus.setCardBackgroundColor(Color.WHITE);
             }
         });
         btnCar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 opcionEscogida = "driving";
-                btnBicicleta.setChecked(false);
-                btnCaminar.setChecked(false);
-                btnCar.setChecked(true);
-                btnBus.setChecked(false);
+                recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
+                btnBicicleta.setCardBackgroundColor(Color.WHITE);
+                btnCaminar.setCardBackgroundColor(Color.WHITE);
+                btnCar.setCardBackgroundColor(Color.GRAY);
+                btnBus.setCardBackgroundColor(Color.WHITE);
             }
         });
         btnBicicleta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 opcionEscogida = "bicycling";
-                btnBicicleta.setChecked(true);
-                btnCaminar.setChecked(false);
-                btnCar.setChecked(false);
-                btnBus.setChecked(false);
+                recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
+                btnBicicleta.setCardBackgroundColor(Color.GRAY);
+                btnCaminar.setCardBackgroundColor(Color.WHITE);
+                btnCar.setCardBackgroundColor(Color.WHITE);
+                btnBus.setCardBackgroundColor(Color.WHITE);
             }
         });
         btnIr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!opcionEscogida.equalsIgnoreCase("")){
-                    recuperarRuta(new LatLng(latitud,longitud),marker.getPosition(),opcionEscogida);
+                if (!opcionEscogida.equalsIgnoreCase("")) {
+                    recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
                 }
             }
         });
+
         dialog.show();
     }
 
@@ -231,7 +251,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
     private void recuperarRuta(LatLng partida, LatLng llegada, String modo) {
         String url = Util.URL_API_DIRECTIONS + "/json?" +
-                "origin=" + partida.latitude + "," + partida.longitude +
+                "origin=" + partida.latitude + "," + (partida.longitude+0.4) +
                 "&destination=" + llegada.latitude + "," + llegada.longitude +
                 "&mode=" + modo + "&key=" + Util.key;
 
@@ -242,14 +262,20 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                     JSONArray routes = response.getJSONArray("routes");
                     JSONObject bounds = routes.getJSONObject(0);
                     JSONArray legs = bounds.optJSONArray("legs");
-                    String distance = legs.optJSONObject(0).optJSONObject("distance").getString("text");
-                    String duration = legs.optJSONObject(0).optJSONObject("duration").getString("text");
+                    String durat = legs.optJSONObject(0).optJSONObject("duration").getString("text");
+                    String dist = legs.optJSONObject(0).optJSONObject("distance").getString("text");
+                    duracionGeneral.put(durat, legs.optJSONObject(0).optJSONObject("duration").getInt("value"));
+                    distanciaGeneral.put(dist, legs.optJSONObject(0).optJSONObject("distance").getInt("value"));
+                    duracion.setText(durat);
+                    distancia.setText(dist);
+                    rutas.clear();
                     JSONArray steps = legs.optJSONObject(0).optJSONArray("steps");
+                    for (int i = 0; i < steps.length(); i++) {
 
-
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
-               }
+                }
             }
         }, new Response.ErrorListener() {
             @Override
