@@ -48,52 +48,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.toolbox.StringRequest;
-import com.example.comercios.Global.GlobalUsuarios;
-import com.example.comercios.Modelo.Comercio;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.comercios.Global.GlobalComercios;
-import com.example.comercios.Modelo.Producto;
-import com.example.comercios.Modelo.Util;
-import com.example.comercios.Modelo.VolleySingleton;
-import com.example.comercios.R;
-import com.google.android.material.button.MaterialButton;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class FragGestProductosSeccion extends Fragment {
 
-    private final int TAM_PAGINA = 10;
+
     private boolean inicial = true;
     private View view;
     private StringRequest stringRequest;
@@ -165,8 +124,11 @@ public class FragGestProductosSeccion extends Fragment {
 
         String sql;
         if (radioGroup.getCheckedRadioButtonId() == R.id.FGestProductoSec_AddProd) {
-            sql = "Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
-                    "from Productos p where p.idComercio =" + GlobalComercios.getInstance().getComercio().getId();
+            sql = "Select p.id, p.nombre,p.descripcion, p.precio, p.estado, pI.imagen" +
+                    "from Productos p, ProductoImagenes pI " +
+                    "where p.idComercio =" + GlobalComercios.getInstance().getComercio().getId()
+                    +" and pI.idProducto = p.Id and pI.imagen='imgProductos/"+
+                    GlobalComercios.getInstance().getComercio().getId()+"-p.id"+;
 
                 /*sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado FROM Productos p INNER JOIN SeccionesProductos sp ON p.id=sp.idProducto " +
                         "where sp.idSeccion <> "+GlobalComercios.getInstance().getSeccion().getId()+" and p.idComercio ="+GlobalComercios.getInstance().getComercio().getId()+";";
