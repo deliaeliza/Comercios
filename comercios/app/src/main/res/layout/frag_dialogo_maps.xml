@@ -16,6 +16,7 @@
         app:cardCornerRadius="15dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -51,8 +52,6 @@
                 app:cardBackgroundColor="@color/design_default_color_surface"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="5dp"
-                app:strokeColor="@color/colorPrimary"
-                app:strokeWidth="1dp"
                 app:cardMaxElevation="5dp"
                 app:cardPreventCornerOverlap="true"
                 app:cardUseCompatPadding="false"
@@ -60,15 +59,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fragDialgMaps_nomEmp">
+                app:layout_constraintTop_toBottomOf="@+id/fragDialgMaps_nomEmp"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="1dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ver más información"
-                    android:textSize="18sp"
                     android:paddingLeft="70dp"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="Ver más información"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18sp" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
@@ -243,8 +244,6 @@
                 android:paddingBottom="5dp"
                 app:cardBackgroundColor="@color/design_default_color_surface"
                 app:cardCornerRadius="20dp"
-                app:strokeColor="@color/colorAccent"
-                app:strokeWidth="1dp"
                 app:cardElevation="5dp"
                 app:cardMaxElevation="5dp"
                 app:cardPreventCornerOverlap="true"
@@ -252,7 +251,9 @@
                 app:contentPadding="3dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/fragDialgMaps_bicicleta"
-                app:layout_constraintTop_toBottomOf="@+id/fragDialgMaps_verMas">
+                app:layout_constraintTop_toBottomOf="@+id/fragDialgMaps_verMas"
+                app:strokeColor="@color/colorAccent"
+                app:strokeWidth="1dp">
 
                 <ImageView
                     android:layout_width="40dp"

@@ -43,7 +43,7 @@ public class Util {
     public static  final String nombreApp = "ComerciosCR";
 
     /****************************KEY DE GOOGLE MAPS**********************************/
-    public static  final String key = "AIzaSyAAQYV5HnMFyCgFmgr-iUmYo1b26ldokJ8";
+    public static  final String key = "AIzaSyBs6WB83UDRuIcs2fH3DU6pgJweP9ePJko";
 
     /****************************SERVICIO WEB DE DIRECTIONS**********************************/
     public static  final String URL_API_DIRECTIONS = "https://maps.googleapis.com/maps/api/directions";

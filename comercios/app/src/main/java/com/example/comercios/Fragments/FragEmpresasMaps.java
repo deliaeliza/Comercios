@@ -30,6 +30,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -52,10 +54,13 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.maps.android.PolyUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +68,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -84,6 +90,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     HashMap<String, Integer> distanciaGeneral;
     HashMap<String, Integer> duracionGeneral;
     private ArrayList<Ruta> rutas;
+    private List<LatLng> puntosRuta;
 
     public FragEmpresasMaps() {
         // Required empty public constructor
@@ -158,16 +165,18 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
     private void DialogoInformacion(final Marker marker) {
         View view = getLayoutInflater().inflate(R.layout.frag_dialogo_maps, null);
-        BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.CustomBottomSheetDialogTheme);
+        final BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.CustomBottomSheetDialogTheme);
         dialog.setContentView(view);
 
         rutas = new ArrayList<>();
+        puntosRuta=new ArrayList<>();
         distanciaGeneral = new HashMap<>();
         duracionGeneral = new HashMap<>();
 
         duracion = (TextView) dialog.findViewById(R.id.fragDialgMaps_duracion);
         distancia = (TextView) dialog.findViewById(R.id.fragDialgMaps_km);
-        recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), "walking");
+        opcionEscogida = "walking";
+        recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
         TextView nombre = (TextView) dialog.findViewById(R.id.fragDialgMaps_nomEmp);
         nombre.setText(marker.getTitle());
         MaterialCardView verMas = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_verMas);
@@ -181,11 +190,19 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         verMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*FragmentManager fm = getSupportFragmentManager();
+                Comercio elegijo = comercios.get((Integer) marker.getTag());
+                GlobalUsuarios.getInstance().setComercio(elegijo);
+                GlobalUsuarios.getInstance().setPosComercio((Integer) marker.getTag());
+                FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                FragRegUser mifrag = new FragRegUser();
-                fragmentTransaction.replace(R.id.registros_content, mifrag, "regUser");
-                fragmentTransaction.commit();*/
+                FragVerComercio mifrag = new FragVerComercio();
+                FragEmpresasMaps fragment = (FragEmpresasMaps) fm.findFragmentByTag("vermapa_usuarioEstandar");
+                dialog.hide();
+                fragmentTransaction.hide(fragment);
+                fragmentTransaction.add(R.id.Usuario_contenedor, mifrag, "comerciover_usuarioEstandar");
+                fragmentTransaction.show(mifrag);
+                fragmentTransaction.commit();
+
             }
         });
         btnBus.setOnClickListener(new View.OnClickListener() {
@@ -236,17 +253,21 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 if (!opcionEscogida.equalsIgnoreCase("")) {
-                    recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
+                    mGoogleMap.addPolyline(new PolylineOptions()
+                    .width(5)
+                    .color(Color.BLUE)
+                    .geodesic(true)
+                    .addAll(puntosRuta));
+                    dialog.hide();
                 }
             }
         });
-
         dialog.show();
     }
 
     //-------------------------------------- Mapas rutas _----------------------------------------------------------------
 
-    private void recuperarRuta(LatLng partida, LatLng llegada, String modo) {
+    private void recuperarRuta(final LatLng partida, LatLng llegada, String modo) {
         String url = Util.URL_API_DIRECTIONS + "/json?" +
                 "origin=" + partida.latitude + "," + (partida.longitude) +
                 "&destination=" + llegada.latitude + "," + llegada.longitude +
@@ -261,6 +282,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                     JSONArray legs = bounds.optJSONArray("legs");
                     String durat = legs.optJSONObject(0).optJSONObject("duration").getString("text");
                     String dist = legs.optJSONObject(0).optJSONObject("distance").getString("text");
+                    String overPoly = (String)bounds.optJSONObject("overview_polyline").get("points");
                     duracionGeneral.clear();
                     distanciaGeneral.clear();
                     duracionGeneral.put(durat, legs.optJSONObject(0).optJSONObject("duration").getInt("value"));
@@ -268,6 +290,8 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                     duracion.setText(durat);
                     distancia.setText(dist);
                     rutas.clear();
+                    puntosRuta.clear();
+                    puntosRuta = PolyUtil.decode(overPoly);
                     JSONArray steps = legs.optJSONObject(0).optJSONArray("steps");
                     for (int i = 0; i < steps.length(); i++) {
                         JSONObject obj = steps.optJSONObject(i);
@@ -350,10 +374,13 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                                             usuario.getDouble("latitud"),
                                             usuario.getDouble("longitud"),
                                             usuario.getString("ubicacion")));
-                                }
-                                for (Comercio c : comercios) {
-                                    LatLng lg = new LatLng(c.getLatitud(), c.getLongitud());
-                                    mGoogleMap.addMarker(new MarkerOptions().position(lg).title(c.getUsuario()).snippet(c.getDescripcion()));
+
+                                    LatLng lg = new LatLng(usuario.getDouble("latitud"),usuario.getDouble("longitud"));
+                                    mGoogleMap.addMarker(new MarkerOptions()
+                                            .position(lg)
+                                            .title(usuario.getString("usuario"))
+                                            .snippet(usuario.getString("descripcion"))
+                                    ).setTag(Integer.parseInt(Integer.toString(i)));
                                 }
                             }
                         }
