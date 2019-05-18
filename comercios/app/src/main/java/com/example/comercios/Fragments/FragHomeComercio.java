@@ -4,6 +4,7 @@ package com.example.comercios.Fragments;
         import android.graphics.Bitmap;
         import android.icu.util.ValueIterator;
         import android.os.Bundle;
+        import android.provider.ContactsContract;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
@@ -62,6 +63,8 @@ public class FragHomeComercio extends Fragment {
         TextView telefono = (TextView) view.findViewById(R.id.FHomComercio_viewTelefono);
         TextView cantVotos = (TextView) view.findViewById(R.id.FHomComercio_cantVotos);
         RatingBar ratingBarCali = (RatingBar)view.findViewById(R.id.FHomComercio_ratingBar);
+        ImageView imgCategoria = (ImageView)  view.findViewById(R.id.FHomComercio_imgCategoria);
+        ImageView imgTelefono = (ImageView) view.findViewById(R.id.FHomComercio_imgTelefono);
 
         usuario.setText(GlobalComercios.getInstance().getComercio().getUsuario());
         categoria.setText(GlobalComercios.getInstance().getComercio().getCategoria());
@@ -75,14 +78,41 @@ public class FragHomeComercio extends Fragment {
             telefono.setText(Long.toString(GlobalComercios.getInstance().getComercio().getTelefono()));
         else{
             telefono.setVisibility(View.GONE);
+            imgTelefono.setVisibility(View.GONE);
         }
-
-        if(GlobalComercios.getInstance().getComercio().getUrlImagen() != null && GlobalComercios.getInstance().getComercio().getUrlImagen() != ""){
-            cargarWebServicesImagen(GlobalComercios.getInstance().getComercio().getUrlImagen(), fotoComercioHome);
+        if(GlobalComercios.getInstance().getComercio().getImagen() == null) {
+            if (GlobalComercios.getInstance().getComercio().getUrlImagen() != null && GlobalComercios.getInstance().getComercio().getUrlImagen() != "") {
+                cargarWebServicesImagen(GlobalComercios.getInstance().getComercio().getUrlImagen(), fotoComercioHome);
+            }
+        } else {
+            fotoComercioHome.setImageBitmap(GlobalComercios.getInstance().getComercio().getImagen());
         }
+        imgCategoria.setImageResource(recuperarIcono(GlobalComercios.getInstance().getComercio().getCategoria()));
         ratingBarCali.setRating(GlobalComercios.getInstance().getComercio().getCalificacion());
         cantVotos.setText(GlobalComercios.getInstance().getComercio().getCantCalificaciones() + " Votos");
         return view;
+    }
+
+    private int recuperarIcono(String categoria){
+        switch (categoria){
+            case "Todos": return R.drawable.store_alt;
+            case "Bar": return R.drawable.glass_martini_alt;
+            case "Cafe": return R.drawable.coffee;
+            case "Deportes": return R.drawable.bicycle;
+            case "Farmacia": return R.drawable.capsules;
+            case "Ferreteria": return R.drawable.hammer;
+            case "Hotel": return R.drawable.hotel;
+            case "Jugueteria": return R.drawable.robot;
+            case "Libreria": return R.drawable.book;
+            case "Musica": return R.drawable.guitar;
+            case "Restaurante": return R.drawable.utensils;
+            case "Ropa": return R.drawable.tshirt;
+            case "Tecnologia": return R.drawable.laptop;
+            case "Videojuegos": return R.drawable.gamepad;
+            case "Zapateria": return R.drawable.shoe_prints;
+            case "Otro": return R.drawable.shopping_cart;
+            default: return -1;
+        }
     }
 
     private void cargarWebServicesImagen(String ruta_foto, final ImageView imageView) {
@@ -90,6 +120,7 @@ public class FragHomeComercio extends Fragment {
             @Override
             public void onResponse(Bitmap response) {
                 imageView.setImageBitmap(response);
+                GlobalComercios.getInstance().getComercio().setImagen(response);
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
