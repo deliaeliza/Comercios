@@ -51,19 +51,50 @@
                 android:tint="#022DEC"
                 app:layout_constraintStart_toEndOf="@+id/FHomComercio_viewUsuario"
                 app:layout_constraintTop_toBottomOf="@+id/FHomComercio_ImgLocal" />
+
+            <ImageView
+                android:id="@+id/FHomComercio_imgCategoria"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/plus_square"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewUsuario" />
+
             <TextView
                 android:id="@+id/FHomComercio_viewCategoria"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
-                android:layout_marginStart="30dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/categoria_lbl"
                 android:textSize="18sp"
                 android:textStyle="bold|italic"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/FHomComercio_imgCategoria"
                 app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewUsuario" />
+
+            <ImageView
+                android:id="@+id/FHomComercio_imgTelefono"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/phone_solid"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewCategoria" />
+
+            <TextView
+                android:id="@+id/FHomComercio_viewTelefono"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/telefono_lbl"
+                android:textSize="18sp"
+                app:layout_constraintStart_toEndOf="@+id/FHomComercio_imgTelefono"
+                app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewCategoria" />
 
             <TextView
                 android:id="@+id/FHomComercio_viewDescripcion"
@@ -76,19 +107,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewCategoria" />
-            <TextView
-                android:id="@+id/FHomComercio_viewTelefono"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/telefono_lbl"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewDescripcion" />
+                app:layout_constraintTop_toBottomOf="@+id/FHomComercio_imgTelefono" />
 
             <RatingBar
                 android:id="@+id/FHomComercio_ratingBar"
@@ -102,7 +121,7 @@
                 android:stepSize="0.1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewTelefono" />
+                app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewDescripcion" />
 
             <TextView
                 android:id="@+id/FHomComercio_cantVotos"
