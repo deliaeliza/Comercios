@@ -526,8 +526,6 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
 
-    ;
-
     private void cargarDialogoRecomendacionGPS() {
         androidx.appcompat.app.AlertDialog.Builder dialogo = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
         dialogo.setTitle("Permisos Desactivados");
