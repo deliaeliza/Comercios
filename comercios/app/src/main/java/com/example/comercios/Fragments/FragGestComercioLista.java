@@ -53,7 +53,6 @@ import androidx.fragment.app.Fragment;
 public class FragGestComercioLista extends Fragment {
 
     private final int TAM_PAGINA = 10;
-    private boolean inicial = true;
     private boolean cargando = false;
     private boolean userScrolled = false;
     private View vistaInferior;
@@ -169,10 +168,11 @@ public class FragGestComercioLista extends Fragment {
             ImageView imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
 
 
-            if(actual.getUrlImagen() != null && !actual.getUrlImagen().equals("")){
-                cargarWebServicesImagen(imagen, actual.getUrlImagen(), actual.getCorreo());
+            if(actual.getImagen() != null){
+               imagen.setImageBitmap(actual.getImagen());
+            } else {
+                imagen.setImageResource(R.drawable.images);
             }
-
             if(actual.isVerificado()){
                 verificar.setVisibility(View.INVISIBLE);
                 check.setVisibility(View.VISIBLE);
@@ -320,20 +320,25 @@ public class FragGestComercioLista extends Fragment {
                                             usuario.getInt("verificado") != 0,
                                             usuario.getInt("estado") != 0,
                                             usuario.getString("correo"),
-                                            usuario.getString("usuario"),
-                                            usuario.getString("nombre"),
-                                            Util.urlWebService + "/" +usuario.getString("urlImagen")));
+                                            usuario.getString("usuario"), //Nombre del comercio
+                                            usuario.getString("nombre"), //Nombre de la categoria
+                                            usuario.isNull("urlImagen") ?
+                                                    null : Util.urlWebService + "/" +usuario.getString("urlImagen")));
                                 }
                             }
-
                         }
-                        if(inicial){
-                            adapter = new FragGestComercioLista.ComercioListAdapter();;
+                        if(listView.getAdapter() == null){
+                            adapter = new ComercioListAdapter();;
                             listView.setAdapter(adapter);
-                            inicial = false;
                         } else {
                             Message msg = manejador.obtainMessage(1);
                             manejador.sendMessage(msg);
+                        }
+                        for(int i = 0; i < comercios.size(); i++){
+                            Comercio c = comercios.get(i);
+                            if(c.getUrlImagen() != null && c.getUrlImagen() != ""){
+                                cargarWebServicesImagen(c.getUrlImagen(), i);
+                            }
                         }
                     } else {
                         mensajeToast(mensajeError);
@@ -345,22 +350,23 @@ public class FragGestComercioLista extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
-    private void cargarWebServicesImagen(final ImageView v, String urlImagen, final String correo) {
+    private void cargarWebServicesImagen(String urlImagen, final int posicion) {
         ImageRequest imagR = new ImageRequest(urlImagen, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
-                v.setImageBitmap(response);
+                comercios.get(posicion).setImagen(response);
+                adapter.actualizarDatos();
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //mensajeToast("No se encontro la imagen del comercio con correo: " + correo );
+                mensajeToast("Error al cargar la imagen");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);

@@ -50,7 +50,6 @@ import java.util.ArrayList;
 public class FragVerComerciosLista extends Fragment {
 
     private final int TAM_PAGINA = 10;
-    private boolean inicial = true;
     private boolean userScrolled = false;
     private boolean cargando = false;
     private boolean vaciar = false;
@@ -127,6 +126,16 @@ public class FragVerComerciosLista extends Fragment {
         });
         return view;
     }
+
+    /*@Override
+    public void onPause() {
+        if(GlobalUsuarios.getInstance().isCerrarDialogo()){
+            progreso.dismiss();
+            GlobalUsuarios.getInstance().setCerrarDialogo(false);
+        }
+        super.onPause();
+    }*/
+
     private void OnclickDelMaterialCardView(final MaterialCardView miMaterialCardView) {
 
         miMaterialCardView.setOnClickListener(new View.OnClickListener(){
@@ -258,12 +267,14 @@ public class FragVerComerciosLista extends Fragment {
                     e.printStackTrace();
                 }
                 progreso.hide();
+                progreso.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("Error, intentelo más tarde");
+                mensajeToast("Error, inténtelo más tarde");
                 progreso.hide();
+                progreso.dismiss();
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -285,6 +296,7 @@ public class FragVerComerciosLista extends Fragment {
                     cargarTabLayout();
                 } catch (JSONException e) {
                     progreso.hide();
+                    progreso.dismiss();
                     e.printStackTrace();
                 }
             }
@@ -292,6 +304,7 @@ public class FragVerComerciosLista extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
+                progreso.dismiss();
                 mensajeToast("Error, intentelo más tarde");
             }
         });

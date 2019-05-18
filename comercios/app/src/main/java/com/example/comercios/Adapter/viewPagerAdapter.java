@@ -47,7 +47,7 @@ public class viewPagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 if(item != null){
-                    item.performClick();
+                    item.findViewById(R.id.item_ver_prod_grid_MaterialCardView).performClick();
                 }
             }// fin del onclick
         });
