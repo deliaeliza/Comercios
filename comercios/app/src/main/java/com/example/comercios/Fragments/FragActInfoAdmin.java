@@ -231,7 +231,7 @@ public class FragActInfoAdmin extends Fragment {
             lyTelefono.setError(null);
             return true;
         }
-        lyTelefono.setError("Telefono invalido");
+        lyTelefono.setError("Telféono invalido");
         return false;
     }
 
@@ -241,7 +241,7 @@ public class FragActInfoAdmin extends Fragment {
             lyUsuario.setError(null);
             return true;
         }
-        lyUsuario.setError("Usuario invalida");
+        lyUsuario.setError("Usuario invalido");
         return false;
     }
 

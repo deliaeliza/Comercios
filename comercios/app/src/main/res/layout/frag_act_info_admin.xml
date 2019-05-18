@@ -23,7 +23,7 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 app:counterEnabled="true"
-                app:counterMaxLength="45"
+                app:counterMaxLength="35"
                 app:counterOverflowTextAppearance="@color/error"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
@@ -38,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:maxLength="45"
+                    android:maxLength="35"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -50,7 +50,7 @@
                 android:layout_marginHorizontal="40dp"
                 android:hint="@string/user_lbl"
                 app:counterEnabled="true"
-                app:counterMaxLength="45"
+                app:counterMaxLength="35"
                 app:counterOverflowTextAppearance="@color/error"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:maxLength="45"
+                    android:maxLength="35"
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -104,7 +104,7 @@
                 android:layout_marginTop="12dp"
                 android:hint="@string/pwd_lbl"
                 app:counterEnabled="true"
-                app:counterMaxLength="45"
+                app:counterMaxLength="35"
                 app:counterOverflowTextAppearance="@color/error"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
@@ -119,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:maxLength="45"
+                    android:maxLength="35"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -144,7 +144,6 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:maxLength="45"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 

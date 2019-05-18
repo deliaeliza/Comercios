@@ -124,7 +124,7 @@ public class FragActInfoUsuario extends Fragment {
             @Override
 
             public void onErrorResponse(VolleyError error) {
-                Mensaje("Intentelo mas tarde");
+                Mensaje("Inténtelo más tarde");
             }
         }){
             @Override
@@ -232,7 +232,6 @@ public class FragActInfoUsuario extends Fragment {
                         validarUsuario();
                         break;
                     case R.id.fActInfoUser_edtPass:
-                        //validarContrasena();
                         LayoutPsw.setError(null);
                         validarConfContrasena();
                         break;

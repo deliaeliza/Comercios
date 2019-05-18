@@ -23,7 +23,7 @@
                 android:layout_marginTop="10dp"
                 android:hint="@string/nombre_lbl"
                 app:counterEnabled="true"
-                app:counterMaxLength="45"
+                app:counterMaxLength="35"
                 app:counterOverflowTextAppearance="@color/error"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
@@ -38,7 +38,7 @@
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="10"
                     android:inputType="text"
-                    android:maxLength="45"/>
+                    android:maxLength="35"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

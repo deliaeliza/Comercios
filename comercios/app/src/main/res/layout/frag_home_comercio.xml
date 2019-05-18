@@ -59,6 +59,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="12dp"
                 android:src="@drawable/plus_square"
+                android:tint="@color/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewUsuario" />
 
@@ -82,6 +83,7 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="12dp"
                 android:src="@drawable/phone_solid"
+                android:tint="@color/colorPrimary"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/FHomComercio_viewCategoria" />
 

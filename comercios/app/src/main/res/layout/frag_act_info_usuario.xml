@@ -22,7 +22,7 @@
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
             app:counterEnabled="true"
-            app:counterMaxLength="45"
+            app:counterMaxLength="35"
             app:counterOverflowTextAppearance="@color/error"
 
             app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +34,7 @@
                 android:id="@+id/fActInfoUser_edtUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="45"
+                android:maxLength="35"
                 android:backgroundTint="@color/design_default_color_surface"
                 android:ems="12"
                 android:inputType="textPersonName" />
@@ -50,7 +50,7 @@
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
             app:counterEnabled="true"
-            app:counterMaxLength="45"
+            app:counterMaxLength="35"
             app:counterOverflowTextAppearance="@color/error"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -62,7 +62,7 @@
                 android:id="@+id/fActInfoUser_edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="45"
+                android:maxLength="35"
                 android:backgroundTint="@color/design_default_color_surface"
                 android:ems="12"
                 android:inputType="textEmailAddress" />
@@ -79,7 +79,7 @@
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
             app:counterEnabled="true"
-            app:counterMaxLength="45"
+            app:counterMaxLength="35"
             app:counterOverflowTextAppearance="@color/error"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -90,7 +90,7 @@
                 android:id="@+id/fActInfoUser_edtPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="45"
+                android:maxLength="35"
                 android:backgroundTint="@color/design_default_color_surface"
                 android:ems="12"
                 android:inputType="textPassword" />
@@ -115,7 +115,6 @@
                 android:id="@+id/fActInfoUser_edtConfPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLength="45"
                 android:backgroundTint="@color/design_default_color_surface"
                 android:ems="12"
                 android:inputType="textPassword" />

@@ -632,7 +632,7 @@ public class FragActInfoComercio extends Fragment {
             LayoutDescripcion.setError(null);
             return true;
         }
-        LayoutDescripcion.setError("Descripción invalido");
+        LayoutDescripcion.setError("Descripción invalida");
         return false;
     }
 
@@ -644,7 +644,7 @@ public class FragActInfoComercio extends Fragment {
             LayoutTelefono.setError(null);
             return true;
         }
-        LayoutTelefono.setError("Descripción invalido");
+        LayoutTelefono.setError("Teléfono invalido");
         return false;
     }
 
