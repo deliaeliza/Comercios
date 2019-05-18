@@ -144,75 +144,6 @@ END;
 //
 DELIMITER ;
 
-DELIMITER //
-CREATE PROCEDURE PAagregarProductoSec(IN PId_Sec INT, IN PId_Prod INT, IN PId_Com INT)
-
-BEGIN
-	DECLARE VContador1 INT;
-	DECLARE VContador2 INT;
-	DECLARE VId_secDEF INT;
-	
-	--VERIFICAR QUE EL PRODUCTO NO SE ENCUENTRE EN LA SECCION--
-	SELECT COUNT(*)  
-	into VContador1
-	FROM SeccionesProductos 
-	WHERE idSeccion =PId_Sec and idProducto =PId_Prod;
-	
-	--VERIFICAR SI EL PRODUCTO ESTA EN LA SECCION DEFAULT-- 
-	
-	SELECT COUNT(*), sp.idSeccion 
-	into VContador2, VId_secDEF
-	FROM SeccionesProductos sp, Secciones s 
-	WHERE s.nombre= 'DEFAULT' and sp.idSeccion = s.id and sp.idProducto=PId_Prod and s.idComercio = PId_Com;
-	
-	IF VContador2 != 0 THEN
-		UPDATE SeccionesProductos SET idSeccion = PId_Sec WHERE idSeccion=VId_secDEF AND idProducto = PId_Prod;
-		COMMIT;
-	END IF;
-	IF(VContador2 = 0 AND VContador1 = 0) THEN
-		INSERT INTO SeccionesProductos(idProducto,idSeccion)
-			VALUES(PId_Prod,PId_Sec);
-		COMMIT;
-	END IF;
-END;
-//
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE PAeliminarProductoSec(IN PId_Sec INT, IN PId_Prod INT, IN PId_Com INT)
-
-BEGIN
-	DECLARE VContador1 INT;
-	DECLARE VId_sec INT;
-	DECLARE VId_secDEF INT;
-	
-	--VERIFICO EN CUANTAS SECCIONES ESTA EL PRODUCTO, SI SOLO ESTA EN UNA SECCION LO PASO A LA DEFAULT SINO SOLO SE ELIMINA DE LA SECCION --
-	SELECT COUNT(*), sp.idSeccion
-    INTO VContador1, VId_sec
-	FROM SeccionesProductos sp, Secciones s 
-	WHERE sp.idSeccion = s.id and sp.idProducto= PId_Prod and s.idComercio=PId_Com;
-	
-	--OBTENGO EL ID DE LA SECCION DEFAULT DEL COMERCIO
-	SELECT s.id 
-	INTO VId_secDEF
-	FROM Secciones s
-	WHERE s.nombre = 'DEFAULT' and s.idComercio =PId_Com;
-	
-	--SOLO EN UNA SECCION
-	IF VContador1 = 1 THEN
-		UPDATE SeccionesProductos SET idSeccion = VId_secDEF WHERE idSeccion=PId_Sec and idProducto = PId_Prod;
-		COMMIT;
-	END IF;
-	
-	--EN 2 O MAS SECCIONES 
-	IF VContador1 > 1 THEN 
-		DELETE FROM SeccionesProductos WHERE idSeccion = PId_Sec and idProducto = PId_Prod;
-		COMMIT;
-	END IF;
-END;
-//
-DELIMITER ;
-
 -- -----------------------------------------------------
 -- Table `comercioscr`.`UsuariosEstandar`
 -- -----------------------------------------------------
@@ -428,6 +359,68 @@ END;
 //
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE PAagregarProductoSec(IN PId_Sec INT, IN PId_Prod INT, IN PId_Com INT)
+
+BEGIN
+	DECLARE VContador1 INT;
+	DECLARE VContador2 INT;
+	DECLARE VId_secDEF INT;
+	
+	SELECT COUNT(*)  
+	into VContador1
+	FROM SeccionesProductos 
+	WHERE idSeccion =PId_Sec and idProducto =PId_Prod;
+	
+	SELECT COUNT(*), sp.idSeccion 
+	into VContador2, VId_secDEF
+	FROM SeccionesProductos sp, Secciones s 
+	WHERE s.nombre= 'DEFAULT' and sp.idSeccion = s.id and sp.idProducto=PId_Prod and s.idComercio = PId_Com;
+	
+	IF VContador2 != 0 THEN
+		UPDATE SeccionesProductos SET idSeccion = PId_Sec WHERE idSeccion=VId_secDEF AND idProducto = PId_Prod;
+		COMMIT;
+	END IF;
+	IF(VContador2 = 0 AND VContador1 = 0) THEN
+		INSERT INTO SeccionesProductos(idProducto,idSeccion)
+			VALUES(PId_Prod,PId_Sec);
+		COMMIT;
+	END IF;
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE PAeliminarProductoSec(IN PId_Sec INT, IN PId_Prod INT, IN PId_Com INT)
+
+BEGIN
+	DECLARE VContador1 INT;
+	DECLARE VId_sec INT;
+	DECLARE VId_secDEF INT;
+	
+	SELECT COUNT(*), sp.idSeccion
+    INTO VContador1, VId_sec
+	FROM SeccionesProductos sp, Secciones s 
+	WHERE sp.idSeccion = s.id and sp.idProducto= PId_Prod and s.idComercio=PId_Com;
+	
+	SELECT s.id 
+	INTO VId_secDEF
+	FROM Secciones s
+	WHERE s.nombre = 'DEFAULT' and s.idComercio =PId_Com;
+	
+	IF VContador1 = 1 THEN
+		UPDATE SeccionesProductos SET idSeccion = VId_secDEF WHERE idSeccion=PId_Sec and idProducto = PId_Prod;
+		COMMIT;
+	END IF;
+	
+	IF VContador1 > 1 THEN 
+		DELETE FROM SeccionesProductos WHERE idSeccion = PId_Sec and idProducto = PId_Prod;
+		COMMIT;
+	END IF;
+END;
+//
+DELIMITER ;
+
 -- Dropeo de usuario, si existe
 
 -- NOTA**** Comentar linea 283 la primera vez que corran el script, descomentar luego de la segunda ejecucion.
@@ -480,14 +473,11 @@ INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estad
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 600, 'Camisa quicksilver', null, 1);
 
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,1);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,2);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,2);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(7,3);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,5);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(7,4);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,4);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,5);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,6);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,6);
 
 CALL PAregistrarUsuarioEstandar(3, 'correo1@gmail.com', 'usuario1', '123usuario1', CURDATE() - 50000);

@@ -125,7 +125,7 @@
                 android:layout_marginTop="12dp"
                 android:clickable="true"
                 android:paddingBottom="5dp"
-                app:cardBackgroundColor="#433DE0"
+                app:cardBackgroundColor="@color/iconWhite"
                 app:cardCornerRadius="25dp"
                 app:cardElevation="5dp"
                 app:cardMaxElevation="5dp"
@@ -138,12 +138,13 @@
                 app:layout_constraintVertical_bias="0.0">
 
                 <ImageView
+                    android:id="@+id/fragDialgMaps_caminarImg"
                     android:layout_width="39dp"
                     android:layout_height="40dp"
                     android:paddingLeft="5dp"
                     android:paddingTop="5dp"
                     android:src="@drawable/walking"
-                    android:tint="@color/iconWhite" />
+                    android:tint="#433DE0" />
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -167,6 +168,7 @@
                 app:layout_constraintVertical_bias="0.0">
 
                 <ImageView
+                    android:id="@+id/fragDialgMaps_busImg"
                     android:layout_width="39dp"
                     android:layout_height="40dp"
                     android:paddingLeft="5dp"
@@ -196,6 +198,7 @@
                 app:layout_constraintVertical_bias="0.04">
 
                 <ImageView
+                    android:id="@+id/fragDialgMaps_carImg"
                     android:layout_width="38dp"
                     android:layout_height="40dp"
                     android:paddingLeft="5dp"
@@ -225,6 +228,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/fragDialgMaps_duracion">
 
                 <ImageView
+                    android:id="@+id/fragDialgMaps_bicicletaImg"
                     android:layout_width="39dp"
                     android:layout_height="40dp"
                     android:paddingLeft="5dp"
