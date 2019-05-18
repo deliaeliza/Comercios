@@ -48,7 +48,7 @@ public class NavUsuarios extends AppCompatActivity
         fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "homeusuario");
         fragmentTransaction.commit();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view3);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_usuariosEstandar);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
         TextView txtUsuario = (TextView) header.findViewById(R.id.NavHeaderUsuario_txtViewUsuario);
@@ -70,6 +70,8 @@ public class NavUsuarios extends AppCompatActivity
                 case R.layout.frag_acerca_de:
                 case R.layout.frag_empresas_maps:
                 case R.layout.frag_ver_comercios_lista:
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_usuariosEstandar);
+                    navigationView.getMenu().getItem(0).setChecked(true);
                     FragmentManager fm = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     FragHomeUsuarioEstandar mifrag = new FragHomeUsuarioEstandar();
@@ -82,17 +84,23 @@ public class NavUsuarios extends AppCompatActivity
                     FragVerComercio actual = (FragVerComercio)fm.findFragmentByTag("comerciover_usuarioEstandar");
                     FragVerComerciosLista lista = (FragVerComerciosLista)fm.findFragmentByTag("listacomercios_usuarioEstandar");
                     if(lista != null){
+                        GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_ver_comercios_lista);
                         lista.actualizarComercio(GlobalUsuarios.getInstance().getComercio(), GlobalUsuarios.getInstance().getPosComercio());
                         fragmentTransaction.show(lista);
                     } else {
                         FragEmpresasMaps mapa = (FragEmpresasMaps)fm.findFragmentByTag("vermapa_usuarioEstandar");
                         if(mapa != null){
+                            GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_empresas_maps);
                             fragmentTransaction.show(mapa);
                         }
                     }
                     fragmentTransaction.remove(actual);
                     fragmentTransaction.commit();
                     break;
+                case R.layout.frag_ver_productos_grid:
+                    fm = getSupportFragmentManager();
+                    actual = (FragVerComercio)fm.findFragmentByTag("comerciover_usuarioEstandar");
+                    actual.setInicio();
                 default:
                     break;
             }

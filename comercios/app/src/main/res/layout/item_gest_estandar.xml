@@ -1,160 +1,162 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/item_gest_estandar_panel"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
-    android:layout_marginTop="10dp"
-    android:layout_marginEnd="10dp"
-    android:layout_marginBottom="20dp"
-    android:clickable="false"
-    android:paddingBottom="5dp"
-    app:cardBackgroundColor="@color/design_default_color_surface"
-    app:cardCornerRadius="5dp"
-    app:cardElevation="5dp"
-    app:cardMaxElevation="5dp"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="false"
-    app:contentPadding="3dp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/item_gest_estandar_panel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:clickable="false"
+        android:paddingBottom="5dp"
+        app:cardBackgroundColor="@color/design_default_color_surface"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="5dp"
+        app:cardMaxElevation="5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="false"
+        app:contentPadding="3dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
 
-        <TextView
-            android:id="@+id/item_gest_estandar_txt1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:text="Usuario: "
-            android:textSize="16sp"
-            android:textStyle="bold|italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/item_gest_estandar_txt1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:text="Usuario: "
+                android:textSize="16sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/item_gest_estandar_user"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
-            android:text="User"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt1"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/item_gest_estandar_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
+                android:text="User"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt1"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/item_gest_estandar_txt2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
-            android:text="Correo: "
-            android:textSize="16sp"
-            android:textStyle="bold|italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt1" />
+            <TextView
+                android:id="@+id/item_gest_estandar_txt2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:text="Correo: "
+                android:textSize="16sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt1" />
 
-        <TextView
-            android:id="@+id/item_gest_estandar_correo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="12dp"
-            android:text="email"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt1"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_user" />
+            <TextView
+                android:id="@+id/item_gest_estandar_correo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="12dp"
+                android:text="email"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt1"
+                app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_user" />
 
-        <TextView
-            android:id="@+id/item_gest_estandar_txt3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
-            android:text="Edad: "
-            android:textSize="16sp"
-            android:textStyle="bold|italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt2" />
+            <TextView
+                android:id="@+id/item_gest_estandar_txt3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:text="Edad: "
+                android:textSize="16sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt2" />
 
-        <TextView
-            android:id="@+id/item_gest_estandar_edad"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="12dp"
-            android:text="edad"
-            android:textSize="16sp"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt3"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_correo"
-            app:layout_constraintVertical_bias="0.02" />
+            <TextView
+                android:id="@+id/item_gest_estandar_edad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="12dp"
+                android:text="edad"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt3"
+                app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_correo"
+                app:layout_constraintVertical_bias="0.02" />
 
-        <TextView
-            android:id="@+id/item_gest_estandar_txt4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="12dp"
-            android:text="Estado: "
-            android:textSize="16sp"
-            android:textStyle="bold|italic"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt3" />
+            <TextView
+                android:id="@+id/item_gest_estandar_txt4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="12dp"
+                android:text="Estado: "
+                android:textSize="16sp"
+                android:textStyle="bold|italic"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt3" />
 
-        <TextView
-            android:id="@+id/item_gest_estandar_estado"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:text="estado"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt4"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_edad"
-            app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/item_gest_estandar_estado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:text="estado"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_txt4"
+                app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_edad"
+                app:layout_constraintVertical_bias="0.0" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/item_gest_estandar_MaterialButtonEstado"
-            android:layout_width="190dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="25dp"
-            android:layout_marginTop="12dp"
-            android:text="estado"
-            android:textSize="18sp"
-            app:backgroundTint="@android:color/tertiary_text_light"
-            app:cornerRadius="10dp"
-            app:icon="@drawable/user_edit"
-            app:iconSize="19dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt4" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/item_gest_estandar_MaterialButtonEstado"
+                android:layout_width="190dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="12dp"
+                android:text="estado"
+                android:textSize="18sp"
+                app:backgroundTint="@android:color/tertiary_text_light"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/user_edit"
+                app:iconSize="19dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_txt4" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/item_gest_estandar_MaterialButtonEliminar"
-            android:layout_width="40dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginBottom="12dp"
-            android:textSize="18sp"
-            android:onClick="onClick"
-            android:paddingLeft="10dp"
-            app:backgroundTint="@color/error"
-            app:cornerRadius="10dp"
-            app:icon="@drawable/trash_alt"
-            app:iconSize="19dp"
-            app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_MaterialButtonEstado"
-            app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_estado" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/item_gest_estandar_MaterialButtonEliminar"
+                android:layout_width="40dp"
+                android:layout_height="51dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                android:textSize="18sp"
+                android:onClick="onClick"
+                android:paddingLeft="10dp"
+                app:backgroundTint="@color/error"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/trash_alt"
+                app:iconSize="19dp"
+                app:layout_constraintStart_toEndOf="@+id/item_gest_estandar_MaterialButtonEstado"
+                app:layout_constraintTop_toBottomOf="@+id/item_gest_estandar_estado" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</com.google.android.material.card.MaterialCardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</FrameLayout>

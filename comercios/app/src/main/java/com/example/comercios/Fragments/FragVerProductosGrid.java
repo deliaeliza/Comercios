@@ -1,37 +1,31 @@
 package com.example.comercios.Fragments;
 
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
+import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Producto;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
@@ -54,15 +48,12 @@ public class FragVerProductosGrid extends Fragment {
 
     private final int TAM_PAGINA = 4;
 
-    private boolean inicial = true;
     private boolean cargando = false;
     private boolean userScrolled = false;
     private View vistaInferior;
     private GridView gridView;
     private ProductoGridAdapter adapter;
-    //private Handler manejador;
     private List<Producto> productos;
-    private int minPosicion = -1;
 
     public FragVerProductosGrid() {
         // Required empty public constructor
@@ -74,10 +65,8 @@ public class FragVerProductosGrid extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_ver_productos_grid, container, false);
-        //LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
+        GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_ver_productos_grid);
         vistaInferior = view.findViewById(R.id.frag_ver_productos_grid_cargando);
-        //manejador = new MyHandler();
         productos = new ArrayList<Producto>();
         gridView = (GridView) view.findViewById(R.id.gridViewVerProductos);
         gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -97,8 +86,6 @@ public class FragVerProductosGrid extends Fragment {
                     if(view.getLastVisiblePosition() + 1 == productos.size()){
                         if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
                             cargando = true;
-                            //Thread thread = new ThreadMoreData();
-                            //thread.start();
                             obtenerMasDatos();
                         }
                     }
@@ -108,8 +95,6 @@ public class FragVerProductosGrid extends Fragment {
                     if(view.getLastVisiblePosition() + 1 == productos.size()){
                         if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
                             cargando = true;
-                            //Thread thread = new ThreadMoreData();
-                            //thread.start();
                             obtenerMasDatos();
                         }
                     }
@@ -123,8 +108,6 @@ public class FragVerProductosGrid extends Fragment {
                 if (mLastFirstVisibleItem < firstVisibleItem || visibleItemCount <= TAM_PAGINA) {
                     if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
                         cargando = true;
-                        //Thread thread = new ThreadMoreData();
-                        //thread.start();
                         obtenerMasDatos();
                     }
                 }
@@ -162,15 +145,22 @@ public class FragVerProductosGrid extends Fragment {
             TextView precioTV = (TextView) itemView.findViewById(R.id.item_ver_prod_grid_txtPrecio);
             precioTV.setText("₡ " + actual.getPrecio());
             final ViewPager viewPager = (ViewPager) itemView.findViewById(R.id.item_ver_prod_grid_viewPager);
-            final int paginas = actual.getImagenes().size();
             final viewPagerAdapter viewPAdaptador = new viewPagerAdapter(itemView.getContext(), actual.getImagenes());
+            MaterialCardView materialCardView = (MaterialCardView) itemView.findViewById(R.id.item_ver_prod_grid_MaterialCardView);
             viewPAdaptador.setItem(itemView);
             viewPager.setAdapter(viewPAdaptador);
-            itemView.setTag(position);
-            if(paginas > 1 && position > minPosicion) {
-                Timer timer;
-                final Handler handler = new Handler();
-                final Runnable update = new Runnable() {
+            materialCardView.setTag(position);
+            Timer timer = null;
+            final Handler handler;
+            final Runnable update;
+            if(actual.getImagenes() != null && actual.getImagenes().size() > 1){
+                if(timer != null){
+                    timer.cancel();
+                    timer.purge();
+                }
+                final int paginas = actual.getImagenes().size();
+                handler = new Handler();
+                update = new Runnable() {
                     int pagActual = 0;
                     public void run() {
                         if (pagActual == paginas) {
@@ -186,24 +176,13 @@ public class FragVerProductosGrid extends Fragment {
                         handler.post(update);
                     }
                 }, 500, 3000);
-
             }
-            if(position == productos.size() -1){
-                minPosicion = position;
-            }
-            OnclickDelMaterialCardView((MaterialCardView)itemView);
-            //OnclickDelViewPager(viewPager, (MaterialCardView)itemView);
+            //actual.setTimer(viewPager);
+            OnclickDelMaterialCardView(materialCardView);
             return itemView;
         }
     }
-    /*public void OnclickDelViewPager(ViewPager view, final MaterialCardView card) {
-        view.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                card.performClick();
-            }// fin del onclick
-        });
-    }// fin de OnclickDelViewPager*/
+
     public void OnclickDelMaterialCardView(MaterialCardView view) {
         view.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -217,52 +196,13 @@ public class FragVerProductosGrid extends Fragment {
         });
     }// fin de OnclickDelMaterialCardView
 
-
-    private class MyHandler extends Handler {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 0:
-                    //Se agrega la vista de cargar mientras se busca mas datos
-                    //gridView.addFooterView(vistaInferior);
-                    vistaInferior.setVisibility(View.VISIBLE);
-                    break;
-                case 1:
-                    //Se actualizan los datos del adaptador y de la interfaaz
-                    adapter.actualizarDatos();
-                    //gridView.removeFooterView(vistaInferior);
-                    vistaInferior.setVisibility(View.GONE);
-                    cargando = false;
-                    break;
-                default:
-                    break;
-
-            }
-        }
-    }
-
-    private class ThreadMoreData extends Thread {
-        @Override
-        public void run() {
-            //Agrega la vista inferior
-            //manejador.sendEmptyMessage(0);
-            //Se buscan mas datos
-            obtenerMasDatos();
-
-
-        }
-    }
-
-
     private void obtenerMasDatos() {
         vistaInferior.setVisibility(View.VISIBLE);
         //Consultar a la base
         int idMinimo = (productos.size() == 0 ? 0 : (productos.get(productos.size() - 1)).getId());
-        String query = "SELECT * FROM Productos WHERE estado = '1' and idComercio='5' and id > '" + idMinimo + "'";
-        //Filtros orden por nombre o precio
+        String query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.estado = '1' AND p.idComercio='"+ GlobalUsuarios.getInstance().getComercio().getId() +"' AND sp.idSeccion='"+GlobalUsuarios.getInstance().getIdSeccion()+"' AND p.id > '" + idMinimo + "'";
+        //String query = "SELECT * FROM Productos WHERE estado = '1' and idComercio='5' and id > '" + idMinimo + "'";
         query += " ORDER BY id";
-        //Fin filtros
-        //Limite despues de los filtros
         query += " LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/obtenerProductos.php?query=" + query;
 
@@ -275,7 +215,6 @@ public class FragVerProductosGrid extends Fragment {
                     String mensajeError = jsonOb.getString("mensajeError");
                     if (mensajeError.equalsIgnoreCase("")) {
                         if (jsonOb.has("productos")) {
-                            //minPosicion = productos.size() - 1;
                             JSONArray productosJson = jsonOb.getJSONArray("productos");
                             for (int i = 0; i < productosJson.length(); i++) {
                                 JSONObject producto = productosJson.getJSONObject(i);
@@ -291,46 +230,58 @@ public class FragVerProductosGrid extends Fragment {
                                         producto.getInt("estado") == 1,
                                         producto.getInt("precio"),
                                         producto.getString("nombre"),
-                                        producto.getString("descripcion"),
+                                        producto.isNull("descripcion") ? null : producto.getString("descripcion"),
                                         imagenes
                                 ));
                             }
-                            if (inicial) {
+                            if(adapter == null){
                                 adapter = new ProductoGridAdapter();
                                 gridView.setAdapter(adapter);
-                                inicial = false;
                             } else {
-                            /*try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }*/
-                                //Message msg = manejador.obtainMessage(1);
-                                //manejador.sendMessage(msg);
                                 adapter.actualizarDatos();
-                                cargando = false;
                             }
                         }
                         if (productos.size() == 0) {
                             mensajeToast("No hay productos que mostrar");
                         }
-
                     } else {
                         mensajeToast(mensajeError);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                cargando = false;
                 vistaInferior.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                cargando = false;
+                mensajeToast("Error, inténtelo más tarde");
                 vistaInferior.setVisibility(View.GONE);
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    private void cargarWebServicesImagen(String[] rutas, final int posicion) {
+        for(String ruta: rutas) {
+            ImageRequest imagR = new ImageRequest(ruta, new Response.Listener<Bitmap>() {
+                @Override
+                public void onResponse(Bitmap response) {
+                    if (posicion < productos.size()) {
+                        productos.get(posicion).agregarImagen(response);
+                        adapter.actualizarDatos();
+                    }
+                }
+            }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    mensajeToast("error al cargar la imagen");
+                }
+            });
+            VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
+        }
     }
 
     private Bitmap convertirStringToImg(String imgCodificada) {
@@ -342,7 +293,5 @@ public class FragVerProductosGrid extends Fragment {
     public void mensajeToast(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     };
-    private void mensajeAB(String msg) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
-    };
+
 }

@@ -12,6 +12,7 @@ public class GlobalUsuarios {
     private int idSeccion = -1; //Seccion escojida
     private static GlobalUsuarios instance = null;
     private int ventanaActual = R.layout.frag_home_usuario_estandar;
+    private boolean cerrarDialogo = false;
 
     protected GlobalUsuarios() {
     }
@@ -58,5 +59,12 @@ public class GlobalUsuarios {
     }
     public void setPosComercio(int posComercio) {
         this.posComercio = posComercio;
+    }
+
+    public boolean isCerrarDialogo() {
+        return cerrarDialogo;
+    }
+    public void setCerrarDialogo(boolean cerrarDialogo) {
+        this.cerrarDialogo = cerrarDialogo;
     }
 }
