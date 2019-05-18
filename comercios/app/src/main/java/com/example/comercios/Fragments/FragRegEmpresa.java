@@ -362,7 +362,7 @@ public class FragRegEmpresa extends Fragment {
 
                 break;
         }
-        bitmap = redimensionarImagen(bitmap, 600, 800);
+        bitmap = redimensionarImagen(bitmap, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
 
     }
 
@@ -553,7 +553,7 @@ public class FragRegEmpresa extends Fragment {
             LayoutDescripcion.setError(null);
             return true;
         }
-        LayoutDescripcion.setError("Descripción invalido");
+        LayoutDescripcion.setError("Descripción invalida");
         return false;
     }
 
@@ -565,7 +565,7 @@ public class FragRegEmpresa extends Fragment {
             LayoutTelefono.setError(null);
             return true;
         }
-        LayoutTelefono.setError("Descripción invalido");
+        LayoutTelefono.setError("Teléfono invalido");
         return false;
     }
 

@@ -474,7 +474,7 @@ public class FragActInfoComercio extends Fragment {
 
                 break;
         }
-        bitmap=redimensionarImagen(bitmap,600,800);
+        bitmap=redimensionarImagen(bitmap,Util.IMAGEN_ANCHO,Util.IMAGEN_ALTO);
 
     }
     //permisos/////////////////////////////////////////////////////////////////////////
