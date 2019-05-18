@@ -94,7 +94,7 @@ public class Login extends AppCompatActivity {
                                         user.optString("descripcion"),
                                         user.optString("ubicacion"),
                                         user.optString("nombreCat"),
-                                        user.isNull("urlImagen") ? Util.urlWebService + "/" + user.getString("urlImagen") : null,
+                                        user.isNull("urlImagen") ? null : Util.urlWebService + "/" + user.getString("urlImagen"),
                                         Double.parseDouble(user.optString("longitud")),
                                         Double.parseDouble(user.optString("latitud")),
                                         user.optInt("idCategoria"),
