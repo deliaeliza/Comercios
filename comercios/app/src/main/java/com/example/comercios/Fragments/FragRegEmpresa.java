@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -51,6 +52,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.comercios.Login;
 import com.example.comercios.Modelo.Categorias;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
@@ -90,8 +92,8 @@ public class FragRegEmpresa extends Fragment {
     ArrayList<Categorias> categorias;
     ArrayList<String> categoriasArray;
     Bitmap bitmap;
-    Button btnFoto;
-    Button btnUbicacion;
+    MaterialButton btnAgregarFoto;
+    MaterialButton btnElimFoto;
     String latitud;
     String longitud;
 
@@ -108,7 +110,7 @@ public class FragRegEmpresa extends Fragment {
     ///objetos de la interfaz
     int categoriaSeleccionada;
     TextInputEditText  descripcion, telefono, correo, password, confiPassword, ubicacion, usuario;
-    TextInputLayout LayoutDescripcion, LayoutTelefono, LayoutCorreo, LayoutUsuario, LayoutPsw, LayoutConfPsw;
+    TextInputLayout LayoutDescripcion, LayoutTelefono, LayoutCorreo, LayoutUsuario, LayoutPsw, LayoutConfPsw, LayoutUbicacion;
 
     public FragRegEmpresa() {
         // Required empty public constructor
@@ -135,6 +137,7 @@ public class FragRegEmpresa extends Fragment {
         LayoutPsw = (TextInputLayout) view.findViewById(R.id.fragRegComercio_widPass);
         confiPassword = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtConfiPass);
         LayoutConfPsw = (TextInputLayout) view.findViewById(R.id.fragRegComercio_widConfiPass);
+        LayoutUbicacion = (TextInputLayout) view.findViewById(R.id.fragRegComercio_widUbicacion);
         ubicacion = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtUbicacion);
         spinner = (MaterialSpinner) view.findViewById(R.id.fragRegComercio_SPcategorias);
 
@@ -147,20 +150,26 @@ public class FragRegEmpresa extends Fragment {
 
         fotoComercio = view.findViewById(R.id.fragRegComercio_imagen);
         //Permisos para camara
-        btnFoto = view.findViewById(R.id.fragRegComercio_elegirFoto);
+        btnAgregarFoto = view.findViewById(R.id.fragRegComercio_elegirFoto);
+        btnElimFoto = view.findViewById(R.id.fragRegComercio_elimFoto);
         if (solicitaPermisosVersionesSuperiores()) {
-            btnFoto.setEnabled(true);
+            btnAgregarFoto.setEnabled(true);
         } else {
-            btnFoto.setEnabled(false);
+            btnAgregarFoto.setEnabled(false);
         }
-        btnUbicacion = view.findViewById(R.id.fragRegComercio_btnUbicacion);
-        if (solicitaPermisosVersionesSuperioresGPS()) {
-            btnUbicacion.setEnabled(true);
-        } else {
-            btnUbicacion.setEnabled(false);
-        }
+
+        solicitaPermisosVersionesSuperioresGPS();
+
         cargarCategorias(view);
-        OnclickDelButton(btnUbicacion);
+
+        ubicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogoNotificarUbicacionComercio();
+            }
+        });
+
+        OnclickDelButton(view.findViewById(R.id.fragRegComercio_elimFoto));
         OnclickDelButton(view.findViewById(R.id.fragRegComercio_elegirFoto));
         OnclickDelButton(view.findViewById(R.id.fragRegComercio_btnAct));
 
@@ -179,18 +188,38 @@ public class FragRegEmpresa extends Fragment {
                             registrarComercio();
                         }
                         break;
-                    case R.id.fragRegComercio_btnUbicacion:
-                        locationStart();
-                        break;
-
                     case R.id.fragRegComercio_elegirFoto:
                         mostrarDialogOpciones();
+                        break;
+                    case R.id.fragRegComercio_elimFoto:
+                        bitmap = null;
+                        fotoComercio.setImageDrawable(getResources().getDrawable(R.drawable.ic_menu_camera));
                         break;
                     default:
                         break;
                 }// fin de casos
             }
         });
+    }
+
+    public void DialogoNotificarUbicacionComercio(){
+        androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+        builder1.setTitle("¿Esta dentro de su negocio?");
+        builder1.setMessage("Para poder obtener correctamente la ubicacion de su negocio, debe de estar dentro de su negocio" +
+                ", la ubicacion es obligatoria para el registro");
+        builder1.setCancelable(true);
+        builder1.setNegativeButton("Intentar mas tarde",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    } });
+        builder1.setPositiveButton("Obtener ubicacion",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        locationStart();
+                    } });
+        androidx.appcompat.app.AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     private void registrarComercio() {
@@ -206,6 +235,8 @@ public class FragRegEmpresa extends Fragment {
                 progreso.hide();
                 if (response.trim().equalsIgnoreCase("registra")) {
                     Mensaje("Se registro correctamente");
+                    Intent intento = new Intent(getActivity().getApplicationContext(), Login.class);
+                    startActivity(intento);
                 } else {
                     Mensaje("No se registro correctamente");
                 }
@@ -361,7 +392,6 @@ public class FragRegEmpresa extends Fragment {
                 break;
         }
         bitmap = redimensionarImagen(bitmap, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
-
     }
 
     //permisos
@@ -391,7 +421,7 @@ public class FragRegEmpresa extends Fragment {
             return true;
         }
         if ((shouldShowRequestPermissionRationale(ACCESS_COARSE_LOCATION) || (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)))) {
-            cargarDialogoRecomendacion();
+            cargarDialogoRecomendacionGPS();
         } else {
             requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
         }
@@ -406,7 +436,7 @@ public class FragRegEmpresa extends Fragment {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
                 Mensaje("Permisos aceptados");
-                btnFoto.setEnabled(true);
+                btnAgregarFoto.setEnabled(true);
             }
         } else {
             solicitarPermisosManual();
@@ -523,7 +553,7 @@ public class FragRegEmpresa extends Fragment {
                         validarContrasena();
                         validarConfContrasena();
                         break;
-                    case R.id.fActInfoComercio_edtConfiPass:
+                    case R.id.fragRegComercio_edtConfiPass:
                         validarConfContrasena();
                         break;
                     case R.id.fActInfoComercio_edtDescripcion:
@@ -676,9 +706,6 @@ public class FragRegEmpresa extends Fragment {
 
             latitud = Double.toString(loc.getLatitude());
             longitud = Double.toString(loc.getLongitude());
-
-            //String Text = loc.getLatitude() + "()" + loc.getLongitude();
-            //cordenadas = Text;
             this.mainActivity.setLocation(loc);
         }
 

@@ -250,7 +250,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `comercioscr`.`Secciones` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `idComercio` INT NOT NULL,
-  `nombre` VARCHAR(50) NOT NULL,
+  `nombre` VARCHAR(25) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `idComNombre_UNIQUE` (`idComercio`,`nombre`),
   CONSTRAINT `seccion_fk_idComercio`

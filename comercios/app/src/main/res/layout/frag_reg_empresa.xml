@@ -10,7 +10,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:scrollbars="none"
+        android:layout_marginTop="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragRegComercio_contenedor"
@@ -267,31 +268,11 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textMultiLine">
-
+                    android:inputType="textMultiLine"
+                    android:focusableInTouchMode="false">
                 </com.google.android.material.textfield.TextInputEditText>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/fragRegComercio_btnUbicacion"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="72dp"
-                    android:visibility="visible"
-                    android:text="Obtener ubicación"
-                    android:textSize="14dp" />
-
             </com.google.android.material.textfield.TextInputLayout>
-
-            <ImageView
-                android:id="@+id/fragRegComercio_imagen"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginHorizontal="50dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_widUbicacion"
-                app:srcCompat="@drawable/ic_menu_camera" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fragRegComercio_elegirFoto"
@@ -311,9 +292,40 @@
                 app:iconTint="@color/colorPrimaryDark"
                 app:layout_constraintBottom_toTopOf="@+id/fragRegComercio_btnAct"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.938"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/fragRegComercio_elimFoto"
                 app:layout_constraintTop_toBottomOf="@+id/fragRegComercio_widUbicacion" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/fragRegComercio_elimFoto"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginStart="292dp"
+                android:layout_marginTop="104dp"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@android:color/transparent"
+                android:paddingLeft="25dp"
+                android:paddingTop="7dp"
+                app:icon="@drawable/trash_alt"
+                app:iconGravity="textStart"
+                app:iconSize="20dp"
+                app:iconTint="@color/colorPrimaryDark"
+                app:layout_constraintBottom_toTopOf="@+id/fragRegComercio_btnAct"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fragRegComercio_widUbicacion"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/fragRegComercio_imagen"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginHorizontal="50dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_widUbicacion"
+                app:srcCompat="@drawable/ic_menu_camera" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fragRegComercio_btnAct"
