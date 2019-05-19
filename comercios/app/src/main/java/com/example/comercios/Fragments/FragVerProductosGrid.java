@@ -49,8 +49,8 @@ public class FragVerProductosGrid extends Fragment {
 
     /*private final int TAM_PAGINA = 4;
     private boolean cargando = false;
-    private boolean userScrolled = false;
-    private boolean vaciar = false;*/
+    private boolean userScrolled = false;*/
+    private boolean vaciar = false;
     private View vistaInferior;
     private GridView gridView;
     private ProductoGridAdapter adapter;
@@ -210,11 +210,11 @@ public class FragVerProductosGrid extends Fragment {
     }// fin de OnclickDelMaterialCardView
 
     private void obtenerMasDatos() {
-        //vistaInferior.setVisibility(View.VISIBLE);
+        vistaInferior.setVisibility(View.VISIBLE);
         //Consultar a la base
         //int idMinimo = (productos.size() == 0 ? 0 : (productos.get(productos.size() - 1)).getId());
         String query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.estado = '1' AND p.idComercio='"+ GlobalUsuarios.getInstance().getComercio().getId() +"' AND sp.idSeccion='"+GlobalUsuarios.getInstance().getIdSeccion()+"'";// AND p.id > '" + idMinimo + "'";
-        query += " ORDER BY nombre";
+        query += " ORDER BY p.nombre";
         //query += " LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/obtenerProductos.php?query=" + query;
 
@@ -223,6 +223,8 @@ public class FragVerProductosGrid extends Fragment {
             public void onResponse(JSONObject response) {
 
                 try {
+                    if(vaciar)
+                        productos.clear();
                     JSONObject jsonOb = response.getJSONObject("datos");
                     String mensajeError = jsonOb.getString("mensajeError");
                     if (mensajeError.equalsIgnoreCase("")) {
@@ -276,7 +278,7 @@ public class FragVerProductosGrid extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
-    private void cargarWebServicesImagen(String[] rutas, final int posicion) {
+    private void cargarWebServicesImagen(String[] rutas, final int posicion, final int idProducto) {
         for(String ruta: rutas) {
             ImageRequest imagR = new ImageRequest(ruta, new Response.Listener<Bitmap>() {
                 @Override
@@ -305,5 +307,11 @@ public class FragVerProductosGrid extends Fragment {
     public void mensajeToast(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     };
-
+    public void actualizaDatos(){
+        productos.clear();
+        adapter.actualizarDatos();
+        gridView.setAdapter(null);
+        vaciar = true;
+        obtenerMasDatos();
+    }
 }
