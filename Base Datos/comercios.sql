@@ -427,7 +427,7 @@ DELIMITER ;
 -- -----------------------------------------------------
 -- DROP USER USUARIOcomercioscr;
 -- -----------------------------------------------------
--- Creacion de USUARIOCAFP
+-- Creacion de USUARIOcomercioscr
 -- Se crea con la intencion de que solo pueda modificar datos en el alcance del proyecto.
 -- -----------------------------------------------------
 -- CREATE USER USUARIOcomercioscr IDENTIFIED BY '123USUARIOcomercioscr';
