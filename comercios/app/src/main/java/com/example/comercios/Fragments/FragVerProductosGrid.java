@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,10 +47,10 @@ import java.util.TimerTask;
  */
 public class FragVerProductosGrid extends Fragment {
 
-    private final int TAM_PAGINA = 4;
-
+    /*private final int TAM_PAGINA = 4;
     private boolean cargando = false;
     private boolean userScrolled = false;
+    private boolean vaciar = false;*/
     private View vistaInferior;
     private GridView gridView;
     private ProductoGridAdapter adapter;
@@ -69,10 +70,10 @@ public class FragVerProductosGrid extends Fragment {
         vistaInferior = view.findViewById(R.id.frag_ver_productos_grid_cargando);
         productos = new ArrayList<Producto>();
         gridView = (GridView) view.findViewById(R.id.gridViewVerProductos);
-        gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        /*gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int mLastFirstVisibleItem;
 
-            @Override
+           @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 //int first = view.getFirstVisiblePosition();
                 int visibles = view.getChildCount();
@@ -82,18 +83,19 @@ public class FragVerProductosGrid extends Fragment {
                 } else {
                     userScrolled = false;
                 }
-                /*if (mLastFirstVisibleItem < first || ( visibles <= total && visibles <= TAM_PAGINA) || (view.getLastVisiblePosition() == productos.size()-1 && view.getLastVisiblePosition() >= TAM_PAGINA)) {
+                if (mLastFirstVisibleItem < first || ( visibles <= total && visibles <= TAM_PAGINA) || (view.getLastVisiblePosition() == productos.size()-1 && view.getLastVisiblePosition() >= TAM_PAGINA)) {
                     if(view.getLastVisiblePosition() + 1 == productos.size()){
                         if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
                             cargando = true;
                             obtenerMasDatos();
                         }
                     }
-                }*/
+                }
                 //mLastFirstVisibleItem = first;
-                if (/*mLastFirstVisibleItem < first || */( visibles <= total && visibles <= TAM_PAGINA)) {
+                if (( visibles <= total && visibles <= TAM_PAGINA)) {
                     if(view.getLastVisiblePosition() + 1 == productos.size()){
                         if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
+                            //vaciar = false;
                             cargando = true;
                             obtenerMasDatos();
                         }
@@ -107,13 +109,14 @@ public class FragVerProductosGrid extends Fragment {
                 //Revisa si el scroll llego al ultimo item
                 if (mLastFirstVisibleItem < firstVisibleItem || visibleItemCount <= TAM_PAGINA) {
                     if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
+                        //vaciar = false;
                         cargando = true;
                         obtenerMasDatos();
                     }
                 }
                 mLastFirstVisibleItem = firstVisibleItem;
             }
-        });
+        });*/
         obtenerMasDatos();
 
         return view;
@@ -207,12 +210,12 @@ public class FragVerProductosGrid extends Fragment {
     }// fin de OnclickDelMaterialCardView
 
     private void obtenerMasDatos() {
-        vistaInferior.setVisibility(View.VISIBLE);
+        //vistaInferior.setVisibility(View.VISIBLE);
         //Consultar a la base
-        int idMinimo = (productos.size() == 0 ? 0 : (productos.get(productos.size() - 1)).getId());
-        String query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.estado = '1' AND p.idComercio='"+ GlobalUsuarios.getInstance().getComercio().getId() +"' AND sp.idSeccion='"+GlobalUsuarios.getInstance().getIdSeccion()+"' AND p.id > '" + idMinimo + "'";
-        query += " ORDER BY id";
-        query += " LIMIT " + TAM_PAGINA;
+        //int idMinimo = (productos.size() == 0 ? 0 : (productos.get(productos.size() - 1)).getId());
+        String query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.estado = '1' AND p.idComercio='"+ GlobalUsuarios.getInstance().getComercio().getId() +"' AND sp.idSeccion='"+GlobalUsuarios.getInstance().getIdSeccion()+"'";// AND p.id > '" + idMinimo + "'";
+        query += " ORDER BY nombre";
+        //query += " LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/obtenerProductos.php?query=" + query;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -259,13 +262,13 @@ public class FragVerProductosGrid extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                cargando = false;
+                //cargando = false;
                 vistaInferior.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                cargando = false;
+                //cargando = false;
                 mensajeToast("Error, inténtelo más tarde");
                 vistaInferior.setVisibility(View.GONE);
             }
