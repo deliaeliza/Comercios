@@ -81,7 +81,7 @@ public class FragVerComercio extends Fragment {
     }
 
     private void cargarSecciones(){
-        String query = "SELECT s.*, COUNT(sp.idSeccion) cantidad FROM Secciones s INNER JOIN SeccionesProductos sp ON s.id = sp.idSeccion GROUP BY s.id;";
+        String query = "SELECT s.*, COUNT(sp.idSeccion) cantidad FROM Secciones s INNER JOIN SeccionesProductos sp ON s.id = sp.idSeccion WHERE s.idComercio='"+GlobalUsuarios.getInstance().getComercio().getId()+"' GROUP BY s.id;";
         String url = Util.urlWebService + "/seccionesObtener.php?query="+query;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -151,6 +151,12 @@ public class FragVerComercio extends Fragment {
             case "Libreria": return "Libros";
             default:return "Productos";
         }
+    }
+
+    public void setInicio(){
+        GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_ver_comercio);
+        TabLayout.Tab t = tabLayout.getTabAt(0);
+        t.select();
     }
 
     public void mensajeToast(String msg){ Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};

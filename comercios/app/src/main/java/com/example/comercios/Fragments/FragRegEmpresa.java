@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -106,11 +107,8 @@ public class FragRegEmpresa extends Fragment {
 
     ///objetos de la interfaz
     int categoriaSeleccionada;
-    TextInputEditText descripcion, telefono, correo, password, confiPassword, ubicacion, usuario;
+    TextInputEditText  descripcion, telefono, correo, password, confiPassword, ubicacion, usuario;
     TextInputLayout LayoutDescripcion, LayoutTelefono, LayoutCorreo, LayoutUsuario, LayoutPsw, LayoutConfPsw;
-    private int requestCode;
-    private String[] permissions;
-    private int[] grantResults;
 
     public FragRegEmpresa() {
         // Required empty public constructor
@@ -362,7 +360,7 @@ public class FragRegEmpresa extends Fragment {
 
                 break;
         }
-        bitmap = redimensionarImagen(bitmap, 600, 800);
+        bitmap = redimensionarImagen(bitmap, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
 
     }
 
@@ -553,27 +551,25 @@ public class FragRegEmpresa extends Fragment {
             LayoutDescripcion.setError(null);
             return true;
         }
-        LayoutDescripcion.setError("Descripción invalido");
+        LayoutDescripcion.setError("Descripción invalida");
         return false;
     }
 
     private boolean validarTelefono() {
         String dato = telefono.getText().toString();
-        if (dato.length() > 20)
-            return false;
-        if (dato.length() > 0 && dato.length() <= 20) {
+        if (dato.length() <= 20) {
             LayoutTelefono.setError(null);
             return true;
         }
-        LayoutTelefono.setError("Descripción invalido");
+        LayoutTelefono.setError("Teléfono invalido");
         return false;
     }
 
     private boolean validarCorreo() {
         String dato = correo.getText().toString();
-        if (dato.length() > 46)
+        if (dato.length() > 36)
             return false;
-        if (dato.length() > 0 && dato.length() <= 45 && Patterns.EMAIL_ADDRESS.matcher(dato).find()) {
+        if (dato.length() > 0 && dato.length() <= 35 && Patterns.EMAIL_ADDRESS.matcher(dato).find()) {
             LayoutCorreo.setError(null);
             return true;
         }
@@ -583,9 +579,9 @@ public class FragRegEmpresa extends Fragment {
 
     private boolean validarUsuario() {
         String dato = usuario.getText().toString();
-        if (dato.length() > 46)
+        if (dato.length() > 36)
             return false;
-        if (dato.length() > 0 && dato.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+        if (dato.length() > 0 && dato.length() <= 35 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
             LayoutUsuario.setError(null);
             return true;
         }
@@ -595,9 +591,9 @@ public class FragRegEmpresa extends Fragment {
 
     private boolean validarContrasena() {
         String dato = password.getText().toString();
-        if (dato.length() > 46)
+        if (dato.length() > 36)
             return false;
-        if (dato.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+        if (dato.length() <= 35 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
             LayoutPsw.setError(null);
             return true;
         }

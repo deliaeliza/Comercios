@@ -16,6 +16,10 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragActInfoAdmin_widEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -23,7 +27,7 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 app:counterEnabled="true"
-                app:counterMaxLength="45"
+                app:counterMaxLength="35"
                 app:counterOverflowTextAppearance="@color/error"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
@@ -38,11 +42,15 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:maxLength="45"
+                    android:maxLength="35"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragActInfoAdmin_widUser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,7 +58,7 @@
                 android:layout_marginHorizontal="40dp"
                 android:hint="@string/user_lbl"
                 app:counterEnabled="true"
-                app:counterMaxLength="45"
+                app:counterMaxLength="35"
                 app:counterOverflowTextAppearance="@color/error"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
@@ -65,11 +73,15 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:maxLength="45"
+                    android:maxLength="35"
                     android:inputType="textPersonName" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragActInfoAdmin_widTelefono"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,6 +109,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragActInfoAdmin_widPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,7 +120,7 @@
                 android:layout_marginTop="12dp"
                 android:hint="@string/pwd_lbl"
                 app:counterEnabled="true"
-                app:counterMaxLength="45"
+                app:counterMaxLength="35"
                 app:counterOverflowTextAppearance="@color/error"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
@@ -119,11 +135,15 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:maxLength="45"
+                    android:maxLength="35"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragActInfoAdmin_widConfPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -144,7 +164,6 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:maxLength="45"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 

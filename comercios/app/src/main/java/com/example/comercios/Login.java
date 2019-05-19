@@ -86,7 +86,7 @@ public class Login extends AppCompatActivity {
                                 GlobalComercios.getInstance().setComercio(new Comercio(
                                         user.optInt("id"),
                                         tipo,
-                                        user.optLong("telComercio"),
+                                        user.isNull("telComercio")? -1 :user.optLong("telComercio"),
                                         user.optInt("verificado") !=0,
                                         estado != 0,
                                         user.optString("correo"),
@@ -94,11 +94,13 @@ public class Login extends AppCompatActivity {
                                         user.optString("descripcion"),
                                         user.optString("ubicacion"),
                                         user.optString("nombreCat"),
-                                        user.optString("urlImagen"),
+                                        user.isNull("urlImagen") ? null : Util.urlWebService + "/" + user.getString("urlImagen"),
                                         Double.parseDouble(user.optString("longitud")),
                                         Double.parseDouble(user.optString("latitud")),
                                         user.optInt("idCategoria"),
-                                        user.optString("contrasena")
+                                        user.optString("contrasena"),
+                                        (float) user.getDouble("calificacion"),
+                                        user.getInt("cantidad")
                                 ));
 
                                 Intent intento = new Intent(getApplicationContext(), NavComercios.class);

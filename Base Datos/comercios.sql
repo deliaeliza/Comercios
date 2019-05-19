@@ -16,7 +16,7 @@ USE `comercioscr` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comercioscr`.`Categorias`(
     `id` INT NOT NULL AUTO_INCREMENT,
-    `nombre` VARCHAR(45) NOT NULL,
+    `nombre` VARCHAR(35) NOT NULL,
     PRIMARY KEY (`id`),
     UNIQUE INDEX `nombre_UNIQUE` (`nombre`))
 ENGINE = InnoDB;
@@ -28,9 +28,9 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `comercioscr`.`Usuarios` (
   `id` INT NOT NULL,
   `tipo` TINYINT(5) NOT NULL,
-  `correo` VARCHAR(45) NOT NULL,
-  `usuario` VARCHAR(45) NOT NULL,
-  `contrasena` VARCHAR(45) NOT NULL,
+  `correo` VARCHAR(35) NOT NULL,
+  `usuario` VARCHAR(35) NOT NULL,
+  `contrasena` VARCHAR(35) NOT NULL,
   `estado` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `correo_UNIQUE` (`correo`))
@@ -42,7 +42,7 @@ ALTER TABLE `comercioscr`.`Usuarios` ADD CONSTRAINT `usuario_ck_tipo` CHECK(tipo
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `comercioscr`.`RestablecerPWD` (
     `idUsuario` INT NOT NULL,
-    `codigo`    VARCHAR(45) NOT NULL,
+    `codigo`    VARCHAR(35) NOT NULL,
     PRIMARY KEY (`idUsuario`),
     INDEX `retablecer_fk_usuario_idx` (`idUsuario`),
     CONSTRAINT `restablecer_fk_usuarios`
@@ -54,7 +54,7 @@ ENGINE = InnoDB;
 DELIMITER //
 CREATE TRIGGER TcontrasenaActualizada BEFORE UPDATE on comercioscr.Usuarios FOR EACH ROW
 BEGIN
-	DECLARE contrasenaActual VARCHAR(45);
+	DECLARE contrasenaActual VARCHAR(35);
     DECLARE idRestablecer INT;
 	SELECT contrasena INTO contrasenaActual FROM comercioscr.Usuarios WHERE comercioscr.Usuarios.id = NEW.id;
     SELECT idUsuario INTO idRestablecer FROM comercioscr.RestablecerPWD WHERE idUsuario = NEW.id;
@@ -107,8 +107,8 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Comercios` (
 ENGINE = InnoDB;
 
 DELIMITER //
-CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), 
-IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT, IN Pdescripcion VARCHAR(500), IN Platitud VARCHAR(100), IN Plongitud VARCHAR(100), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
+CREATE PROCEDURE PAregistrarComercio(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(35), IN Pusuario VARCHAR(35), 
+IN Pcontrasena VARCHAR(35), IN Ptelefono BIGINT, IN Pdescripcion VARCHAR(500), IN Platitud VARCHAR(100), IN Plongitud VARCHAR(100), IN Pubicacion VARCHAR(200), IN Pcategoria INT)
 BEGIN
 	DECLARE idC INT;
 	SET idC = (SELECT COALESCE(MAX(id),0) FROM comercioscr.Usuarios) + 1;
@@ -144,75 +144,6 @@ END;
 //
 DELIMITER ;
 
-DELIMITER //
-CREATE PROCEDURE PAagregarProductoSec(IN PId_Sec INT, IN PId_Prod INT, IN PId_Com INT)
-
-BEGIN
-	DECLARE VContador1 INT;
-	DECLARE VContador2 INT;
-	DECLARE VId_secDEF INT;
-	
-	--VERIFICAR QUE EL PRODUCTO NO SE ENCUENTRE EN LA SECCION--
-	SELECT COUNT(*)  
-	into VContador1
-	FROM SeccionesProductos 
-	WHERE idSeccion =PId_Sec and idProducto =PId_Prod;
-	
-	--VERIFICAR SI EL PRODUCTO ESTA EN LA SECCION DEFAULT-- 
-	
-	SELECT COUNT(*), sp.idSeccion 
-	into VContador2, VId_secDEF
-	FROM SeccionesProductos sp, Secciones s 
-	WHERE s.nombre= 'DEFAULT' and sp.idSeccion = s.id and sp.idProducto=PId_Prod and s.idComercio = PId_Com;
-	
-	IF VContador2 != 0 THEN
-		UPDATE SeccionesProductos SET idSeccion = PId_Sec WHERE idSeccion=VId_secDEF AND idProducto = PId_Prod;
-		COMMIT;
-	END IF;
-	IF(VContador2 = 0 AND VContador1 = 0) THEN
-		INSERT INTO SeccionesProductos(idProducto,idSeccion)
-			VALUES(PId_Prod,PId_Sec);
-		COMMIT;
-	END IF;
-END;
-//
-DELIMITER ;
-
-DELIMITER //
-CREATE PROCEDURE PAeliminarProductoSec(IN PId_Sec INT, IN PId_Prod INT, IN PId_Com INT)
-
-BEGIN
-	DECLARE VContador1 INT;
-	DECLARE VId_sec INT;
-	DECLARE VId_secDEF INT;
-	
-	--VERIFICO EN CUANTAS SECCIONES ESTA EL PRODUCTO, SI SOLO ESTA EN UNA SECCION LO PASO A LA DEFAULT SINO SOLO SE ELIMINA DE LA SECCION --
-	SELECT COUNT(*), sp.idSeccion
-    INTO VContador1, VId_sec
-	FROM SeccionesProductos sp, Secciones s 
-	WHERE sp.idSeccion = s.id and sp.idProducto= PId_Prod and s.idComercio=PId_Com;
-	
-	--OBTENGO EL ID DE LA SECCION DEFAULT DEL COMERCIO
-	SELECT s.id 
-	INTO VId_secDEF
-	FROM Secciones s
-	WHERE s.nombre = 'DEFAULT' and s.idComercio =PId_Com;
-	
-	--SOLO EN UNA SECCION
-	IF VContador1 = 1 THEN
-		UPDATE SeccionesProductos SET idSeccion = VId_secDEF WHERE idSeccion=PId_Sec and idProducto = PId_Prod;
-		COMMIT;
-	END IF;
-	
-	--EN 2 O MAS SECCIONES 
-	IF VContador1 > 1 THEN 
-		DELETE FROM SeccionesProductos WHERE idSeccion = PId_Sec and idProducto = PId_Prod;
-		COMMIT;
-	END IF;
-END;
-//
-DELIMITER ;
-
 -- -----------------------------------------------------
 -- Table `comercioscr`.`UsuariosEstandar`
 -- -----------------------------------------------------
@@ -228,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`UsuariosEstandar` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 DELIMITER //
-CREATE PROCEDURE PAregistrarUsuarioEstandar(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), IN Pcontrasena VARCHAR(45), IN PfechaNac DATE)
+CREATE PROCEDURE PAregistrarUsuarioEstandar(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(35), IN Pusuario VARCHAR(35), IN Pcontrasena VARCHAR(35), IN PfechaNac DATE)
 BEGIN
 	DECLARE idE INT;
 	SET idE = (SELECT COALESCE(MAX(id),0) FROM comercioscr.Usuarios) + 1;
@@ -254,7 +185,7 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Administradores` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 DELIMITER //
-CREATE PROCEDURE PAregistrarAdministrador(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(45), IN Pusuario VARCHAR(45), IN Pcontrasena VARCHAR(45), IN Ptelefono BIGINT)
+CREATE PROCEDURE PAregistrarAdministrador(IN Ptipo TINYINT(5), IN Pcorreo VARCHAR(35), IN Pusuario VARCHAR(35), IN Pcontrasena VARCHAR(35), IN Ptelefono BIGINT)
 BEGIN
 	DECLARE idA INT DEFAULT 1;
 	SET idA = (SELECT COALESCE(MAX(id),0) FROM comercioscr.Usuarios) + 1;
@@ -335,7 +266,7 @@ CREATE TABLE IF NOT EXISTS `comercioscr`.`Productos` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `idComercio` INT NOT NULL,
   `precio`     INT NULL,
-  `nombre` VARCHAR(45) NOT NULL,
+  `nombre` VARCHAR(35) NOT NULL,
   `descripcion` VARCHAR(200) NULL,
   `estado` TINYINT(1) NOT NULL,
   PRIMARY KEY (`id`),
@@ -428,13 +359,75 @@ END;
 //
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE PAagregarProductoSec(IN PId_Sec INT, IN PId_Prod INT, IN PId_Com INT)
+
+BEGIN
+	DECLARE VContador1 INT;
+	DECLARE VContador2 INT;
+	DECLARE VId_secDEF INT;
+	
+	SELECT COUNT(*)  
+	into VContador1
+	FROM SeccionesProductos 
+	WHERE idSeccion =PId_Sec and idProducto =PId_Prod;
+	
+	SELECT COUNT(*), sp.idSeccion 
+	into VContador2, VId_secDEF
+	FROM SeccionesProductos sp, Secciones s 
+	WHERE s.nombre= 'DEFAULT' and sp.idSeccion = s.id and sp.idProducto=PId_Prod and s.idComercio = PId_Com;
+	
+	IF VContador2 != 0 THEN
+		UPDATE SeccionesProductos SET idSeccion = PId_Sec WHERE idSeccion=VId_secDEF AND idProducto = PId_Prod;
+		COMMIT;
+	END IF;
+	IF(VContador2 = 0 AND VContador1 = 0) THEN
+		INSERT INTO SeccionesProductos(idProducto,idSeccion)
+			VALUES(PId_Prod,PId_Sec);
+		COMMIT;
+	END IF;
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE PAeliminarProductoSec(IN PId_Sec INT, IN PId_Prod INT, IN PId_Com INT)
+
+BEGIN
+	DECLARE VContador1 INT;
+	DECLARE VId_sec INT;
+	DECLARE VId_secDEF INT;
+	
+	SELECT COUNT(*), sp.idSeccion
+    INTO VContador1, VId_sec
+	FROM SeccionesProductos sp, Secciones s 
+	WHERE sp.idSeccion = s.id and sp.idProducto= PId_Prod and s.idComercio=PId_Com;
+	
+	SELECT s.id 
+	INTO VId_secDEF
+	FROM Secciones s
+	WHERE s.nombre = 'DEFAULT' and s.idComercio =PId_Com;
+	
+	IF VContador1 = 1 THEN
+		UPDATE SeccionesProductos SET idSeccion = VId_secDEF WHERE idSeccion=PId_Sec and idProducto = PId_Prod;
+		COMMIT;
+	END IF;
+	
+	IF VContador1 > 1 THEN 
+		DELETE FROM SeccionesProductos WHERE idSeccion = PId_Sec and idProducto = PId_Prod;
+		COMMIT;
+	END IF;
+END;
+//
+DELIMITER ;
+
 -- Dropeo de usuario, si existe
 
 -- NOTA**** Comentar linea 283 la primera vez que corran el script, descomentar luego de la segunda ejecucion.
 -- -----------------------------------------------------
 -- DROP USER USUARIOcomercioscr;
 -- -----------------------------------------------------
--- Creacion de USUARIOCAFP
+-- Creacion de USUARIOcomercioscr
 -- Se crea con la intencion de que solo pueda modificar datos en el alcance del proyecto.
 -- -----------------------------------------------------
 -- CREATE USER USUARIOcomercioscr IDENTIFIED BY '123USUARIOcomercioscr';
@@ -480,14 +473,11 @@ INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estad
 INSERT INTO comercioscr.Productos(idComercio, precio, nombre, descripcion, estado) VALUES (6, 600, 'Camisa quicksilver', null, 1);
 
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,1);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(5,2);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,2);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(7,3);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,5);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(7,4);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,4);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,5);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,6);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,6);
 
 CALL PAregistrarUsuarioEstandar(3, 'correo1@gmail.com', 'usuario1', '123usuario1', CURDATE() - 50000);
@@ -545,7 +535,7 @@ CALL PAregistrarComercio(2, 'esteesuncorreolargo@gmail.com', 'CorreoLargo', '123
 CALL PAregistrarComercio(2, 'correobaruno@gmail.com', 'Bar Uno', '123Bar', 50985963200, 'Esta es un bar en heredia', '9.997917',' -84.117712','Heredia', 2);
 CALL PAregistrarComercio(2, 'correobardos@gmail.com', 'Bar Dos', '123Bar', 50985963201, 'Esta es un bar en San Jose', '9.929982','-84.089479','San Jose', 2);
 
-CALL PAregistrarComercio(2, 'correodeportesuno@gmail.com', 'Deportes Uno', '123Deportes', 50985963205, 'Esta es una tienda de deportes', '10.014453','-84.214481','Alajuela', 6);
+CALL PAregistrarComercio(2, 'correodeportesuno@gmail.com', 'Deportes Uno', '123Deportes', 50985963205, 'Esta es una tienda de deportes', '10.014353','-84.214481','Alajuela', 6);
 CALL PAregistrarComercio(2, 'correodeportesdos@gmail.com', 'Deportes Dos', '123Deportes', 50985963206, 'Esta es una tienda de deportes', '9.862436','-83.916134','Cartago', 6);
 
 CALL PAregistrarComercio(2, 'correofarmaciauno@gmail.com', 'Farmacia Uno', '123Farmacia', 50985963207, 'Esta es una farmacia', '10.002352','-84.118487','Heredia', 5);

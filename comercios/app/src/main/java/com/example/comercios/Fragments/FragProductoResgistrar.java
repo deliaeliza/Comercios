@@ -83,7 +83,6 @@ public class FragProductoResgistrar extends Fragment {
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
     private static final int COD_FOTO = 20;
-    private static final int CANTIMG_MAX = 5;
 
     private static final String CARPETA_PRINCIPAL = "misImagenesApp/";//directorio principal
     private static final String CARPETA_IMAGEN = "imagenes";//carpeta donde se guardan las fotos
@@ -227,7 +226,7 @@ public class FragProductoResgistrar extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.fRegProd_btnAgrImg:
-                        if (CANTIMG_MAX > GlobalComercios.getInstance().getImageViews().size()) {
+                        if (Util.MAX_IMAGENES_PRODUCTO > GlobalComercios.getInstance().getImageViews().size()) {
                             reemImg = false;
                             mostrarDialogOpciones();
                         }
@@ -492,7 +491,7 @@ public class FragProductoResgistrar extends Fragment {
                 imagen1 = BitmapFactory.decodeFile(path);
                 break;
         }
-        imagen1 = redimensionarImagen(imagen1, 600, 800);
+        imagen1 = redimensionarImagen(imagen1, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
         if (reemImg) {
             GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
             GlobalComercios.getInstance().getImageViews().add(GlobalComercios.getInstance().getImgActual(), imagen1);
@@ -501,7 +500,7 @@ public class FragProductoResgistrar extends Fragment {
        }
         vie.notifyDataSetChanged();
         viewpager.setCurrentItem(GlobalComercios.getInstance().getImgActual());
-        if(CANTIMG_MAX == GlobalComercios.getInstance().getImageViews().size()){
+        if(Util.MAX_IMAGENES_PRODUCTO == GlobalComercios.getInstance().getImageViews().size()){
             btnElegirFoto.setEnabled(false);
             mensaje("Ha llegado al máximo de imagenes");
         } else if(GlobalComercios.getInstance().getImageViews().size() == 1){

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,15 +23,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -48,14 +52,18 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
+import com.google.maps.android.PolyUtil;
+import com.google.maps.android.ui.IconGenerator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -63,6 +71,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -81,9 +90,10 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     private String opcionEscogida = "";
     TextView duracion;
     TextView distancia;
-    HashMap<String, Integer> distanciaGeneral;
-    HashMap<String, Integer> duracionGeneral;
-    private ArrayList<Ruta> rutas;
+    //HashMap<String, Integer> distanciaGeneral;
+    //HashMap<String, Integer> duracionGeneral;
+    //private ArrayList<Ruta> rutas;
+    private List<LatLng> puntosRuta;
 
     public FragEmpresasMaps() {
         // Required empty public constructor
@@ -158,45 +168,67 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
     private void DialogoInformacion(final Marker marker) {
         View view = getLayoutInflater().inflate(R.layout.frag_dialogo_maps, null);
-        BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.CustomBottomSheetDialogTheme);
+        final BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.CustomBottomSheetDialogTheme);
         dialog.setContentView(view);
 
-        rutas = new ArrayList<>();
-        distanciaGeneral = new HashMap<>();
-        duracionGeneral = new HashMap<>();
+        //rutas = new ArrayList<>();
+        puntosRuta = new ArrayList<>();
+        //distanciaGeneral = new HashMap<>();
+        //duracionGeneral = new HashMap<>();
 
         duracion = (TextView) dialog.findViewById(R.id.fragDialgMaps_duracion);
         distancia = (TextView) dialog.findViewById(R.id.fragDialgMaps_km);
-        recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), "walking");
+        opcionEscogida = "walking";
+        recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
         TextView nombre = (TextView) dialog.findViewById(R.id.fragDialgMaps_nomEmp);
         nombre.setText(marker.getTitle());
         MaterialCardView verMas = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_verMas);
         final MaterialCardView btnBus = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_bus);
         final MaterialCardView btnCaminar = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_caminar);
-        //btnCaminar.setCardBackgroundColor(Color.parseColor("#FF5722"));
         final MaterialCardView btnCar = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_car);
         final MaterialCardView btnBicicleta = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_bicicleta);
         MaterialCardView btnIr = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_ir);
 
+        final ImageView imgBus = (ImageView) dialog.findViewById(R.id.fragDialgMaps_busImg);
+        final ImageView imgBicicleta = (ImageView) dialog.findViewById(R.id.fragDialgMaps_bicicletaImg);
+        final ImageView imgCar = (ImageView) dialog.findViewById(R.id.fragDialgMaps_carImg);
+        final ImageView imgCaminando = (ImageView) dialog.findViewById(R.id.fragDialgMaps_caminarImg);
+
         verMas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*FragmentManager fm = getSupportFragmentManager();
+                Comercio elegijo = comercios.get((Integer) marker.getTag());
+                GlobalUsuarios.getInstance().setComercio(elegijo);
+                GlobalUsuarios.getInstance().setPosComercio((Integer) marker.getTag());
+                FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                FragRegUser mifrag = new FragRegUser();
-                fragmentTransaction.replace(R.id.registros_content, mifrag, "regUser");
-                fragmentTransaction.commit();*/
+                FragVerComercio mifrag = new FragVerComercio();
+                FragEmpresasMaps fragment = (FragEmpresasMaps) fm.findFragmentByTag("vermapa_usuarioEstandar");
+                dialog.hide();
+                fragmentTransaction.hide(fragment);
+                fragmentTransaction.add(R.id.Usuario_contenedor, mifrag, "comerciover_usuarioEstandar");
+                fragmentTransaction.show(mifrag);
+                fragmentTransaction.commit();
+
             }
         });
         btnBus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 opcionEscogida = "transit";
+                btnBicicleta.setCardBackgroundColor(Color.parseColor("#24CD1B"));
+                imgBicicleta.setColorFilter(Color.WHITE);
+
+                btnCaminar.setCardBackgroundColor(Color.parseColor("#433DE0"));
+                imgCaminando.setColorFilter(Color.WHITE);
+
+                btnCar.setCardBackgroundColor(Color.parseColor("#FFCB0D"));
+                imgCar.setColorFilter(Color.WHITE);
+
+                btnBus.setCardBackgroundColor(Color.WHITE);
+                imgBus.setColorFilter(Color.parseColor("#F82121"));
+
                 recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
-                //btnBicicleta.setCardBackgroundColor(Color.WHITE);
-                //btnCaminar.setCardBackgroundColor(Color.WHITE);
-                //btnCar.setCardBackgroundColor(Color.WHITE);
-                //btnBus.setCardBackgroundColor(Color.parseColor("#FF5722"));
             }
         });
         btnCaminar.setOnClickListener(new View.OnClickListener() {
@@ -204,10 +236,17 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 opcionEscogida = "walking";
                 recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
-                /*btnBicicleta.setCardBackgroundColor(Color.WHITE);
-                btnCaminar.setCardBackgroundColor(Color.parseColor("#FF5722"));
-                btnCar.setCardBackgroundColor(Color.WHITE);
-                btnBus.setCardBackgroundColor(Color.WHITE);*/
+                btnBicicleta.setCardBackgroundColor(Color.parseColor("#24CD1B"));
+                imgBicicleta.setColorFilter(Color.WHITE);
+
+                btnCaminar.setCardBackgroundColor(Color.WHITE);
+                imgCaminando.setColorFilter(Color.parseColor("#433DE0"));
+
+                btnCar.setCardBackgroundColor(Color.parseColor("#FFCB0D"));
+                imgCar.setColorFilter(Color.WHITE);
+
+                btnBus.setCardBackgroundColor(Color.parseColor("#F82121"));
+                imgBus.setColorFilter(Color.WHITE);
             }
         });
         btnCar.setOnClickListener(new View.OnClickListener() {
@@ -215,10 +254,17 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 opcionEscogida = "driving";
                 recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
-                /*btnBicicleta.setCardBackgroundColor(Color.WHITE);
-                btnCaminar.setCardBackgroundColor(Color.WHITE);
-                btnCar.setCardBackgroundColor(Color.parseColor("#FF5722"));
-                btnBus.setCardBackgroundColor(Color.WHITE);*/
+                btnBicicleta.setCardBackgroundColor(Color.parseColor("#24CD1B"));
+                imgBicicleta.setColorFilter(Color.WHITE);
+
+                btnCaminar.setCardBackgroundColor(Color.parseColor("#433DE0"));
+                imgCaminando.setColorFilter(Color.WHITE);
+
+                btnCar.setCardBackgroundColor(Color.WHITE);
+                imgCar.setColorFilter(Color.parseColor("#FFCB0D"));
+
+                btnBus.setCardBackgroundColor(Color.parseColor("#F82121"));
+                imgBus.setColorFilter(Color.WHITE);
             }
         });
         btnBicicleta.setOnClickListener(new View.OnClickListener() {
@@ -226,27 +272,38 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 opcionEscogida = "bicycling";
                 recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
-                /*btnBicicleta.setCardBackgroundColor(Color.parseColor("#FF5722"));
-                btnCaminar.setCardBackgroundColor(Color.WHITE);
-                btnCar.setCardBackgroundColor(Color.WHITE);
-                btnBus.setCardBackgroundColor(Color.WHITE);*/
+                btnBicicleta.setCardBackgroundColor(Color.WHITE);
+                imgBicicleta.setColorFilter(Color.parseColor("#24CD1B"));
+
+                btnCaminar.setCardBackgroundColor(Color.parseColor("#433DE0"));
+                imgCaminando.setColorFilter(Color.WHITE);
+
+                btnCar.setCardBackgroundColor(Color.parseColor("#FFCB0D"));
+                imgCar.setColorFilter(Color.WHITE);
+
+                btnBus.setCardBackgroundColor(Color.parseColor("#F82121"));
+                imgBus.setColorFilter(Color.WHITE);
             }
         });
         btnIr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!opcionEscogida.equalsIgnoreCase("")) {
-                    recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
+                    mGoogleMap.addPolyline(new PolylineOptions()
+                            .width(5)
+                            .color(Color.BLUE)
+                            .geodesic(true)
+                            .addAll(puntosRuta));
+                    dialog.hide();
                 }
             }
         });
-
         dialog.show();
     }
 
     //-------------------------------------- Mapas rutas _----------------------------------------------------------------
 
-    private void recuperarRuta(LatLng partida, LatLng llegada, String modo) {
+    private void recuperarRuta(final LatLng partida, LatLng llegada, String modo) {
         String url = Util.URL_API_DIRECTIONS + "/json?" +
                 "origin=" + partida.latitude + "," + (partida.longitude) +
                 "&destination=" + llegada.latitude + "," + llegada.longitude +
@@ -256,19 +313,22 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray routes = response.getJSONArray("routes");
-                    JSONObject bounds = routes.getJSONObject(0);
-                    JSONArray legs = bounds.optJSONArray("legs");
-                    String durat = legs.optJSONObject(0).optJSONObject("duration").getString("text");
-                    String dist = legs.optJSONObject(0).optJSONObject("distance").getString("text");
-                    duracionGeneral.clear();
-                    distanciaGeneral.clear();
-                    duracionGeneral.put(durat, legs.optJSONObject(0).optJSONObject("duration").getInt("value"));
-                    distanciaGeneral.put(dist, legs.optJSONObject(0).optJSONObject("distance").getInt("value"));
+                    JSONObject bounds = response.getJSONArray("routes").getJSONObject(0);
+                    //JSONObject bounds = routes.getJSONObject(0);
+                    //JSONArray legs = bounds.optJSONArray("legs");
+                    String durat = bounds.optJSONArray("legs").optJSONObject(0).optJSONObject("duration").getString("text");
+                    String dist = bounds.optJSONArray("legs").optJSONObject(0).optJSONObject("distance").getString("text");
+                    String overPoly = (String) bounds.optJSONObject("overview_polyline").get("points");
+                    //duracionGeneral.clear();
+                    //distanciaGeneral.clear();
+                    //duracionGeneral.put(durat, legs.optJSONObject(0).optJSONObject("duration").getInt("value"));
+                    //distanciaGeneral.put(dist, legs.optJSONObject(0).optJSONObject("distance").getInt("value"));
                     duracion.setText(durat);
                     distancia.setText(dist);
-                    rutas.clear();
-                    JSONArray steps = legs.optJSONObject(0).optJSONArray("steps");
+                    //rutas.clear();
+                    puntosRuta.clear();
+                    puntosRuta = PolyUtil.decode(overPoly);
+                    /*JSONArray steps = legs.optJSONObject(0).optJSONArray("steps");
                     for (int i = 0; i < steps.length(); i++) {
                         JSONObject obj = steps.optJSONObject(i);
                         HashMap<String, Integer> tiempo = new HashMap<>();
@@ -283,7 +343,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                                 new LatLng(obj.optJSONObject("start_location").getDouble("lat"),
                                         obj.optJSONObject("start_location").getDouble("lng"))
                         ));
-                    }
+                    }*/
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -350,10 +410,16 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                                             usuario.getDouble("latitud"),
                                             usuario.getDouble("longitud"),
                                             usuario.getString("ubicacion")));
-                                }
-                                for (Comercio c : comercios) {
-                                    LatLng lg = new LatLng(c.getLatitud(), c.getLongitud());
-                                    mGoogleMap.addMarker(new MarkerOptions().position(lg).title(c.getUsuario()).snippet(c.getDescripcion()));
+
+                                    LatLng lg = new LatLng(usuario.getDouble("latitud"), usuario.getDouble("longitud"));
+                                    IconGenerator iconFactory = new IconGenerator(getContext());
+                                    Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+                                            .position(lg)
+                                            .title(usuario.getString("usuario"))
+                                            .snippet(usuario.getString("descripcion")));
+                                    marker.setTag(Integer.parseInt(Integer.toString(i)));
+                                    marker.setIcon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(usuario.getString("usuario"))));
+                                   // marker.setIcon(getBitmapFromView(usuario.getString("usuario")));
                                 }
                             }
                         }
@@ -459,8 +525,6 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     private void mensajeToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
-
-    ;
 
     private void cargarDialogoRecomendacionGPS() {
         androidx.appcompat.app.AlertDialog.Builder dialogo = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
@@ -610,8 +674,5 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     private void mensajeAB(String msg) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
     }
-
-    ;
-
 
 }

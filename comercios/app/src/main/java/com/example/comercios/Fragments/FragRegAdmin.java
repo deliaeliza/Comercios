@@ -178,7 +178,7 @@ public class FragRegAdmin extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                MensajeToast("Intentelo mas tarde");
+                MensajeToast("Inténtelo más tarde");
             }
         }) {
             @Override
@@ -215,7 +215,7 @@ public class FragRegAdmin extends Fragment {
             lyEmail.setError(null);
             return true;
         }
-        lyEmail.setError("Correo invalido");
+        lyEmail.setError("Email invalido");
         return false;
     }
 
@@ -225,7 +225,7 @@ public class FragRegAdmin extends Fragment {
             lyTelefono.setError(null);
             return true;
         }
-        lyTelefono.setError("Telefono invalido");
+        lyTelefono.setError("Teléfono invalido");
         return false;
     }
 
@@ -235,7 +235,7 @@ public class FragRegAdmin extends Fragment {
             lyUsuario.setError(null);
             return true;
         }
-        lyUsuario.setError("Usuario invalida");
+        lyUsuario.setError("Usuario invalido");
         return false;
     }
 

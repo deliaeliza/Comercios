@@ -24,7 +24,7 @@ public class Util {
 
     /*************************************Maximo de imagenes por producto************************************/
     /*******************************************************************************************************/
-    public static final int MAX_IMAGENES_PRODUCTO = 10;
+    public static final int MAX_IMAGENES_PRODUCTO = 5;
     /*******************************************************************************************************/
 
 
@@ -43,21 +43,13 @@ public class Util {
     public static  final String nombreApp = "ComerciosCR";
 
     /****************************KEY DE GOOGLE MAPS**********************************/
-    public static  final String key = "AIzaSyAAQYV5HnMFyCgFmgr-iUmYo1b26ldokJ8";
+    public static  final String key = "AIzaSyBs6WB83UDRuIcs2fH3DU6pgJweP9ePJko";
 
     /****************************SERVICIO WEB DE DIRECTIONS**********************************/
     public static  final String URL_API_DIRECTIONS = "https://maps.googleapis.com/maps/api/directions";
 
-    /****************************MODOS DE VIAJE**********************************/
-    public static final String  MODO_MANEJANDO = "";
-    public static final String  MODO_CAMINANDO = "";
-    public static final String  MODO_BICICLETA = "";
-    public static final String  MODO_BUS = "";
-
-    /****************************OPCION ESCOGIDA**********************************/
-    public static final int OPCION_MANEJANDO = 1;
-    public static final int OPCION_CAMINANDO = 2;
-    public static final int OPCION_BICICLETA = 3;
-    public static final int OPCION_BUS = 4;
+    /****************************TAMAÑOS DE IMAGENES**********************************/
+    public static  final int IMAGEN_ANCHO = 800;
+    public static final int IMAGEN_ALTO = 600;
 
 }

@@ -24,6 +24,10 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomStart="2dp"
+            app:boxStrokeColor="@color/colorPrimary"
+            app:boxStrokeWidth="2dp"
             android:id="@+id/fRegSec_txtNombre"
             android:layout_width="match_parent"
             android:layout_height="89dp"

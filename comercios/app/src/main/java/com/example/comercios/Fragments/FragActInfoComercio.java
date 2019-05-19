@@ -1,7 +1,6 @@
 package com.example.comercios.Fragments;
 
 
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -92,7 +91,7 @@ public class FragActInfoComercio extends Fragment {
     ArrayList<Categorias> categorias;
     ArrayList<String> categoriasArray;
     Bitmap bitmap;
-    Button btnFoto,btnEliminarFoto;
+    Button btnFoto, btnEliminarFoto;
 
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
@@ -106,11 +105,9 @@ public class FragActInfoComercio extends Fragment {
 
     ///objetos de la interfaz
     int categoriaSeleccionada;
-    TextInputEditText descripcion,telefono,correo,password,confiPassword,ubicacion,usuario;
-    TextInputLayout LayoutDescripcion,LayoutTelefono, LayoutCorreo,LayoutUsuario,LayoutPsw,LayoutConfPsw;
+    TextInputEditText descripcion, telefono, correo, password, confiPassword, ubicacion, usuario;
+    TextInputLayout LayoutDescripcion, LayoutTelefono, LayoutCorreo, LayoutUsuario, LayoutPsw, LayoutConfPsw;
     Double latitud, longitud;
-
-
 
 
     public FragActInfoComercio() {
@@ -126,25 +123,25 @@ public class FragActInfoComercio extends Fragment {
         View view = inflater.inflate(R.layout.frag_act_info_comercio, container, false);
 
         categorias = new ArrayList<>();
-        categoriasArray= new ArrayList<>();
+        categoriasArray = new ArrayList<>();
 
         descripcion = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);
-        LayoutDescripcion = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widDescripcion);
+        LayoutDescripcion = (TextInputLayout) view.findViewById(R.id.fActInfoComercio_widDescripcion);
 
-        usuario= (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtUsuario);
-        LayoutUsuario = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widUsuario);
+        usuario = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtUsuario);
+        LayoutUsuario = (TextInputLayout) view.findViewById(R.id.fActInfoComercio_widUsuario);
 
         telefono = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtTelefono);
-        LayoutTelefono = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widTelefono);
+        LayoutTelefono = (TextInputLayout) view.findViewById(R.id.fActInfoComercio_widTelefono);
 
         correo = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtCorreo);
-        LayoutCorreo = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widCorreo);
+        LayoutCorreo = (TextInputLayout) view.findViewById(R.id.fActInfoComercio_widCorreo);
 
         password = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtPass);
-        LayoutPsw = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widPass);
+        LayoutPsw = (TextInputLayout) view.findViewById(R.id.fActInfoComercio_widPass);
 
         confiPassword = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtConfiPass);
-        LayoutConfPsw = (TextInputLayout)view.findViewById(R.id.fActInfoComercio_widConfiPass);
+        LayoutConfPsw = (TextInputLayout) view.findViewById(R.id.fActInfoComercio_widConfiPass);
 
         ubicacion = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtUbicacion);
         spinner = (MaterialSpinner) view.findViewById(R.id.fActInfoComercio_SPcategorias);
@@ -169,15 +166,23 @@ public class FragActInfoComercio extends Fragment {
         btnFoto = view.findViewById(R.id.fActInfoComercio_cambiarFoto);
         //btnEliminarFoto =view.findViewById(R.id.fActInfoComercio_eliminarFoto);
 
-        if(solicitaPermisosVersionesSuperiores()){
+        if (solicitaPermisosVersionesSuperiores()) {
             btnFoto.setEnabled(true);
-        }else{
+        } else {
             btnFoto.setEnabled(false);
         }
 
         cargarCategorias(view);
 
-        cargarWebServicesImagen(Util.urlWebService +"/" + GlobalComercios.getInstance().getComercio().getUrlImagen());
+        if (GlobalComercios.getInstance().getComercio().getUrlImagen() != null ||
+                !GlobalComercios.getInstance().getComercio().getUrlImagen().equalsIgnoreCase("")) {
+            if(GlobalComercios.getInstance().getComercio().getImagen() == null){
+                cargarWebServicesImagen(GlobalComercios.getInstance().getComercio().getUrlImagen());
+            }else {
+                fotoComercio.setImageBitmap(GlobalComercios.getInstance().getComercio().getImagen());
+            }
+        }
+
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnUbicacion));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_cambiarFoto));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
@@ -192,9 +197,7 @@ public class FragActInfoComercio extends Fragment {
             @Override
             public void onResponse(Bitmap response) {
                 fotoComercio.setImageBitmap(response);
-                bitmap=response;
-
-
+                bitmap = response;
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
@@ -202,37 +205,36 @@ public class FragActInfoComercio extends Fragment {
                 mensajeToast("error al cargar la imagen");
                 //btnEliminarFoto.setVisibility(View.INVISIBLE);
 
-
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
     }
+
     public void OnclickDelButton(final View view) {
 
-        Button miButton = (Button)  view;
-        miButton.setOnClickListener(new View.OnClickListener(){
+        Button miButton = (Button) view;
+        miButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
 
                     case R.id.fActInfoComercio_btnAct:
-                        if(!descripcion.getText().toString().equalsIgnoreCase("")||
-                                !usuario.getText().toString().equalsIgnoreCase("")||
-                                !telefono.getText().toString().equalsIgnoreCase("")||
-                                !correo.getText().toString().equalsIgnoreCase("")||
-                                !password.getText().toString().equalsIgnoreCase("")||
-                                !ubicacion.getText().toString().equalsIgnoreCase("")||
-                                categoriaSeleccionada != -1 || bitmap!=null
-                                ){
+                        if (!descripcion.getText().toString().equalsIgnoreCase("") ||
+                                !usuario.getText().toString().equalsIgnoreCase("") ||
+                                !telefono.getText().toString().equalsIgnoreCase("") ||
+                                !correo.getText().toString().equalsIgnoreCase("") ||
+                                !password.getText().toString().equalsIgnoreCase("") ||
+                                !ubicacion.getText().toString().equalsIgnoreCase("") ||
+                                categoriaSeleccionada != -1 || bitmap != null
+                        ) {
 
-                            if(password.getText().toString().equals(confiPassword.getText().toString())){
+                            if (password.getText().toString().equals(confiPassword.getText().toString())) {
                                 actulizarInformacion();
-                            }
-                            else {
+                            } else {
                                 mensajeToast("Las contrase;as no coinciden");
                             }
 
-                        }else{
+                        } else {
                             mensajeToast("Error,Complete los datos que desea modificar");
                         }
                         break;
@@ -248,15 +250,18 @@ public class FragActInfoComercio extends Fragment {
                     case R.id.fActInfoComercio_eliminarFoto:
                         fotoComercio.setImageResource(R.drawable.ic_menu_camera);
                         break;
-                    default:break; }// fin de casos
+                    default:
+                        break;
+                }// fin de casos
             }
         });
     }
+
     private void actulizarInformacion() {
 
-       final ProgressDialog progreso = new ProgressDialog(getActivity());
-       progreso.setMessage("Esperando respuesta...");
-       progreso.show();
+        final ProgressDialog progreso = new ProgressDialog(getActivity());
+        progreso.setMessage("Esperando respuesta...");
+        progreso.show();
 
         String url = Util.urlWebService + "/actualizarInfoComercio.php?";
         stringRequest2 = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -265,9 +270,7 @@ public class FragActInfoComercio extends Fragment {
                 progreso.hide();
                 if (response.trim().equalsIgnoreCase("correcto")) {
                     mensajeToast("Actualización éxitosa");
-                    mensajeAB(response);
                 } else {
-                    mensajeAB(response);
                     mensajeToast("Sucedio un error al intentar actualizar");
                 }
             }
@@ -275,59 +278,57 @@ public class FragActInfoComercio extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                //*************eliminar
-                mensajeAB(error.toString());
                 mensajeToast("Intentelo mas tarde");
             }
-        }){
+        }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String,String> parametros = new HashMap<>();
-                parametros.put("id",String.valueOf(GlobalComercios.getInstance().getComercio().getId()));
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("id", String.valueOf(GlobalComercios.getInstance().getComercio().getId()));
 
-                if(!descripcion.getText().toString().equalsIgnoreCase("")){
-                    parametros.put("descripcion",descripcion.getText().toString());
+                if (!descripcion.getText().toString().equalsIgnoreCase("")) {
+                    parametros.put("descripcion", descripcion.getText().toString());
                     GlobalComercios.getInstance().getComercio().setDescripcion(descripcion.getText().toString());
-                }else{
+                } else {
                     parametros.put("descripcion", GlobalComercios.getInstance().getComercio().getDescripcion());
                 }
 
-                if(!usuario.getText().toString().equalsIgnoreCase("")){
-                    parametros.put("usuario",usuario.getText().toString());
+                if (!usuario.getText().toString().equalsIgnoreCase("")) {
+                    parametros.put("usuario", usuario.getText().toString());
                     GlobalComercios.getInstance().getComercio().setUsuario(usuario.getText().toString());
-                }else{
-                    parametros.put("usuario",GlobalComercios.getInstance().getComercio().getUsuario());
+                } else {
+                    parametros.put("usuario", GlobalComercios.getInstance().getComercio().getUsuario());
                 }
 
-                parametros.put("categoria",String.valueOf(categoriaSeleccionada));
+                parametros.put("categoria", String.valueOf(categoriaSeleccionada));
                 GlobalComercios.getInstance().getComercio().setIdCategoria(categoriaSeleccionada);
 
-                if(!telefono.getText().toString().equalsIgnoreCase("")){
-                    parametros.put("telefono",telefono.getText().toString());
+                if (!telefono.getText().toString().equalsIgnoreCase("")) {
+                    parametros.put("telefono", telefono.getText().toString());
                     GlobalComercios.getInstance().getComercio().setTelefono(Long.parseLong(telefono.getText().toString()));
-                }else{
-                    parametros.put("telefono",Long.toString(GlobalComercios.getInstance().getComercio().getTelefono()));
+                } else {
+                    parametros.put("telefono", Long.toString(GlobalComercios.getInstance().getComercio().getTelefono()));
                 }
 
-                if(!correo.getText().toString().equalsIgnoreCase("")){
-                    parametros.put("correo",correo.getText().toString());
+                if (!correo.getText().toString().equalsIgnoreCase("")) {
+                    parametros.put("correo", correo.getText().toString());
                     GlobalComercios.getInstance().getComercio().setCorreo(correo.getText().toString());
-                }else{
-                    parametros.put("correo",GlobalComercios.getInstance().getComercio().getCorreo());
+                } else {
+                    parametros.put("correo", GlobalComercios.getInstance().getComercio().getCorreo());
                 }
 
-                if(!password.getText().toString().equalsIgnoreCase("")){
-                    parametros.put("contrasena",password.getText().toString());
+                if (!password.getText().toString().equalsIgnoreCase("")) {
+                    parametros.put("contrasena", password.getText().toString());
                     GlobalComercios.getInstance().getComercio().setContrasena(password.getText().toString());
-                }else {
-                    parametros.put("contrasena",GlobalComercios.getInstance().getComercio().getContrasena());
+                } else {
+                    parametros.put("contrasena", GlobalComercios.getInstance().getComercio().getContrasena());
                 }
 
-                if(!ubicacion.getText().toString().equalsIgnoreCase("")){
-                    parametros.put("ubicacion",ubicacion.getText().toString());
+                if (!ubicacion.getText().toString().equalsIgnoreCase("")) {
+                    parametros.put("ubicacion", ubicacion.getText().toString());
                     GlobalComercios.getInstance().getComercio().setUbicacion(ubicacion.getText().toString());
-                }else {
-                    parametros.put("ubicacion",GlobalComercios.getInstance().getComercio().getUbicacion());
+                } else {
+                    parametros.put("ubicacion", GlobalComercios.getInstance().getComercio().getUbicacion());
                 }
                 parametros.put("latitud", String.valueOf(latitud));
                 GlobalComercios.getInstance().getComercio().setLatitud(latitud);
@@ -346,27 +347,29 @@ public class FragActInfoComercio extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest2);
 
     }
-    private void mensajeToast(String msg){
+
+    private void mensajeToast(String msg) {
         Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
     }
-    private void cargarCategorias(View view){
+
+    private void cargarCategorias(View view) {
         String url = Util.urlWebService + "/categoriasObtener.php";
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray jsonCategorias= response.getJSONArray("categoria");
+                    JSONArray jsonCategorias = response.getJSONArray("categoria");
                     JSONObject obj;
-                    for(int i= 0;i<jsonCategorias.length();i++) {
+                    for (int i = 0; i < jsonCategorias.length(); i++) {
                         obj = jsonCategorias.getJSONObject(i);
                         categoriasArray.add(obj.getString("nombre"));
-                        categorias.add(new Categorias(obj.getInt("id"),obj.getString("nombre")));
+                        categorias.add(new Categorias(obj.getInt("id"), obj.getString("nombre")));
                     }
                     spinner.setItems(categoriasArray);
 
-                    for(int i = 0; i < categoriasArray.size(); i++){
-                        if(categoriasArray.get(i).equalsIgnoreCase(GlobalComercios.getInstance().getComercio().getCategoria())){
+                    for (int i = 0; i < categoriasArray.size(); i++) {
+                        if (categoriasArray.get(i).equalsIgnoreCase(GlobalComercios.getInstance().getComercio().getCategoria())) {
                             spinner.setSelectedIndex(i);
                             break;
                         }
@@ -374,8 +377,9 @@ public class FragActInfoComercio extends Fragment {
 
                     categoriaSeleccionada = GlobalComercios.getInstance().getComercio().getIdCategoria();
                     spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
-                        @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
-                            categoriaSeleccionada=ObtenerIdCategoria(item);
+                        @Override
+                        public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+                            categoriaSeleccionada = ObtenerIdCategoria(item);
                         }
                     });
 
@@ -391,23 +395,24 @@ public class FragActInfoComercio extends Fragment {
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
+
     private void mostrarDialogOpciones() {
 
-        final CharSequence[] opciones={"Tomar Foto","Elegir de Galeria","Cancelar"};
+        final CharSequence[] opciones = {"Tomar Foto", "Elegir de Galeria", "Cancelar"};
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Elige una Opción");
         builder.setItems(opciones, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                if (opciones[i].equals("Tomar Foto")){
+                if (opciones[i].equals("Tomar Foto")) {
                     abrirCamara();
-                }else{
-                    if (opciones[i].equals("Elegir de Galeria")){
-                        Intent intent=new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                } else {
+                    if (opciones[i].equals("Elegir de Galeria")) {
+                        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/");
                         //cod 10 para galeria
-                        startActivityForResult(intent.createChooser(intent,"Seleccione"),COD_SELECCIONA);
-                    }else{
+                        startActivityForResult(intent.createChooser(intent, "Seleccione"), COD_SELECCIONA);
+                    } else {
                         dialogInterface.dismiss();
                     }
                 }
@@ -415,6 +420,7 @@ public class FragActInfoComercio extends Fragment {
         });
         builder.show();
     }
+
     private void abrirCamara() {
         File miFile = new File(Environment.getExternalStorageDirectory(), DIRECTORIO_IMAGEN);
         boolean isCreada = miFile.exists();
@@ -439,19 +445,20 @@ public class FragActInfoComercio extends Fragment {
             } else {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
             }
-            startActivityForResult(takePictureIntent,COD_FOTO);
+            startActivityForResult(takePictureIntent, COD_FOTO);
         }
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case COD_SELECCIONA:
-                Uri miPath=data.getData();
+                Uri miPath = data.getData();
                 fotoComercio.setImageURI(miPath);
 
                 try {
-                    bitmap=MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),miPath);
+                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), miPath);
                     fotoComercio.setImageBitmap(bitmap);
 
                 } catch (IOException e) {
@@ -465,18 +472,19 @@ public class FragActInfoComercio extends Fragment {
                         new MediaScannerConnection.OnScanCompletedListener() {
                             @Override
                             public void onScanCompleted(String path, Uri uri) {
-                                Log.i("Path",""+path);
+                                Log.i("Path", "" + path);
                             }
                         });
 
-                bitmap= BitmapFactory.decodeFile(path);
+                bitmap = BitmapFactory.decodeFile(path);
                 fotoComercio.setImageBitmap(bitmap);
 
                 break;
         }
-        bitmap=redimensionarImagen(bitmap,600,800);
+        bitmap = redimensionarImagen(bitmap, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
 
     }
+
     //permisos/////////////////////////////////////////////////////////////////////////
     private boolean solicitaPermisosVersionesSuperiores() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {//validamos si estamos en android menor a 6 para no buscar los permisos
@@ -493,6 +501,7 @@ public class FragActInfoComercio extends Fragment {
         }
         return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -506,6 +515,7 @@ public class FragActInfoComercio extends Fragment {
             solicitarPermisosManual();
         }
     }
+
     private void solicitarPermisosManual() {
         final CharSequence[] opciones = {"si", "no"};
         final androidx.appcompat.app.AlertDialog.Builder alertOpciones = new androidx.appcompat.app.AlertDialog.Builder(getActivity());//estamos en fragment
@@ -527,6 +537,7 @@ public class FragActInfoComercio extends Fragment {
         });
         alertOpciones.show();
     }
+
     private void cargarDialogoRecomendacion() {
         androidx.appcompat.app.AlertDialog.Builder dialogo = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
         dialogo.setTitle("Permisos Desactivados");
@@ -541,6 +552,7 @@ public class FragActInfoComercio extends Fragment {
         });
         dialogo.show();
     }
+
     ///////////////////////////////////////////////////////////////////////////////////
     private String convertirImgString(Bitmap bitmap) {
         ByteArrayOutputStream array = new ByteArrayOutputStream();
@@ -548,6 +560,7 @@ public class FragActInfoComercio extends Fragment {
         byte[] imagenByte = array.toByteArray();
         return Base64.encodeToString(imagenByte, Base64.DEFAULT);
     }
+
     private Bitmap redimensionarImagen(Bitmap bitmap, float anchoNuevo, float altoNuevo) {
         int ancho = bitmap.getWidth();
         int alto = bitmap.getHeight();
@@ -561,22 +574,26 @@ public class FragActInfoComercio extends Fragment {
             return bitmap;
         }
     }
-    private int ObtenerIdCategoria(String cat){
-        for(int i =0;i<categorias.size();i++){
-            if(categorias.get(i).getNombre().equalsIgnoreCase(cat)){
+
+    private int ObtenerIdCategoria(String cat) {
+        for (int i = 0; i < categorias.size(); i++) {
+            if (categorias.get(i).getNombre().equalsIgnoreCase(cat)) {
                 return categorias.get(i).getId();
             }
         }
         return -1;
     }
-    private void OnTextChangedDelTextInputEditText(final TextInputEditText textInputEditText){
+
+    private void OnTextChangedDelTextInputEditText(final TextInputEditText textInputEditText) {
         textInputEditText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 int id = textInputEditText.getId();
-                switch (id){
+                switch (id) {
                     case R.id.fActInfoComercio_edtCorreo:
                         validarCorreo();
                         break;
@@ -600,11 +617,14 @@ public class FragActInfoComercio extends Fragment {
                         break;
                 }
             }
+
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
     }
-    private  boolean validarDescripcion(){
+
+    private boolean validarDescripcion() {
         String dato = descripcion.getText().toString();
         if (dato.length() > 500)
             return false;
@@ -612,10 +632,11 @@ public class FragActInfoComercio extends Fragment {
             LayoutDescripcion.setError(null);
             return true;
         }
-        LayoutDescripcion.setError("Descripción invalido");
+        LayoutDescripcion.setError("Descripción invalida");
         return false;
     }
-    private boolean validarTelefono(){
+
+    private boolean validarTelefono() {
         String dato = telefono.getText().toString();
         if (dato.length() > 20)
             return false;
@@ -623,10 +644,11 @@ public class FragActInfoComercio extends Fragment {
             LayoutTelefono.setError(null);
             return true;
         }
-        LayoutTelefono.setError("Descripción invalido");
+        LayoutTelefono.setError("Teléfono invalido");
         return false;
     }
-    private boolean validarCorreo(){
+
+    private boolean validarCorreo() {
         String dato = correo.getText().toString();
         if (dato.length() > 46)
             return false;
@@ -637,7 +659,8 @@ public class FragActInfoComercio extends Fragment {
         LayoutCorreo.setError("Email invalido");
         return false;
     }
-    private boolean validarUsuario(){
+
+    private boolean validarUsuario() {
         String dato = usuario.getText().toString();
         if (dato.length() > 46)
             return false;
@@ -648,7 +671,8 @@ public class FragActInfoComercio extends Fragment {
         LayoutUsuario.setError("Usuario invalido");
         return false;
     }
-    private boolean validarContrasena(){
+
+    private boolean validarContrasena() {
         String dato = password.getText().toString();
         if (dato.length() > 46)
             return false;
@@ -659,7 +683,8 @@ public class FragActInfoComercio extends Fragment {
         LayoutPsw.setError("Contraseña invalida");
         return false;
     }
-    private boolean validarConfContrasena(){
+
+    private boolean validarConfContrasena() {
         String dato1 = password.getText().toString();
         String dato2 = confiPassword.getText().toString();
         if (dato1.equals(dato2)) {
@@ -669,7 +694,12 @@ public class FragActInfoComercio extends Fragment {
         LayoutConfPsw.setError("Las contraseñas no coinciden");
         return false;
     }
-    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
+
+    private void mensajeAB(String msg) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
+    }
+
+    ;
 
     /*---------------------------------------------UBICACION--------------------------------------------------------------*/
 

@@ -159,9 +159,9 @@ public class FragRegUser extends Fragment {
     }
     private boolean validarCorreo(){
         String dato = correo.getText().toString();
-        if (dato.length() > 46)
+        if (dato.length() > 36)
             return false;
-        if (dato.length() > 0 && dato.length() <= 45 && Patterns.EMAIL_ADDRESS.matcher(dato).find()) {
+        if (dato.length() > 0 && dato.length() <= 35 && Patterns.EMAIL_ADDRESS.matcher(dato).find()) {
             tilCorreo.setError(null);
             return true;
         }
@@ -170,9 +170,9 @@ public class FragRegUser extends Fragment {
     }
     private boolean validarUsuario(){
         String dato = usuario.getText().toString();
-        if (dato.length() > 46)
+        if (dato.length() > 36)
             return false;
-        if (dato.length() > 0 && dato.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+        if (dato.length() > 0 && dato.length() <= 35 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
             tilUsuario.setError(null);
             return true;
         }
@@ -181,9 +181,9 @@ public class FragRegUser extends Fragment {
     }
     private boolean validarContrasena(){
         String dato = pwd.getText().toString();
-        if (dato.length() > 46)
+        if (dato.length() > 36)
             return false;
-        if (dato.length() > 0 && dato.length() <= 45 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+        if (dato.length() > 0 && dato.length() <= 35 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
             tilPwd.setError(null);
             return true;
         }
@@ -229,7 +229,7 @@ public class FragRegUser extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("Intentelo mas tarde");
+                mensajeToast("Inténtelo más tarde");
             }
         }) {
             @Override

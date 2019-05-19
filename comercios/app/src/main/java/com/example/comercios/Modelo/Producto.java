@@ -1,8 +1,14 @@
 package com.example.comercios.Modelo;
 
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.view.View;
+
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Producto {
     private int id;
@@ -24,13 +30,9 @@ public class Producto {
         this.imagen = imagen;
     }
 
-    public boolean isPertenece() {
-        return pertenece;
-    }
-
-    public void setPertenece(boolean pertenece) {
-        this.pertenece = pertenece;
-    }
+    private Timer timer = null;
+    private Handler handler = new Handler();
+    private Runnable update;
 
     public Producto(int id, boolean estado, int precio, String nombre, String descripcion, boolean pertenece) {
         this.id = id;
@@ -134,5 +136,46 @@ public class Producto {
     }
     public void setImagenes(ArrayList<Bitmap> imagenes) {
         this.imagenes = imagenes;
+    }
+
+    public boolean isPertenece() {
+        return pertenece;
+    }
+    public void setPertenece(boolean pertenece) {
+        this.pertenece = pertenece;
+    }
+
+    public void agregarImagen(Bitmap imagen){
+        if(imagenes == null){
+            imagenes = new ArrayList();
+        }
+        imagenes.add(imagen);
+    }
+
+    public void setTimer(final ViewPager viewPager){
+        if(imagenes != null && imagenes.size() > 1){
+            if(timer != null){
+                timer.cancel();
+                timer.purge();
+            }
+            final int paginas = imagenes.size();
+            handler = new Handler();
+            update = new Runnable() {
+                int pagActual = 0;
+                public void run() {
+                    if (pagActual == paginas) {
+                        pagActual = 0;
+                    }
+                    viewPager.setCurrentItem(pagActual++, false);
+                }
+            };
+            timer = new Timer(); //This will create a new Thread
+            timer.schedule(new TimerTask() { //task to be scheduled
+                @Override
+                public void run() {
+                    handler.post(update);
+                }
+            }, 500, 3000);
+        }
     }
 }

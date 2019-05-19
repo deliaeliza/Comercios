@@ -46,7 +46,7 @@ public class Comercio {
         this.secciones = secciones;
     }
 
-    public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, String urlImagen,double longitud,double latitud ,int idCategoria, String contrasena) {
+    public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, String urlImagen,double longitud,double latitud ,int idCategoria, String contrasena, float calificacion, int cantCalificaciones) {
         this.id = id;
         this.tipo = tipo;
         this.telefono = telefono;
@@ -62,20 +62,9 @@ public class Comercio {
         this.longitud = longitud;
         this.idCategoria = idCategoria;
         this.contrasena = contrasena;
+        this.calificacion = calificacion;
+        this.cantCalificaciones = cantCalificaciones;
     }
-/*
-    public Comercio(int id, int tipo, long telefono, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria) {
-        this.id = id;
-        this.tipo = tipo;
-        this.telefono = telefono;
-        this.verificado = verificado;
-        this.estado = estado;
-        this.correo = correo;
-        this.usuario = usuario;
-        this.descripcion = descripcion;
-        this.ubicacion = ubicacion;
-        this.categoria = categoria;
-    }*/
 
     public Comercio(int id, int tipo, long telefono, float calificacion, boolean verificado, boolean estado, String correo, String usuario, String descripcion, String ubicacion, String categoria, ArrayList<Seccion> secciones) {
         this.id = id;
