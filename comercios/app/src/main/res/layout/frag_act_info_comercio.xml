@@ -19,7 +19,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widUsuario"
@@ -50,7 +53,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widDescripcion"
@@ -103,7 +109,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widTelefono"
@@ -134,7 +143,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widCorreo"
@@ -165,7 +177,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widPass"
@@ -196,7 +211,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widConfiPass"
@@ -227,7 +245,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widUbicacion"

@@ -19,7 +19,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widUsuario"
@@ -55,7 +58,10 @@
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/descripcion_lbl"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 app:counterEnabled="true"
@@ -105,7 +111,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widTelefono"
@@ -136,7 +145,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widCorreo"
@@ -167,7 +179,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widPass"
@@ -198,7 +213,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widConfiPass"
@@ -226,7 +244,10 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusBottomStart="2dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widUbicacion"
