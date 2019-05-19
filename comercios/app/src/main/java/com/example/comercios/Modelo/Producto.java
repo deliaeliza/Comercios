@@ -21,15 +21,6 @@ public class Producto {
     private boolean pertenece;
     private String urlPrueba;
     private Bitmap imagen = null;
-
-    public Bitmap getImagen() {
-        return imagen;
-    }
-
-    public void setImagen(Bitmap imagen) {
-        this.imagen = imagen;
-    }
-
     private Timer timer = null;
     private Handler handler = new Handler();
     private Runnable update;
@@ -152,7 +143,35 @@ public class Producto {
         imagenes.add(imagen);
     }
 
-    public void setTimer(final ViewPager viewPager){
+    public Timer getTimer() {
+        return timer;
+    }
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    public Handler getHandler() {
+        return handler;
+    }
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public Runnable getUpdate() {
+        return update;
+    }
+    public void setUpdate(Runnable update) {
+        this.update = update;
+    }
+
+    public Bitmap getImagen() {
+        return imagen;
+    }
+    public void setImagen(Bitmap imagen) {
+        this.imagen = imagen;
+    }
+
+    /*public void setTimer(final ViewPager viewPager){
         if(imagenes != null && imagenes.size() > 1){
             if(timer != null){
                 timer.cancel();
@@ -177,5 +196,5 @@ public class Producto {
                 }
             }, 500, 3000);
         }
-    }
+    }*/
 }

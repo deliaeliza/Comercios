@@ -97,12 +97,9 @@ public class FragGestProductosSeccion extends Fragment {
     }
 
     public void cargarProductosSeccion() {
-
         String sql;
-
         TabLayout.Tab tab = tabLayout.getTabAt(tabLayout.getSelectedTabPosition());
         tab.select();
-
         if (tab.getText().toString().trim().equalsIgnoreCase("Comercio")) {
             sql = "Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
                     "from Productos p where p.idComercio=" + GlobalComercios.getInstance().getComercio().getId()+";";
@@ -134,9 +131,9 @@ public class FragGestProductosSeccion extends Fragment {
                                     productosArray.add(new Producto(
                                             producto.getInt("id"),
                                             producto.getInt("estado") != 0,
-                                            producto.getInt("precio"),
+                                            producto.isNull("precio") ? -1 : producto.getInt("precio"),
                                             producto.getString("nombre"),
-                                            producto.getString("descripcion"),
+                                            producto.isNull("descripcion") ? null :producto.getString("descripcion"),
                                             producto.getInt("pertenece") == 1,
                                             producto.isNull("Imagen") ? null : Util.urlWebService + "/" +producto.getString("Imagen")
                                     ));
@@ -203,13 +200,14 @@ public class FragGestProductosSeccion extends Fragment {
             }else {
                 imagen.setImageResource(R.drawable.ic_menu_camera);
             }
-
             TextView precio = (TextView) itemView.findViewById(R.id.item_gest_producto_precio);
-            precio.setText(String.valueOf(actual.getPrecio()));
-
+            if(actual.getPrecio() != -1){
+                precio.setText("₡ " + actual.getPrecio());
+            } else {
+                precio.setVisibility(View.GONE);
+            }
             TextView estado = (TextView) itemView.findViewById(R.id.item_gest_producto_estado);
             estado.setText(actual.isEstado() ? "Activo" : "Desactivo");
-
             MaterialButton buttonAction;
             if (actual.isPertenece()) {
                 buttonAction = (MaterialButton) itemView.findViewById(R.id.item_gest_producto_MaterialButtonEliminar);

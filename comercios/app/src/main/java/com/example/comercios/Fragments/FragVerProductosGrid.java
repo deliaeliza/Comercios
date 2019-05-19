@@ -137,22 +137,28 @@ public class FragVerProductosGrid extends Fragment {
             if (itemView == null) {
                 itemView = getActivity().getLayoutInflater().inflate(R.layout.item_ver_productos_grid, parent, false);
             }
-            Producto actual = productos.get(position);
+            final Producto actual = productos.get(position);
             // Fill the view
 
             TextView productoTV = (TextView) itemView.findViewById(R.id.item_ver_prod_grid_txtProducto);
             productoTV.setText(actual.getNombre());
             TextView precioTV = (TextView) itemView.findViewById(R.id.item_ver_prod_grid_txtPrecio);
-            precioTV.setText("₡ " + actual.getPrecio());
+            if(actual.getPrecio() != -1){
+                precioTV.setText("₡ " + actual.getPrecio());
+            } else {
+                precioTV.setVisibility(View.GONE);
+            }
+
             final ViewPager viewPager = (ViewPager) itemView.findViewById(R.id.item_ver_prod_grid_viewPager);
             final viewPagerAdapter viewPAdaptador = new viewPagerAdapter(itemView.getContext(), actual.getImagenes());
             MaterialCardView materialCardView = (MaterialCardView) itemView.findViewById(R.id.item_ver_prod_grid_MaterialCardView);
             viewPAdaptador.setItem(itemView);
             viewPager.setAdapter(viewPAdaptador);
             materialCardView.setTag(position);
-            Timer timer = null;
-            final Handler handler;
-            final Runnable update;
+
+            Timer timer = actual.getTimer();
+            Handler handler = actual.getHandler();
+            Runnable update = actual.getUpdate();
             if(actual.getImagenes() != null && actual.getImagenes().size() > 1){
                 if(timer != null){
                     timer.cancel();
@@ -170,12 +176,16 @@ public class FragVerProductosGrid extends Fragment {
                     }
                 };
                 timer = new Timer(); //This will create a new Thread
+                actual.setHandler(handler);
+                actual.setUpdate(update);
+
                 timer.schedule(new TimerTask() { //task to be scheduled
                     @Override
                     public void run() {
-                        handler.post(update);
+                        actual.getHandler().post(actual.getUpdate());
                     }
                 }, 500, 3000);
+                actual.setTimer(timer);
             }
             //actual.setTimer(viewPager);
             OnclickDelMaterialCardView(materialCardView);
@@ -201,7 +211,6 @@ public class FragVerProductosGrid extends Fragment {
         //Consultar a la base
         int idMinimo = (productos.size() == 0 ? 0 : (productos.get(productos.size() - 1)).getId());
         String query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.estado = '1' AND p.idComercio='"+ GlobalUsuarios.getInstance().getComercio().getId() +"' AND sp.idSeccion='"+GlobalUsuarios.getInstance().getIdSeccion()+"' AND p.id > '" + idMinimo + "'";
-        //String query = "SELECT * FROM Productos WHERE estado = '1' and idComercio='5' and id > '" + idMinimo + "'";
         query += " ORDER BY id";
         query += " LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/obtenerProductos.php?query=" + query;
@@ -228,13 +237,13 @@ public class FragVerProductosGrid extends Fragment {
                                 productos.add(new Producto(
                                         producto.getInt("id"),
                                         producto.getInt("estado") == 1,
-                                        producto.getInt("precio"),
+                                        producto.isNull("precio") ? -1 : producto.getInt("precio"),
                                         producto.getString("nombre"),
                                         producto.isNull("descripcion") ? null : producto.getString("descripcion"),
                                         imagenes
                                 ));
                             }
-                            if(adapter == null){
+                            if(gridView.getAdapter() == null){
                                 adapter = new ProductoGridAdapter();
                                 gridView.setAdapter(adapter);
                             } else {
@@ -277,7 +286,7 @@ public class FragVerProductosGrid extends Fragment {
             }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    mensajeToast("error al cargar la imagen");
+                    mensajeToast("Error al cargar la imagen");
                 }
             });
             VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);

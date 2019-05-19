@@ -257,7 +257,7 @@ public class FragVerComerciosLista extends Fragment {
                         for(int i = 0; i < comercios.size(); i++){
                             Comercio c = comercios.get(i);
                             if(c.getUrlImagen() != null && c.getUrlImagen() != ""){
-                                cargarWebServicesImagen(c.getUrlImagen(), i);
+                                cargarWebServicesImagen(c.getUrlImagen(), i, c.getId());
                             }
                         }
                     } else {
@@ -391,13 +391,15 @@ public class FragVerComerciosLista extends Fragment {
         }
     }
 
-    private void cargarWebServicesImagen(String ruta_foto, final int posicion) {
+    private void cargarWebServicesImagen(String ruta_foto, final int posicion, final int idComercio) {
         ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
                 if(posicion < comercios.size()) {
-                    comercios.get(posicion).setImagen(response);
-                    adapter.actualizarDatos();
+                    if(idComercio == comercios.get(posicion).getId()) {
+                        comercios.get(posicion).setImagen(response);
+                        adapter.actualizarDatos();
+                    }
                 }
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
