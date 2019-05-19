@@ -33,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -106,11 +107,8 @@ public class FragRegEmpresa extends Fragment {
 
     ///objetos de la interfaz
     int categoriaSeleccionada;
-    TextInputEditText descripcion, telefono, correo, password, confiPassword, ubicacion, usuario;
+    TextInputEditText  descripcion, telefono, correo, password, confiPassword, ubicacion, usuario;
     TextInputLayout LayoutDescripcion, LayoutTelefono, LayoutCorreo, LayoutUsuario, LayoutPsw, LayoutConfPsw;
-    private int requestCode;
-    private String[] permissions;
-    private int[] grantResults;
 
     public FragRegEmpresa() {
         // Required empty public constructor
