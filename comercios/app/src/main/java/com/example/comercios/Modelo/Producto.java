@@ -20,7 +20,15 @@ public class Producto {
     private ArrayList<Bitmap> imagenes;
     private boolean pertenece;
     private String urlPrueba;
+    private Bitmap imagen = null;
 
+    public Bitmap getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(Bitmap imagen) {
+        this.imagen = imagen;
+    }
 
     private Timer timer = null;
     private Handler handler = new Handler();

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,10 +18,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -38,6 +42,7 @@ import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -72,7 +77,8 @@ public class FragGestProductosSeccion extends Fragment {
     private List<Producto> productosArray;
     private List<Producto> productosDefArray;
     private int posicion = -1;
-    private RadioGroup radioGroup;
+
+    private TabLayout tabLayout;
     JsonObjectRequest jsonObjectRequest;
 
 
@@ -95,30 +101,23 @@ public class FragGestProductosSeccion extends Fragment {
         view = inflater.inflate(R.layout.frag_gest_productos_seccion, container, false);
         listView = (ListView) view.findViewById(R.id.listViewProductosSeccion);
         manejador = new MyHandler();
-
-        radioGroup = (RadioGroup) view.findViewById(R.id.FGestProductoSec_radioGroup);
-
-
         productosArray = new ArrayList<>();
-        cargarProductosSeccion();
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton rb1 = (RadioButton) view.findViewById(R.id.FGestProductoSec_AddProd);
-                RadioButton rb2 = (RadioButton) view.findViewById(R.id.FGestProductoSec_DelProd);
-                if (rb1.isChecked()) {
-
+        tabLayout = (TabLayout) view.findViewById(R.id.FGestProductoSec_radioGroup);
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
                     productosArray.clear();
                     cargarProductosSeccion();
-                }
-                if (rb2.isChecked()) {
-                    productosArray.clear();
-                    cargarProductosSeccion();
-
-                }
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
+        cargarProductosSeccion();
 
         return view;
     }
@@ -126,18 +125,20 @@ public class FragGestProductosSeccion extends Fragment {
     public void cargarProductosSeccion() {
 
         String sql;
-        if (radioGroup.getCheckedRadioButtonId() == R.id.FGestProductoSec_AddProd) {
+
+        TabLayout.Tab tab = tabLayout.getTabAt(tabLayout.getSelectedTabPosition());
+        tab.select();
+
+        if (tab.getText().toString().trim().equalsIgnoreCase("Comercio")) {
             sql = "Select p.id, p.nombre,p.descripcion, p.precio, p.estado " +
                     "from Productos p where p.idComercio=" + GlobalComercios.getInstance().getComercio().getId()+";";
-                /*sql="Select p.id, p.nombre,p.descripcion, p.precio, p.estado FROM Productos p INNER JOIN SeccionesProductos sp ON p.id=sp.idProducto " +
-                        "where sp.idSeccion <> "+GlobalComercios.getInstance().getSeccion().getId()+" and p.idComercio ="+GlobalComercios.getInstance().getComercio().getId()+";";
-*/
-        } else {
 
+        } else {
             sql = "SELECT p.id, p.nombre, p.descripcion, p.precio, p.estado " +
                     "FROM Productos p INNER JOIN SeccionesProductos sp ON p.id=sp.idProducto " +
                     "WHERE sp.idSeccion= '" + GlobalComercios.getInstance().getSeccion().getId() + "'";
         }
+
         String url = Util.urlWebService + "/obtenerProductosSeccion.php?query=" + sql + "&idSeccion=" + GlobalComercios.getInstance().getSeccion().getId();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url,
@@ -163,8 +164,8 @@ public class FragGestProductosSeccion extends Fragment {
                                             producto.getString("nombre"),
                                             producto.getString("descripcion"),
                                             producto.getInt("pertenece") == 1,
-                                                    " "));
-                                    obtenerImagenesProducto(producto.getInt("id"));
+                                            producto.isNull("Imagen") ? null : Util.urlWebService + "/" +producto.getString("Imagen")
+                                    ));
                                 }
 
                             }
@@ -178,6 +179,12 @@ public class FragGestProductosSeccion extends Fragment {
                         } else {
                             Message msg = manejador.obtainMessage(1);
                             manejador.sendMessage(msg);
+                        }
+                        for(int i = 0; i < productosArray.size(); i++){
+                            Producto pr = productosArray.get(i);
+                            if(pr.getUrlPrueba() != null && pr.getUrlPrueba() != ""){
+                                cargarWebServicesImagen(pr.getUrlPrueba(), i);
+                            }
                         }
 
                     } else {
@@ -201,7 +208,6 @@ public class FragGestProductosSeccion extends Fragment {
         public ProductosListAdapter() {
             super(getActivity(), R.layout.item_gest_productos, productosArray);
         }
-
         public void actualizarDatos() {
             this.notifyDataSetChanged();
         }
@@ -218,6 +224,14 @@ public class FragGestProductosSeccion extends Fragment {
 
             TextView nombre = (TextView) itemView.findViewById(R.id.item_gest_producto_nombre);
             nombre.setText(actual.getNombre());
+
+
+            imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
+            if (actual.getImagen() != null){
+                imagen.setImageBitmap(actual.getImagen());
+            }else {
+                imagen.setImageResource(R.drawable.ic_menu_camera);
+            }
 
             TextView precio = (TextView) itemView.findViewById(R.id.item_gest_producto_precio);
             precio.setText(String.valueOf(actual.getPrecio()));
@@ -244,11 +258,6 @@ public class FragGestProductosSeccion extends Fragment {
             //panel.setTag(position);
             estado.setTag(position);
             buttonAction.setTag(position);
-
-            imagen = (ImageView) itemView.findViewById(R.id.item_gest_producto_ImgVProducto);
-
-
-
             OnclickDelMaterialButton(buttonAction);
 
             return itemView;
@@ -264,7 +273,7 @@ public class FragGestProductosSeccion extends Fragment {
                     case R.id.item_gest_producto_MaterialButtonEliminar:
                         posicion = (int) v.getTag();
                         Producto p = productosArray.get(posicion);
-                        actualizarProducto(p);
+                        actualizarProducto(p,posicion);
                         break;
                     default:
                         break;
@@ -272,11 +281,9 @@ public class FragGestProductosSeccion extends Fragment {
             }// fin del onclick
         });
     }// fin de OnclickDelMaterialButton
-
     public void Mensaje(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
-
     private class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
@@ -296,7 +303,6 @@ public class FragGestProductosSeccion extends Fragment {
             }
         }
     }
-
     private class ThreadMoreData extends Thread {
         @Override
         public void run() {
@@ -306,12 +312,10 @@ public class FragGestProductosSeccion extends Fragment {
             cargarProductosSeccion();
         }
     }
-
     private void mensajeAB(String msg) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
     }
-
-    private void obtenerImagenesProducto(int id) {
+    /*private void obtenerImagenesProducto(int id) {
         for(int i =0;i<productosArray.size();i++){
             if(productosArray.get(i).getId()==id){
                 indice=i;
@@ -348,26 +352,26 @@ public class FragGestProductosSeccion extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
 
     }
-
-    private void cargarWebServicesImagen(String ruta_foto) {
+*/
+    private void cargarWebServicesImagen(String ruta_foto, final int posicionP) {
         ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
-                imagen.setImageBitmap(response);
+                if(posicionP < productosArray.size()) {
+                    productosArray.get(posicionP).setImagen(response);
+                    adapter.actualizarDatos();
+                }
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Mensaje("error al cargar la imagen"); si hay error le pongo la imagen de la camara
-                imagen.setImageResource(R.drawable.ic_menu_camera);
+                Mensaje("error al cargar la imagen");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
     }
 
-    public void actualizarProducto(Producto p) {
-
-
+    public void actualizarProducto(Producto p, final int posicionProducto) {
         idP = p.getId();
         if (p.isPertenece()) {
             op = "2";
@@ -384,7 +388,18 @@ public class FragGestProductosSeccion extends Fragment {
             public void onResponse(String response) {
                 if (response.trim().equalsIgnoreCase("correcto")) {
                     Mensaje("Actualización éxitosa");
-                    cargarProductosSeccion();
+                    if(productosArray.get(posicionProducto).isPertenece()){
+                        if(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getText().toString().trim().equalsIgnoreCase("Sección")){
+                            productosArray.remove(posicionProducto);
+                        }else{
+                            productosArray.get(posicionProducto).setPertenece(!productosArray.get(posicionProducto).isPertenece());
+                        }
+
+                    } else {
+                        productosArray.get(posicionProducto).setPertenece(!productosArray.get(posicionProducto).isPertenece());
+                    }
+
+                    adapter.actualizarDatos();
 
                 } else {
                     Mensaje("Sucedio un error al intentar actualizar");

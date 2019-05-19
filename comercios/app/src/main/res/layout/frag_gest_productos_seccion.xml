@@ -17,31 +17,37 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RadioGroup
+
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/FGestProductoSec_radioGroup"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:checkedButton="@id/FGestProductoSec_DelProd"
-                android:orientation="horizontal"
+                android:layout_marginTop="1dp"
+                android:background="#FFFFFF"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <RadioButton
+                <com.google.android.material.tabs.TabItem
                     android:id="@+id/FGestProductoSec_DelProd"
-                    android:layout_width="214dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:checked="true"
-                    android:text="Productos de la sección" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/remove_shopping"
+                    android:text="Sección" />
 
-                <RadioButton
+                <com.google.android.material.tabs.TabItem
                     android:id="@+id/FGestProductoSec_AddProd"
-                    android:layout_width="214dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:text="Todos los productos" />
-            </RadioGroup>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:icon="@drawable/add_shopping"
+                    android:text="Comercio" />
+                />
+            </com.google.android.material.tabs.TabLayout>
+
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ListView
