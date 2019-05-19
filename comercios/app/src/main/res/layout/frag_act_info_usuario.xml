@@ -13,6 +13,10 @@
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomStart="2dp"
+            app:boxStrokeColor="@color/colorPrimary"
+            app:boxStrokeWidth="2dp"
             android:id="@+id/fActInfoUser_widUser"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -40,6 +44,10 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomStart="2dp"
+            app:boxStrokeColor="@color/colorPrimary"
+            app:boxStrokeWidth="2dp"
             android:id="@+id/fActInfoUser_widEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,6 +77,10 @@
 
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomStart="2dp"
+            app:boxStrokeColor="@color/colorPrimary"
+            app:boxStrokeWidth="2dp"
             android:id="@+id/fActInfoUser_widPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -96,6 +108,10 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxCornerRadiusBottomStart="2dp"
+            app:boxStrokeColor="@color/colorPrimary"
+            app:boxStrokeWidth="2dp"
             android:id="@+id/fActInfoUser_widConfPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -18,6 +18,10 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widUsuario"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,6 +49,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -94,6 +102,10 @@
             </com.jaredrummler.materialspinner.MaterialSpinner>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widTelefono"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -121,6 +133,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widCorreo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,6 +164,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -175,6 +195,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widConfiPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -202,6 +226,10 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxCornerRadiusBottomStart="2dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widUbicacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
