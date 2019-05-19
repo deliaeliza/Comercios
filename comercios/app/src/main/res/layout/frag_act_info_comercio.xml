@@ -272,17 +272,10 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textMultiLine">
+                    android:inputType="textMultiLine"
+                    android:focusableInTouchMode="false">
 
                 </com.google.android.material.textfield.TextInputEditText>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/fActInfoComercio_btnUbicacion"
-                    android:layout_width="130dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="100dp"
-                    android:text="Obtener ubicación"
-                    android:textSize="14dp" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -302,7 +295,7 @@
                 app:iconSize="20dp"
                 app:iconTint="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.938"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion" />
 
@@ -317,13 +310,12 @@
                 android:backgroundTint="@android:color/transparent"
                 android:paddingLeft="25dp"
                 android:paddingTop="7dp"
-                android:visibility="invisible"
                 app:icon="@drawable/delete"
                 app:iconGravity="textStart"
                 app:iconSize="20dp"
                 app:iconTint="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.938"
+                app:layout_constraintHorizontal_bias="0.013"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion" />
 

@@ -48,9 +48,11 @@ import com.android.volley.toolbox.StringRequest;
 
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Modelo.Categorias;
+import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.jaredrummler.materialspinner.MaterialSpinner;
@@ -91,7 +93,8 @@ public class FragActInfoComercio extends Fragment {
     ArrayList<Categorias> categorias;
     ArrayList<String> categoriasArray;
     Bitmap bitmap;
-    Button btnFoto, btnEliminarFoto;
+    MaterialButton btnFoto, btnEliminarFoto;
+    Comercio comercioActual;
 
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
@@ -124,6 +127,7 @@ public class FragActInfoComercio extends Fragment {
 
         categorias = new ArrayList<>();
         categoriasArray = new ArrayList<>();
+        comercioActual = GlobalComercios.getInstance().getComercio();
 
         descripcion = (TextInputEditText) view.findViewById(R.id.fActInfoComercio_edtDescripcion);
         LayoutDescripcion = (TextInputLayout) view.findViewById(R.id.fActInfoComercio_widDescripcion);
@@ -163,8 +167,8 @@ public class FragActInfoComercio extends Fragment {
 
         fotoComercio = view.findViewById(R.id.fActInfoComercio_imagen);
         //Permisos para camara
-        btnFoto = view.findViewById(R.id.fActInfoComercio_cambiarFoto);
-        //btnEliminarFoto =view.findViewById(R.id.fActInfoComercio_eliminarFoto);
+        btnFoto = (MaterialButton) view.findViewById(R.id.fActInfoComercio_cambiarFoto);
+        btnEliminarFoto = (MaterialButton) view.findViewById(R.id.fActInfoComercio_eliminarFoto);
 
         if (solicitaPermisosVersionesSuperiores()) {
             btnFoto.setEnabled(true);
@@ -176,17 +180,24 @@ public class FragActInfoComercio extends Fragment {
 
         if (GlobalComercios.getInstance().getComercio().getUrlImagen() != null ||
                 !GlobalComercios.getInstance().getComercio().getUrlImagen().equalsIgnoreCase("")) {
-            if(GlobalComercios.getInstance().getComercio().getImagen() == null){
+            if (GlobalComercios.getInstance().getComercio().getImagen() == null) {
                 cargarWebServicesImagen(GlobalComercios.getInstance().getComercio().getUrlImagen());
-            }else {
-                fotoComercio.setImageBitmap(GlobalComercios.getInstance().getComercio().getImagen());
+            } else {
+                bitmap = GlobalComercios.getInstance().getComercio().getImagen();
+                fotoComercio.setImageBitmap(bitmap);
             }
         }
 
-        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnUbicacion));
+        ubicacion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogoNotificarUbicacionComercio();
+            }
+        });
+
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_cambiarFoto));
         OnclickDelButton(view.findViewById(R.id.fActInfoComercio_btnAct));
-        //OnclickDelButton(view.findViewById(R.id.fActInfoComercio_eliminarFoto));
+        OnclickDelButton(view.findViewById(R.id.fActInfoComercio_eliminarFoto));
 
         return view;
 
@@ -202,9 +213,6 @@ public class FragActInfoComercio extends Fragment {
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("error al cargar la imagen");
-                //btnEliminarFoto.setVisibility(View.INVISIBLE);
-
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
@@ -212,42 +220,22 @@ public class FragActInfoComercio extends Fragment {
 
     public void OnclickDelButton(final View view) {
 
-        Button miButton = (Button) view;
+        MaterialButton miButton = (MaterialButton) view;
         miButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
-
                     case R.id.fActInfoComercio_btnAct:
-                        if (!descripcion.getText().toString().equalsIgnoreCase("") ||
-                                !usuario.getText().toString().equalsIgnoreCase("") ||
-                                !telefono.getText().toString().equalsIgnoreCase("") ||
-                                !correo.getText().toString().equalsIgnoreCase("") ||
-                                !password.getText().toString().equalsIgnoreCase("") ||
-                                !ubicacion.getText().toString().equalsIgnoreCase("") ||
-                                categoriaSeleccionada != -1 || bitmap != null
-                        ) {
-
-                            if (password.getText().toString().equals(confiPassword.getText().toString())) {
-                                actulizarInformacion();
-                            } else {
-                                mensajeToast("Las contrase;as no coinciden");
-                            }
-
-                        } else {
-                            mensajeToast("Error,Complete los datos que desea modificar");
+                        if (validarCorreo() && validarDescripcion() && validarTelefono() &&
+                                validarUsuario() && validarContrasena() && validarConfContrasena()) {
+                            actulizarInformacion();
                         }
                         break;
-
-                    case R.id.fActInfoComercio_btnUbicacion:
-                        locationStart();
-
-                        break;
-
                     case R.id.fActInfoComercio_cambiarFoto:
                         mostrarDialogOpciones();
                         break;
                     case R.id.fActInfoComercio_eliminarFoto:
+                        bitmap = null;
                         fotoComercio.setImageResource(R.drawable.ic_menu_camera);
                         break;
                     default:
@@ -258,7 +246,6 @@ public class FragActInfoComercio extends Fragment {
     }
 
     private void actulizarInformacion() {
-
         final ProgressDialog progreso = new ProgressDialog(getActivity());
         progreso.setMessage("Esperando respuesta...");
         progreso.show();
@@ -270,8 +257,33 @@ public class FragActInfoComercio extends Fragment {
                 progreso.hide();
                 if (response.trim().equalsIgnoreCase("correcto")) {
                     mensajeToast("Actualización éxitosa");
+                    GlobalComercios.getInstance().getComercio().setDescripcion(descripcion.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setUsuario(usuario.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setIdCategoria(categoriaSeleccionada);
+                    GlobalComercios.getInstance().getComercio().setTelefono(Long.parseLong(telefono.getText().toString()));
+                    GlobalComercios.getInstance().getComercio().setCorreo(correo.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setContrasena(password.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setUbicacion(ubicacion.getText().toString());
+                    GlobalComercios.getInstance().getComercio().setLatitud(latitud);
+                    GlobalComercios.getInstance().getComercio().setLongitud(longitud);
+                    GlobalComercios.getInstance().getComercio().setImagen(bitmap);
                 } else {
                     mensajeToast("Sucedio un error al intentar actualizar");
+                    GlobalComercios.getInstance().setComercio(comercioActual);
+                    descripcion.setText(comercioActual.getDescripcion());
+                    usuario.setText(comercioActual.getUsuario());
+                    for (int i = 0; i < categoriasArray.size(); i++) {
+                        if (categoriasArray.get(i).equalsIgnoreCase(comercioActual.getCategoria())) {
+                            spinner.setSelectedIndex(i);
+                            break;
+                        }
+                    }
+                    telefono.setText(Long.toString(comercioActual.getTelefono()));
+                    correo.setText(comercioActual.getCorreo());
+                    latitud = comercioActual.getLatitud();
+                    longitud = comercioActual.getLongitud();
+                    bitmap = comercioActual.getImagen();
+                    fotoComercio.setImageBitmap(bitmap);
                 }
             }
         }, new Response.ErrorListener() {
@@ -285,60 +297,17 @@ public class FragActInfoComercio extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<>();
                 parametros.put("id", String.valueOf(GlobalComercios.getInstance().getComercio().getId()));
-
-                if (!descripcion.getText().toString().equalsIgnoreCase("")) {
-                    parametros.put("descripcion", descripcion.getText().toString());
-                    GlobalComercios.getInstance().getComercio().setDescripcion(descripcion.getText().toString());
-                } else {
-                    parametros.put("descripcion", GlobalComercios.getInstance().getComercio().getDescripcion());
-                }
-
-                if (!usuario.getText().toString().equalsIgnoreCase("")) {
-                    parametros.put("usuario", usuario.getText().toString());
-                    GlobalComercios.getInstance().getComercio().setUsuario(usuario.getText().toString());
-                } else {
-                    parametros.put("usuario", GlobalComercios.getInstance().getComercio().getUsuario());
-                }
-
+                parametros.put("descripcion", descripcion.getText().toString());
+                parametros.put("usuario", usuario.getText().toString());
                 parametros.put("categoria", String.valueOf(categoriaSeleccionada));
-                GlobalComercios.getInstance().getComercio().setIdCategoria(categoriaSeleccionada);
-
-                if (!telefono.getText().toString().equalsIgnoreCase("")) {
-                    parametros.put("telefono", telefono.getText().toString());
-                    GlobalComercios.getInstance().getComercio().setTelefono(Long.parseLong(telefono.getText().toString()));
-                } else {
-                    parametros.put("telefono", Long.toString(GlobalComercios.getInstance().getComercio().getTelefono()));
-                }
-
-                if (!correo.getText().toString().equalsIgnoreCase("")) {
-                    parametros.put("correo", correo.getText().toString());
-                    GlobalComercios.getInstance().getComercio().setCorreo(correo.getText().toString());
-                } else {
-                    parametros.put("correo", GlobalComercios.getInstance().getComercio().getCorreo());
-                }
-
-                if (!password.getText().toString().equalsIgnoreCase("")) {
-                    parametros.put("contrasena", password.getText().toString());
-                    GlobalComercios.getInstance().getComercio().setContrasena(password.getText().toString());
-                } else {
-                    parametros.put("contrasena", GlobalComercios.getInstance().getComercio().getContrasena());
-                }
-
-                if (!ubicacion.getText().toString().equalsIgnoreCase("")) {
-                    parametros.put("ubicacion", ubicacion.getText().toString());
-                    GlobalComercios.getInstance().getComercio().setUbicacion(ubicacion.getText().toString());
-                } else {
-                    parametros.put("ubicacion", GlobalComercios.getInstance().getComercio().getUbicacion());
-                }
+                parametros.put("telefono", telefono.getText().toString());
+                parametros.put("correo", correo.getText().toString());
+                parametros.put("contrasena", password.getText().toString());
+                parametros.put("ubicacion", ubicacion.getText().toString());
                 parametros.put("latitud", String.valueOf(latitud));
-                GlobalComercios.getInstance().getComercio().setLatitud(latitud);
-
                 parametros.put("longitud", String.valueOf(longitud));
-                GlobalComercios.getInstance().getComercio().setLongitud(longitud);
-
                 final String imagenConveritda = convertirImgString(bitmap);
                 parametros.put("imagen", imagenConveritda);
-
                 return parametros;
             }
         };
@@ -419,6 +388,26 @@ public class FragActInfoComercio extends Fragment {
             }
         });
         builder.show();
+    }
+
+    public void DialogoNotificarUbicacionComercio(){
+        androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
+        builder1.setTitle("¿Esta dentro de su negocio?");
+        builder1.setMessage("Para poder obtener correctamente la ubicacion de su negocio, debe de estar dentro de su negocio" +
+                ", la ubicacion es obligatoria para el registro");
+        builder1.setCancelable(true);
+        builder1.setNegativeButton("Intentar mas tarde",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    } });
+        builder1.setPositiveButton("Obtener ubicacion",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        locationStart();
+                    } });
+        androidx.appcompat.app.AlertDialog alert11 = builder1.create();
+        alert11.show();
     }
 
     private void abrirCamara() {

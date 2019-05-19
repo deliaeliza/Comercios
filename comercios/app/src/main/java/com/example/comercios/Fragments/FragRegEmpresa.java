@@ -441,13 +441,6 @@ public class FragRegEmpresa extends Fragment {
         } else {
             solicitarPermisosManual();
         }
-
-        /*if (requestCode == 1000) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                locationStart();
-                return;
-            }
-        }*/
     }
 
     private void solicitarPermisosManual() {
