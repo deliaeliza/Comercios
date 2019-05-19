@@ -83,8 +83,7 @@
                     android:inputType="textMultiLine"
                     android:maxLength="500"
                     android:gravity="top"
-                    android:scrollbars="vertical"
-                    android:scrollbarAlwaysDrawVerticalTrack="true"/>
+                    android:scrollbars="vertical"/>
             </com.google.android.material.textfield.TextInputLayout>
 
 

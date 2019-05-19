@@ -61,7 +61,7 @@
                 app:boxStrokeWidth="2dp"
                 android:id="@+id/fActInfoComercio_widDescripcion"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="150dp"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/descripcion_lbl"
@@ -78,11 +78,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fActInfoComercio_edtDescripcion"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="120dp"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
                     android:inputType="textMultiLine"
-                    android:maxLength="500" />
+                    android:maxLength="500"
+                    android:scrollbars="vertical"
+                    android:gravity="top"/>
             </com.google.android.material.textfield.TextInputLayout>
 
 
