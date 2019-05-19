@@ -4,9 +4,7 @@ package com.example.comercios.Fragments;
 import androidx.fragment.app.Fragment;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,22 +14,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.example.comercios.Global.GlobalUsuarios;
-import com.example.comercios.Modelo.Comercio;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -57,37 +48,20 @@ import java.util.Map;
 
 public class FragGestProductosSeccion extends Fragment {
 
-    Integer indice=-1;
-
     private boolean inicial = true;
     private View view;
-    private StringRequest stringRequest;
-
 
     private boolean cargando = false;
     private boolean userScrolled = false;
     private View vistaInferior;
     private ListView listView;
     private Handler manejador;
-    private List<Comercio> comercios;
 
-    private FragGestProductosSeccion.ProductosListAdapter adapter;
-    private FragGestProductosSeccion.ProductosListAdapter adapter2;
-
+    private ProductosListAdapter adapter;
     private List<Producto> productosArray;
-    private List<Producto> productosDefArray;
     private int posicion = -1;
-
     private TabLayout tabLayout;
-    JsonObjectRequest jsonObjectRequest;
-
-
-    Bitmap bitmap;
     ImageView imagen;
-    String op = "";
-    Integer idP;
-
-
 
     public FragGestProductosSeccion() {
         // Required empty public constructor
@@ -99,10 +73,10 @@ public class FragGestProductosSeccion extends Fragment {
                              Bundle savedInstanceState) {
         mensajeAB("Gestionar productos");
         view = inflater.inflate(R.layout.frag_gest_productos_seccion, container, false);
+        GlobalComercios.getInstance().setVentanaActual(R.layout.frag_gest_productos_seccion);
         listView = (ListView) view.findViewById(R.id.listViewProductosSeccion);
         manejador = new MyHandler();
         productosArray = new ArrayList<>();
-
         tabLayout = (TabLayout) view.findViewById(R.id.FGestProductoSec_radioGroup);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -171,11 +145,9 @@ public class FragGestProductosSeccion extends Fragment {
                             }
 
                         }
-                        if (inicial) {
-                            listView.setAdapter(null);
-                            adapter = new FragGestProductosSeccion.ProductosListAdapter();
+                        if(listView.getAdapter() == null){
+                            adapter = new ProductosListAdapter();
                             listView.setAdapter(adapter);
-                            inicial = false;
                         } else {
                             Message msg = manejador.obtainMessage(1);
                             manejador.sendMessage(msg);
@@ -186,9 +158,8 @@ public class FragGestProductosSeccion extends Fragment {
                                 cargarWebServicesImagen(pr.getUrlPrueba(), i);
                             }
                         }
-
                     } else {
-                        Mensaje(mensajeError);
+                        mensajeToast(mensajeError);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -197,7 +168,7 @@ public class FragGestProductosSeccion extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
+                mensajeToast("Error, inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -254,8 +225,6 @@ public class FragGestProductosSeccion extends Fragment {
                 buttonAction.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
                 buttonAction.setTag(position);
             }
-
-            //panel.setTag(position);
             estado.setTag(position);
             buttonAction.setTag(position);
             OnclickDelMaterialButton(buttonAction);
@@ -281,7 +250,7 @@ public class FragGestProductosSeccion extends Fragment {
             }// fin del onclick
         });
     }// fin de OnclickDelMaterialButton
-    public void Mensaje(String msg) {
+    private void mensajeToast(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
     private class MyHandler extends Handler {
@@ -315,44 +284,6 @@ public class FragGestProductosSeccion extends Fragment {
     private void mensajeAB(String msg) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
     }
-    /*private void obtenerImagenesProducto(int id) {
-        for(int i =0;i<productosArray.size();i++){
-            if(productosArray.get(i).getId()==id){
-                indice=i;
-            }
-        }
-
-        String url = Util.urlWebService + "/obtenerImagenesProducto.php?id="+id;
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray jsonFotos = response.getJSONArray("imagenes");
-                    JSONObject obj;
-                    obj = jsonFotos.getJSONObject(0);
-                    String url2 = obj.getString("Imagen");
-                    if (url2 != "null") {
-                        if(indice!=-1) {
-                            productosArray.get(indice).setUrlPrueba(url2);
-                        }
-                    } else {
-                        imagen.setImageResource(R.drawable.ic_menu_camera);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
-            }
-        });
-        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
-
-    }
-*/
     private void cargarWebServicesImagen(String ruta_foto, final int posicionP) {
         ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
             @Override
@@ -365,45 +296,36 @@ public class FragGestProductosSeccion extends Fragment {
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("error al cargar la imagen");
+                mensajeToast("Error al cargar la imagen");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
     }
 
-    public void actualizarProducto(Producto p, final int posicionProducto) {
-        idP = p.getId();
-        if (p.isPertenece()) {
-            op = "2";
-        } else {
-            op = "1";
-        }
+    public void actualizarProducto(final Producto p, final int posicionProducto) {
         final ProgressDialog progreso = new ProgressDialog(getActivity());
         progreso.setMessage("Esperando respuesta...");
         progreso.show();
-
         String url = Util.urlWebService + "/productoSeccionAdministrar.php?";
-        stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 if (response.trim().equalsIgnoreCase("correcto")) {
-                    Mensaje("Actualización éxitosa");
+                    mensajeToast("Actualización éxitosa");
                     if(productosArray.get(posicionProducto).isPertenece()){
                         if(tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getText().toString().trim().equalsIgnoreCase("Sección")){
                             productosArray.remove(posicionProducto);
-                        }else{
-                            productosArray.get(posicionProducto).setPertenece(!productosArray.get(posicionProducto).isPertenece());
+                        } else {
+                            productosArray.get(posicionProducto).setPertenece(false);
                         }
-
+                        GlobalComercios.getInstance().getSeccion().setCantProductos(GlobalComercios.getInstance().getSeccion().getCantProductos()-1);
                     } else {
-                        productosArray.get(posicionProducto).setPertenece(!productosArray.get(posicionProducto).isPertenece());
+                        productosArray.get(posicionProducto).setPertenece(true);
+                        GlobalComercios.getInstance().getSeccion().setCantProductos(GlobalComercios.getInstance().getSeccion().getCantProductos()+1);
                     }
-
                     adapter.actualizarDatos();
-
                 } else {
-                    Mensaje("Sucedio un error al intentar actualizar");
-
+                    mensajeToast("Error al actualizar");
                 }
                 progreso.hide();
             }
@@ -411,16 +333,16 @@ public class FragGestProductosSeccion extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                Mensaje("Intentelo mas tarde");
+                mensajeToast("Error, Inténtelo más tarde");
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> parametros = new HashMap<>();
                 parametros.put("idSeccion", String.valueOf(GlobalComercios.getInstance().getSeccion().getId()));
-                parametros.put("idProducto", String.valueOf(idP));
+                parametros.put("idProducto", String.valueOf(p.getId()));
                 parametros.put("idComercio", String.valueOf(GlobalComercios.getInstance().getComercio().getId()));
-                parametros.put("operacion", op);
+                parametros.put("operacion", p.isPertenece() ? "2" : "1");
                 return parametros;
             }
         };

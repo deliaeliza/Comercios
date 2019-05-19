@@ -48,7 +48,7 @@ public class NavAdmin extends AppCompatActivity
         FragHomeAdmin mifrag = new FragHomeAdmin ();
         fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
         fragmentTransaction.commit();
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_Admin);
         navigationView.setNavigationItemSelectedListener(this);
         View header=navigationView.getHeaderView(0);
         TextView txtUsuario = (TextView) header.findViewById(R.id.NavHeaderAdmin_txtViewUsuario);
@@ -73,6 +73,8 @@ public class NavAdmin extends AppCompatActivity
                 case R.layout.frag_gest_comercio_lista:
                 case R.layout.frag_gest_estandar_lista:
                 case R.layout.frag_act_info_admin:
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_Admin);
+                    navigationView.getMenu().getItem(0).setChecked(true);
                     FragHomeAdmin mifrag = new FragHomeAdmin ();
                     fragmentTransaction.replace(R.id.contentAdmin, mifrag, "adminHome");
                     fragmentTransaction.commit();

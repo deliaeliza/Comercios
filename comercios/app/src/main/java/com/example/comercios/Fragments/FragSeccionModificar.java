@@ -95,9 +95,11 @@ public class FragSeccionModificar extends Fragment {
                         break;
                     case R.id.sec_modificar_MaterialButtonProductos:
                         FragmentManager fm = getFragmentManager();
+                        FragSeccionModificar actual = (FragSeccionModificar)fm.findFragmentByTag("comercios_modificar_seccion");
+                        FragGestProductosSeccion  productos = new FragGestProductosSeccion();
                         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        FragGestProductosSeccion  mifrag = new FragGestProductosSeccion ();
-                        fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "Identificador");
+                        fragmentTransaction.hide(actual);
+                        fragmentTransaction.add(R.id.comercio_contenedor, productos, "comercios_productos_seccion");
                         fragmentTransaction.commit();
                         break;
                     default:
@@ -109,9 +111,9 @@ public class FragSeccionModificar extends Fragment {
 
     private boolean validarDatos() {
         String dato = nombre.getText().toString();
-        if (dato.length() > 51)
+        if (dato.length() > 26)
             return false;
-        if (dato.length() > 0 && dato.length() <= 50 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
+        if (dato.length() > 0 && dato.length() <= 25 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()) {
             tilNombre.setError(null);
             return true;
         }
@@ -131,7 +133,7 @@ public class FragSeccionModificar extends Fragment {
                     JSONArray jsonA = response.getJSONArray("respuesta");
                     JSONObject mensajeError = jsonA.getJSONObject(0);
                     if (mensajeError.getString("mensajeError").equalsIgnoreCase("")) {
-                        mensajeToast("Exito: Nombre actualizado");
+                        mensajeToast("Nombre actualizado");
                         GlobalComercios.getInstance().getSeccion().setNombre(dato);
                     } else {
                         mensajeToast(mensajeError.getString("mensajeError"));
@@ -144,48 +146,11 @@ public class FragSeccionModificar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
-
-    /*private void recuperarSeccion() {
-        //String url = Util.urlWebService + "/seccionRecuperar.php?id=" + GlobalComercios.getInstance().getIdSecModificar();
-        String url = Util.urlWebService + "/seccionRecuperar.php?id=" + 4;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-
-                try {
-                    JSONObject jsonOb = response.getJSONObject("datos");
-                    String mensajeError = jsonOb.getString("mensajeError");
-                    if (mensajeError.equalsIgnoreCase("")) {
-                        JSONObject sec = jsonOb.getJSONObject("seccion");
-                        //if(GlobalComercios.getInstance().getComercio().getId() == sec.getInt("idComercio")) {
-                        seccion = new Seccion(sec.getInt("id"), sec.getString("nombre"));
-                        nombre.setText(seccion.getNombre());
-                        //} else {
-                        //Pasar a lista secciones
-                        //}
-                    } else {
-                        mensajeToast(mensajeError);
-                        remplazoConListaSecciones();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
-            }
-        });
-        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
-    }*/
-
 
     private void eliminarSeccion() {
         String url = Util.urlWebService + "/seccionEliminar.php?";
@@ -194,7 +159,7 @@ public class FragSeccionModificar extends Fragment {
             @Override
             public void onResponse(String response) {
                 if (response.equalsIgnoreCase("")) {
-                    mensajeToast("Exito: Se elimino correctamente");
+                    mensajeToast("Se elimino correctamente");
                     remplazoConListaSecciones();
                 } else {
                     mensajeToast(response);
@@ -203,7 +168,7 @@ public class FragSeccionModificar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, inténtelo más tarde");
             }
         }) {
             @Override
@@ -218,10 +183,16 @@ public class FragSeccionModificar extends Fragment {
     }
 
     private void remplazoConListaSecciones(){
+        GlobalComercios.getInstance().setSeccion(null);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
-        FragSeccionListarComercio  mifrag = new FragSeccionListarComercio ();
-        fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
+        FragMenuInferiorComercio anterior = (FragMenuInferiorComercio) fm.findFragmentByTag("comercios_secciones");
+        FragSeccionListarComercio lista = (FragSeccionListarComercio)fm.findFragmentByTag("comercios_listar_seccion");
+        lista.actualizarSeccion();
+        FragSeccionModificar  actual = (FragSeccionModificar) fm.findFragmentByTag("comercios_modificar_seccion");
+        GlobalComercios.getInstance().setVentanaActual(R.layout.frag_menu_inferior_comercio);
+        fragmentTransaction.show(anterior);
+        fragmentTransaction.remove(actual);
         fragmentTransaction.commit();
     }
 

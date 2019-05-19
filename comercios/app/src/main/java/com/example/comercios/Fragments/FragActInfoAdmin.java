@@ -50,7 +50,7 @@ public class FragActInfoAdmin extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_act_info_admin, container, false);
-        mensajeAB("Actualizar administracion");
+        mensajeAB("Actualizar datos");
         GlobalAdmin.getInstance().setVentanaActual(R.layout.frag_act_info_admin);
         OnclickDelButton(view.findViewById(R.id.fragActInfoAdmin_btnReg));
         email = (TextInputEditText) view.findViewById(R.id.fragActInfoAdmin_edtEmail);

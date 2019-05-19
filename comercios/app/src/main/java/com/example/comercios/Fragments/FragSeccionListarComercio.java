@@ -27,7 +27,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.comercios.Filtros.FiltrosSeccion;
-import com.example.comercios.Filtros.FiltrosUsuarioEstandar;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Modelo.Seccion;
 import com.example.comercios.Modelo.Util;
@@ -54,7 +53,6 @@ public class FragSeccionListarComercio extends Fragment {
     private boolean inicial = true;
     private boolean cargando = false;
     private boolean userScrolled = false;
-    private int posicion = -1;
     private View vistaInferior;
     private ListView listView;
     private SeccionListAdapter adapter;
@@ -70,7 +68,6 @@ public class FragSeccionListarComercio extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mensajeAB("Secciones");
-        //GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_listar_comercio);
         View view =inflater.inflate(R.layout.frag_seccion_listar_comercio, container, false);
         LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
@@ -173,10 +170,13 @@ public class FragSeccionListarComercio extends Fragment {
             public void onClick(View v) {
                 Seccion escogida = secciones.get((int)v.getTag());
                 GlobalComercios.getInstance().setSeccion(escogida);
+                GlobalComercios.getInstance().setPosSeccion((int)v.getTag());
                 FragmentManager fm = getFragmentManager();
+                FragMenuInferiorComercio actual = (FragMenuInferiorComercio) fm.findFragmentByTag("comercios_secciones");
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                FragSeccionModificar  mifrag = new FragSeccionModificar ();
-                fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
+                FragSeccionModificar  seccion = new FragSeccionModificar ();
+                fragmentTransaction.hide(actual);
+                fragmentTransaction.add(R.id.comercio_contenedor, seccion, "comercios_modificar_seccion");
                 fragmentTransaction.commit();
             }// fin del onclick
         });
@@ -248,7 +248,7 @@ public class FragSeccionListarComercio extends Fragment {
         }
         //Fin filtros
         //Limite despues de los filtros
-        query += " ORDER BY s.nombre LIMIT " + TAM_PAGINA;
+        query += " ORDER BY s.id LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/seccionesObtener.php?query=" + query;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -277,11 +277,6 @@ public class FragSeccionListarComercio extends Fragment {
                             listView.setAdapter(adapter);
                             inicial = false;
                         } else {
-                            /*try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }*/
                             Message msg = manejador.obtainMessage(1);
                             manejador.sendMessage(msg);
                         }
@@ -295,12 +290,25 @@ public class FragSeccionListarComercio extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("Error, intentelo más tarde");
+                mensajeToast("Error, inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
+    public void actualizarSeccion(){
+        if(GlobalComercios.getInstance().getPosSeccion() != -1){
+            if(GlobalComercios.getInstance().getSeccion() == null){
+                secciones.remove(GlobalComercios.getInstance().getPosSeccion());
+                adapter.actualizarDatos();
+            } else {
+                secciones.set(GlobalComercios.getInstance().getPosSeccion(), GlobalComercios.getInstance().getSeccion());
+                adapter.actualizarDatos();
+            }
+            GlobalComercios.getInstance().setPosSeccion(-1);
+            GlobalComercios.getInstance().setSeccion(null);
+        }
 
-    public void mensajeToast(String msg){ Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
+    }
+    private void mensajeToast(String msg){ Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();};
     private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 }

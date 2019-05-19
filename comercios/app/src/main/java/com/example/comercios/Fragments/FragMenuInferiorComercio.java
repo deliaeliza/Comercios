@@ -28,6 +28,7 @@ public class FragMenuInferiorComercio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.frag_menu_inferior_comercio, container, false);
+        GlobalComercios.getInstance().setVentanaActual(R.layout.frag_menu_inferior_comercio);
         menu = (BottomNavigationView) view.findViewById(R.id.comercio_menu_inferior);
 
         menu.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -37,30 +38,16 @@ public class FragMenuInferiorComercio extends Fragment {
             }
         });
         if(GlobalComercios.getInstance().getOpcActual() == R.string.catalogo_lbl){
-            if(GlobalComercios.getInstance().isAgregar()) {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                FragSeccionResgistrar mifrag = new FragSeccionResgistrar();
-                fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
-                fragmentTransaction.commit();
-                GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_resgistrar);
-            } else {
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                FragSeccionListarComercio mifrag = new FragSeccionListarComercio();
-                fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
-                fragmentTransaction.commit();
-                GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_listar_comercio);
-                GlobalComercios.getInstance().setAgregar(true);
-                menu.setSelectedItemId(R.id.menuIferiorComercio_modificar);
-            }
-
-
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragSeccionResgistrar mifrag = new FragSeccionResgistrar();
+            fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "comercios_registrar_seccion");
+            fragmentTransaction.commit();
         } else {
             FragmentManager fm = getFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragProductoResgistrar  mifrag = new FragProductoResgistrar ();
-            fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferiorRegProductos");
+            fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "comercios_registrar_producto");
             fragmentTransaction.commit();
             GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_resgistrar);
         }
@@ -68,52 +55,49 @@ public class FragMenuInferiorComercio extends Fragment {
         return view;
     }
 
-    private boolean definirVista(MenuItem item){
+    private boolean definirVista(MenuItem itemEscogido){
         int opcionActual = GlobalComercios.getInstance().getOpcActual();
         switch (opcionActual){
             case R.string.catalogo_lbl:
-                if(item.getItemId() == R.id.menuIferiorComercio_agregar){
+                if(itemEscogido.getItemId() == R.id.menuIferiorComercio_agregar){
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     FragSeccionResgistrar  mifrag = new FragSeccionResgistrar ();
-                    fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
+                    fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "comercios_registrar_seccion");
                     fragmentTransaction.commit();
-                    GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_resgistrar);
                     return true;
-                } else if (item.getItemId() == R.id.menuIferiorComercio_modificar) {
+                } else if (itemEscogido.getItemId() == R.id.menuIferiorComercio_modificar) {
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    FragSeccionListarComercio  mifrag = new FragSeccionListarComercio ();
-                    fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
+                    FragSeccionListarComercio mifrag = new FragSeccionListarComercio ();
+                    fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "comercios_listar_seccion");
                     fragmentTransaction.commit();
-                    GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_listar_comercio);
-                    GlobalComercios.getInstance().setAgregar(true);
                     return true;
                 }
                 return false;
             case R.string.productos_lbl:
-                if(item.getItemId() == R.id.menuIferiorComercio_agregar){
+                if(itemEscogido.getItemId() == R.id.menuIferiorComercio_agregar){
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    FragProductoResgistrar  mifrag = new FragProductoResgistrar ();
-                    fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuIferior");
+                    FragProductoResgistrar  mifrag = new FragProductoResgistrar();
+                    fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "comercios_registrar_producto");
                     fragmentTransaction.commit();
-                    GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_resgistrar);
                     return true;
-                } else if (item.getItemId() == R.id.menuIferiorComercio_modificar) {
-                    //No forma parte de l primera entrega
-                    //FragmentManager fm = getFragmentManager();
-                    //FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    //FragProductoListarComercio  mifrag = new FragProductoListarComercio ();
-                    //FragActInfoProductos mifrag = new FragActInfoProductos();
-                    //fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "IdMenuInferior");
-                    //fragmentTransaction.commit();
-
+                } else if (itemEscogido.getItemId() == R.id.menuIferiorComercio_modificar) {
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                    FragProductoListarComercio  mifrag = new FragProductoListarComercio ();
+                    //fragActInfoProductos mifrag = new fragActInfoProductos();
+                    fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "comercios_listar_producto");
+                    fragmentTransaction.commit();
                     return false;
                 }
                 return false;
             default:
                 return false;
         }
+    }
+    public void actualizarProducto(){
+
     }
 }

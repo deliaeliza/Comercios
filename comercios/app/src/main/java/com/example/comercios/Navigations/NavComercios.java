@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoComercio;
-import com.example.comercios.Fragments.FragHomeAdmin;
+import com.example.comercios.Fragments.FragGestProductosSeccion;
 import com.example.comercios.Fragments.FragHomeComercio;
 import com.example.comercios.Fragments.FragMenuInferiorComercio;
 import com.example.comercios.Fragments.FragSeccionListarComercio;
-import com.example.comercios.Global.GlobalAdmin;
+import com.example.comercios.Fragments.FragSeccionModificar;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Login;
 import com.example.comercios.R;
@@ -45,10 +45,10 @@ public class NavComercios extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         FragHomeComercio  mifrag2 = new FragHomeComercio();
-        fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "Home");
+        fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "comercios_home");
         fragmentTransaction.commit();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view2);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_comercios);
         navigationView.setNavigationItemSelectedListener(this);
         View header=navigationView.getHeaderView(0);
         TextView txtUsuario = (TextView) header.findViewById(R.id.NavHeaderComercios_txtViewUsuario);
@@ -63,25 +63,37 @@ public class NavComercios extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-
-            int ventanaActual = GlobalComercios.getInstance().getVentanaActual();
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            switch (ventanaActual) {
-                case R.layout.frag_seccion_modificar:
-                    GlobalComercios.getInstance().setAgregar(false);
-                    FragMenuInferiorComercio mifrag2 = new FragMenuInferiorComercio();
-                    fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "SECLC");
+            switch (GlobalComercios.getInstance().getVentanaActual()) {
+                case R.layout.frag_gest_productos_seccion:
+                    FragSeccionModificar anterior = (FragSeccionModificar)fm.findFragmentByTag("comercios_modificar_seccion");
+                    FragGestProductosSeccion actual = (FragGestProductosSeccion) fm.findFragmentByTag("comercios_productos_seccion");
+                    fragmentTransaction.show(anterior);
+                    fragmentTransaction.remove(actual);
                     fragmentTransaction.commit();
+                    GlobalComercios.getInstance().setVentanaActual(R.layout.frag_seccion_modificar);
+                    mensajeAB("Modificar Sección");
                     break;
-                case R.layout.frag_seccion_listar_comercio:
-                case R.layout.frag_seccion_resgistrar:
+                case R.layout.frag_seccion_modificar:
+                    FragMenuInferiorComercio anterior2 = (FragMenuInferiorComercio)fm.findFragmentByTag("comercios_secciones");
+                    FragSeccionListarComercio lista = (FragSeccionListarComercio)fm.findFragmentByTag("comercios_listar_seccion");
+                    lista.actualizarSeccion();
+                    FragSeccionModificar actual2 = (FragSeccionModificar)fm.findFragmentByTag("comercios_modificar_seccion");
+                    fragmentTransaction.show(anterior2);
+                    fragmentTransaction.remove(actual2);
+                    fragmentTransaction.commit();
+                    GlobalComercios.getInstance().setVentanaActual(R.layout.frag_menu_inferior_comercio);
+                    mensajeAB("Secciones");
+                    break;
+                case R.layout.frag_menu_inferior_comercio:
                 case R.layout.frag_home_comercio:
                 case R.layout.frag_act_info_comercio:
                 case R.layout.frag_acerca_de:
-                case R.layout.frag_producto_resgistrar:
-                    FragHomeComercio  mifrag3 = new FragHomeComercio();
-                    fragmentTransaction.replace(R.id.comercio_contenedor, mifrag3, "Home");
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_comercios);
+                    navigationView.getMenu().getItem(0).setChecked(true);
+                    FragHomeComercio  home = new FragHomeComercio();
+                    fragmentTransaction.replace(R.id.comercio_contenedor, home, "comercios_home");
                     fragmentTransaction.commit();
                     break;
                 default:
@@ -124,30 +136,30 @@ public class NavComercios extends AppCompatActivity
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragHomeComercio  mifrag2 = new FragHomeComercio();
-            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "Home");
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag2, "comercios_home");
             fragmentTransaction.commit();
 
         } else if (id == R.id.navComercios_catalogo) {
             GlobalComercios.getInstance().setOpcActual(R.string.catalogo_lbl);
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragMenuInferiorComercio  mifrag = new FragMenuInferiorComercio();
-            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
+            FragMenuInferiorComercio mifrag = new FragMenuInferiorComercio();
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "comercios_secciones");
             fragmentTransaction.commit();
 
         } else if(id == R.id.navComercios_productos){
             GlobalComercios.getInstance().setOpcActual(R.string.productos_lbl); //En el fragment pregunta cual es.
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
-            FragMenuInferiorComercio  mifrag = new FragMenuInferiorComercio();
-            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
+            FragMenuInferiorComercio mifrag = new FragMenuInferiorComercio();
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "comercios_productos");
             fragmentTransaction.commit();
 
         }else if (id == R.id.navComercios_cuenta) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragActInfoComercio mifrag = new FragActInfoComercio();
-            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "id");
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "comercios_cuenta");
             fragmentTransaction.commit();
 
         } else if (id == R.id.navComercios_cerrar) {
@@ -158,7 +170,7 @@ public class NavComercios extends AppCompatActivity
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fm.beginTransaction();
             FragAcercaDe mifrag = new FragAcercaDe ();
-            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "gestionarCom");
+            fragmentTransaction.replace(R.id.comercio_contenedor, mifrag, "comercios_acercaDe");
             fragmentTransaction.commit();
         }
 
@@ -166,4 +178,6 @@ public class NavComercios extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void mensajeAB(String msg){getSupportActionBar().setTitle(msg);};
 }

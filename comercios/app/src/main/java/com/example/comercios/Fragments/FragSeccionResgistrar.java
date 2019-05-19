@@ -98,7 +98,7 @@ public class FragSeccionResgistrar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("Intentelo mas tarde" + error.getMessage());
+                mensajeToast("Error, Inténtelo más tarde" + error.getMessage());
             }
         }) {
             @Override
@@ -120,9 +120,9 @@ public class FragSeccionResgistrar extends Fragment {
 
     private boolean validarDatos(){
         String dato = nombreSeccion.getText().toString();
-        if(dato.length() > 51)
+        if(dato.length() > 26)
             return false;
-        if(dato.length() > 0 && dato.length() <= 50 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()){
+        if(dato.length() > 0 && dato.length() <= 25 && Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(dato).find()){
             tilNombre.setError(null);
             return true;
         }
