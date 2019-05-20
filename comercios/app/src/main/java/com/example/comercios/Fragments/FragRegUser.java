@@ -229,7 +229,7 @@ public class FragRegUser extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("Inténtelo más tarde");
+                mensajeToast("Error, inténtelo más tarde");
             }
         }) {
             @Override

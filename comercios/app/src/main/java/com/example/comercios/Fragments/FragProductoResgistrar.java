@@ -301,7 +301,7 @@ public class FragProductoResgistrar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensaje("Inténtelo mas tarde");
+                mensaje("Error, inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -336,7 +336,7 @@ public class FragProductoResgistrar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensaje("Inténtelo mas tarde");
+                mensaje("Error, inténtelo más tarde");
                 progreso.hide();
             }
         }) {

@@ -315,7 +315,7 @@ public class FragProductoListarComercio extends Fragment {
             @Override
             public void onResponse(String response) {
                 if (response.equalsIgnoreCase("")) {
-                    mensajeToast("Se actualizo correctamente");
+                    mensajeToast("Actualización éxitosa");
                     Producto u = productos.get(posicionProd);
                     u.setEstado(!u.isEstado());
                     productos.set(posicionProd, u);
@@ -480,7 +480,7 @@ public class FragProductoListarComercio extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("Error, intentelo más tarde");
+                mensajeToast("Error, inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);

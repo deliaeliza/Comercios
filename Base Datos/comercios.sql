@@ -541,7 +541,7 @@ CALL PAregistrarAdministrador(1, 'adminprueaba16@gmail.com', 'Anonimo16', '123An
 CALL PAregistrarAdministrador(1, 'adminprueaba17@gmail.com', 'Anonimo17', '123Anonimo', 89655896215);
 CALL PAregistrarAdministrador(1, 'adminprueaba18@gmail.com', 'Anonimo18', '123Anonimo', 89658966215);
 CALL PAregistrarAdministrador(1, 'adminprueaba19@gmail.com', 'Anonimo19', '123Anonimo', 89648963215);
-CALL PAregistrarAdministrador(0, 'superusuario@gmail.com', 'root', '123Root', 89586321478);
+CALL PAregistrarAdministrador(0, 'super@gmail.com', 'root', '123Root', 89586321478);
 CALL PAregistrarComercio(2, 'esteesuncorreolargo@gmail.com', 'CorreoLargo', '123Largo', 50985508559, 'Esta es una tienda de ropa', '10.522734','-84.691628','Guapiles', 4);
 
 CALL PAregistrarComercio(2, 'correobaruno@gmail.com', 'Bar Uno', '123Bar', 50985963200, 'Esta es un bar en heredia', '9.997917',' -84.117712','Heredia', 2);

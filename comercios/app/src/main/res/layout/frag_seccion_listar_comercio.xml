@@ -59,5 +59,17 @@
 
         </ListView>
     </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/sec_listar_cargando"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
 
+        <include
+            layout="@layout/vista_inferior_cargando"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

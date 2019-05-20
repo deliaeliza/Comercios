@@ -386,7 +386,7 @@ public class FragGestComercioLista extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
-                        mensajeToast("Se actualizo correctamente");
+                        mensajeToast("Actualización éxitosa");
                         Comercio u = comercios.get(posicion);
                         u.setEstado(!u.isEstado());
                         comercios.set(posicion, u);
@@ -423,7 +423,7 @@ public class FragGestComercioLista extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
-                        mensajeToast("Se actualizo correctamente");
+                        mensajeToast("Actualización éxitosa");
                         Comercio u = comercios.get(posicion);
                         u.setVerificado(!u.isVerificado());
                         comercios.set(posicion, u);

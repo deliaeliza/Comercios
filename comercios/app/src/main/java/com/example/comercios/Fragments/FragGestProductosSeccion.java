@@ -338,7 +338,7 @@ public class FragGestProductosSeccion extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //progreso.hide();
-                mensajeToast("Error, Inténtelo más tarde");
+                mensajeToast("Error, inténtelo más tarde");
             }
         }) {
             @Override
