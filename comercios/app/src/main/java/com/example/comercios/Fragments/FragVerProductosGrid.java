@@ -154,9 +154,9 @@ public class FragVerProductosGrid extends Fragment {
             Timer timer = actual.getTimer();
             Handler handler;
             Runnable update;
+            final ViewPager viewPager = (ViewPager) itemView.findViewById(R.id.item_ver_prod_grid_viewPager);
             if(actual.getImagenes() != null ) {
                 if(actual.getImagenes().size() > 0) {
-                    final ViewPager viewPager = (ViewPager) itemView.findViewById(R.id.item_ver_prod_grid_viewPager);
                     final viewPagerAdapter viewPAdaptador = new viewPagerAdapter(itemView.getContext(), actual.getImagenes());
                     viewPAdaptador.setItem(itemView);
                     viewPager.setAdapter(viewPAdaptador);
@@ -189,7 +189,9 @@ public class FragVerProductosGrid extends Fragment {
                         actual.setTimer(timer);
                     }
                 }
-
+            }else {
+                viewPager.setBackground(getResources().getDrawable(R.drawable.images));
+                viewPager.setAdapter(null);
             }
             materialCardView.setTag(position);
             //actual.setTimer(viewPager);
