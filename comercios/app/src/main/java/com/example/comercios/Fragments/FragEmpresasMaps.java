@@ -299,6 +299,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 if (!opcionEscogida.equalsIgnoreCase("")) {
+                    //mGoogleMap.
                     mGoogleMap.addPolyline(new PolylineOptions()
                             .width(5)
                             .color(Color.BLUE)
