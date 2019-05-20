@@ -17,7 +17,7 @@ import com.example.comercios.Fragments.FragMenuInferiorComercio;
 import com.example.comercios.Fragments.FragProductoListarComercio;
 import com.example.comercios.Fragments.FragSeccionListarComercio;
 import com.example.comercios.Fragments.FragSeccionModificar;
-import com.example.comercios.Fragments.fragActInfoProductos;
+import com.example.comercios.Fragments.FragActInfoProductos;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Login;
 import com.example.comercios.R;
@@ -92,7 +92,7 @@ public class NavComercios extends AppCompatActivity
                     FragMenuInferiorComercio comercProd = (FragMenuInferiorComercio)fm.findFragmentByTag("comercios_productos");
                     FragProductoListarComercio mifrag = (FragProductoListarComercio) fm.findFragmentByTag("comercios_listar_producto");
 
-                    fragActInfoProductos actualFrag = (fragActInfoProductos) fm.findFragmentByTag("comercios_actualizar_producto");
+                    FragActInfoProductos actualFrag = (FragActInfoProductos) fm.findFragmentByTag("comercios_actualizar_producto");
 
                     fragmentTransaction.show(comercProd);
                     fragmentTransaction.remove(actualFrag);
