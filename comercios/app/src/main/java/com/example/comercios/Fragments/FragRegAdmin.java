@@ -178,7 +178,7 @@ public class FragRegAdmin extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                MensajeToast("Inténtelo más tarde");
+                MensajeToast("Error, inténtelo más tarde");
             }
         }) {
             @Override

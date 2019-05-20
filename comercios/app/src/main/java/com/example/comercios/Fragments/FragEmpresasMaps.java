@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -178,7 +179,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         View view = getLayoutInflater().inflate(R.layout.frag_dialogo_maps, null);
         final BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.CustomBottomSheetDialogTheme);
         dialog.setContentView(view);
-
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         //rutas = new ArrayList<>();
         puntosRuta = new ArrayList<>();
         //distanciaGeneral = new HashMap<>();
@@ -446,7 +447,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, Inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -472,7 +473,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, Inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);

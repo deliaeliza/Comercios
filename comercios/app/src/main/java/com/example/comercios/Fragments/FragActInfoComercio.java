@@ -247,7 +247,7 @@ public class FragActInfoComercio extends Fragment {
 
     private void actulizarInformacion() {
         final ProgressDialog progreso = new ProgressDialog(getActivity());
-        progreso.setMessage("Esperando respuesta...");
+        progreso.setMessage("Actualizando...");
         progreso.show();
 
         String url = Util.urlWebService + "/actualizarInfoComercio.php?";
@@ -268,7 +268,7 @@ public class FragActInfoComercio extends Fragment {
                     GlobalComercios.getInstance().getComercio().setLongitud(longitud);
                     GlobalComercios.getInstance().getComercio().setImagen(bitmap);
                 } else {
-                    mensajeToast("Sucedio un error al intentar actualizar");
+                    mensajeToast("Error al actualizar");
                     GlobalComercios.getInstance().setComercio(comercioActual);
                     descripcion.setText(comercioActual.getDescripcion());
                     usuario.setText(comercioActual.getUsuario());
@@ -290,7 +290,7 @@ public class FragActInfoComercio extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
-                mensajeToast("Intentelo mas tarde");
+                mensajeToast("Error, Inténtelo más tarde");
             }
         }) {
             @Override
@@ -359,7 +359,7 @@ public class FragActInfoComercio extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, Inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
@@ -393,15 +393,15 @@ public class FragActInfoComercio extends Fragment {
     public void DialogoNotificarUbicacionComercio(){
         androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
         builder1.setTitle("¿Esta dentro de su negocio?");
-        builder1.setMessage("Para poder obtener correctamente la ubicacion de su negocio, debe de estar dentro de su negocio" +
-                ", la ubicacion es obligatoria para el registro");
+        builder1.setMessage("Para poder obtener correctamente la ubicacin de su negocio, debe de estar dentro de su negocio" +
+                ", la ubicación es obligatoria para el registro");
         builder1.setCancelable(true);
-        builder1.setNegativeButton("Intentar mas tarde",
+        builder1.setNegativeButton("Intentar más tarde",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                     } });
-        builder1.setPositiveButton("Obtener ubicacion",
+        builder1.setPositiveButton("Obtener ubicación",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         locationStart();

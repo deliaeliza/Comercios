@@ -113,18 +113,15 @@ public class FragActInfoUsuario extends Fragment {
                 if (response.trim().equalsIgnoreCase("correcto")) {
                     Mensaje("Actualización éxitosa");
                     //dialogoRegresarMenuPrincial();
-
                 } else {
-
-                    Mensaje("Sucedio un error al intentar actualizar");
-
+                    Mensaje("Error al actualizar");
                 }
             }
         }, new Response.ErrorListener() {
             @Override
 
             public void onErrorResponse(VolleyError error) {
-                Mensaje("Inténtelo más tarde");
+                Mensaje("Error, Inténtelo más tarde");
             }
         }){
             @Override
@@ -187,7 +184,7 @@ public class FragActInfoUsuario extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Mensaje("No se puede conectar " + error.toString());
+                Mensaje("Error, Inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);

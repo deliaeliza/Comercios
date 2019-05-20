@@ -98,7 +98,7 @@ public class FragSeccionResgistrar extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("Error, Inténtelo más tarde" + error.getMessage());
+                mensajeToast("Error, inténtelo más tarde");
             }
         }) {
             @Override

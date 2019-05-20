@@ -67,7 +67,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class fragActInfoProductos extends Fragment {
+public class FragActInfoProductos extends Fragment {
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
     private static final int COD_FOTO = 20;
@@ -90,7 +90,7 @@ public class fragActInfoProductos extends Fragment {
     private String path;//almacena la ruta de la imagen
     File fileImagen;
     private boolean reemImg = false;
-    public fragActInfoProductos() {
+    public FragActInfoProductos() {
         // Required empty public constructor
     }
 
@@ -459,7 +459,7 @@ public class fragActInfoProductos extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, Inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -475,7 +475,7 @@ public class fragActInfoProductos extends Fragment {
                     //GlobalComercios.getInstance().getProducto().setPrecio(Integer.parseInt(precio.getText().toString().trim()));
                     //GlobalComercios.getInstance().getProducto().setDescripcion(desc.getText().toString());
                     //GlobalComercios.getInstance().getProducto().setEstado(true);
-                    mensajeToast("Exito: Se actualizo correctamente");
+                    mensajeToast("Actualización éxitosa");
                 } else {
                     mensajeToast(response);
                     //nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());

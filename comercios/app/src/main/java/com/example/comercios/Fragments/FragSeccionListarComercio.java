@@ -4,6 +4,8 @@ package com.example.comercios.Fragments;
 import android.app.Dialog;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.app.VoiceInteractor;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -49,15 +51,15 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class FragSeccionListarComercio extends Fragment {
-    private final int TAM_PAGINA = 10;
+    //private final int TAM_PAGINA = 10;
 
-    private boolean inicial = true;
-    private boolean cargando = false;
-    private boolean userScrolled = false;
+    //private boolean inicial = true;
+    //private boolean cargando = false;
+    //private boolean userScrolled = false;
     private View vistaInferior;
     private ListView listView;
     private SeccionListAdapter adapter;
-    private Handler manejador;
+    //private Handler manejador;
     private List<Seccion> secciones;
     private Dialog dialog;
     public FragSeccionListarComercio() {
@@ -70,17 +72,18 @@ public class FragSeccionListarComercio extends Fragment {
         // Inflate the layout for this fragment
         mensajeAB("Secciones");
         View view =inflater.inflate(R.layout.frag_seccion_listar_comercio, container, false);
-        LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
-        manejador = new MyHandler();
+        //LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        //manejador = new MyHandler();
         secciones = new ArrayList<Seccion>();
         listView = (ListView) view.findViewById(R.id.sec_listar_listview);
+        vistaInferior = view.findViewById(R.id.sec_listar_cargando);
         DialogoFiltros();
         obtenerMasDatos();
         OnclickDelMaterialButton(view.findViewById(R.id.sec_listar_MaterialButtonFiltrar));
         OnclickDelMaterialButton(view.findViewById(R.id.sec_listar_MaterialButtonTodos));
 
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int currentVisibleItemCount;
             private int currentFirstVisibleItem;
             private int totalItem;
@@ -100,13 +103,13 @@ public class FragSeccionListarComercio extends Fragment {
                 totalItem = totalItemCount;
             }
 
-        });
+        });*/
         return view;
     }
 
 
 
-    private class MyHandler extends Handler {
+    /*private class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg){
             switch (msg.what){
@@ -125,9 +128,9 @@ public class FragSeccionListarComercio extends Fragment {
 
             }
         }
-    }
+    }*/
 
-    private class ThreadMoreData extends Thread {
+    /*private class ThreadMoreData extends Thread {
         @Override
         public  void run(){
             //Agrega la vista inferior
@@ -135,7 +138,7 @@ public class FragSeccionListarComercio extends Fragment {
             //Se buscan mas datos
             obtenerMasDatos();
         }
-    }
+    }*/
 
     private class SeccionListAdapter extends ArrayAdapter<Seccion> {
         public SeccionListAdapter() {
@@ -238,9 +241,10 @@ public class FragSeccionListarComercio extends Fragment {
     };
 
     public void obtenerMasDatos() {
+        vistaInferior.setVisibility(View.VISIBLE);
         //Consultar a la base
-        int idMinimo = (secciones.size() == 0 ? 0 : (secciones.get(secciones.size()-1)).getId());
-        String query = "SELECT s.id, s.nombre, (SELECT COUNT(*) FROM SeccionesProductos se WHERE se.idSeccion = s.id) AS cantidad FROM Secciones s WHERE s.idComercio='"+ GlobalComercios.getInstance().getComercio().getId() +"' AND s.id>'" + idMinimo +"' AND s.nombre <> 'DEFAULT'";
+        //int idMinimo = (secciones.size() == 0 ? 0 : (secciones.get(secciones.size()-1)).getId());
+        String query = "SELECT s.id, s.nombre, (SELECT COUNT(*) FROM SeccionesProductos se WHERE se.idSeccion = s.id) AS cantidad FROM Secciones s WHERE s.idComercio='"+ GlobalComercios.getInstance().getComercio().getId() +"' AND s.nombre <> 'DEFAULT'";// AND s.id>'" + idMinimo +"'";
         //String query = "SELECT s.id, s.nombre, (SELECT COUNT(*) FROM SeccionesProductos se WHERE se.idSeccion = s.id) AS cantidad FROM Secciones s WHERE s.idComercio='4' AND s.id>'" + idMinimo +"' AND s.nombre <> 'DEFAULT'";
         //Agregar fitros
         if(FiltrosSeccion.getInstance().isUsarFiltros()) {
@@ -250,7 +254,8 @@ public class FragSeccionListarComercio extends Fragment {
         }
         //Fin filtros
         //Limite despues de los filtros
-        query += " ORDER BY s.id LIMIT " + TAM_PAGINA;
+        query += " ORDER BY s.id";
+                //" LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/seccionesObtener.php?query=" + query;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -274,13 +279,13 @@ public class FragSeccionListarComercio extends Fragment {
                         if(secciones.size() == 0){
                             mensajeToast("No se encontraron secciones");
                         }
-                        if(inicial){
+                        if(listView.getAdapter() == null){
                             adapter = new SeccionListAdapter();
                             listView.setAdapter(adapter);
-                            inicial = false;
                         } else {
-                            Message msg = manejador.obtainMessage(1);
-                            manejador.sendMessage(msg);
+                            adapter.actualizarDatos();
+                            //Message msg = manejador.obtainMessage(1);
+                            //manejador.sendMessage(msg);
                         }
                     } else {
                         mensajeToast(mensajeError);
@@ -288,10 +293,12 @@ public class FragSeccionListarComercio extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                vistaInferior.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                vistaInferior.setVisibility(View.GONE);
                 mensajeToast("Error, inténtelo más tarde");
             }
         });

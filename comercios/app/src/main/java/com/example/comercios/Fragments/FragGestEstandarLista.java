@@ -446,7 +446,7 @@ public class FragGestEstandarLista extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
-                        mensajeToast("Se actualizó correctamente");
+                        mensajeToast("Actualización éxitosa");
                         UsuarioEstandar u = usuarios.get(posicion);
                         u.setEstado(!u.isEstado());
                         usuarios.set(posicion, u);

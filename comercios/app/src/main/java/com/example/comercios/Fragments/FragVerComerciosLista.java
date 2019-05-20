@@ -80,6 +80,7 @@ public class FragVerComerciosLista extends Fragment {
         //LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         //vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
         vistaInferior = view.findViewById(R.id.frag_ver_comercios_lista_cargando);
+        vistaInferior.setVisibility(View.GONE);
         tabLayout = (TabLayout)view.findViewById(R.id.frag_ver_comercios_lista_tablayout);
         listView = (ListView)view.findViewById(R.id.frag_ver_comercios_lista_listview);
         categorias = new ArrayList();
@@ -271,15 +272,11 @@ public class FragVerComerciosLista extends Fragment {
                     e.printStackTrace();
                 }
                 vistaInferior.setVisibility(View.GONE);
-                progreso.hide();
-                progreso.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mensajeToast("Error, inténtelo más tarde");
-                progreso.hide();
-                progreso.dismiss();
                 vistaInferior.setVisibility(View.GONE);
             }
         });
@@ -301,17 +298,17 @@ public class FragVerComerciosLista extends Fragment {
                     }
                     cargarTabLayout();
                 } catch (JSONException e) {
-                    progreso.hide();
-                    progreso.dismiss();
                     e.printStackTrace();
                 }
+                progreso.hide();
+                progreso.dismiss();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 progreso.hide();
                 progreso.dismiss();
-                mensajeToast("Error, intentelo más tarde");
+                mensajeToast("Error, inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);

@@ -39,7 +39,6 @@ public class FragVerComercio extends Fragment {
     TabLayout tabLayout;
     ConstraintLayout contenedor;
     ArrayList<Seccion> secciones;
-    private int tabAnterior = -1;
 
     public FragVerComercio() {
         // Required empty public constructor
@@ -62,19 +61,12 @@ public class FragVerComercio extends Fragment {
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 if((int)tab.getTag() == -1){
-                    tabAnterior = -1;
                     FragVerComercioInfo mifrag = new FragVerComercioInfo();
                     fragmentTransaction.replace(R.id.frag_ver_comercio_contenedor, mifrag, "vercomercioinfo_usuarioEstandar");
                 } else {
                     GlobalUsuarios.getInstance().setIdSeccion((int) tab.getTag());
-                    //if (tabAnterior != -1) {
-                        //FragVerProductosGrid actual = (FragVerProductosGrid)fm.findFragmentByTag("vercomercioproductos_usuarioEstandar");
-                        //actual.actualizaDatos();
-                    //} else {
-                        FragVerProductosGrid mifrag = new FragVerProductosGrid();
-                        fragmentTransaction.replace(R.id.frag_ver_comercio_contenedor, mifrag, "vercomercioproductos_usuarioEstandar");
-                    //}
-                    //tabAnterior = (int) tab.getTag();
+                    FragVerProductosGrid mifrag = new FragVerProductosGrid();
+                    fragmentTransaction.replace(R.id.frag_ver_comercio_contenedor, mifrag, "vercomercioproductos_usuarioEstandar");
                 }
                 fragmentTransaction.commit();
             }
@@ -123,7 +115,7 @@ public class FragVerComercio extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("Error, intentelo más tarde");
+                mensajeToast("Error, inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
