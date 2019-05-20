@@ -13,6 +13,7 @@ public class GlobalComercios {
     private Comercio comercio = null;
     private Seccion seccion = null;
     private Producto producto = null;
+    private int posActProd;
     private int posSeccion = -1;
     private int opcActual;
     private int imgActual;
@@ -90,4 +91,11 @@ public class GlobalComercios {
         this.posSeccion = posSeccion;
     }
 
+    public int getPosActProd() {
+        return posActProd;
+    }
+
+    public void setPosActProd(int posActProd) {
+        this.posActProd = posActProd;
+    }
 }
