@@ -87,17 +87,14 @@ public class FragMenuInferiorComercio extends Fragment {
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
                     FragProductoListarComercio  mifrag = new FragProductoListarComercio ();
-                    //fragActInfoProductos mifrag = new fragActInfoProductos();
                     fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "comercios_listar_producto");
                     fragmentTransaction.commit();
-                    return false;
+                    return true;
                 }
                 return false;
             default:
                 return false;
         }
     }
-    public void actualizarProducto(){
 
-    }
 }
