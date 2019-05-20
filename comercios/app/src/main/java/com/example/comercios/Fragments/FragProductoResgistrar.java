@@ -106,6 +106,7 @@ public class FragProductoResgistrar extends Fragment {
         //GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_resgistrar);
         View view = inflater.inflate(R.layout.frag_producto_resgistrar, container, false);
         GlobalComercios.getInstance().getImageViews().clear();
+        //GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_resgistrar);
         secciones = new ArrayList<>();
         idSec = new ArrayList<>();
         recuperarCategoriasComercio(GlobalComercios.getInstance().getComercio().getId());

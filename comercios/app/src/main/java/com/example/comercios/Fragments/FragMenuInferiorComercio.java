@@ -49,7 +49,7 @@ public class FragMenuInferiorComercio extends Fragment {
             FragProductoResgistrar  mifrag = new FragProductoResgistrar ();
             fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "comercios_registrar_producto");
             fragmentTransaction.commit();
-            GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_resgistrar);
+            //GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_resgistrar);
         }
 
         return view;

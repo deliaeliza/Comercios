@@ -80,8 +80,8 @@ public class FragProductoListarComercio extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.frag_producto_listar_comercio, container, false);
-        mensajeAB("Productos");
-        GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_producto_listar_comercio);
+        mensajeAB(nombreDefaultPorCategoria(GlobalComercios.getInstance().getComercio().getCategoria()));
+        //GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_producto_listar_comercio);
         progressBar = (ProgressBar) view.findViewById(R.id.fragProdListCom_cargando);
         productos = new ArrayList<>();
         secciones = new ArrayList<>();
@@ -213,16 +213,11 @@ public class FragProductoListarComercio extends Fragment {
                 GlobalComercios.getInstance().setPosActProd(position);
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
-
-                FragProductoListarComercio actualFrag = (FragProductoListarComercio) fm.findFragmentByTag("comercios_listar_producto");
+                FragMenuInferiorComercio actualFrag = (FragMenuInferiorComercio) fm.findFragmentByTag("comercios_productos");
                 fragActInfoProductos mifrag = new fragActInfoProductos();
-
                 fragmentTransaction.hide(actualFrag);
-                fragmentTransaction.add(R.id.menuInferiorComercios_contenido, mifrag, "comercios_actualizar_producto");
-                fragmentTransaction.show(mifrag);
+                fragmentTransaction.add(R.id.comercio_contenedor, mifrag, "comercios_actualizar_producto");
                 fragmentTransaction.commit();
-
-
             }// fin del onclick
         });
     }// fin de OnclickDelMaterialCardView

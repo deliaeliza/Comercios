@@ -14,8 +14,10 @@ import com.example.comercios.Fragments.FragActInfoComercio;
 import com.example.comercios.Fragments.FragGestProductosSeccion;
 import com.example.comercios.Fragments.FragHomeComercio;
 import com.example.comercios.Fragments.FragMenuInferiorComercio;
+import com.example.comercios.Fragments.FragProductoListarComercio;
 import com.example.comercios.Fragments.FragSeccionListarComercio;
 import com.example.comercios.Fragments.FragSeccionModificar;
+import com.example.comercios.Fragments.fragActInfoProductos;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Login;
 import com.example.comercios.R;
@@ -86,9 +88,22 @@ public class NavComercios extends AppCompatActivity
                     GlobalComercios.getInstance().setVentanaActual(R.layout.frag_menu_inferior_comercio);
                     mensajeAB("Secciones");
                     break;
+                case R.layout.frag_act_info_productos:
+                    FragMenuInferiorComercio comercProd = (FragMenuInferiorComercio)fm.findFragmentByTag("comercios_productos");
+                    FragProductoListarComercio mifrag = (FragProductoListarComercio) fm.findFragmentByTag("comercios_listar_producto");
+
+                    fragActInfoProductos actualFrag = (fragActInfoProductos) fm.findFragmentByTag("comercios_actualizar_producto");
+
+                    fragmentTransaction.show(comercProd);
+                    fragmentTransaction.remove(actualFrag);
+                    fragmentTransaction.commit();
+                    GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_listar_comercio);
+                    mensajeAB("Productos");
+                    break;
                 case R.layout.frag_menu_inferior_comercio:
                 case R.layout.frag_home_comercio:
                 case R.layout.frag_act_info_comercio:
+                case R.layout.frag_producto_listar_comercio:
                 case R.layout.frag_acerca_de:
                     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_comercios);
                     navigationView.getMenu().getItem(0).setChecked(true);

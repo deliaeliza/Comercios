@@ -425,9 +425,9 @@ DELIMITER ;
 DELIMITER //
 CREATE PROCEDURE PAborrarProducto(IN PId_Prod INT)
 BEGIN
-	DELETE ProductoImagenes WHERE idProducto = PId_Prod;
-	DELETE SeccionesProductos WHERE idProducto = PId_Prod;
-	DELETE Productos WHERE id = PId_Prod;
+	DELETE FROM ProductoImagenes WHERE idProducto = PId_Prod;
+	DELETE FROM SeccionesProductos WHERE idProducto = PId_Prod;
+	DELETE FROM Productos WHERE id = PId_Prod;
 	COMMIT;
 END;
 //
