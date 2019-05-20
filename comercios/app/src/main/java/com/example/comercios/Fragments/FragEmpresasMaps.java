@@ -462,7 +462,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, Inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
