@@ -1,7 +1,11 @@
 package com.example.comercios;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -68,11 +72,9 @@ public class Registrar extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public void mensajeAB(String msg) {
-        getSupportActionBar().setTitle(msg);
-    }
-
-    public void mensaje(String msg) {
-        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    private void mensajeAB(String msg) {
+        Spannable text = new SpannableString(msg);
+        text.setSpan(new ForegroundColorSpan(Color.WHITE), 0, text.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        getSupportActionBar().setTitle(text);
     }
 }

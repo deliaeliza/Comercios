@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.service.voice.VoiceInteractionService;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,18 +49,18 @@ import java.util.Map;
 
 public class FragGestProductosSeccion extends Fragment {
 
-    private boolean inicial = true;
+    //private boolean inicial = true;
     private View view;
 
-    private boolean cargando = false;
-    private boolean userScrolled = false;
+    //private boolean cargando = false;
+    //private boolean userScrolled = false;
     private View vistaInferior;
     private ListView listView;
-    private Handler manejador;
+    //private Handler manejador;
 
     private ProductosListAdapter adapter;
     private List<Producto> productosArray;
-    private int posicion = -1;
+    //private int posicion = -1;
     private TabLayout tabLayout;
     ImageView imagen;
 
@@ -75,13 +76,15 @@ public class FragGestProductosSeccion extends Fragment {
         view = inflater.inflate(R.layout.frag_gest_productos_seccion, container, false);
         GlobalComercios.getInstance().setVentanaActual(R.layout.frag_gest_productos_seccion);
         listView = (ListView) view.findViewById(R.id.listViewProductosSeccion);
-        manejador = new MyHandler();
+        vistaInferior = view.findViewById(R.id.FGestProductoSec_cargando);
+        //manejador = new MyHandler();
         productosArray = new ArrayList<>();
         tabLayout = (TabLayout) view.findViewById(R.id.FGestProductoSec_radioGroup);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                     productosArray.clear();
+                    listView.setAdapter(null);
                     cargarProductosSeccion();
             }
             @Override
@@ -97,6 +100,7 @@ public class FragGestProductosSeccion extends Fragment {
     }
 
     public void cargarProductosSeccion() {
+        vistaInferior.setVisibility(View.VISIBLE);
         String sql;
         TabLayout.Tab tab = tabLayout.getTabAt(tabLayout.getSelectedTabPosition());
         tab.select();
@@ -146,8 +150,9 @@ public class FragGestProductosSeccion extends Fragment {
                             adapter = new ProductosListAdapter();
                             listView.setAdapter(adapter);
                         } else {
-                            Message msg = manejador.obtainMessage(1);
-                            manejador.sendMessage(msg);
+                            adapter.actualizarDatos();
+                            //Message msg = manejador.obtainMessage(1);
+                            //manejador.sendMessage(msg);
                         }
                         for(int i = 0; i < productosArray.size(); i++){
                             Producto pr = productosArray.get(i);
@@ -161,10 +166,12 @@ public class FragGestProductosSeccion extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                vistaInferior.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                vistaInferior.setVisibility(View.GONE);
                 mensajeToast("Error, inténtelo más tarde");
             }
         });
@@ -238,7 +245,7 @@ public class FragGestProductosSeccion extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.item_gest_producto_MaterialButtonEliminar:
-                        posicion = (int) v.getTag();
+                        int posicion = (int) v.getTag();
                         Producto p = productosArray.get(posicion);
                         actualizarProducto(p,posicion);
                         break;
@@ -251,7 +258,7 @@ public class FragGestProductosSeccion extends Fragment {
     private void mensajeToast(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
-    private class MyHandler extends Handler {
+    /*private class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -269,8 +276,8 @@ public class FragGestProductosSeccion extends Fragment {
                     break;
             }
         }
-    }
-    private class ThreadMoreData extends Thread {
+    }*/
+    /*private class ThreadMoreData extends Thread {
         @Override
         public void run() {
             //Agrega la vista inferior
@@ -278,7 +285,7 @@ public class FragGestProductosSeccion extends Fragment {
             //Se buscan mas datos
             cargarProductosSeccion();
         }
-    }
+    }*/
     private void mensajeAB(String msg) {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
     }
@@ -301,9 +308,9 @@ public class FragGestProductosSeccion extends Fragment {
     }
 
     public void actualizarProducto(final Producto p, final int posicionProducto) {
-        final ProgressDialog progreso = new ProgressDialog(getActivity());
-        progreso.setMessage("Esperando respuesta...");
-        progreso.show();
+        //final ProgressDialog progreso = new ProgressDialog(getActivity());
+        //progreso.setMessage("Actualizando...");
+        //progreso.show();
         String url = Util.urlWebService + "/productoSeccionAdministrar.php?";
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -325,12 +332,12 @@ public class FragGestProductosSeccion extends Fragment {
                 } else {
                     mensajeToast("Error al actualizar");
                 }
-                progreso.hide();
+                //progreso.hide();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progreso.hide();
+                //progreso.hide();
                 mensajeToast("Error, Inténtelo más tarde");
             }
         }) {

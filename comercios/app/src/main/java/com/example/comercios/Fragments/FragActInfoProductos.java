@@ -458,7 +458,7 @@ public class fragActInfoProductos extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, Inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -474,7 +474,7 @@ public class fragActInfoProductos extends Fragment {
                     //GlobalComercios.getInstance().getProducto().setPrecio(Integer.parseInt(precio.getText().toString().trim()));
                     //GlobalComercios.getInstance().getProducto().setDescripcion(desc.getText().toString());
                     //GlobalComercios.getInstance().getProducto().setEstado(true);
-                    mensajeToast("Exito: Se actualizo correctamente");
+                    mensajeToast("Actualización éxitosa");
                 } else {
                     mensajeToast(response);
                     //nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());

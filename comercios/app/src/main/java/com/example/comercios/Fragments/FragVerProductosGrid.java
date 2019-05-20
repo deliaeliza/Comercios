@@ -3,13 +3,17 @@ package com.example.comercios.Fragments;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
@@ -18,6 +22,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.Request;
@@ -27,10 +33,15 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
 import com.example.comercios.Global.GlobalUsuarios;
+import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Producto;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 
 import org.json.JSONArray;
@@ -205,10 +216,7 @@ public class FragVerProductosGrid extends Fragment {
             @Override
             public void onClick(View v) {
                 int position = (int)v.getTag();
-                Producto escogido = productos.get(position);
-                String message = "Elegiste item No.  " + (position)
-                        + ", con nombre  " + escogido.getNombre();
-                mensajeToast(message);
+                dialogoInformacion(productos.get(position));
             }// fin del onclick
         });
     }// fin de OnclickDelMaterialCardView
@@ -309,6 +317,58 @@ public class FragVerProductosGrid extends Fragment {
                 }
             });
             VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
+        }
+    }
+    private void dialogoInformacion(Producto producto) {
+        if((producto.getImagenes() != null && producto.getImagenes().size() > 0) || producto.getDescripcion() != null){
+            View view = getLayoutInflater().inflate(R.layout.dialogo_ver_producto, null);
+            BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.CustomBottomSheetDialogTheme);
+            //dialog.getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+            dialog.setContentView(view);
+            viewPagerAdapter adapterImagenes;
+            ViewPager viewPager = (ViewPager) view.findViewById(R.id.dialogo_ver_producto_viewPager);
+            TextView nombre = (TextView) view.findViewById(R.id.dialogo_ver_producto_nombre);
+            TextView descripcion = (TextView) view.findViewById(R.id.dialogo_ver_producto_descripcion);
+            TextView precio = (TextView) view.findViewById(R.id.dialogo_ver_producto_precio);
+
+            nombre.setText(producto.getNombre());
+
+            if(producto.getImagenes() != null && producto.getImagenes().size() > 0){
+                adapterImagenes = new viewPagerAdapter(dialog.getContext(), producto.getImagenes());
+                viewPager.setAdapter(adapterImagenes);
+                viewPager.setClipToPadding(false);
+                viewPager.setPadding(50, 0, 50, 0);
+                viewPager.setPageMargin(20);
+                //viewPager.setOffscreenPageLimit(3);
+
+            } else {
+                viewPager.setVisibility(View.GONE);
+            }
+            if(producto.getDescripcion() != null){
+                descripcion.setText(producto.getDescripcion());
+                descripcion.setOnTouchListener(new View.OnTouchListener() {
+                    public boolean onTouch(View v, MotionEvent event) {
+                        v.getParent().requestDisallowInterceptTouchEvent(true);
+                        switch (event.getAction() & MotionEvent.ACTION_MASK){
+                            case MotionEvent.ACTION_UP:
+                                v.getParent().requestDisallowInterceptTouchEvent(false);
+                                break;
+                        }
+                        return false;
+                    }
+                });
+                descripcion.setMovementMethod(new ScrollingMovementMethod());
+            } else {
+                descripcion.setVisibility(View.GONE);
+            }
+            if(producto.getPrecio() != -1){
+                precio.setText("₡ " + producto.getPrecio());
+            } else {
+                precio.setVisibility(View.GONE);
+            }
+            dialog.show();
+        } else {
+            mensajeToast("No hay información que mostrar");
         }
     }
 
