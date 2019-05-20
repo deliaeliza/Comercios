@@ -101,14 +101,17 @@ public class FragActInfoProductos extends Fragment {
         mensajeAB("Modificar Producto");
         GlobalComercios.getInstance().setVentanaActual(R.layout.frag_act_info_productos);
         GlobalComercios.getInstance().getImageViews().clear();
+
         secciones = new ArrayList<>();
         idSec = new ArrayList<>();
         viewpager = (ViewPager) view.findViewById(R.id.act_prod_viewPager);
-        viewPagerAdapter = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getImageViews());
+        if(GlobalComercios.getInstance().getProducto().getImagenes() == null)
+            GlobalComercios.getInstance().getProducto().setImagenes(new ArrayList<Bitmap>());
+        viewPagerAdapter = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getProducto().getImagenes());
         viewpager.setAdapter(viewPagerAdapter);
-        viewpager.setOffscreenPageLimit(3);
-        viewpager.setPageMargin(70);
-
+        viewpager.setClipToPadding(false);
+        viewpager.setPadding(40, 0, 40, 0);
+        viewpager.setPageMargin(20);
         tilCategoria = (TextInputLayout) view.findViewById(R.id.act_prod_tilCategorias);
         tilNombre = (TextInputLayout) view.findViewById(R.id.act_prod_tilNombre);
         tilPrecio = (TextInputLayout) view.findViewById(R.id.act_prod_tilPrecio);
@@ -123,17 +126,15 @@ public class FragActInfoProductos extends Fragment {
         //btnModificar = (MaterialButton) view.findViewById(R.id.act_prod_modificar);
         btnEliminar.setVisibility(View.GONE);
         btnCambiar.setVisibility(View.GONE);
-        //recuperarSeccionesComercio(GlobalComercios.getInstance().getComercio().getId());
-        recuperarSeccionesComercio(4);
-        //nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());
-        nombre.setText("Celular");
-        //precio.setText(GlobalComercios.getInstance().getProducto().getPrecio());
-        precio.setText(200 +"");
-        //desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
-        desc.setText("4 RAM, 128GB");
+        recuperarSeccionesComercio(GlobalComercios.getInstance().getComercio().getId());
+        nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());
+        if(GlobalComercios.getInstance().getProducto().getPrecio() != -1)
+            precio.setText(GlobalComercios.getInstance().getProducto().getPrecio());
+        if(GlobalComercios.getInstance().getProducto().getDescripcion() != null)
+            desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
         //Permisos
-        btnAgregar.setEnabled(solicitaPermisosVersionesSuperiores() == true);
-        recuperarImagenes();
+        btnAgregar.setEnabled(solicitaPermisosVersionesSuperiores());
+        //recuperarImagenes();
         OnclickDelMaterialButton(btnAgregar);
         OnclickDelMaterialButton(btnCambiar);
         OnclickDelMaterialButton(btnEliminar);
@@ -535,7 +536,7 @@ public class FragActInfoProductos extends Fragment {
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
     }
-    public void recuperarImagenes(){
+    /*public void recuperarImagenes(){
         //String url = Util.urlWebService + "/usuariosEstandarObtener.php?id='" + GlobalComercios.getInstance().getProducto().getId() + "'";
         final String request = Util.urlWebService + "/productoRecuperarUrls.php?id='" + 9 + "'";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, request, null, new Response.Listener<JSONObject>() {
@@ -561,13 +562,13 @@ public class FragActInfoProductos extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se puede conectar " + error.toString());
+                mensajeToast("Error, inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
-    }
+    }*/
 
-    private void cargarWebServicesImagen(String urlImagen) {
+    /*private void cargarWebServicesImagen(String urlImagen) {
         ImageRequest imagR = new ImageRequest(urlImagen, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
@@ -582,7 +583,7 @@ public class FragActInfoProductos extends Fragment {
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
-    }
+    }*/
 
     //*****************************************Fin Conexion web service*****************************************
     //**********************************************************************************************************

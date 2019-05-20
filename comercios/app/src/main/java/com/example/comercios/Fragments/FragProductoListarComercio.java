@@ -214,7 +214,7 @@ public class FragProductoListarComercio extends Fragment {
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 FragMenuInferiorComercio actualFrag = (FragMenuInferiorComercio) fm.findFragmentByTag("comercios_productos");
-                fragActInfoProductos mifrag = new fragActInfoProductos();
+                FragActInfoProductos mifrag = new FragActInfoProductos();
                 fragmentTransaction.hide(actualFrag);
                 fragmentTransaction.add(R.id.comercio_contenedor, mifrag, "comercios_actualizar_producto");
                 fragmentTransaction.commit();
