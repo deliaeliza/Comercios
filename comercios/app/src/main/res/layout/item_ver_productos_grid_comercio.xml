@@ -90,6 +90,32 @@
                 android:textSize="10sp"
                 app:layout_constraintStart_toEndOf="@+id/item_ver_prod_grid_comercio_txtEstado"
                 app:layout_constraintTop_toBottomOf="@+id/item_ver_prod_grid_comercio_txtProducto" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/item_ver_prod_grid_comercio_btnEliminar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="5dp"
+                app:backgroundTint="@color/error"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/trash_alt"
+                app:iconSize="15dp"
+                android:paddingLeft="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_ver_prod_grid_comercio_txtEstado" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/item_ver_prod_grid_comercio_btnActEstado"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="69dp"
+                android:text="@string/desactivar_lbl"
+                android:textSize="10sp"
+                app:cornerRadius="8dp"
+                app:layout_constraintStart_toEndOf="@+id/item_ver_prod_grid_comercio_btnEliminar"
+                app:layout_constraintTop_toBottomOf="@+id/item_ver_prod_grid_comercio_viewPager" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </FrameLayout>

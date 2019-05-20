@@ -1,6 +1,7 @@
 package com.example.comercios.Fragments;
 
 
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -16,17 +17,21 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Global.GlobalUsuarios;
@@ -36,6 +41,7 @@ import com.example.comercios.Modelo.Seccion;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.tabs.TabLayout;
 
@@ -44,7 +50,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -90,10 +98,12 @@ public class FragProductoListarComercio extends Fragment {
                 idSeccionActual = (int) tab.getTag();
                 obtenerMasDatos();
             }
+
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
             }
+
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
 
@@ -127,26 +137,32 @@ public class FragProductoListarComercio extends Fragment {
             TextView productoTV = (TextView) itemView.findViewById(R.id.item_ver_prod_grid_comercio_txtProducto);
             productoTV.setText(actual.getNombre());
             TextView precioTV = (TextView) itemView.findViewById(R.id.item_ver_prod_grid_comercio_txtPrecio);
-            if(actual.getPrecio() != -1){
+            if (actual.getPrecio() != -1) {
                 precioTV.setText("₡ " + actual.getPrecio());
             } else {
                 precioTV.setVisibility(View.GONE);
             }
 
-            TextView estado = (TextView)  itemView.findViewById(R.id.item_ver_prod_grid_comercio_txtInfoEstado);
-            estado.setText(actual.isEstado()?"Activo":"Desactivo");
+            TextView estado = (TextView) itemView.findViewById(R.id.item_ver_prod_grid_comercio_txtInfoEstado);
+            estado.setText(actual.isEstado() ? "Activo" : "Desactivo");
+            MaterialButton btnEliminar = (MaterialButton) itemView.findViewById(R.id.item_ver_prod_grid_comercio_btnEliminar);
+            MaterialButton btnCambiarEstado = (MaterialButton) itemView.findViewById(R.id.item_ver_prod_grid_comercio_btnActEstado);
+            btnEliminar.setTag(position);
+            btnCambiarEstado.setTag(position);
+            btnCambiarEstado.setText(actual.isEstado() ? "Desactivar" : "Activar");
             MaterialCardView materialCardView = (MaterialCardView) itemView.findViewById(R.id.item_ver_prod_grid_comercio_MaterialCardView);
             Timer timer = actual.getTimer();
             Handler handler;
             Runnable update;
             final ViewPager viewPager = (ViewPager) itemView.findViewById(R.id.item_ver_prod_grid_comercio_viewPager);
-            if(actual.getImagenes() != null ) {
-                if(actual.getImagenes().size() > 0) {
+            if (actual.getImagenes() != null) {
+                if (actual.getImagenes().size() > 0) {
+
                     final viewPagerAdapter viewPAdaptador = new viewPagerAdapter(itemView.getContext(), actual.getImagenes());
                     viewPAdaptador.setItem(itemView);
                     viewPager.setAdapter(viewPAdaptador);
-                    if(actual.getImagenes().size() > 1){
-                        if(timer != null){
+                    if (actual.getImagenes().size() > 1) {
+                        if (timer != null) {
                             timer.cancel();
                             timer.purge();
                         }
@@ -154,6 +170,7 @@ public class FragProductoListarComercio extends Fragment {
                         handler = new Handler();
                         update = new Runnable() {
                             int pagActual = 0;
+
                             public void run() {
                                 if (pagActual == paginas) {
                                     pagActual = 0;
@@ -174,28 +191,31 @@ public class FragProductoListarComercio extends Fragment {
                         actual.setTimer(timer);
                     }
                 }
-            }else {
+            } else {
                 viewPager.setBackground(getResources().getDrawable(R.drawable.images));
                 viewPager.setAdapter(null);
             }
             materialCardView.setTag(position);
+            OnclickDelMaterialButton(btnEliminar);
+            OnclickDelMaterialButton(btnCambiarEstado);
             OnclickDelMaterialCardView(materialCardView);
             return itemView;
         }
     }
 
     public void OnclickDelMaterialCardView(MaterialCardView view) {
-        view.setOnClickListener(new View.OnClickListener(){
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int position = (int)v.getTag();
+                int position = (int) v.getTag();
                 Producto escogido = productos.get(position);
                 GlobalComercios.getInstance().setProducto(escogido);
+                GlobalComercios.getInstance().setPosActProd(position);
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
 
-                FragProductoListarComercio actualFrag = (FragProductoListarComercio)  fm.findFragmentByTag("comercios_listar_producto");
-                fragActInfoProductos  mifrag = new fragActInfoProductos ();
+                FragProductoListarComercio actualFrag = (FragProductoListarComercio) fm.findFragmentByTag("comercios_listar_producto");
+                fragActInfoProductos mifrag = new fragActInfoProductos();
 
                 fragmentTransaction.hide(actualFrag);
                 fragmentTransaction.add(R.id.menuInferiorComercios_contenido, mifrag, "comercios_actualizar_producto");
@@ -207,11 +227,127 @@ public class FragProductoListarComercio extends Fragment {
         });
     }// fin de OnclickDelMaterialCardView
 
+    public void OnclickDelMaterialButton(View view) {
+        MaterialButton miMaterialButton = (MaterialButton) view;
+        miMaterialButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Producto escogido = productos.get((int) v.getTag());
+                switch (v.getId()) {
+                    case R.id.item_ver_prod_grid_comercio_btnActEstado:
+                        DialogSiNO(escogido.isEstado() ? "¿Desactivar producto?" : "¿Activar comercio?",
+                                "Nombre: " + escogido.getNombre(), escogido.isEstado() ? "DESACTIVAR" : "ACTIVAR", (int) v.getTag());
+                        break;
+                    case R.id.item_ver_prod_grid_comercio_btnEliminar:
+                        DialogSiNO("¿Eliminar producto?", "Nombre: " + escogido.getNombre(), "ELIMINAR", (int) v.getTag());
+                        break;
+                }// fin de casos
+            }// fin del onclick
+        });
+    }// fin de OnclickDelMaterialButton
+
+    private void DialogSiNO(String titulo, String contenido, final String accion, final int posicionProd) {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(getActivity());
+        builder1.setTitle(titulo);
+        builder1.setMessage(contenido);
+        builder1.setCancelable(true);
+        builder1.setNegativeButton("Cancelar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                    }
+                });
+        builder1.setPositiveButton("Aceptar",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        switch (accion) {
+                            case "ACTIVAR": //"ACTIVAR" || "DESACTIVAR"
+                            case "DESACTIVAR":
+                                actualizarEstadoProducto(posicionProd);
+                                break;
+                            case "ELIMINAR":
+                                eliminarProducto(posicionProd);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
+
+    ;
+
+    private void eliminarProducto(final int posicionProd) {
+        String url = Util.urlWebService + "/productoEliminar.php?";
+        StringRequest stringRequest= new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.equalsIgnoreCase("")) {
+                    mensajeToast("Se elimino correctamente");
+                    productos.remove(posicionProd);
+                    adapter.actualizarDatos();
+                } else {
+                    mensajeToast(response);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("Error, inténtelo más tarde");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("idComercio", Integer.toString(GlobalComercios.getInstance().getComercio().getId()));
+                parametros.put("id", Integer.toString(productos.get(posicionProd).getId()));
+                return parametros;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
+    }
+
+    private void actualizarEstadoProducto(final int posicionProd) {
+        String url = Util.urlWebService + "/productoActualizarEstado.php?";
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if (response.equalsIgnoreCase("")) {
+                    mensajeToast("Se actualizo correctamente");
+                    Producto u = productos.get(posicionProd);
+                    u.setEstado(!u.isEstado());
+                    productos.set(posicionProd, u);
+                    adapter.actualizarDatos();
+                } else {
+                    mensajeToast(response);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mensajeToast("Error, inténtelo más tarde");
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("estado", "" + (productos.get(posicionProd).isEstado() ? 0 : 1));
+                parametros.put("id", Integer.toString(productos.get(posicionProd).getId()));
+                return parametros;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
+
+    }
+
     private void obtenerMasDatos() {
         //Consultar a la base
-        String query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.estado = '1' AND p.idComercio='"+ GlobalComercios.getInstance().getComercio().getId() +"'";
-        if(idSeccionActual != -1){
-            query = query + " AND sp.idSeccion='"+idSeccionActual+"'";
+        String query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.idComercio='" + GlobalComercios.getInstance().getComercio().getId() + "'";
+        if (idSeccionActual != -1) {
+            query = query + " AND sp.idSeccion='" + idSeccionActual + "'";
         }
         query += " ORDER BY p.nombre";
         String url = Util.urlWebService + "/obtenerProductos.php?query=" + query;
@@ -251,8 +387,8 @@ public class FragProductoListarComercio extends Fragment {
                                 } else {
                                     adapter.actualizarDatos();
                                 }
-                                for(int i = 0; i < productos.size(); i ++){
-                                    if(productos.get(i).getUrlsImagenes() != null && productos.get(i).getUrlsImagenes().length > 0)
+                                for (int i = 0; i < productos.size(); i++) {
+                                    if (productos.get(i).getUrlsImagenes() != null && productos.get(i).getUrlsImagenes().length > 0)
                                         cargarWebServicesImagen(productos.get(i).getUrlsImagenes(), i, productos.get(i).getId());
                                 }
                             }
@@ -263,7 +399,7 @@ public class FragProductoListarComercio extends Fragment {
                             mensajeToast(mensajeError);
                         }
 
-                    } catch(JSONException e){
+                    } catch (JSONException e) {
                         e.printStackTrace();
                     }
                     progressBar.setVisibility(View.GONE);
@@ -272,7 +408,7 @@ public class FragProductoListarComercio extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if(getActivity() != null) {
+                if (getActivity() != null) {
                     mensajeToast("Error, inténtelo más tarde");
                     progressBar.setVisibility(View.GONE);
                 }
@@ -284,7 +420,7 @@ public class FragProductoListarComercio extends Fragment {
     }
 
     private void cargarWebServicesImagen(String[] rutas, final int posicion, final int idProducto) {
-        for(String ruta: rutas) {
+        for (String ruta : rutas) {
             ImageRequest imagR = new ImageRequest(ruta, new Response.Listener<Bitmap>() {
                 @Override
                 public void onResponse(Bitmap response) {
@@ -296,7 +432,7 @@ public class FragProductoListarComercio extends Fragment {
             }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    if(getActivity() != null)
+                    if (getActivity() != null)
                         mensajeToast("Error al cargar la imagen");
                 }
             });
@@ -389,6 +525,10 @@ public class FragProductoListarComercio extends Fragment {
         }
     }
 
-    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
+    private void mensajeAB(String msg) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
+    }
+
+    ;
 
 }

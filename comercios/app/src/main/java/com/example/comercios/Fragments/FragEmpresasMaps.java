@@ -156,12 +156,20 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             locationStart();
         }
 
-        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+        mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                DialogoInformacion(marker);
+                return true;
+            }
+        });
+
+        /*mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
                 DialogoInformacion(marker);
             }
-        });
+        });*/
 
         moverCamara = true;
     }
@@ -415,13 +423,16 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
                                     LatLng lg = new LatLng(usuario.getDouble("latitud"), usuario.getDouble("longitud"));
                                     IconGenerator iconFactory = new IconGenerator(getContext());
-                                    Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+                                    /*Marker marker = mGoogleMap.addMarker(new MarkerOptions()
                                             .position(lg)
                                             .title(usuario.getString("usuario"))
-                                            .snippet(usuario.getString("descripcion")));
+                                            .snippet(usuario.getString("descripcion")));*/
+                                    Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+                                            .position(lg)
+                                            .title(usuario.getString("usuario")));
                                     marker.setTag(Integer.parseInt(Integer.toString(i)));
                                     marker.setIcon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(usuario.getString("usuario"))));
-                                   // marker.setIcon(getBitmapFromView(usuario.getString("usuario")));
+                                    // marker.setIcon(getBitmapFromView(usuario.getString("usuario")));
                                 }
                             }
                         }

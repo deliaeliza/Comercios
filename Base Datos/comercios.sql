@@ -421,6 +421,18 @@ END;
 //
 DELIMITER ;
 
+
+DELIMITER //
+CREATE PROCEDURE PAborrarProducto(IN PId_Prod INT)
+BEGIN
+	DELETE ProductoImagenes WHERE idProducto = PId_Prod;
+	DELETE SeccionesProductos WHERE idProducto = PId_Prod;
+	DELETE Productos WHERE id = PId_Prod;
+	COMMIT;
+END;
+//
+DELIMITER ;
+
 -- Dropeo de usuario, si existe
 
 -- NOTA**** Comentar linea 283 la primera vez que corran el script, descomentar luego de la segunda ejecucion.
