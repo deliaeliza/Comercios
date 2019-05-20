@@ -67,14 +67,14 @@ public class FragVerComercio extends Fragment {
                     fragmentTransaction.replace(R.id.frag_ver_comercio_contenedor, mifrag, "vercomercioinfo_usuarioEstandar");
                 } else {
                     GlobalUsuarios.getInstance().setIdSeccion((int) tab.getTag());
-                    if (tabAnterior != -1) {
-                        FragVerProductosGrid actual = (FragVerProductosGrid)fm.findFragmentByTag("vercomercioproductos_usuarioEstandar");
-                        actual.actualizaDatos();
-                    } else {
+                    //if (tabAnterior != -1) {
+                        //FragVerProductosGrid actual = (FragVerProductosGrid)fm.findFragmentByTag("vercomercioproductos_usuarioEstandar");
+                        //actual.actualizaDatos();
+                    //} else {
                         FragVerProductosGrid mifrag = new FragVerProductosGrid();
                         fragmentTransaction.replace(R.id.frag_ver_comercio_contenedor, mifrag, "vercomercioproductos_usuarioEstandar");
-                    }
-                    tabAnterior = (int) tab.getTag();
+                    //}
+                    //tabAnterior = (int) tab.getTag();
                 }
                 fragmentTransaction.commit();
             }

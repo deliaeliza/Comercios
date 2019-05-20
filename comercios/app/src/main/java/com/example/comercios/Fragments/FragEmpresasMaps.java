@@ -205,6 +205,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                 FragVerComercio mifrag = new FragVerComercio();
                 FragEmpresasMaps fragment = (FragEmpresasMaps) fm.findFragmentByTag("vermapa_usuarioEstandar");
                 dialog.hide();
+                dialog.dismiss();
                 fragmentTransaction.hide(fragment);
                 fragmentTransaction.add(R.id.Usuario_contenedor, mifrag, "comerciover_usuarioEstandar");
                 fragmentTransaction.show(mifrag);
@@ -295,6 +296,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                             .geodesic(true)
                             .addAll(puntosRuta));
                     dialog.hide();
+                    dialog.dismiss();
                 }
             }
         });

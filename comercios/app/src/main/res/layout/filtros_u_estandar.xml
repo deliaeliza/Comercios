@@ -61,8 +61,6 @@
                     android:id="@+id/filtros_comercio_usuario"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="15dp"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
                     android:inputType="text" />
@@ -91,8 +89,6 @@
                     android:id="@+id/filtros_estandar_correo"
                     android:layout_width="220dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginEnd="15dp"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
                     android:inputType="text" />

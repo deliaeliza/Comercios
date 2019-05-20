@@ -49,11 +49,11 @@ import java.util.ArrayList;
  */
 public class FragVerComerciosLista extends Fragment {
 
-    private final int TAM_PAGINA = 10;
-    private boolean userScrolled = false;
-    private boolean cargando = false;
-    private boolean vaciar = false;
-    private Handler manejador;
+    //private final int TAM_PAGINA = 10;
+    //private boolean userScrolled = false;
+    //private boolean cargando = false;
+    //private boolean vaciar = false;
+    //private Handler manejador;
 
     private TabLayout tabLayout;
     private ListView listView;
@@ -77,8 +77,9 @@ public class FragVerComerciosLista extends Fragment {
         View view =inflater.inflate(R.layout.frag_ver_comercios_lista, container, false);
         GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_ver_comercios_lista);
         mensajeAB("Comercios");
-        LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
+        //LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
+        vistaInferior = view.findViewById(R.id.frag_ver_comercios_lista_cargando);
         tabLayout = (TabLayout)view.findViewById(R.id.frag_ver_comercios_lista_tablayout);
         listView = (ListView)view.findViewById(R.id.frag_ver_comercios_lista_listview);
         categorias = new ArrayList();
@@ -86,8 +87,8 @@ public class FragVerComerciosLista extends Fragment {
         progreso = new ProgressDialog(getActivity());
         progreso.setMessage("Cargando...");
         cargarCategorias();
-        manejador = new MyHandler();
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        //manejador = new MyHandler();
+        /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if (scrollState == SCROLL_STATE_FLING || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
@@ -105,20 +106,21 @@ public class FragVerComerciosLista extends Fragment {
                     thread.start();
                 }
             }
-        });
+        });*/
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                vaciar = true;
-                cargando = true;
+                //vaciar = true;
+                //cargando = true;
                 comercios.clear();
-                Thread thread = new ThreadMoreData();
-                thread.start();
+                if(adapter != null)
+                    adapter.actualizarDatos();
+                obtenerMasDatos();
+                //Thread thread = new ThreadMoreData();
+                //thread.start();
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -137,7 +139,6 @@ public class FragVerComerciosLista extends Fragment {
     }*/
 
     private void OnclickDelMaterialCardView(final MaterialCardView miMaterialCardView) {
-
         miMaterialCardView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -157,7 +158,7 @@ public class FragVerComerciosLista extends Fragment {
             }// fin del onclick
         });
     }// fin de OnclickDelMaterialCardView
-    private class MyHandler extends Handler {
+    /*private class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg){
             switch (msg.what){
@@ -176,33 +177,35 @@ public class FragVerComerciosLista extends Fragment {
 
             }
         }
-    }
-    private class ThreadMoreData extends Thread {
+    }*/
+    /*private class ThreadMoreData extends Thread {
         @Override
         public  void run(){
             manejador.sendEmptyMessage(0);
             obtenerMasDatos();
         }
-    }
+    }*/
 
     private void obtenerMasDatos() {
+        vistaInferior.setVisibility(View.VISIBLE);
         //Consultar a la base
-        int idMinimo;
-        if(comercios.size() == 0){
+        //int idMinimo;
+        /*if(comercios.size() == 0){
             idMinimo = 0;
         } else {
             idMinimo = (comercios.get(comercios.size()-1)).getId();
-        }
+        }*/
         String query = "SELECT u.*, c.*, COUNT(ca.calificacion) cantidad, IFNULL(AVG(ca.calificacion), 0) calificacion" +
                 " FROM Comercios c INNER JOIN Usuarios u ON c.idUsuario = u.id" +
-                " LEFT OUTER JOIN Calificaciones ca ON c.idUsuario = ca.idComercio WHERE c.idUsuario>'"+idMinimo+"' AND u.estado='1'";
+                " LEFT OUTER JOIN Calificaciones ca ON c.idUsuario = ca.idComercio WHERE u.estado='1'";// AND c.idUsuario>'"+idMinimo+"'";
         //Agregar fitros
         int idCategoria = (int)tabLayout.getTabAt(tabLayout.getSelectedTabPosition()).getTag();
         if(idCategoria != -1){
             query += " AND c.idCategoria='"+idCategoria+"'";
         }
         //Limite despues de los filtros
-        query += " GROUP BY c.idUsuario ORDER BY u.id LIMIT " + TAM_PAGINA;
+        query += " GROUP BY c.idUsuario ORDER BY u.usuario";
+                //" LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/comerciosListar.php?query=" + query;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -210,7 +213,7 @@ public class FragVerComerciosLista extends Fragment {
             public void onResponse(JSONObject response) {
 
                 try {
-                    if(vaciar)
+                    //if(vaciar)
                         comercios.clear();
                     JSONObject jsonOb = response.getJSONObject("datos");
                     String mensajeError = jsonOb.getString("mensajeError");
@@ -251,8 +254,9 @@ public class FragVerComerciosLista extends Fragment {
                             adapter = new ComercioListAdapter();
                             listView.setAdapter(adapter);
                         } else {
-                            Message msg = manejador.obtainMessage(1);
-                            manejador.sendMessage(msg);
+                            adapter.actualizarDatos();
+                            //Message msg = manejador.obtainMessage(1);
+                            //manejador.sendMessage(msg);
                         }
                         for(int i = 0; i < comercios.size(); i++){
                             Comercio c = comercios.get(i);
@@ -266,6 +270,7 @@ public class FragVerComerciosLista extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                vistaInferior.setVisibility(View.GONE);
                 progreso.hide();
                 progreso.dismiss();
             }
@@ -275,6 +280,7 @@ public class FragVerComerciosLista extends Fragment {
                 mensajeToast("Error, inténtelo más tarde");
                 progreso.hide();
                 progreso.dismiss();
+                vistaInferior.setVisibility(View.GONE);
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -395,17 +401,15 @@ public class FragVerComerciosLista extends Fragment {
         ImageRequest imagR = new ImageRequest(ruta_foto, new Response.Listener<Bitmap>() {
             @Override
             public void onResponse(Bitmap response) {
-                if(posicion < comercios.size()) {
-                    if(idComercio == comercios.get(posicion).getId()) {
-                        comercios.get(posicion).setImagen(response);
-                        adapter.actualizarDatos();
-                    }
+                if(posicion < comercios.size() && idComercio == comercios.get(posicion).getId()) {
+                    comercios.get(posicion).setImagen(response);
+                    adapter.actualizarDatos();
                 }
             }
         }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("error al cargar la imagen");
+                mensajeToast("Error al cargar la imagen");
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);

@@ -50,7 +50,6 @@ public class FragVerProductosGrid extends Fragment {
     /*private final int TAM_PAGINA = 4;
     private boolean cargando = false;
     private boolean userScrolled = false;*/
-    private boolean vaciar = false;
     private View vistaInferior;
     private GridView gridView;
     private ProductoGridAdapter adapter;
@@ -151,45 +150,48 @@ public class FragVerProductosGrid extends Fragment {
             } else {
                 precioTV.setVisibility(View.GONE);
             }
-
-            final ViewPager viewPager = (ViewPager) itemView.findViewById(R.id.item_ver_prod_grid_viewPager);
-            final viewPagerAdapter viewPAdaptador = new viewPagerAdapter(itemView.getContext(), actual.getImagenes());
             MaterialCardView materialCardView = (MaterialCardView) itemView.findViewById(R.id.item_ver_prod_grid_MaterialCardView);
-            viewPAdaptador.setItem(itemView);
-            viewPager.setAdapter(viewPAdaptador);
-            materialCardView.setTag(position);
-
             Timer timer = actual.getTimer();
-            Handler handler = actual.getHandler();
-            Runnable update = actual.getUpdate();
-            if(actual.getImagenes() != null && actual.getImagenes().size() > 1){
-                if(timer != null){
-                    timer.cancel();
-                    timer.purge();
-                }
-                final int paginas = actual.getImagenes().size();
-                handler = new Handler();
-                update = new Runnable() {
-                    int pagActual = 0;
-                    public void run() {
-                        if (pagActual == paginas) {
-                            pagActual = 0;
+            Handler handler;
+            Runnable update;
+            if(actual.getImagenes() != null ) {
+                if(actual.getImagenes().size() > 0) {
+                    final ViewPager viewPager = (ViewPager) itemView.findViewById(R.id.item_ver_prod_grid_viewPager);
+                    final viewPagerAdapter viewPAdaptador = new viewPagerAdapter(itemView.getContext(), actual.getImagenes());
+                    viewPAdaptador.setItem(itemView);
+                    viewPager.setAdapter(viewPAdaptador);
+                    if(actual.getImagenes().size() > 1){
+                        if(timer != null){
+                            timer.cancel();
+                            timer.purge();
                         }
-                        viewPager.setCurrentItem(pagActual++, false);
-                    }
-                };
-                timer = new Timer(); //This will create a new Thread
-                actual.setHandler(handler);
-                actual.setUpdate(update);
+                        final int paginas = actual.getImagenes().size();
+                        handler = new Handler();
+                        update = new Runnable() {
+                            int pagActual = 0;
+                            public void run() {
+                                if (pagActual == paginas) {
+                                    pagActual = 0;
+                                }
+                                viewPager.setCurrentItem(pagActual++, false);
+                            }
+                        };
+                        timer = new Timer(); //This will create a new Thread
+                        actual.setHandler(handler);
+                        actual.setUpdate(update);
 
-                timer.schedule(new TimerTask() { //task to be scheduled
-                    @Override
-                    public void run() {
-                        actual.getHandler().post(actual.getUpdate());
+                        timer.schedule(new TimerTask() { //task to be scheduled
+                            @Override
+                            public void run() {
+                                actual.getHandler().post(actual.getUpdate());
+                            }
+                        }, 500, 3000);
+                        actual.setTimer(timer);
                     }
-                }, 500, 3000);
-                actual.setTimer(timer);
+                }
+
             }
+            materialCardView.setTag(position);
             //actual.setTimer(viewPager);
             OnclickDelMaterialCardView(materialCardView);
             return itemView;
@@ -221,60 +223,69 @@ public class FragVerProductosGrid extends Fragment {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
-                try {
-                    if(vaciar)
-                        productos.clear();
-                    JSONObject jsonOb = response.getJSONObject("datos");
-                    String mensajeError = jsonOb.getString("mensajeError");
-                    if (mensajeError.equalsIgnoreCase("")) {
-                        if (jsonOb.has("productos")) {
-                            JSONArray productosJson = jsonOb.getJSONArray("productos");
-                            for (int i = 0; i < productosJson.length(); i++) {
-                                JSONObject producto = productosJson.getJSONObject(i);
-                                ArrayList<Bitmap> imagenes = new ArrayList();
-                                if (producto.has("imagenes")) {
-                                    JSONArray imagenesSTR = producto.getJSONArray("imagenes");
-                                    for (int j = 0; j < imagenesSTR.length(); j++) {
-                                        imagenes.add(convertirStringToImg(imagenesSTR.getString(j)));
+                if (getActivity() != null) {
+                    try {
+                        JSONObject jsonOb = response.getJSONObject("datos");
+                        String mensajeError = jsonOb.getString("mensajeError");
+                        if (mensajeError.equalsIgnoreCase("")) {
+                            if (jsonOb.has("productos")) {
+                                JSONArray productosJson = jsonOb.getJSONArray("productos");
+                                for (int i = 0; i < productosJson.length(); i++) {
+                                    JSONObject producto = productosJson.getJSONObject(i);
+                                    String[] urlsImagenes = null;
+                                    if (producto.has("urls")) {
+                                        JSONArray urls = producto.getJSONArray("urls");
+                                        urlsImagenes = new String[urls.length()];
+                                        for (int j = 0; j < urls.length(); j++) {
+                                            urlsImagenes[j] = (Util.urlWebService + "/" + urls.getString(j));
+                                        }
                                     }
+                                    productos.add(new Producto(
+                                            producto.getInt("id"),
+                                            producto.getInt("estado") == 1,
+                                            producto.isNull("precio") ? -1 : producto.getInt("precio"),
+                                            producto.getString("nombre"),
+                                            producto.isNull("descripcion") ? null : producto.getString("descripcion"),
+                                            urlsImagenes
+                                    ));
                                 }
-                                productos.add(new Producto(
-                                        producto.getInt("id"),
-                                        producto.getInt("estado") == 1,
-                                        producto.isNull("precio") ? -1 : producto.getInt("precio"),
-                                        producto.getString("nombre"),
-                                        producto.isNull("descripcion") ? null : producto.getString("descripcion"),
-                                        imagenes
-                                ));
+                                if (getActivity() != null && gridView.getAdapter() == null) {
+                                    adapter = new ProductoGridAdapter();
+                                    gridView.setAdapter(adapter);
+                                } else {
+                                    adapter.actualizarDatos();
+                                }
+                                for(int i = 0; i < productos.size(); i ++){
+                                    if(productos.get(i).getUrlsImagenes() != null && productos.get(i).getUrlsImagenes().length > 0)
+                                        cargarWebServicesImagen(productos.get(i).getUrlsImagenes(), i, productos.get(i).getId());
+                                }
                             }
-                            if(gridView.getAdapter() == null){
-                                adapter = new ProductoGridAdapter();
-                                gridView.setAdapter(adapter);
-                            } else {
-                                adapter.actualizarDatos();
+                            if (productos.size() == 0) {
+                                mensajeToast("No hay productos que mostrar");
                             }
+                        } else {
+                            mensajeToast(mensajeError);
                         }
-                        if (productos.size() == 0) {
-                            mensajeToast("No hay productos que mostrar");
-                        }
-                    } else {
-                        mensajeToast(mensajeError);
+
+                    } catch(JSONException e){
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    //cargando = false;
+                    vistaInferior.setVisibility(View.GONE);
                 }
-                //cargando = false;
-                vistaInferior.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //cargando = false;
-                mensajeToast("Error, inténtelo más tarde");
-                vistaInferior.setVisibility(View.GONE);
+                if(getActivity() != null) {
+                    mensajeToast("Error, inténtelo más tarde");
+                    vistaInferior.setVisibility(View.GONE);
+                }
             }
         });
+        VolleySingleton.getIntanciaVolley(getActivity()).getRequestQueue().cancelAll(getActivity());
+        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).getRequestQueue().cancelAll(getActivity().getApplicationContext());
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
 
@@ -283,7 +294,7 @@ public class FragVerProductosGrid extends Fragment {
             ImageRequest imagR = new ImageRequest(ruta, new Response.Listener<Bitmap>() {
                 @Override
                 public void onResponse(Bitmap response) {
-                    if (posicion < productos.size()) {
+                    if (getActivity() != null && posicion < productos.size() && productos.get(posicion).getId() == idProducto) {
                         productos.get(posicion).agregarImagen(response);
                         adapter.actualizarDatos();
                     }
@@ -291,27 +302,21 @@ public class FragVerProductosGrid extends Fragment {
             }, 0, 0, ImageView.ScaleType.CENTER, null, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    mensajeToast("Error al cargar la imagen");
+                    if(getActivity() != null)
+                        mensajeToast("Error al cargar la imagen");
                 }
             });
             VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(imagR);
         }
     }
 
-    private Bitmap convertirStringToImg(String imgCodificada) {
+    /*private Bitmap convertirStringToImg(String imgCodificada) {
         byte[] stringDecodificado = Base64.decode(imgCodificada, Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(stringDecodificado, 0, stringDecodificado.length);
         return decodedByte;
-    }
+    }*/
 
     public void mensajeToast(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     };
-    public void actualizaDatos(){
-        productos.clear();
-        adapter.actualizarDatos();
-        gridView.setAdapter(null);
-        vaciar = true;
-        obtenerMasDatos();
-    }
 }

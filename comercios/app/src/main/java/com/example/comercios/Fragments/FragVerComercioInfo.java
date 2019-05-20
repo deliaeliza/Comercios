@@ -108,7 +108,6 @@ public class FragVerComercioInfo extends Fragment {
                         String[] to = { GlobalUsuarios.getInstance().getComercio().getCorreo() };
                         i.putExtra(Intent.EXTRA_EMAIL, to);
                         i.setType("message/rfc822");
-                        GlobalUsuarios.getInstance().setCerrarDialogo(true);
                         startActivity(Intent.createChooser(i, "Email"));
                         break;
                     case R.id.frag_ver_comercio_info_telefono_MaterialCardView:
@@ -206,7 +205,6 @@ public class FragVerComercioInfo extends Fragment {
             if(!solicitaPermisosVersionesSuperioresLlamar())
                 return;
         }
-        GlobalUsuarios.getInstance().setCerrarDialogo(true);
         startActivity(i);
     };
     private void mensajeToast(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
@@ -266,7 +264,6 @@ public class FragVerComercioInfo extends Fragment {
                     intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                     Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
                     intent.setData(uri);
-                    //GlobalUsuarios.getInstance().setCerrarDialogo(true);
                     startActivity(intent);
                 } else {
                     Toast.makeText(getActivity(), "Los permisos no fueron aceptados", Toast.LENGTH_SHORT).show();

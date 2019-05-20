@@ -52,13 +52,13 @@ import androidx.fragment.app.Fragment;
 
 public class FragGestComercioLista extends Fragment {
 
-    private final int TAM_PAGINA = 10;
-    private boolean cargando = false;
-    private boolean userScrolled = false;
+    //private final int TAM_PAGINA = 10;
+    //private boolean cargando = false;
+    //private boolean userScrolled = false;
     private View vistaInferior;
     private ListView listView;
     private ComercioListAdapter adapter;
-    private Handler manejador;
+    //private Handler manejador;
     private List<Comercio> comercios;
     private int posicion = -1;
     public FragGestComercioLista() {
@@ -72,15 +72,17 @@ public class FragGestComercioLista extends Fragment {
         mensajeAB("Gestionar comercios");
         GlobalAdmin.getInstance().setVentanaActual(R.layout.frag_gest_comercio_lista);
         View view =inflater.inflate(R.layout.frag_gest_comercio_lista, container, false);
-        LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
-        manejador = new MyHandler();
+        //LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        vistaInferior = view.findViewById(R.id.gest_comercio_cargando);
+
+        //vistaInferior = li.inflate(R.layout.vista_inferior_cargando, null);
+        //manejador = new MyHandler();
         comercios = new ArrayList<Comercio>();
-        listView = (ListView) view.findViewById(R.id.gest_productos_listview);
+        listView = (ListView) view.findViewById(R.id.gest_comercio_listview);
         obtenerMasDatos();
         OnclickDelMaterialButton(view.findViewById(R.id.gest_comercio_MaterialButtonFiltrar));
         OnclickDelMaterialButton(view.findViewById(R.id.gest_comercio_MaterialButtonTodos));
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int currentVisibleItemCount;
             private int currentFirstVisibleItem;
             private int totalItem;
@@ -100,11 +102,11 @@ public class FragGestComercioLista extends Fragment {
                 currentVisibleItemCount = visibleItemCount;
                 totalItem = totalItemCount;
             }
-        });
+        });*/
         return view;
     }
 
-    private class MyHandler extends Handler {
+    /*private class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg){
             switch (msg.what){
@@ -123,9 +125,9 @@ public class FragGestComercioLista extends Fragment {
 
             }
         }
-    }
+    }*/
 
-    private class ThreadMoreData extends Thread {
+    /*private class ThreadMoreData extends Thread {
         @Override
         public  void run(){
             //Agrega la vista inferior
@@ -133,7 +135,7 @@ public class FragGestComercioLista extends Fragment {
             //Se buscan mas datos
             obtenerMasDatos();
         }
-    }
+    }*/
 
     private class ComercioListAdapter extends ArrayAdapter<Comercio> {
         public ComercioListAdapter() {
@@ -288,17 +290,19 @@ public class FragGestComercioLista extends Fragment {
     };
 
     private void obtenerMasDatos() {
+        vistaInferior.setVisibility(View.VISIBLE);
         //Consultar a la base
-        int idMinimo;
-        if(comercios.size() == 0){
+        //int idMinimo;
+        /*if(comercios.size() == 0){
             idMinimo = 0;
         } else {
             idMinimo = (comercios.get(comercios.size()-1)).getId();
-        }
-        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, c.urlImagen, ct.nombre, c.verificado  FROM Usuarios u, Comercios c, Categorias ct WHERE u.id = c.idUsuario AND c.idCategoria = ct.id AND u.id > '" + idMinimo + "'";
+        }*/
+        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, c.urlImagen, ct.nombre, c.verificado  FROM Usuarios u, Comercios c, Categorias ct WHERE u.id = c.idUsuario AND c.idCategoria = ct.id";// AND u.id > '" + idMinimo + "'";
         //Agregar fitros
         //Limite despues de los filtros
-        query += " ORDER BY u.id LIMIT " + TAM_PAGINA;
+        query += " ORDER BY u.usuario ";
+                //"LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/comerciosObtener.php?query=" + query;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -331,8 +335,9 @@ public class FragGestComercioLista extends Fragment {
                             adapter = new ComercioListAdapter();;
                             listView.setAdapter(adapter);
                         } else {
-                            Message msg = manejador.obtainMessage(1);
-                            manejador.sendMessage(msg);
+                            adapter.actualizarDatos();
+                            //Message msg = manejador.obtainMessage(1);
+                            //manejador.sendMessage(msg);
                         }
                         for(int i = 0; i < comercios.size(); i++){
                             Comercio c = comercios.get(i);
@@ -346,11 +351,13 @@ public class FragGestComercioLista extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                vistaInferior.setVisibility(View.GONE);
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 mensajeToast("Error, inténtelo más tarde");
+                vistaInferior.setVisibility(View.GONE);
             }
         });
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -379,7 +386,7 @@ public class FragGestComercioLista extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
-                        mensajeToast("Exito: Se actualizo correctamente");
+                        mensajeToast("Se actualizo correctamente");
                         Comercio u = comercios.get(posicion);
                         u.setEstado(!u.isEstado());
                         comercios.set(posicion, u);
@@ -393,7 +400,7 @@ public class FragGestComercioLista extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    mensajeToast("No se puede conectar " + error.toString());
+                    mensajeToast("Error, inténtelo más tarde");
                 }
             }) {
                 @Override
@@ -416,7 +423,7 @@ public class FragGestComercioLista extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
-                        mensajeToast("Exito: Se actualizo correctamente");
+                        mensajeToast("Se actualizo correctamente");
                         Comercio u = comercios.get(posicion);
                         u.setVerificado(!u.isVerificado());
                         comercios.set(posicion, u);
@@ -430,7 +437,7 @@ public class FragGestComercioLista extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    mensajeToast("No se puede conectar " + error.toString());
+                    mensajeToast("Error, inténtelo más tarde");
                 }
             }) {
                 @Override
@@ -453,7 +460,7 @@ public class FragGestComercioLista extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
-                        mensajeToast("Exito: Se elimino correctamente");
+                        mensajeToast("Se elimino correctamente");
                         comercios.remove(posicion);
                         adapter.actualizarDatos();
                         //Enviar correo al usuario
@@ -464,7 +471,7 @@ public class FragGestComercioLista extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    mensajeToast("No se puede conectar " + error.toString());
+                    mensajeToast("Error, inténtelo más tarde");
                 }
             }) {
                 @Override

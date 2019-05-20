@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -57,16 +58,16 @@ import java.util.Map;
  * A simple {@link Fragment} subclass.
  */
 public class FragGestEstandarLista extends Fragment {
-    private final int TAM_PAGINA = 10;
+    //private final int TAM_PAGINA = 10;
 
-    private boolean inicial = true;
-    private boolean cargando = false;
-    private boolean userScrolled = false;
+    //private boolean inicial = true;
+    //private boolean cargando = false;
+    //private boolean userScrolled = false;
     private int posicion = -1;
     private View vistaInferior;
     private ListView listView;
     private EstandarListAdapter adapter;
-    private Handler manejador;
+    //private Handler manejador;
     private List<UsuarioEstandar> usuarios;
     private Dialog dialog;
     public FragGestEstandarLista() {
@@ -80,16 +81,16 @@ public class FragGestEstandarLista extends Fragment {
         mensajeAB("Gestionar usuarios");
         GlobalAdmin.getInstance().setVentanaActual(R.layout.frag_gest_estandar_lista);
         View view =inflater.inflate(R.layout.frag_gest_estandar_lista, container, false);
-        LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        //LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = view.findViewById(R.id.fragGestEstandar_carganfo);
-        manejador = new MyHandler();
+        //manejador = new MyHandler();
         usuarios = new ArrayList<UsuarioEstandar>();
         listView = (ListView) view.findViewById(R.id.gest_estandar_listview);
         DialogoFiltros();
         obtenerMasDatos();
         OnclickDelMaterialButton(view.findViewById(R.id.gest_estandar_MaterialButtonFiltrar));
         OnclickDelMaterialButton(view.findViewById(R.id.gest_estandar_MaterialButtonTodos));
-        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+        /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 int first = view.getFirstVisiblePosition();
@@ -113,9 +114,9 @@ public class FragGestEstandarLista extends Fragment {
                     obtenerMasDatos();
                 }
             }
-        });
+        });*/
 
-        listView.setOnTouchListener(new View.OnTouchListener() {
+        /*listView.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -134,7 +135,7 @@ public class FragGestEstandarLista extends Fragment {
                 }
                 return false;
             }
-        });
+        });*/
         /*listView.setOnScrollListener(new AbsListView.OnScrollListener() {
             private int currentVisibleItemCount;
             private int currentFirstVisibleItem;
@@ -161,7 +162,7 @@ public class FragGestEstandarLista extends Fragment {
         return view;
     }
 
-    private class MyHandler extends Handler {
+    /*private class MyHandler extends Handler {
         @Override
         public void handleMessage(Message msg){
             switch (msg.what){
@@ -180,9 +181,9 @@ public class FragGestEstandarLista extends Fragment {
 
             }
         }
-    }
+    }*/
 
-    private class ThreadMoreData extends Thread {
+    /*private class ThreadMoreData extends Thread {
         @Override
         public  void run(){
             //Agrega la vista inferior
@@ -192,7 +193,7 @@ public class FragGestEstandarLista extends Fragment {
 
 
         }
-    }
+    }*/
 
     private class EstandarListAdapter extends ArrayAdapter<UsuarioEstandar> {
         public EstandarListAdapter() {
@@ -296,6 +297,7 @@ public class FragGestEstandarLista extends Fragment {
         dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.filtros_u_estandar);
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         MaterialCardView limpiar = (MaterialCardView) dialog.findViewById(R.id.filtros_estandar_MaterialCardViewLimpiar);
         MaterialCardView buscar = (MaterialCardView) dialog.findViewById(R.id.filtros_estandar_MaterialCardViewBuscar);
         MaterialCardView cancelar = (MaterialCardView) dialog.findViewById(R.id.filtros_estandar_MaterialCardViewCancelar);
@@ -358,8 +360,8 @@ public class FragGestEstandarLista extends Fragment {
     private void obtenerMasDatos() {
         vistaInferior.setVisibility(View.VISIBLE);
         //Consultar a la base
-        int idMinimo = (usuarios.size() == 0 ? 0 : (usuarios.get(usuarios.size()-1)).getId());
-        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, ue.fechaNac, TIMESTAMPDIFF(YEAR, ue.fechaNac, CURDATE()) as edad FROM Usuarios u, UsuariosEstandar ue WHERE u.id = ue.idUsuario AND u.id > '" + idMinimo + "'";
+        //int idMinimo = (usuarios.size() == 0 ? 0 : (usuarios.get(usuarios.size()-1)).getId());
+        String query = "SELECT u.id, u.tipo, u.correo, u.usuario, u.estado, ue.fechaNac, TIMESTAMPDIFF(YEAR, ue.fechaNac, CURDATE()) as edad FROM Usuarios u, UsuariosEstandar ue WHERE u.id = ue.idUsuario"; // AND u.id > '" + idMinimo + "'";
         //Agregar fitros
         if(FiltrosUsuarioEstandar.getInstance().isUsarFiltros()) {
             if (!FiltrosUsuarioEstandar.getInstance().getUsuario().equals("")) {
@@ -380,7 +382,8 @@ public class FragGestEstandarLista extends Fragment {
         }
         //Fin filtros
         //Limite despues de los filtros
-        query += " ORDER BY u.id LIMIT " + TAM_PAGINA;
+        query += " ORDER BY u.usuario";
+                //" LIMIT " + TAM_PAGINA;
         String url = Util.urlWebService + "/usuariosEstandarObtener.php?query=" + query;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -409,23 +412,12 @@ public class FragGestEstandarLista extends Fragment {
                         if(usuarios.size() == 0){
                             mensajeToast("No se encontraron usuarios");
                         }
-                        if(inicial){
+                        if(listView.getAdapter() == null){
                             adapter = new EstandarListAdapter();
                             listView.setAdapter(adapter);
-                            inicial = false;
                         } else {
-                            /*try {
-                                Thread.sleep(2000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }*/
-                            //Message msg = manejador.obtainMessage(1);
-                            //manejador.sendMessage(msg);
-
                             adapter.actualizarDatos();
-                            //listView.removeFooterView(vistaInferior);
-
-                            cargando = false;
+                            //cargando = false;
                         }
                     } else {
                         mensajeToast(mensajeError);
@@ -440,7 +432,7 @@ public class FragGestEstandarLista extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("Error, intentelo más tarde");
+                mensajeToast("Error, inténtelo más tarde");
                 vistaInferior.setVisibility(View.GONE);
             }
         });
@@ -454,13 +446,12 @@ public class FragGestEstandarLista extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
-                        mensajeToast("Exito: Se actualizo correctamente");
+                        mensajeToast("Se actualizó correctamente");
                         UsuarioEstandar u = usuarios.get(posicion);
                         u.setEstado(!u.isEstado());
                         usuarios.set(posicion, u);
                         adapter.actualizarDatos();
                         posicion = -1;
-                        //Enviar correo al usuario
                     } else {
                         mensajeToast(response);
                     }
@@ -491,7 +482,7 @@ public class FragGestEstandarLista extends Fragment {
                 @Override
                 public void onResponse(String response) {
                     if (response.equalsIgnoreCase("")) {
-                        mensajeToast("Exito: Se elimino correctamente");
+                        mensajeToast("Se elimino correctamente");
                         usuarios.remove(posicion);
                         posicion = -1;
                         adapter.actualizarDatos();
@@ -503,7 +494,7 @@ public class FragGestEstandarLista extends Fragment {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    mensajeToast("Error, intentelo más tarde");
+                    mensajeToast("Error, inténtelo más tarde");
                 }
             }) {
                 @Override

@@ -60,14 +60,14 @@ public class Producto {
         this.urlsImagenes = urlsImagenes;
     }
 
-    public Producto(int id, boolean estado, int precio, String nombre, String descripcion, ArrayList<Bitmap> imagenes) {
+    /*public Producto(int id, boolean estado, int precio, String nombre, String descripcion, String[] urlsImagenes) {
         this.id = id;
         this.estado = estado;
         this.precio = precio;
         this.nombre = nombre;
         this.descripcion = descripcion;
-        this.imagenes = imagenes;
-    }
+        this.urlsImagenes = urlsImagenes;
+    }*/
 
     public Producto(boolean estado, String nombre, String descripcion) {
         this.estado = estado;

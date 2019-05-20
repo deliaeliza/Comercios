@@ -13,6 +13,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -206,6 +207,7 @@ public class FragSeccionListarComercio extends Fragment {
         dialog = new Dialog(getActivity());
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setContentView(R.layout.filtros_secciones);
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
         MaterialCardView limpiar = (MaterialCardView) dialog.findViewById(R.id.filtros_secciones_MaterialCardViewLimpiar);
         MaterialCardView buscar = (MaterialCardView) dialog.findViewById(R.id.filtros_secciones_MaterialCardViewBuscar);
         MaterialCardView cancelar = (MaterialCardView) dialog.findViewById(R.id.filtros_secciones_MaterialCardViewCancelar);
