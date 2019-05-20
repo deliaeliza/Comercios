@@ -1,12 +1,10 @@
-﻿package com.example.comercios.Fragments;
+package com.example.comercios.Fragments;
 
 
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +32,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
 import com.example.comercios.Global.GlobalComercios;
-import com.example.comercios.Global.GlobalUsuarios;
-import com.example.comercios.Modelo.Comercio;
 import com.example.comercios.Modelo.Producto;
 import com.example.comercios.Modelo.Seccion;
 import com.example.comercios.Modelo.Util;
