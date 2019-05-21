@@ -170,6 +170,7 @@ public class FragVerProductosGrid extends Fragment {
                 if(actual.getImagenes().size() > 0) {
                     final viewPagerAdapter viewPAdaptador = new viewPagerAdapter(itemView.getContext(), actual.getImagenes());
                     viewPAdaptador.setItem(itemView);
+                    viewPAdaptador.setId(R.id.item_ver_prod_grid_MaterialCardView);
                     viewPager.setAdapter(viewPAdaptador);
                     if(actual.getImagenes().size() > 1){
                         if(timer != null){

@@ -71,24 +71,20 @@ public class FragActInfoProductos extends Fragment {
     private final int MIS_PERMISOS = 100;
     private static final int COD_SELECCIONA = 10;
     private static final int COD_FOTO = 20;
-    private static final int CANTIMG_MAX = 5;
 
     private static final String CARPETA_PRINCIPAL = "misImagenesApp/";//directorio principal
     private static final String CARPETA_IMAGEN = "imagenes";//carpeta donde se guardan las fotos
     private static final String DIRECTORIO_IMAGEN = CARPETA_PRINCIPAL + CARPETA_IMAGEN;//ruta carpeta de directorios
 
     private ArrayList<Seccion> secciones;
-    private ArrayList<Integer> idSec;
-    private CharSequence[] nombreSec;
     private boolean[] secEscogidas;
 
     private TextInputLayout tilCategoria, tilNombre, tilPrecio, tilDesc;
     private TextInputEditText categoria, nombre, precio, desc;
-    private MaterialButton btnEliminar, btnCambiar, btnAgregar, btnModificar;
+    private MaterialButton btnEliminar, btnCambiar, btnAgregar;
     private ViewPager viewpager;
     private com.example.comercios.Adapter.viewPagerAdapter viewPagerAdapter;
     private String path;//almacena la ruta de la imagen
-    File fileImagen;
     private boolean reemImg = false;
     public FragActInfoProductos() {
         // Required empty public constructor
@@ -103,7 +99,6 @@ public class FragActInfoProductos extends Fragment {
         GlobalComercios.getInstance().getImageViews().clear();
 
         secciones = new ArrayList<>();
-        idSec = new ArrayList<>();
         viewpager = (ViewPager) view.findViewById(R.id.act_prod_viewPager);
         if(GlobalComercios.getInstance().getProducto().getImagenes() == null)
             GlobalComercios.getInstance().getProducto().setImagenes(new ArrayList<Bitmap>());
@@ -123,13 +118,12 @@ public class FragActInfoProductos extends Fragment {
         btnEliminar = (MaterialButton) view.findViewById(R.id.act_prod_img_eliminar);
         btnCambiar = (MaterialButton) view.findViewById(R.id.act_prod_img_cambiar);
         btnAgregar = (MaterialButton) view.findViewById(R.id.act_prod_img_agregar);
-        //btnModificar = (MaterialButton) view.findViewById(R.id.act_prod_modificar);
         btnEliminar.setVisibility(View.GONE);
         btnCambiar.setVisibility(View.GONE);
         recuperarSeccionesComercio(GlobalComercios.getInstance().getComercio().getId());
         nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());
         if(GlobalComercios.getInstance().getProducto().getPrecio() != -1)
-            precio.setText(GlobalComercios.getInstance().getProducto().getPrecio());
+            precio.setText(GlobalComercios.getInstance().getProducto().getPrecio() + "");
         if(GlobalComercios.getInstance().getProducto().getDescripcion() != null)
             desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
         //Permisos
@@ -173,8 +167,10 @@ public class FragActInfoProductos extends Fragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if(hasFocus) {
                     final boolean[] aux = new boolean[secEscogidas.length];
+                    CharSequence[] nombreSec = new CharSequence[secciones.size()];
                     for(int i = 0; i < secEscogidas.length; i++){
                         aux[i] = secEscogidas[i];
+                        nombreSec[i] = secciones.get(i).getNombre();
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Categorias del producto");
@@ -187,14 +183,10 @@ public class FragActInfoProductos extends Fragment {
                     builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            idSec.clear();
                             String escogidas = "";
                             for(int i = 0; i < secEscogidas.length; i++){
                                 secEscogidas[i] = aux[i];
-                            }
-                            for (int i = 0; i < secEscogidas.length; i++) {
-                                if (secEscogidas[i]) {
-                                    idSec.add(secciones.get(i).getId());
+                                if(secEscogidas[i]){
                                     if(!escogidas.equals("")){
                                         escogidas += "-";
                                     }
@@ -225,7 +217,7 @@ public class FragActInfoProductos extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.act_prod_img_agregar:
-                        if (CANTIMG_MAX > GlobalComercios.getInstance().getImageViews().size()) {
+                        if (Util.MAX_IMAGENES_PRODUCTO > GlobalComercios.getInstance().getImageViews().size()) {
                             reemImg = false;
                             dialogoAgregarImagen();
                         }
@@ -337,7 +329,7 @@ public class FragActInfoProductos extends Fragment {
             String nombre = consecutivo.toString() + ".jpg";
             path = Environment.getExternalStorageDirectory() + File.separator + DIRECTORIO_IMAGEN
                     + File.separator + nombre;//indicamos la ruta de almacenamiento
-            fileImagen = new File(path);
+            File fileImagen = new File(path);
 
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
@@ -384,7 +376,7 @@ public class FragActInfoProductos extends Fragment {
         }
         viewPagerAdapter.notifyDataSetChanged();
         viewpager.setCurrentItem(GlobalComercios.getInstance().getImgActual());
-        if(CANTIMG_MAX == GlobalComercios.getInstance().getImageViews().size()){
+        if(Util.MAX_IMAGENES_PRODUCTO == GlobalComercios.getInstance().getImageViews().size()){
             btnAgregar.setEnabled(false);
             mensajeToast("Ha llegado al máximo de imagenes");
         } else if(GlobalComercios.getInstance().getImageViews().size() == 1){
@@ -434,11 +426,9 @@ public class FragActInfoProductos extends Fragment {
                         if (seccion.length() != 0) {
                             String escogidas = "";
                             secEscogidas = new boolean[seccion.length()];
-                            nombreSec = new CharSequence[seccion.length()];
                             for (int i = 0; i < seccion.length(); i++) {
                                 JSONObject sec = seccion.getJSONObject(i);
                                 secciones.add(new Seccion(sec.getInt("id"), sec.getString("nombre")));
-                                nombreSec[i] = sec.getString("nombre");
                                 if(sec.getInt("pertenece") == 1){
                                     secEscogidas[i] = true;
                                     if(!escogidas.equals("")){
@@ -451,7 +441,7 @@ public class FragActInfoProductos extends Fragment {
                             OnFocusDelTextInputEditText(categoria);
                         }
                     } else {
-                        mensajeToast("No hay secciones");
+                        mensajeToast("El comercio no tiene secciones");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -488,16 +478,20 @@ public class FragActInfoProductos extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("No se ha podido conectar" + error.getMessage());
+                mensajeToast("Error, Inténtelo más tarde");
             }
         }) {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+                ArrayList<Integer> idSec = new ArrayList();
+                for(int i = 0; i<secciones.size(); i++){
+                    if(secEscogidas[i]){
+                        idSec.add(secciones.get(i).getId());
+                    }
+                }
                 Map<String, String> parametros = new HashMap<>();
-                //parametros.put("idComercio", Integer.toString(GlobalComercios.getInstance().getComercio().getId()));
-                parametros.put("idComercio", 4 + "");
-                //parametros.put("idProducto", Integer.toString(GlobalComercios.getInstance().getProducto().getId()));
-                parametros.put("idProducto", 2 + "");
+                parametros.put("idComercio", GlobalComercios.getInstance().getComercio().getId() + "");
+                parametros.put("idProducto", GlobalComercios.getInstance().getProducto().getId() + "");
                 String update = "UPDATE Productos SET nombre='"+nombre.getText().toString().trim() + "'";
                 if(precio.getText().toString().equals("")){
                     update += ", precio = null";
@@ -509,13 +503,7 @@ public class FragActInfoProductos extends Fragment {
                 } else {
                     update += ", descripcion = '" + desc.getText().toString().trim() + "'";
                 }
-                //if(estado == true){
-                update += ", estado = '1'";
-                //} else {
-                //update += ", estado = '0'";
-                //}
-                //update += " WHERE id='" + GlobalComercios.getInstance().getProducto().getId() + "'";
-                update += " WHERE id='" + 2 + "'";
+                update += " WHERE id='" + GlobalComercios.getInstance().getProducto().getId() + "'";
                 parametros.put("update", update);
                 int cantImg = GlobalComercios.getInstance().getImageViews().size();
                 parametros.put("cantImg", Integer.toString(cantImg));

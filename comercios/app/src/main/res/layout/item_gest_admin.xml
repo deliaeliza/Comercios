@@ -127,7 +127,6 @@
             android:layout_marginTop="12dp"
             android:text="estado"
             android:textSize="18sp"
-            app:backgroundTint="@android:color/tertiary_text_light"
             app:cornerRadius="10dp"
             app:icon="@drawable/user_edit"
             app:iconSize="19dp"

@@ -156,6 +156,7 @@ public class FragProductoListarComercio extends Fragment {
 
                     final viewPagerAdapter viewPAdaptador = new viewPagerAdapter(itemView.getContext(), actual.getImagenes());
                     viewPAdaptador.setItem(itemView);
+                    viewPAdaptador.setId(R.id.item_ver_prod_grid_comercio_MaterialCardView);
                     viewPager.setAdapter(viewPAdaptador);
                     if (actual.getImagenes().size() > 1) {
                         if (timer != null) {

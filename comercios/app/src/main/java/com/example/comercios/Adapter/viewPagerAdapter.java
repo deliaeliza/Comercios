@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 
 import com.example.comercios.Global.GlobalComercios;
@@ -22,6 +23,7 @@ public class viewPagerAdapter extends PagerAdapter {
     private Context context;
     private ArrayList<Bitmap> imagenes;
     private View item;
+    private int id;
     public viewPagerAdapter(Context context, ArrayList<Bitmap> imagenes) {
         this.context = context;
         this.imagenes = imagenes;
@@ -43,11 +45,12 @@ public class viewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position){
         ImageView img = new ImageView(context);
+
         img.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 if(item != null){
-                    item.findViewById(R.id.item_ver_prod_grid_MaterialCardView).performClick();
+                    item.findViewById(id).performClick();
                 }
             }// fin del onclick
         });
@@ -64,6 +67,13 @@ public class viewPagerAdapter extends PagerAdapter {
     }
     public void setItem(View item){
         this.item = item;
+    }
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public ArrayList<Bitmap> getImagenes() {
+        return imagenes;
     }
 }
 
