@@ -59,6 +59,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
@@ -91,6 +92,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     private String opcionEscogida = "";
     TextView duracion;
     TextView distancia;
+    private Polyline polyline;
     //HashMap<String, Integer> distanciaGeneral;
     //HashMap<String, Integer> duracionGeneral;
     //private ArrayList<Ruta> rutas;
@@ -195,11 +197,11 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         final MaterialCardView btnBus = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_bus);
         final MaterialCardView btnCaminar = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_caminar);
         final MaterialCardView btnCar = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_car);
-        final MaterialCardView btnBicicleta = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_bicicleta);
+        //final MaterialCardView btnBicicleta = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_bicicleta);
         MaterialCardView btnIr = (MaterialCardView) dialog.findViewById(R.id.fragDialgMaps_ir);
 
         final ImageView imgBus = (ImageView) dialog.findViewById(R.id.fragDialgMaps_busImg);
-        final ImageView imgBicicleta = (ImageView) dialog.findViewById(R.id.fragDialgMaps_bicicletaImg);
+        //final ImageView imgBicicleta = (ImageView) dialog.findViewById(R.id.fragDialgMaps_bicicletaImg);
         final ImageView imgCar = (ImageView) dialog.findViewById(R.id.fragDialgMaps_carImg);
         final ImageView imgCaminando = (ImageView) dialog.findViewById(R.id.fragDialgMaps_caminarImg);
 
@@ -226,13 +228,13 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 opcionEscogida = "transit";
-                btnBicicleta.setCardBackgroundColor(Color.parseColor("#24CD1B"));
-                imgBicicleta.setColorFilter(Color.WHITE);
+                //btnBicicleta.setCardBackgroundColor(Color.parseColor("#24CD1B"));
+                //imgBicicleta.setColorFilter(Color.WHITE);
 
                 btnCaminar.setCardBackgroundColor(Color.parseColor("#433DE0"));
                 imgCaminando.setColorFilter(Color.WHITE);
 
-                btnCar.setCardBackgroundColor(Color.parseColor("#FFCB0D"));
+                btnCar.setCardBackgroundColor(Color.parseColor("#24CD1B"));
                 imgCar.setColorFilter(Color.WHITE);
 
                 btnBus.setCardBackgroundColor(Color.WHITE);
@@ -246,13 +248,13 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 opcionEscogida = "walking";
                 recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
-                btnBicicleta.setCardBackgroundColor(Color.parseColor("#24CD1B"));
-                imgBicicleta.setColorFilter(Color.WHITE);
+                //btnBicicleta.setCardBackgroundColor(Color.parseColor("#24CD1B"));
+                //imgBicicleta.setColorFilter(Color.WHITE);
 
                 btnCaminar.setCardBackgroundColor(Color.WHITE);
                 imgCaminando.setColorFilter(Color.parseColor("#433DE0"));
 
-                btnCar.setCardBackgroundColor(Color.parseColor("#FFCB0D"));
+                btnCar.setCardBackgroundColor(Color.parseColor("#24CD1B"));
                 imgCar.setColorFilter(Color.WHITE);
 
                 btnBus.setCardBackgroundColor(Color.parseColor("#F82121"));
@@ -264,20 +266,20 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             public void onClick(View v) {
                 opcionEscogida = "driving";
                 recuperarRuta(new LatLng(latitud, longitud), marker.getPosition(), opcionEscogida);
-                btnBicicleta.setCardBackgroundColor(Color.parseColor("#24CD1B"));
-                imgBicicleta.setColorFilter(Color.WHITE);
+                //btnBicicleta.setCardBackgroundColor(Color.parseColor("#24CD1B"));
+                //imgBicicleta.setColorFilter(Color.WHITE);
 
                 btnCaminar.setCardBackgroundColor(Color.parseColor("#433DE0"));
                 imgCaminando.setColorFilter(Color.WHITE);
 
                 btnCar.setCardBackgroundColor(Color.WHITE);
-                imgCar.setColorFilter(Color.parseColor("#FFCB0D"));
+                imgCar.setColorFilter(Color.parseColor("#24CD1B"));
 
                 btnBus.setCardBackgroundColor(Color.parseColor("#F82121"));
                 imgBus.setColorFilter(Color.WHITE);
             }
         });
-        btnBicicleta.setOnClickListener(new View.OnClickListener() {
+        /*btnBicicleta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 opcionEscogida = "bicycling";
@@ -294,13 +296,15 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                 btnBus.setCardBackgroundColor(Color.parseColor("#F82121"));
                 imgBus.setColorFilter(Color.WHITE);
             }
-        });
+        });*/
         btnIr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!opcionEscogida.equalsIgnoreCase("")) {
-                    //mGoogleMap.
-                    mGoogleMap.addPolyline(new PolylineOptions()
+                    if(polyline != null){
+                        polyline.remove();
+                    }
+                    polyline = mGoogleMap.addPolyline(new PolylineOptions()
                             .width(5)
                             .color(Color.BLUE)
                             .geodesic(true)
@@ -572,8 +576,8 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             cargarDialogoRecomendacionGPS();
         } else {
             requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
-            mGoogleMap.setMyLocationEnabled(true);
-            return true;
+           // mGoogleMap.setMyLocationEnabled(true);
+            //return true;
         }
         return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui
     }
@@ -584,7 +588,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         if (requestCode == MIS_PERMISOS) {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
-
+                mGoogleMap.setMyLocationEnabled(true);
             }
         } else {
             solicitarPermisosManual();
