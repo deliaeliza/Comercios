@@ -187,8 +187,9 @@ public class FragProductoListarComercio extends Fragment {
                     }
                 }
             } else {
-                viewPager.setBackground(getResources().getDrawable(R.drawable.images));
                 viewPager.setAdapter(null);
+                //viewPager.setBackground(getResources().getDrawable(R.drawable.images));
+                viewPager.setBackgroundResource(R.drawable.images);
             }
             materialCardView.setTag(position);
             OnclickDelMaterialButton(btnEliminar);
