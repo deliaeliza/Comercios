@@ -69,28 +69,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/item_ver_prod_grid_comercio_txtProducto" />
 
-            <TextView
-                android:id="@+id/item_ver_prod_grid_comercio_txtEstado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginTop="4dp"
-                android:text="Estado:"
-                android:textSize="14sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_ver_prod_grid_comercio_txtPrecio" />
-
-            <TextView
-                android:id="@+id/item_ver_prod_grid_comercio_txtInfoEstado"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="28dp"
-                android:text="estado"
-                android:textSize="14sp"
-                app:layout_constraintStart_toEndOf="@+id/item_ver_prod_grid_comercio_txtEstado"
-                app:layout_constraintTop_toBottomOf="@+id/item_ver_prod_grid_comercio_txtProducto" />
-
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/item_ver_prod_grid_comercio_btnEliminar"
                 android:layout_width="35dp"
@@ -102,20 +80,21 @@
                 app:cornerRadius="8dp"
                 app:icon="@drawable/trash_alt"
                 app:iconSize="15dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/item_ver_prod_grid_comercio_txtEstado" />
+                app:layout_constraintTop_toBottomOf="@+id/item_ver_prod_grid_comercio_btnActEstado" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/item_ver_prod_grid_comercio_btnActEstado"
-                android:layout_width="wrap_content"
+                android:layout_width="120dp"
                 android:layout_height="35dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="79dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/desactivar_lbl"
                 android:textSize="12sp"
                 app:cornerRadius="8dp"
-                app:layout_constraintStart_toEndOf="@+id/item_ver_prod_grid_comercio_btnEliminar"
-                app:layout_constraintTop_toBottomOf="@+id/item_ver_prod_grid_comercio_viewPager" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_ver_prod_grid_comercio_txtPrecio" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
 </FrameLayout>

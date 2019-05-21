@@ -139,8 +139,6 @@ public class FragProductoListarComercio extends Fragment {
                 precioTV.setVisibility(View.GONE);
             }
 
-            TextView estado = (TextView) itemView.findViewById(R.id.item_ver_prod_grid_comercio_txtInfoEstado);
-            estado.setText(actual.isEstado() ? "Activo" : "Desactivo");
             MaterialButton btnEliminar = (MaterialButton) itemView.findViewById(R.id.item_ver_prod_grid_comercio_btnEliminar);
             MaterialButton btnCambiarEstado = (MaterialButton) itemView.findViewById(R.id.item_ver_prod_grid_comercio_btnActEstado);
             btnEliminar.setTag(position);
@@ -336,9 +334,11 @@ public class FragProductoListarComercio extends Fragment {
 
     private void obtenerMasDatos() {
         //Consultar a la base
-        String query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.idComercio='" + GlobalComercios.getInstance().getComercio().getId() + "'";
-        if (idSeccionActual != -1) {
-            query = query + " AND sp.idSeccion='" + idSeccionActual + "'";
+        String query = "";
+        if (idSeccionActual == -1) {
+            query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p WHERE p.idComercio='" + GlobalComercios.getInstance().getComercio().getId() + "'";
+        }else{
+            query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.idComercio='" + GlobalComercios.getInstance().getComercio().getId() + "' AND sp.idSeccion='" + idSeccionActual + "'";
         }
         query += " ORDER BY p.nombre";
         String url = Util.urlWebService + "/obtenerProductos.php?query=" + query;
