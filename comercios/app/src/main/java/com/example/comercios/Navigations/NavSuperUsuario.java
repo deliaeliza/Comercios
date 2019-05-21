@@ -106,7 +106,18 @@ public class NavSuperUsuario extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings4) {
+        if (id == R.id.SUPERCerrarSesion) {
+            GlobalSuperUsuario.getInstance().setAdmin(null);
+            Intent intento = new Intent(getApplicationContext(), Login.class);
+            startActivity(intento);
+            return true;
+        }
+        if (id == R.id.SUPERAcerca) {
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fm.beginTransaction();
+            FragAcercaDe mifrag = new FragAcercaDe ();
+            fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "Acerca de");
+            fragmentTransaction.commit();
             return true;
         }
 
@@ -164,4 +175,5 @@ public class NavSuperUsuario extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    public void Mensaje(String msg){getSupportActionBar().setTitle(msg);};
 }

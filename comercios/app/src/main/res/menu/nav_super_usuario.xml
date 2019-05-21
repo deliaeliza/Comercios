@@ -2,8 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings4"
+        android:id="@+id/SUPERCerrarSesion"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="@string/cerrarSesion_lbl"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/SUPERAcerca"
+        android:orderInCategory="100"
+        android:title="@string/acercade_lbl"
         app:showAsAction="never" />
 </menu>
