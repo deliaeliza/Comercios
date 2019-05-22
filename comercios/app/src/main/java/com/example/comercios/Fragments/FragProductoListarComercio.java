@@ -170,6 +170,7 @@ public class FragProductoListarComercio extends Fragment {
                                 if (pagActual == paginas) {
                                     pagActual = 0;
                                 }
+                                //viewPAdaptador.notifyDataSetChanged();
                                 viewPager.setCurrentItem(pagActual++, false);
                             }
                         };
@@ -205,7 +206,7 @@ public class FragProductoListarComercio extends Fragment {
             public void onClick(View v) {
                 int position = (int) v.getTag();
                 Producto escogido = productos.get(position);
-                GlobalComercios.getInstance().setProducto(escogido);
+                GlobalComercios.getInstance().setProducto(new Producto(escogido));
                 GlobalComercios.getInstance().setPosActProd(position);
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
