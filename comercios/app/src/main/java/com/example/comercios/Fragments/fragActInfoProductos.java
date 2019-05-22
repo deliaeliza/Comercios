@@ -1,6 +1,7 @@
 package com.example.comercios.Fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,7 +22,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,11 +37,11 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
 import com.example.comercios.Global.GlobalComercios;
+import com.example.comercios.Modelo.Producto;
 import com.example.comercios.Modelo.Seccion;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
@@ -78,14 +78,15 @@ public class FragActInfoProductos extends Fragment {
 
     private ArrayList<Seccion> secciones;
     private boolean[] secEscogidas;
-
+    
     private TextInputLayout tilCategoria, tilNombre, tilPrecio, tilDesc;
     private TextInputEditText categoria, nombre, precio, desc;
     private MaterialButton btnEliminar, btnCambiar, btnAgregar;
     private ViewPager viewpager;
     private com.example.comercios.Adapter.viewPagerAdapter viewPagerAdapter;
     private String path;//almacena la ruta de la imagen
-    private boolean reemImg = false;
+    private boolean actImagenes = false;
+    private boolean cambioIMG = false;
     public FragActInfoProductos() {
         // Required empty public constructor
     }
@@ -100,10 +101,23 @@ public class FragActInfoProductos extends Fragment {
 
         secciones = new ArrayList<>();
         viewpager = (ViewPager) view.findViewById(R.id.act_prod_viewPager);
-        if(GlobalComercios.getInstance().getProducto().getImagenes() == null)
+        if(GlobalComercios.getInstance().getProducto().getImagenes() == null) {
             GlobalComercios.getInstance().getProducto().setImagenes(new ArrayList<Bitmap>());
-        viewPagerAdapter = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getProducto().getImagenes());
+        }
+        GlobalComercios.getInstance().setImageViews(GlobalComercios.getInstance().getProducto().getImagenes());
+        viewPagerAdapter = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getImageViews());
+        btnEliminar = (MaterialButton) view.findViewById(R.id.act_prod_img_eliminar);
+        btnCambiar = (MaterialButton) view.findViewById(R.id.act_prod_img_cambiar);
+        btnAgregar = (MaterialButton) view.findViewById(R.id.act_prod_img_agregar);
+        if(GlobalComercios.getInstance().getProducto().getImagenes().size() == 0) {
+            btnEliminar.setVisibility(View.GONE);
+            btnCambiar.setVisibility(View.GONE);
+        } else if(GlobalComercios.getInstance().getProducto().getImagenes().size() == 5) {
+            btnAgregar.setVisibility(View.GONE);
+        }
         viewpager.setAdapter(viewPagerAdapter);
+        if(GlobalComercios.getInstance().getProducto().getImagenes().size() > 0)
+            viewpager.setBackgroundResource(R.color.design_default_color_surface);
         viewpager.setClipToPadding(false);
         viewpager.setPadding(40, 0, 40, 0);
         viewpager.setPageMargin(20);
@@ -115,19 +129,12 @@ public class FragActInfoProductos extends Fragment {
         nombre = (TextInputEditText) view.findViewById(R.id.act_prod_nombre);
         precio = (TextInputEditText) view.findViewById(R.id.act_prod_precio);
         desc = (TextInputEditText) view.findViewById(R.id.act_prod_descripcion);
-        btnEliminar = (MaterialButton) view.findViewById(R.id.act_prod_img_eliminar);
-        btnCambiar = (MaterialButton) view.findViewById(R.id.act_prod_img_cambiar);
-        btnAgregar = (MaterialButton) view.findViewById(R.id.act_prod_img_agregar);
-        btnEliminar.setVisibility(View.GONE);
-        btnCambiar.setVisibility(View.GONE);
         recuperarSeccionesComercio(GlobalComercios.getInstance().getComercio().getId());
         nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());
         if(GlobalComercios.getInstance().getProducto().getPrecio() != -1)
             precio.setText(GlobalComercios.getInstance().getProducto().getPrecio() + "");
         if(GlobalComercios.getInstance().getProducto().getDescripcion() != null)
             desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
-        //Permisos
-        btnAgregar.setEnabled(solicitaPermisosVersionesSuperiores());
         //recuperarImagenes();
         OnclickDelMaterialButton(btnAgregar);
         OnclickDelMaterialButton(btnCambiar);
@@ -217,21 +224,22 @@ public class FragActInfoProductos extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.act_prod_img_agregar:
-                        if (Util.MAX_IMAGENES_PRODUCTO > GlobalComercios.getInstance().getImageViews().size()) {
-                            reemImg = false;
+                        if (solicitaPermisosVersionesSuperiores() && Util.MAX_IMAGENES_PRODUCTO > GlobalComercios.getInstance().getImageViews().size()) {
+                            cambioIMG = false;
                             dialogoAgregarImagen();
                         }
                         break;
                     case R.id.act_prod_img_eliminar:
                         if (GlobalComercios.getInstance().getImageViews().size() > 0) {
-                            GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
+                            GlobalComercios.getInstance().getImageViews().remove(viewpager.getCurrentItem());
                             if(GlobalComercios.getInstance().getImageViews().size() == 0){
                                 btnEliminar.setVisibility(View.GONE);
                                 btnCambiar.setVisibility(View.GONE);
                                 viewpager.setBackgroundResource(R.drawable.ic_menu_camera);
+                            } else if (GlobalComercios.getInstance().getImageViews().size() == 4){
+                                btnAgregar.setVisibility(View.VISIBLE);
                             }
                             viewPagerAdapter.notifyDataSetChanged();
-
                         } else {
                             mensajeToast("No hay imagenes que borrar");
                         }
@@ -243,8 +251,8 @@ public class FragActInfoProductos extends Fragment {
                         }
                         break;
                     case R.id.act_prod_img_cambiar:
-                        if (GlobalComercios.getInstance().getImageViews().size() > 0) {
-                            reemImg = true;
+                        if (solicitaPermisosVersionesSuperiores() && GlobalComercios.getInstance().getImageViews().size() > 0) {
+                            cambioIMG = true;
                             dialogoAgregarImagen();
                         } else {
                             mensajeToast("No hay imagenes que cambiar");
@@ -346,43 +354,47 @@ public class FragActInfoProductos extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap imagen1 = null;
-        switch (requestCode) {
-            case COD_SELECCIONA:
-                Uri miPath = data.getData();
-                try {
-                    imagen1 = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), miPath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                break;
-            case COD_FOTO:
-                MediaScannerConnection.scanFile(getActivity(), new String[]{path}, null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                                Log.i("Path", "" + path);
-                            }
-                        });
-                imagen1 = BitmapFactory.decodeFile(path);
-                break;
-        }
-        imagen1 = redimensionarImagen(imagen1, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
-        if (reemImg) {
-            GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
-            GlobalComercios.getInstance().getImageViews().add(GlobalComercios.getInstance().getImgActual(), imagen1);
-        } else {
-            GlobalComercios.getInstance().agregarImagenes(imagen1);
-        }
-        viewPagerAdapter.notifyDataSetChanged();
-        viewpager.setCurrentItem(GlobalComercios.getInstance().getImgActual());
-        if(Util.MAX_IMAGENES_PRODUCTO == GlobalComercios.getInstance().getImageViews().size()){
-            btnAgregar.setEnabled(false);
-            mensajeToast("Ha llegado al máximo de imagenes");
-        } else if(GlobalComercios.getInstance().getImageViews().size() == 1){
-            btnEliminar.setVisibility(View.VISIBLE);
-            btnCambiar.setVisibility(View.VISIBLE);
-            viewpager.setBackgroundResource(R.color.design_default_color_surface);
+        if(resultCode == -1) {
+            Bitmap imagen1 = null;
+            switch (requestCode) {
+                case COD_SELECCIONA:
+                    Uri miPath = data.getData();
+                    try {
+                        imagen1 = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), miPath);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case COD_FOTO:
+                    MediaScannerConnection.scanFile(getActivity(), new String[]{path}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.i("Path", "" + path);
+                                }
+                            });
+                    imagen1 = BitmapFactory.decodeFile(path);
+                    break;
+            }
+            imagen1 = redimensionarImagen(imagen1, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
+            if (cambioIMG) {
+                GlobalComercios.getInstance().getImageViews().set(viewpager.getCurrentItem(), imagen1);
+                viewPagerAdapter.notifyDataSetChanged();
+            } else {
+                GlobalComercios.getInstance().agregarImagenes(imagen1);
+                viewPagerAdapter.notifyDataSetChanged();
+                viewpager.setCurrentItem(GlobalComercios.getInstance().getImageViews().size()-1);
+            }
+
+            if (Util.MAX_IMAGENES_PRODUCTO == GlobalComercios.getInstance().getImageViews().size()) {
+                btnAgregar.setVisibility(View.GONE);
+                mensajeToast("Ha llegado al máximo de imagenes");
+            } else if (GlobalComercios.getInstance().getImageViews().size() == 1) {
+                btnEliminar.setVisibility(View.VISIBLE);
+                btnCambiar.setVisibility(View.VISIBLE);
+                viewpager.setBackgroundResource(R.color.design_default_color_surface);
+            }
+            actImagenes = true;
         }
     }
     private Bitmap redimensionarImagen(Bitmap bitmap, float anchoNuevo, float altoNuevo) {
@@ -413,7 +425,7 @@ public class FragActInfoProductos extends Fragment {
     public void recuperarSeccionesComercio(int idComercio) {
         String consulta = "SELECT id, nombre FROM Secciones WHERE nombre <> 'DEFAULT' AND idComercio='" + idComercio + "'";
 
-        String url = Util.urlWebService + "/seccionesObtenerPertenece.php?query=" + consulta + "&idProducto='"+ GlobalComercios.getInstance().getProducto() +"'";
+        String url = Util.urlWebService + "/seccionesObtenerPertenece.php?query=" + consulta + "&idProducto='"+ GlobalComercios.getInstance().getProducto().getId() +"'";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -456,73 +468,86 @@ public class FragActInfoProductos extends Fragment {
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
     public void enviarDatosModificar() {
-        String url = Util.urlWebService + "/productoModificar.php?";
+        final ProgressDialog progreso = new ProgressDialog(getActivity());
+        progreso.setMessage("Actualizando...");
+        progreso.show();
+        String update  = "UPDATE Productos SET nombre='" + nombre.getText().toString().trim() + "'";
+        if(precio.getText().toString().equals("")){
+            update += ", precio = null";
+        } else {
+            update += ", precio = '" + precio.getText().toString().trim() + "'";
+        }
+        if(!Util.PATRON_UN_CARACTER_ALFANUMERICO.matcher(desc.getText().toString()).find()){
+            update += ", descripcion = null";
+        } else {
+            update += ", descripcion ='" + desc.getText().toString().trim() + "'";
+        }
+        update += " WHERE id='" + GlobalComercios.getInstance().getProducto().getId() + "'";
+        String infoImagenes = "";
+        if(actImagenes){
+            int cantImagenes = 0;
+            String imagenes = "";
+            for (int i = 0; i < GlobalComercios.getInstance().getImageViews().size(); i++) {
+                imagenes += "&img" + i + "=" + convertirImgString(GlobalComercios.getInstance().getImageViews().get(i));
+                cantImagenes++;
+            }
+            infoImagenes = "&actImg=S&cantImg="+cantImagenes+imagenes;
+        } else {
+            infoImagenes = "&actImg=S&cantImg=0";
+        }
+        int cantSecciones = 0;
+        String seccionesId = "";
+        for (int i = 0; i < secciones.size(); i++) {
+            if(secEscogidas[i]) {
+                cantSecciones++;
+                seccionesId += "&sec" + i + "=" + secciones.get(i).getId();
+            }
+        }
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        String parametros = "idComercio=" + GlobalComercios.getInstance().getComercio().getId() +
+                "&idProducto=" + GlobalComercios.getInstance().getProducto().getId() +
+                "&update=" + update + "&cantSec=" + cantSecciones + (cantSecciones > 0 ? seccionesId : "") +
+                infoImagenes;
+
+        String url = Util.urlWebService + "/productoModificar.php?";
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
-                if (response.trim().equalsIgnoreCase("")) {
-                    //GlobalComercios.getInstance().getProducto().setNombre(nombre.getText().toString());
-                    //GlobalComercios.getInstance().getProducto().setPrecio(Integer.parseInt(precio.getText().toString().trim()));
-                    //GlobalComercios.getInstance().getProducto().setDescripcion(desc.getText().toString());
-                    //GlobalComercios.getInstance().getProducto().setEstado(true);
-                    mensajeToast("Actualización éxitosa");
-                } else {
-                    mensajeToast(response);
-                    //nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());
-                    //precio.setText(GlobalComercios.getInstance().getProducto().getPrecio().trim());
-                    //desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
-                    //estado.set
-                }
+            public void onResponse(JSONObject response) {
+                    try {
+                        JSONObject jsonOb = response.getJSONObject("datos");
+                        String mensajeError = jsonOb.getString("mensajeError");
+                        if(mensajeError.trim().equalsIgnoreCase("")){
+                            GlobalComercios.getInstance().getProducto().setNombre(jsonOb.getString("nombre"));
+                            GlobalComercios.getInstance().getProducto().setPrecio(jsonOb.isNull("precio") ? -1 : jsonOb.getInt("precio"));
+                            GlobalComercios.getInstance().getProducto().setDescripcion(jsonOb.isNull("descripcion") ? null : jsonOb.getString("descripcion"));
+                            if(jsonOb.has("urls")){
+                                JSONArray urls = jsonOb.getJSONArray("urls");
+                                String [] nuevosUrls = new String[urls.length()];
+                                for(int i = 0; i < urls.length(); i++){
+                                    nuevosUrls[i] = urls.getString(i);
+                                }
+                                GlobalComercios.getInstance().getProducto().setUrlsImagenes(nuevosUrls);
+                                GlobalComercios.getInstance().getProducto().setImagenes(new ArrayList<Bitmap>(GlobalComercios.getInstance().getImageViews()));
+                            }
+                        } else {
+                            mensajeToast(mensajeError);
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    progreso.hide();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                mensajeToast("Error, Inténtelo más tarde");
+                if (getActivity() != null) {
+                    mensajeToast("Error, inténtelo más tarde");
+                    progreso.hide();
+                }
             }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                ArrayList<Integer> idSec = new ArrayList();
-                for(int i = 0; i<secciones.size(); i++){
-                    if(secEscogidas[i]){
-                        idSec.add(secciones.get(i).getId());
-                    }
-                }
-                Map<String, String> parametros = new HashMap<>();
-                parametros.put("idComercio", GlobalComercios.getInstance().getComercio().getId() + "");
-                parametros.put("idProducto", GlobalComercios.getInstance().getProducto().getId() + "");
-                String update = "UPDATE Productos SET nombre='"+nombre.getText().toString().trim() + "'";
-                if(precio.getText().toString().equals("")){
-                    update += ", precio = null";
-                } else {
-                    update += ", precio = '" + precio.getText().toString().trim() + "'";
-                }
-                if(desc.getText().toString().equals("")){
-                    update += ", descripcion = null";
-                } else {
-                    update += ", descripcion = '" + desc.getText().toString().trim() + "'";
-                }
-                update += " WHERE id='" + GlobalComercios.getInstance().getProducto().getId() + "'";
-                parametros.put("update", update);
-                int cantImg = GlobalComercios.getInstance().getImageViews().size();
-                parametros.put("cantImg", Integer.toString(cantImg));
-                parametros.put("cantSec", Integer.toString(idSec.size()));
-                int idImgen = 1;
-                for (Bitmap img : GlobalComercios.getInstance().getImageViews()) {
-                    parametros.put("img" + idImgen, convertirImgString(img));
-                    idImgen = idImgen + 1;
-                }
-                int idSe = 1;
-                for (Integer secid : idSec) {
-                    parametros.put("sec" + idSe, Integer.toString(secid));
-                    idSe = idSe + 1;
-                }
-                return parametros;
-            }
-        };
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(stringRequest);
+        });
+        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
     /*public void recuperarImagenes(){
         //String url = Util.urlWebService + "/usuariosEstandarObtener.php?id='" + GlobalComercios.getInstance().getProducto().getId() + "'";
@@ -620,7 +645,6 @@ public class FragActInfoProductos extends Fragment {
         if (requestCode == MIS_PERMISOS) {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
                 mensajeToast("Permisos aceptados");
-                btnAgregar.setEnabled(true);
             }
         } else {
             solicitarPermisosManual();
