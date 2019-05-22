@@ -30,7 +30,8 @@ public class Producto {
         this.precio = producto.getPrecio();
         this.estado = producto.isEstado();
         this.nombre = producto.getNombre();
-        this.imagenes = new ArrayList(producto.getImagenes());
+        if(producto.getImagenes() != null)
+            this.imagenes = new ArrayList(producto.getImagenes());
         this.urlsImagenes = producto.getUrlsImagenes();
     }
 
