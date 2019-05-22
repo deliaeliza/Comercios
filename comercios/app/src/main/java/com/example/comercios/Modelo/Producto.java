@@ -25,6 +25,15 @@ public class Producto {
     private Handler handler = new Handler();
     private Runnable update;
 
+    public Producto(Producto producto){
+        this.id = producto.getId();
+        this.precio = producto.getPrecio();
+        this.estado = producto.isEstado();
+        this.nombre = producto.getNombre();
+        this.imagenes = new ArrayList(producto.getImagenes());
+        this.urlsImagenes = producto.getUrlsImagenes();
+    }
+
     public Producto(int id, boolean estado, int precio, String nombre, String descripcion, boolean pertenece) {
         this.id = id;
         this.estado = estado;

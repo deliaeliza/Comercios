@@ -196,15 +196,15 @@
                 android:id="@+id/act_prod_img_eliminar"
                 android:layout_width="40dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="240dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="4dp"
-                app:backgroundTint="@color/common_google_signin_btn_text_light_default"
                 android:paddingRight="10dp"
+                app:backgroundTint="@color/common_google_signin_btn_text_light_default"
                 app:icon="@drawable/trash_alt"
                 app:iconGravity="textStart"
                 app:iconSize="20dp"
                 app:layout_constraintBottom_toBottomOf="@+id/act_prod_viewPager"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toStartOf="@+id/act_prod_img_cambiar" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/act_prod_modificar"
