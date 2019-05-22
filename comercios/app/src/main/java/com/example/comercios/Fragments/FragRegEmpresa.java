@@ -97,13 +97,6 @@ public class FragRegEmpresa extends Fragment {
     String latitud;
     String longitud;
 
-    private final int MIS_PERMISOS = 100;
-    private static final int COD_SELECCIONA = 10;
-    private static final int COD_FOTO = 20;
-
-    private static final String CARPETA_PRINCIPAL = "misImagenesApp/";//directorio principal
-    private static final String CARPETA_IMAGEN = "imagenes";//carpeta donde se guardan las fotos
-    private static final String DIRECTORIO_IMAGEN = CARPETA_PRINCIPAL + CARPETA_IMAGEN;//ruta carpeta de directorios
     private String path;//almacena la ruta de la imagen
     File fileImagen; //donde se almacenara la imagen
 
@@ -324,7 +317,7 @@ public class FragRegEmpresa extends Fragment {
                         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/");
                         //cod 10 para galeria
-                        startActivityForResult(intent.createChooser(intent, "Seleccione"), COD_SELECCIONA);
+                        startActivityForResult(intent.createChooser(intent, "Seleccione"), Util.COD_SELECCIONA);
                     } else {
                         dialogInterface.dismiss();
                     }
@@ -335,7 +328,7 @@ public class FragRegEmpresa extends Fragment {
     }
 
     private void abriCamara() {
-        File miFile = new File(Environment.getExternalStorageDirectory(), DIRECTORIO_IMAGEN);
+        File miFile = new File(Environment.getExternalStorageDirectory(), Util.DIRECTORIO_IMAGEN);
         boolean isCreada = miFile.exists();
         if (isCreada == false) {
             isCreada = miFile.mkdirs();
@@ -343,7 +336,7 @@ public class FragRegEmpresa extends Fragment {
         if (isCreada == true) {
             Long consecutivo = System.currentTimeMillis() / 1000;
             String nombre = consecutivo.toString() + ".jpg";
-            path = Environment.getExternalStorageDirectory() + File.separator + DIRECTORIO_IMAGEN
+            path = Environment.getExternalStorageDirectory() + File.separator + Util.DIRECTORIO_IMAGEN
                     + File.separator + nombre;//indicamos la ruta de almacenamiento
 
             fileImagen = new File(path);
@@ -358,7 +351,7 @@ public class FragRegEmpresa extends Fragment {
             } else {
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
             }
-            startActivityForResult(takePictureIntent, COD_FOTO);
+            startActivityForResult(takePictureIntent, Util.COD_FOTO);
         }
     }
 
@@ -366,7 +359,7 @@ public class FragRegEmpresa extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case COD_SELECCIONA:
+            case Util.COD_SELECCIONA:
                 Uri miPath = data.getData();
                 fotoComercio.setImageURI(miPath);
                 try {
@@ -377,7 +370,7 @@ public class FragRegEmpresa extends Fragment {
                 }
 
                 break;
-            case COD_FOTO:
+            case Util.COD_FOTO:
                 MediaScannerConnection.scanFile(getActivity(), new String[]{path}, null,
                         new MediaScannerConnection.OnScanCompletedListener() {
                             @Override
@@ -407,7 +400,7 @@ public class FragRegEmpresa extends Fragment {
         if ((shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE) || (shouldShowRequestPermissionRationale(CAMERA)))) {
             cargarDialogoRecomendacion();
         } else {
-            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MIS_PERMISOS);
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, Util.MIS_PERMISOS);
         }
         return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui
     }
@@ -423,7 +416,7 @@ public class FragRegEmpresa extends Fragment {
         if ((shouldShowRequestPermissionRationale(ACCESS_COARSE_LOCATION) || (shouldShowRequestPermissionRationale(ACCESS_FINE_LOCATION)))) {
             cargarDialogoRecomendacionGPS();
         } else {
-            requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
+            requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, Util.MIS_PERMISOS);
         }
         return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui
     }
@@ -432,7 +425,7 @@ public class FragRegEmpresa extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MIS_PERMISOS) {
+        if (requestCode == Util.MIS_PERMISOS) {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
                 Mensaje("Permisos aceptados");
@@ -474,7 +467,7 @@ public class FragRegEmpresa extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MIS_PERMISOS);
+                requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, Util.MIS_PERMISOS);
             }
         });
         dialogo.show();
@@ -489,7 +482,7 @@ public class FragRegEmpresa extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
+                requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, Util.MIS_PERMISOS);
             }
         });
         dialogo.show();
@@ -498,7 +491,7 @@ public class FragRegEmpresa extends Fragment {
     ///////////////////////////////////////////////////////////////////////////////////
     private String convertirImgString(Bitmap bitmap) {
         ByteArrayOutputStream array = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, MIS_PERMISOS, array);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, Util.MIS_PERMISOS, array);
         byte[] imagenByte = array.toByteArray();
         return Base64.encodeToString(imagenByte, Base64.DEFAULT);
     }

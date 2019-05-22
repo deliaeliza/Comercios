@@ -80,18 +80,10 @@ public class FragProductoResgistrar extends Fragment {
     private CharSequence[] nombreSec;
     private boolean[] secEscogidas;
 
-    private final int MIS_PERMISOS = 100;
-    private static final int COD_SELECCIONA = 10;
-    private static final int COD_FOTO = 20;
-
-    private static final String CARPETA_PRINCIPAL = "misImagenesApp/";//directorio principal
-    private static final String CARPETA_IMAGEN = "imagenes";//carpeta donde se guardan las fotos
-    private static final String DIRECTORIO_IMAGEN = CARPETA_PRINCIPAL + CARPETA_IMAGEN;//ruta carpeta de directorios
     private String path;//almacena la ruta de la imagen
     File fileImagen;
     viewPagerAdapter vie;
     ViewPager viewpager;
-    ProgressDialog progreso;
     private boolean reemImg = false;
 
     public FragProductoResgistrar() {
@@ -113,8 +105,9 @@ public class FragProductoResgistrar extends Fragment {
         viewpager = (ViewPager) view.findViewById(R.id.fRegProd_viewPager);
         vie = new viewPagerAdapter(getActivity(), GlobalComercios.getInstance().getImageViews());
         viewpager.setAdapter(vie);
-        viewpager.setOffscreenPageLimit(3);
-        viewpager.setPageMargin(70);
+        viewpager.setClipToPadding(false);
+        viewpager.setPadding(40, 0, 40, 0);
+        viewpager.setPageMargin(20);
         btnElegirFoto = (MaterialButton) view.findViewById(R.id.fRegProd_btnAgrImg);
         btnElim = (MaterialButton) view.findViewById(R.id.fRegProd_btnElimImg);
         btnRemFoto = (MaterialButton) view.findViewById(R.id.fRegProd_btnRemImg);
@@ -132,7 +125,7 @@ public class FragProductoResgistrar extends Fragment {
         btnRemFoto.setVisibility(View.GONE);
 
         //Permisos
-        btnElegirFoto.setEnabled(solicitaPermisosVersionesSuperiores() == true);
+        btnElegirFoto.setEnabled(solicitaPermisosVersionesSuperiores());
 
         OnclickDelButton(btnElegirFoto);
         OnclickDelButton(btnRemFoto);
@@ -221,7 +214,7 @@ public class FragProductoResgistrar extends Fragment {
         });
     }
 
-    public void OnclickDelButton(View view) {
+    public void OnclickDelButton(final View view) {
         MaterialButton miButton = (MaterialButton) view;
         miButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,14 +228,15 @@ public class FragProductoResgistrar extends Fragment {
                         break;
                     case R.id.fRegProd_btnElimImg:
                         if (GlobalComercios.getInstance().getImageViews().size() > 0) {
-                            GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
+                            //GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
+                            GlobalComercios.getInstance().getImageViews().remove(viewpager.getCurrentItem());
                             if (GlobalComercios.getInstance().getImageViews().size() == 0) {
                                 btnElim.setVisibility(View.GONE);
                                 btnRemFoto.setVisibility(View.GONE);
                                 viewpager.setBackgroundResource(R.drawable.ic_menu_camera);
                             }
                             vie.notifyDataSetChanged();
-
+                            btnElegirFoto.setVisibility(View.VISIBLE);
                         } else {
                             mensaje("No hay imagenes que borrar");
                         }
@@ -310,8 +304,8 @@ public class FragProductoResgistrar extends Fragment {
     }
 
     public void enviarDatosRegistrar() {
-        progreso = new ProgressDialog(getActivity());
-        progreso.setMessage("Cargando...");
+        final ProgressDialog progreso = new ProgressDialog(getActivity());
+        progreso.setMessage("Registrando...");
         progreso.show();
         String url = Util.urlWebService + "/productoRegistrar.php?";
 
@@ -412,7 +406,7 @@ public class FragProductoResgistrar extends Fragment {
         if ((shouldShowRequestPermissionRationale(WRITE_EXTERNAL_STORAGE) || (shouldShowRequestPermissionRationale(CAMERA)))) {
             cargarDialogoRecomendacion();
         } else {
-            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, MIS_PERMISOS);
+            requestPermissions(new String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, Util.MIS_PERMISOS);
         }
         return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui
     }
@@ -431,7 +425,7 @@ public class FragProductoResgistrar extends Fragment {
                         Intent intent = new Intent(Intent.ACTION_PICK,
                                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                         intent.setType("image/");
-                        startActivityForResult(intent.createChooser(intent, "Seleccione"), COD_SELECCIONA);
+                        startActivityForResult(intent.createChooser(intent, "Seleccione"), Util.COD_SELECCIONA);
                     } else {
                         dialogInterface.dismiss();
                     }
@@ -442,7 +436,7 @@ public class FragProductoResgistrar extends Fragment {
     }
 
     private void abriCamara() {
-        File miFile = new File(Environment.getExternalStorageDirectory(), DIRECTORIO_IMAGEN);
+        File miFile = new File(Environment.getExternalStorageDirectory(), Util.DIRECTORIO_IMAGEN);
         boolean isCreada = miFile.exists();
         if (isCreada == false) {
             isCreada = miFile.mkdirs();
@@ -450,7 +444,7 @@ public class FragProductoResgistrar extends Fragment {
         if (isCreada == true) {
             Long consecutivo = System.currentTimeMillis() / 1000;
             String nombre = consecutivo.toString() + ".jpg";
-            path = Environment.getExternalStorageDirectory() + File.separator + DIRECTORIO_IMAGEN
+            path = Environment.getExternalStorageDirectory() + File.separator + Util.DIRECTORIO_IMAGEN
                     + File.separator + nombre;//indicamos la ruta de almacenamiento
 
             fileImagen = new File(path);
@@ -465,7 +459,7 @@ public class FragProductoResgistrar extends Fragment {
             } else {
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(fileImagen));
             }
-            startActivityForResult(intent, COD_FOTO);
+            startActivityForResult(intent, Util.COD_FOTO);
         }
     }
 
@@ -475,7 +469,7 @@ public class FragProductoResgistrar extends Fragment {
         if (resultCode == -1) {
             Bitmap imagen1 = null;
             switch (requestCode) {
-                case COD_SELECCIONA:
+                case Util.COD_SELECCIONA:
                     Uri miPath = data.getData();
                     try {
                         imagen1 = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), miPath);
@@ -484,7 +478,7 @@ public class FragProductoResgistrar extends Fragment {
                     }
 
                     break;
-                case COD_FOTO:
+                case Util.COD_FOTO:
                     MediaScannerConnection.scanFile(getActivity(), new String[]{path}, null,
                             new MediaScannerConnection.OnScanCompletedListener() {
                                 @Override
@@ -497,15 +491,17 @@ public class FragProductoResgistrar extends Fragment {
             }
             imagen1 = redimensionarImagen(imagen1, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
             if (reemImg) {
-                GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
-                GlobalComercios.getInstance().getImageViews().add(GlobalComercios.getInstance().getImgActual(), imagen1);
+                //GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
+                //GlobalComercios.getInstance().getImageViews().add(GlobalComercios.getInstance().getImgActual(), imagen1);
+                GlobalComercios.getInstance().getImageViews().set(viewpager.getCurrentItem(),imagen1);
             } else {
                 GlobalComercios.getInstance().agregarImagenes(imagen1);
+                viewpager.setCurrentItem(GlobalComercios.getInstance().getImageViews().size()-1);
             }
             vie.notifyDataSetChanged();
-            viewpager.setCurrentItem(GlobalComercios.getInstance().getImgActual());
+
             if (Util.MAX_IMAGENES_PRODUCTO == GlobalComercios.getInstance().getImageViews().size()) {
-                btnElegirFoto.setEnabled(false);
+                btnElegirFoto.setVisibility(View.GONE);
                 mensaje("Ha llegado al máximo de imagenes");
             } else if (GlobalComercios.getInstance().getImageViews().size() == 1) {
                 btnElim.setVisibility(View.VISIBLE);
@@ -533,7 +529,7 @@ public class FragProductoResgistrar extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == MIS_PERMISOS) {
+        if (requestCode == Util.MIS_PERMISOS) {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
                 mensaje("Permisos aceptados");
                 btnElegirFoto.setEnabled(true);
@@ -582,7 +578,7 @@ public class FragProductoResgistrar extends Fragment {
 
     private String convertirImgString(Bitmap bitmap) {
         ByteArrayOutputStream array = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, MIS_PERMISOS, array);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, Util.MIS_PERMISOS, array);
         byte[] imagenByte = array.toByteArray();
 
         return Base64.encodeToString(imagenByte, Base64.DEFAULT);

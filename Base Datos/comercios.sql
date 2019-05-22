@@ -489,7 +489,6 @@ INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(4,2);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(7,3);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,5);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(7,4);
-INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(2,4);
 INSERT INTO comercioscr.SeccionesProductos(idSeccion,idProducto) VALUES(3,6);
 
 CALL PAregistrarUsuarioEstandar(3, 'correo1@gmail.com', 'usuario1', '123usuario1', CURDATE() - 50000);

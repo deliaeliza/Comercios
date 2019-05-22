@@ -166,7 +166,6 @@ tools:context=".Fragments.FragProductoResgistrar">
             android:id="@+id/fRegProd_btnRemImg"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:paddingRight="10dp"
@@ -175,14 +174,13 @@ tools:context=".Fragments.FragProductoResgistrar">
             app:iconGravity="textStart"
             app:iconSize="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/fRegProd_viewPager"
-            app:layout_constraintEnd_toStartOf="@+id/fRegProd_btnAgrImg"
-            app:layout_constraintStart_toEndOf="@+id/fRegProd_btnElimImg" />
+            app:layout_constraintEnd_toStartOf="@+id/fRegProd_btnAgrImg" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fRegProd_btnElimImg"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="236dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
             android:paddingRight="10dp"
             app:backgroundTint="@color/common_google_signin_btn_text_light_focused"
@@ -190,7 +188,7 @@ tools:context=".Fragments.FragProductoResgistrar">
             app:iconGravity="textStart"
             app:iconSize="20dp"
             app:layout_constraintBottom_toBottomOf="@+id/fRegProd_viewPager"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintEnd_toStartOf="@+id/fRegProd_btnRemImg" />
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/fRegProd_viewPager"
