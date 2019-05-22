@@ -29,6 +29,7 @@ public class Producto {
         this.id = producto.getId();
         this.precio = producto.getPrecio();
         this.estado = producto.isEstado();
+        this.descripcion = producto.getDescripcion();
         this.nombre = producto.getNombre();
         if(producto.getImagenes() != null)
             this.imagenes = new ArrayList(producto.getImagenes());
