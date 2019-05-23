@@ -378,7 +378,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                 mensajeToast("Intentelo más tarde");
             }
         });
-        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
 
 
@@ -436,17 +436,23 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                                             usuario.getString("ubicacion")));
 
                                     LatLng lg = new LatLng(usuario.getDouble("latitud"), usuario.getDouble("longitud"));
-                                    IconGenerator iconFactory = new IconGenerator(getContext());
+
+                                    try{
+                                        IconGenerator iconFactory = new IconGenerator(getActivity());
                                     /*Marker marker = mGoogleMap.addMarker(new MarkerOptions()
                                             .position(lg)
                                             .title(usuario.getString("usuario"))
                                             .snippet(usuario.getString("descripcion")));*/
-                                    Marker marker = mGoogleMap.addMarker(new MarkerOptions()
-                                            .position(lg)
-                                            .title(usuario.getString("usuario")));
-                                    marker.setTag(Integer.parseInt(Integer.toString(i)));
-                                    marker.setIcon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(usuario.getString("usuario"))));
-                                    // marker.setIcon(getBitmapFromView(usuario.getString("usuario")));
+                                        Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+                                                .position(lg)
+                                                .title(usuario.getString("usuario")));
+                                        marker.setTag(Integer.parseInt(Integer.toString(i)));
+                                        marker.setIcon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(usuario.getString("usuario"))));
+                                        // marker.setIcon(getBitmapFromView(usuario.getString("usuario")));
+                                    }catch (Exception e){
+                                        String hola = "";
+                                    }
+
                                 }
                             }
                         }
@@ -463,7 +469,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                 mensajeToast("Error, Inténtelo más tarde");
             }
         });
-        VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
     }
 
     private void cargarCategorias() {
