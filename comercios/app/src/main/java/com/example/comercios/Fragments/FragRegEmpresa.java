@@ -113,11 +113,9 @@ public class FragRegEmpresa extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mensajeAB("Registrarme");
         View view = inflater.inflate(R.layout.frag_reg_empresa, container, false);
         categorias = new ArrayList<>();
         categoriasArray = new ArrayList<>();
-
         descripcion = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtDescripcion);
         LayoutDescripcion = (TextInputLayout) view.findViewById(R.id.fragRegComercio_widDescripcion);
         usuario = (TextInputEditText) view.findViewById(R.id.fragRegComercio_edtUsuario);
@@ -217,7 +215,7 @@ public class FragRegEmpresa extends Fragment {
 
     private void registrarComercio() {
         final ProgressDialog progreso = new ProgressDialog(getActivity());
-        progreso.setMessage("Esperando respuesta...");
+        progreso.setMessage("Registrando...");
         progreso.show();
 
         final String imagenConveritda = convertirImgString(bitmap);

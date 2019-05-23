@@ -491,8 +491,6 @@ public class FragProductoResgistrar extends Fragment {
             }
             imagen1 = redimensionarImagen(imagen1, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
             if (reemImg) {
-                //GlobalComercios.getInstance().getImageViews().remove(GlobalComercios.getInstance().getImgActual());
-                //GlobalComercios.getInstance().getImageViews().add(GlobalComercios.getInstance().getImgActual(), imagen1);
                 GlobalComercios.getInstance().getImageViews().set(viewpager.getCurrentItem(),imagen1);
             } else {
                 GlobalComercios.getInstance().agregarImagenes(imagen1);
