@@ -18,24 +18,41 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="396dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif-smallcaps"
-            android:text="BIENVENIDO"
-            android:textSize="36sp"
+            android:text="Inicio Rápido"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            app:layout_constraintVertical_bias="0.095" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="396dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:text="BIENVENIDO"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView4"
-            app:layout_constraintVertical_bias="0.016" />
+            app:layout_constraintVertical_bias="0.202" />
 
         <TextView
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif-smallcaps"
@@ -44,10 +61,10 @@
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.493"
+            app:layout_constraintHorizontal_bias="0.54"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            app:layout_constraintVertical_bias="0.004" />
+            app:layout_constraintTop_toBottomOf="@+id/textView9"
+            app:layout_constraintVertical_bias="0.057" />
 
         <TextView
             android:id="@+id/textView13"
@@ -67,22 +84,6 @@
             app:layout_constraintTop_toBottomOf="@+id/fHomeUsuario_cardMapa"
             app:layout_constraintVertical_bias="0.088" />
 
-        <TextView
-            android:id="@+id/fHomeUsuario_User"
-            android:layout_width="100"
-            android:layout_height="50"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:fontFamily="sans-serif-smallcaps"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9"
-            app:layout_constraintVertical_bias="0.014" />
-
 
         <!--****************************************************************-->
 
@@ -94,7 +95,7 @@
             android:layout_marginBottom="8dp"
             android:clickable="false"
             android:paddingBottom="5dp"
-            app:cardBackgroundColor="@color/design_default_color_surface"
+            app:cardBackgroundColor="@color/colorPrimary"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
             app:cardMaxElevation="5dp"
@@ -106,7 +107,8 @@
             app:layout_constraintHorizontal_bias="0.473"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView12"
-            app:layout_constraintVertical_bias="0.094">
+            app:layout_constraintVertical_bias="0.094"
+            app:rippleColor="@color/colorPrimaryLight">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
@@ -115,8 +117,8 @@
 
                 <ImageView
                     android:id="@+id/imageView2"
-                    android:layout_width="66dp"
-                    android:layout_height="42dp"
+                    android:layout_width="63dp"
+                    android:layout_height="36dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
@@ -139,8 +141,8 @@
                     android:layout_marginBottom="8dp"
                     android:fontFamily="sans-serif-smallcaps"
                     android:text="MAPA"
-                    android:textColor="#FFFFFF"
-                    android:textSize="30sp"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.741"
@@ -159,9 +161,10 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:background="@color/colorPrimary"
             android:clickable="false"
             android:paddingBottom="5dp"
-            app:cardBackgroundColor="@color/design_default_color_surface"
+            app:cardBackgroundColor="@color/colorPrimaryDark"
             app:cardCornerRadius="5dp"
             app:cardElevation="5dp"
             app:cardMaxElevation="5dp"
@@ -173,16 +176,18 @@
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
-            app:layout_constraintVertical_bias="0.147">
+            app:layout_constraintVertical_bias="0.147"
+            app:rippleColor="@color/colorPrimaryLight">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary">
 
                 <ImageView
                     android:id="@+id/imageView3"
-                    android:layout_width="53dp"
-                    android:layout_height="41dp"
+                    android:layout_width="47dp"
+                    android:layout_height="36dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
@@ -190,28 +195,29 @@
                     android:src="@drawable/ic_shopping_basket"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/textView8"
-                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintHorizontal_bias="0.888"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/textView8"
-                    android:layout_width="161dp"
-                    android:layout_height="41dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="72dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="sans-serif-smallcaps"
                     android:text="COMERCIOS"
-                    android:textColor="#0E0A0A"
-                    android:textSize="30sp"
+                    android:textColor="@color/common_google_signin_btn_text_dark_default"
+                    android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintVertical_bias="0.666" />
 
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -232,20 +238,39 @@
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.012" />
+            app:layout_constraintVertical_bias="0.042" />
 
         <View
             android:id="@+id/divider"
-            android:layout_width="395dp"
-            android:layout_height="1dp"
+            android:layout_width="90dp"
+            android:layout_height="3dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textView9"
+            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            app:layout_constraintVertical_bias="0.124" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="90dp"
+            android:layout_height="3dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView9"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fHomeUsuario_User"
-            app:layout_constraintVertical_bias="0.055" />
+            app:layout_constraintTop_toBottomOf="@+id/textView10"
+            app:layout_constraintVertical_bias="0.128" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -40,49 +40,35 @@ public class FragHomeUsuarioEstandar extends Fragment {
         mensajeAB(Util.nombreApp);
 
         GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_home_usuario_estandar);
-        TextView Mi_textview = (TextView) view.findViewById(R.id.fHomeUsuario_User);
-        Mi_textview.setText(GlobalUsuarios.getInstance().getUserE().getUsuario());
+        //TextView Mi_textview = (TextView) view.findViewById(R.id.fHomeUsuario_User);
+        //Mi_textview.setText(GlobalUsuarios.getInstance().getUserE().getUsuario());
 
         MaterialCardView cardViewMapa = (MaterialCardView)view.findViewById(R.id.fHomeUsuario_cardMapa);
         cardViewMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mensajeToast("onclick");
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                FragEmpresasMaps mifrag = new FragEmpresasMaps();
+                fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "vermapa_usuarioEstandar");
+                fragmentTransaction.commit();
             }
         });
-       /* MaterialButton btnMap = (MaterialButton) view.findViewById(R.id.fHomeUsuario_btnMapa);
-        MaterialButton btnComercios = (MaterialButton) view.findViewById(R.id.fHomeUsuario_btnTodosComercios);
-        OnclickDelMaterialButton(btnMap);
-        OnclickDelMaterialButton(btnComercios);*/
-        return view;
-    }
-    /*public void OnclickDelMaterialButton(View view) {
-        MaterialButton miButton = (MaterialButton) view;
-        miButton.setOnClickListener(new View.OnClickListener() {
+        MaterialCardView cardViewComercios = (MaterialCardView)view.findViewById(R.id.fHomeUsuario_cardComercios);
+        cardViewComercios.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.fHomeUsuario_btnMapa:
-                        FragmentManager fm = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        FragEmpresasMaps mifrag = new FragEmpresasMaps();
-                        fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "vermapa_usuarioEstandar");
-                        fragmentTransaction.commit();
-
-                        break;
-                    case R.id.fHomeUsuario_btnTodosComercios:
-                        fm = getFragmentManager();
-                        fragmentTransaction = fm.beginTransaction();
-                        FragVerComerciosLista mifrag2 = new FragVerComerciosLista();
-                        fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "listacomercios_usuarioEstandar");
-                        fragmentTransaction.commit();
-                        break;
-                    default:
-                        break;
-                }// fin de casos
-            }// fin del onclick
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                FragVerComerciosLista mifrag2 = new FragVerComerciosLista();
+                fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "listacomercios_usuarioEstandar");
+                fragmentTransaction.commit();
+            }
         });
-    }// fin de OnclickDelButton*/
+
+        return view;
+    }
+
     private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 
     public void mensajeToast(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
