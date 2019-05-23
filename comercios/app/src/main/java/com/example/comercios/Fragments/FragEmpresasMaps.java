@@ -20,15 +20,18 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.annotation.RequiresApi;
@@ -98,6 +101,8 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     //private ArrayList<Ruta> rutas;
     private List<LatLng> puntosRuta;
 
+    private static View view;
+
     public FragEmpresasMaps() {
         // Required empty public constructor
     }
@@ -106,7 +111,18 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_empresas_maps, container, false);
+        //super.onCreateView(inflater,container,savedInstanceState);
+        if (view != null) {
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if (parent != null)
+                parent.removeView(view);
+        }
+        try {
+            view = inflater.inflate(R.layout.frag_empresas_maps, container, false);
+        } catch (InflateException e) {
+            /* map is already there, just return view as it is */
+        }
+
         GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_empresas_maps);
         mensajeAB("Comercios");
         categorias = new ArrayList<>();
@@ -131,20 +147,12 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
         MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
                 .findFragmentById(R.id.mapa_contenedor);
         mapFragment.getMapAsync(this);
         return view;
     }
-
-    /*@Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mapView = (MapView) view.findViewById(R.id.mapa_contenedor);
-        mapView.onCreate(null);
-        mapView.onResume();
-        mapView.getMapAsync(this);
-    }*/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -588,7 +596,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         if (requestCode == MIS_PERMISOS) {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
-                mGoogleMap.setMyLocationEnabled(true);
+                //mGoogleMap.setMyLocationEnabled(true);
             }
         } else {
             solicitarPermisosManual();

@@ -17,11 +17,13 @@
             app:boxCornerRadiusTopStart="5dp"
             app:boxCornerRadiusBottomStart="5dp"
             app:boxCornerRadiusBottomEnd="5dp"
+            android:layout_marginTop="10dp"
             app:boxStrokeColor="@color/colorPrimary"
             app:boxStrokeWidth="2dp"
             android:id="@+id/fRegUser_widEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
             android:hint="@string/email_lbl"
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
@@ -35,7 +37,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegUser_edtEmail"
-                android:layout_width="282dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="35"
                 android:ems="12"
@@ -52,9 +54,9 @@
             app:boxStrokeColor="@color/colorPrimary"
             app:boxStrokeWidth="2dp"
             android:id="@+id/fRegUser_widUser"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            android:layout_marginHorizontal="40dp"
             android:hint="@string/user_lbl"
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
@@ -68,7 +70,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegUser_edtUser"
-                android:layout_width="282dp"
+                android:layout_width="match_parent"
                 android:maxLength="35"
                 android:layout_height="wrap_content"
                 android:ems="12"
@@ -85,9 +87,10 @@
             app:boxStrokeColor="@color/colorPrimary"
             app:boxStrokeWidth="2dp"
             android:id="@+id/fRegUser_widNac"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/fecNac_lbl"
+            android:layout_marginHorizontal="40dp"
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
             app:layout_constraintEnd_toEndOf="parent"
@@ -97,7 +100,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegUser_edtNac"
-                android:layout_width="282dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="12"
                 android:inputType="date"
@@ -113,9 +116,10 @@
             app:boxStrokeColor="@color/colorPrimary"
             app:boxStrokeWidth="2dp"
             android:id="@+id/fRegUser_widPass"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/pwd_lbl"
+            android:layout_marginHorizontal="40dp"
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
             app:counterEnabled="true"
@@ -128,7 +132,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegUser_edtPass"
-                android:layout_width="282dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLength="35"
                 android:ems="12"
@@ -145,9 +149,10 @@
             app:boxStrokeColor="@color/colorPrimary"
             app:boxStrokeWidth="2dp"
             android:id="@+id/fRegUser_widConfPass"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/confPWD_lbl"
+            android:layout_marginHorizontal="40dp"
             app:errorEnabled="true"
             app:errorTextAppearance="@color/error"
             app:layout_constraintEnd_toEndOf="parent"
@@ -157,7 +162,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/fRegUser_edtConfPass"
-                android:layout_width="282dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="12"
                 android:inputType="textPassword"
@@ -166,15 +171,15 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/fRegUser_btnReg"
-            android:layout_width="286dp"
+            android:layout_width="match_parent"
             android:layout_height="58dp"
-            android:layout_marginTop="24dp"
-            android:text="@string/registrar_btn"
+            android:layout_marginTop="15dp"
+            android:text="@string/registro_lbl"
+            android:layout_marginHorizontal="40dp"
             android:textSize="18sp"
             app:backgroundTint="@color/colorAccent"
             app:cornerRadius="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/fRegUser_widConfPass" />
     </androidx.constraintlayout.widget.ConstraintLayout>

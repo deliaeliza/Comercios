@@ -471,66 +471,40 @@ public class FragActInfoProductos extends Fragment {
         final ProgressDialog progreso = new ProgressDialog(getActivity());
         progreso.setMessage("Actualizando...");
         progreso.show();
-        String infoImagenes = "";
-        if(actImagenes){
-            int cantImagenes = 0;
-            String imagenes = "";
-            for (int i = 0; i < GlobalComercios.getInstance().getImageViews().size(); i++) {
-                imagenes += "&img" + i + "='" + convertirImgString(GlobalComercios.getInstance().getImageViews().get(i)) + "'";
-                cantImagenes++;
-            }
-            infoImagenes = "&actImg='S'&cantImg="+cantImagenes+imagenes;
-        } else {
-            infoImagenes = "&actImg='N'&cantImg=0";
-        }
-        int cantSecciones = 0;
-        String seccionesId = "";
-        int contador = 0;
-        for (int i = 0; i < secciones.size(); i++) {
-            if(secEscogidas[i]) {
-                cantSecciones++;
-                seccionesId += "&sec" + contador++ + "=" + secciones.get(i).getId();
-            }
-        }
-
-        String parametros = "idComercio=" + GlobalComercios.getInstance().getComercio().getId() +
-                "&idProducto=" + GlobalComercios.getInstance().getProducto().getId() +
-                "&nombre=" + nombre.getText().toString().trim() +
-                "&descripcion=" + desc.getText().toString().trim() +
-                "&precio=" + precio.getText().toString().trim() + "" +
-                "&cantSec=" + cantSecciones + (cantSecciones > 0 ? seccionesId : "") +
-                infoImagenes;
-
-        String url = Util.urlWebService + "/productoModificar.php?" + parametros;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        String url = Util.urlWebService + "/productoModificar.php?";
+        StringRequest jsonObjectRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void onResponse(JSONObject response) {
-                    try {
-                        JSONObject jsonOb = response.getJSONObject("datos");
-                        String mensajeError = jsonOb.getString("mensajeError");
-                        if(mensajeError.trim().equalsIgnoreCase("")){
-                            GlobalComercios.getInstance().getProducto().setNombre(jsonOb.getString("nombre"));
-                            GlobalComercios.getInstance().getProducto().setPrecio(jsonOb.isNull("precio") ? -1 : jsonOb.getInt("precio"));
-                            GlobalComercios.getInstance().getProducto().setDescripcion(jsonOb.isNull("descripcion") ? null : jsonOb.getString("descripcion"));
-                            if(jsonOb.has("urls")){
-                                JSONArray urls = jsonOb.getJSONArray("urls");
-                                String [] nuevosUrls = new String[urls.length()];
-                                for(int i = 0; i < urls.length(); i++){
-                                    nuevosUrls[i] = urls.getString(i);
-                                }
-                                GlobalComercios.getInstance().getProducto().setUrlsImagenes(nuevosUrls);
-                                GlobalComercios.getInstance().getProducto().setImagenes(new ArrayList<Bitmap>(GlobalComercios.getInstance().getImageViews()));
-                            }
-                            mensajeToast("Actualización éxitosa");
-                        } else {
-                            mensajeToast(mensajeError);
-
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+            public void onResponse(String response) {
+                if(!response.trim().equalsIgnoreCase("error")) {
+                    GlobalComercios.getInstance().getProducto().setNombre(nombre.getText().toString());
+                    GlobalComercios.getInstance().getProducto().setDescripcion(desc.getText().toString().trim().equalsIgnoreCase("") ? "" : desc.getText().toString());
+                    GlobalComercios.getInstance().getProducto().setPrecio(precio.getText().toString().trim().equalsIgnoreCase("") ? -1 : Integer.parseInt(precio.getText().toString().trim()));
+                    GlobalComercios.getInstance().getProducto().setImagenes(new ArrayList<Bitmap>(GlobalComercios.getInstance().getImageViews()));
+                    if(!response.trim().equalsIgnoreCase("") && actImagenes) {
+                        String[] urls = response.split(" ");
+                        GlobalComercios.getInstance().getProducto().setUrlsImagenes(urls);
                     }
-                    progreso.hide();
+                    mensajeToast("Actualización éxitosa");
+                } else {
+                    nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());
+                    if(GlobalComercios.getInstance().getProducto().getDescripcion() != null) {
+                        desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
+                    } else {
+                        desc.setText("");
+                    }
+                    if(GlobalComercios.getInstance().getProducto().getPrecio() != -1) {
+                        precio.setText(GlobalComercios.getInstance().getProducto().getPrecio());
+                    } else {
+                        precio.setText("");
+                    }
+                    if(actImagenes){
+                        GlobalComercios.getInstance().setImageViews(new ArrayList<Bitmap>(GlobalComercios.getInstance().getProducto().getImagenes()));
+                        viewPagerAdapter.notifyDataSetChanged();
+                    }
 
+                    mensajeToast("Ocurrio un error al actualizar");
+                }
+                progreso.hide();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -540,7 +514,38 @@ public class FragActInfoProductos extends Fragment {
                     progreso.hide();
                 }
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> parametros = new HashMap<>();
+                parametros.put("idComercio", GlobalComercios.getInstance().getComercio().getId() + "");
+                parametros.put("idProducto", GlobalComercios.getInstance().getProducto().getId() + "");
+                parametros.put("nombre", nombre.getText().toString().trim());
+                parametros.put("descripcion", desc.getText().toString().trim());
+                parametros.put("precio", precio.getText().toString().trim());
+                String infoImagenes = "";
+                if(actImagenes){
+                    String imagenes = "";
+                    for (int i = 0; i < GlobalComercios.getInstance().getImageViews().size(); i++) {
+                        parametros.put("img" + i, convertirImgString(GlobalComercios.getInstance().getImageViews().get(i)));
+                    }
+                    parametros.put("cantImg", GlobalComercios.getInstance().getImageViews().size() + "");
+                    parametros.put("actImg", "S");
+                } else {
+                    parametros.put("actImg", "N");
+                    parametros.put("cantImg", 0+"");
+                }
+                int cantSecciones = 0;
+                for (int i = 0; i < secciones.size(); i++) {
+                    if(secEscogidas[i]) {
+                        parametros.put("sec"+ cantSecciones++, secciones.get(i).getId() + "");
+                    }
+                }
+                parametros.put("cantSec", cantSecciones + "");
+                return parametros;
+            }
+        };
+
         VolleySingleton.getIntanciaVolley(getActivity().getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
     /*public void recuperarImagenes(){

@@ -64,7 +64,7 @@ public class Registrar extends AppCompatActivity {
         FragRegUser mifrag = new FragRegUser();
         fragmentTransaction.replace(R.id.registros_content, mifrag, "regUser");
         fragmentTransaction.commit();
-        mensajeAB("Unetenos");
+        mensajeAB("Registrarme");
     }
 
     @Override
