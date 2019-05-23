@@ -34,6 +34,9 @@ import org.w3c.dom.Text;
 public class NavSuperUsuario extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +66,10 @@ public class NavSuperUsuario extends AppCompatActivity
         txtCorreo.setText(GlobalSuperUsuario.getInstance().getAdmin().getCorreo());
 
     }
+  /*  private void hidedrawermenu(){
+        Menu menu = mNavigationView.getMenu();
+        menu.findItem(R.id.).setVisible(false);
+    }*/
 
     @Override
     public void onBackPressed() {
