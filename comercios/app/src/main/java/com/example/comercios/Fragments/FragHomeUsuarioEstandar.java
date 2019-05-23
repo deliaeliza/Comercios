@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -18,6 +19,7 @@ import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,14 +43,20 @@ public class FragHomeUsuarioEstandar extends Fragment {
         TextView Mi_textview = (TextView) view.findViewById(R.id.fHomeUsuario_User);
         Mi_textview.setText(GlobalUsuarios.getInstance().getUserE().getUsuario());
 
-
-        MaterialButton btnMap = (MaterialButton) view.findViewById(R.id.fHomeUsuario_btnMapa);
+        MaterialCardView cardViewMapa = (MaterialCardView)view.findViewById(R.id.fHomeUsuario_cardMapa);
+        cardViewMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mensajeToast("onclick");
+            }
+        });
+       /* MaterialButton btnMap = (MaterialButton) view.findViewById(R.id.fHomeUsuario_btnMapa);
         MaterialButton btnComercios = (MaterialButton) view.findViewById(R.id.fHomeUsuario_btnTodosComercios);
         OnclickDelMaterialButton(btnMap);
-        OnclickDelMaterialButton(btnComercios);
+        OnclickDelMaterialButton(btnComercios);*/
         return view;
     }
-    public void OnclickDelMaterialButton(View view) {
+    /*public void OnclickDelMaterialButton(View view) {
         MaterialButton miButton = (MaterialButton) view;
         miButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +82,9 @@ public class FragHomeUsuarioEstandar extends Fragment {
                 }// fin de casos
             }// fin del onclick
         });
-    }// fin de OnclickDelButton
+    }// fin de OnclickDelButton*/
     private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
+
+    public void mensajeToast(String msg){ Toast.makeText(getActivity(), msg,Toast.LENGTH_SHORT).show();};
 
 }

@@ -39,7 +39,7 @@ public class FragHomeSuperUsuario extends Fragment {
         OnclickDelMaterialButton(btnComercios);*/
         return view;
     }
-    public void OnclickDelMaterialButton(View view) {
+    /*public void OnclickDelMaterialButton(View view) {
         MaterialButton miButton = (MaterialButton) view;
         miButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +65,6 @@ public class FragHomeSuperUsuario extends Fragment {
                 }// fin de casos
             }// fin del onclick
         });
-    }//
+    }//*/
     private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 }
