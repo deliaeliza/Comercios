@@ -30,6 +30,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.AuthFailureError;
@@ -477,32 +478,19 @@ public class FragActInfoProductos extends Fragment {
             public void onResponse(String response) {
                 if(!response.trim().equalsIgnoreCase("error")) {
                     GlobalComercios.getInstance().getProducto().setNombre(nombre.getText().toString());
-                    GlobalComercios.getInstance().getProducto().setDescripcion(desc.getText().toString().trim().equalsIgnoreCase("") ? "" : desc.getText().toString());
+                    GlobalComercios.getInstance().getProducto().setDescripcion(desc.getText().toString().trim().equalsIgnoreCase("") ? null : desc.getText().toString().trim());
                     GlobalComercios.getInstance().getProducto().setPrecio(precio.getText().toString().trim().equalsIgnoreCase("") ? -1 : Integer.parseInt(precio.getText().toString().trim()));
                     GlobalComercios.getInstance().getProducto().setImagenes(new ArrayList<Bitmap>(GlobalComercios.getInstance().getImageViews()));
                     if(!response.trim().equalsIgnoreCase("") && actImagenes) {
                         String[] urls = response.split(" ");
                         GlobalComercios.getInstance().getProducto().setUrlsImagenes(urls);
                     }
+                    FragmentManager fm = getFragmentManager();
+                    FragProductoListarComercio mifrag = (FragProductoListarComercio) fm.findFragmentByTag("comercios_listar_producto");
+                    mifrag.actualizarProducto();
                     mensajeToast("Actualización éxitosa");
                 } else {
-                    nombre.setText(GlobalComercios.getInstance().getProducto().getNombre());
-                    if(GlobalComercios.getInstance().getProducto().getDescripcion() != null) {
-                        desc.setText(GlobalComercios.getInstance().getProducto().getDescripcion());
-                    } else {
-                        desc.setText("");
-                    }
-                    if(GlobalComercios.getInstance().getProducto().getPrecio() != -1) {
-                        precio.setText(GlobalComercios.getInstance().getProducto().getPrecio());
-                    } else {
-                        precio.setText("");
-                    }
-                    if(actImagenes){
-                        GlobalComercios.getInstance().setImageViews(new ArrayList<Bitmap>(GlobalComercios.getInstance().getProducto().getImagenes()));
-                        viewPagerAdapter.notifyDataSetChanged();
-                    }
-
-                    mensajeToast("Ocurrio un error al actualizar");
+                    mensajeToast("Error al actualizar");
                 }
                 progreso.hide();
             }

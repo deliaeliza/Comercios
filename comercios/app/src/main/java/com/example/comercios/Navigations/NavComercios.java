@@ -90,8 +90,9 @@ public class NavComercios extends AppCompatActivity
                     break;
                 case R.layout.frag_act_info_productos:
                     FragMenuInferiorComercio comercProd = (FragMenuInferiorComercio)fm.findFragmentByTag("comercios_productos");
-                    FragProductoListarComercio mifrag = (FragProductoListarComercio) fm.findFragmentByTag("comercios_listar_producto");
-
+                    //FragProductoListarComercio mifrag = (FragProductoListarComercio) fm.findFragmentByTag("comercios_listar_producto");
+                    GlobalComercios.getInstance().setPosActProd(-1);
+                    GlobalComercios.getInstance().setProducto(null);
                     FragActInfoProductos actualFrag = (FragActInfoProductos) fm.findFragmentByTag("comercios_actualizar_producto");
 
                     fragmentTransaction.show(comercProd);
