@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <fragment
+        <!--<fragment
             android:id="@+id/mapa_contenedor"
             class="com.google.android.gms.maps.MapFragment"
             android:layout_width="match_parent"
@@ -26,16 +26,16 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <!--<com.google.android.gms.maps.MapView
+        <com.google.android.gms.maps.MapView
             android:id="@+id/mapa_contenedor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />-->
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

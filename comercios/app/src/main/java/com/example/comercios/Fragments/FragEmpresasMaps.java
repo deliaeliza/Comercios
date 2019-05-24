@@ -101,8 +101,6 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     //private ArrayList<Ruta> rutas;
     private List<LatLng> puntosRuta;
 
-    private static View view;
-
     public FragEmpresasMaps() {
         // Required empty public constructor
     }
@@ -112,16 +110,13 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //super.onCreateView(inflater,container,savedInstanceState);
-        if (view != null) {
+        /*if (view != null) {
             ViewGroup parent = (ViewGroup) view.getParent();
             if (parent != null)
                 parent.removeView(view);
-        }
-        try {
-            view = inflater.inflate(R.layout.frag_empresas_maps, container, false);
-        } catch (InflateException e) {
-            /* map is already there, just return view as it is */
-        }
+        }*/
+        View view = inflater.inflate(R.layout.frag_empresas_maps, container, false);
+
 
         GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_empresas_maps);
         mensajeAB("Comercios");
@@ -148,10 +143,19 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             }
         });
 
-        MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
+        /*MapFragment mapFragment = (MapFragment) getActivity().getFragmentManager()
                 .findFragmentById(R.id.mapa_contenedor);
-        mapFragment.getMapAsync(this);
+        mapFragment.getMapAsync(this);*/
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mapView = (MapView) view.findViewById(R.id.mapa_contenedor);
+        mapView.onCreate(null);
+        mapView.onResume();
+        mapView.getMapAsync(this);
     }
 
     @Override
