@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.R;
-import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,38 +33,29 @@ public class FragHomeSuperUsuario extends Fragment {
         View view = inflater.inflate(R.layout.frag_home_super_usuario, container, false);
 
 
-      /*  MaterialButton btnMap = (MaterialButton) view.findViewById(R.id.fHomeUsuario_btnMapa);
-        MaterialButton btnComercios = (MaterialButton) view.findViewById(R.id.fHomeUsuario_btnTodosComercios);
-        OnclickDelMaterialButton(btnMap);
-        OnclickDelMaterialButton(btnComercios);*/
-        return view;
-    }
-    /*public void OnclickDelMaterialButton(View view) {
-        MaterialButton miButton = (MaterialButton) view;
-        miButton.setOnClickListener(new View.OnClickListener() {
+        MaterialCardView cardViewMapa = (MaterialCardView)view.findViewById(R.id.fHomeAdmin_addAdm);
+        cardViewMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.fHomeUsuario_btnMapa:
-                        FragmentManager fm = getFragmentManager();
-                        FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                        FragEmpresasMaps mifrag = new FragEmpresasMaps();
-                        fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "vermapa_usuarioEstandar");
-                        fragmentTransaction.commit();
-
-                        break;
-                    case R.id.fHomeUsuario_btnTodosComercios:
-                        fm = getFragmentManager();
-                        fragmentTransaction = fm.beginTransaction();
-                        FragVerComerciosLista mifrag2 = new FragVerComerciosLista();
-                        fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag2, "listacomercios_usuarioEstandar");
-                        fragmentTransaction.commit();
-                        break;
-                    default:
-                        break;
-                }// fin de casos
-            }// fin del onclick
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                FragRegAdmin mifrag = new FragRegAdmin ();
+                fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "agreagarAdminSU");
+                fragmentTransaction.commit();
+            }
         });
-    }//*/
+        MaterialCardView cardViewComercios = (MaterialCardView)view.findViewById(R.id.fHomeAdmin_GestCom);
+        cardViewComercios.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                FragGestAdminLista mifrag = new FragGestAdminLista();
+                fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestAdmins");
+                fragmentTransaction.commit();
+            }
+        });
+        return view;
+    }
     private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 }

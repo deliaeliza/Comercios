@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,11 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.R;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 
 /**
@@ -43,7 +40,7 @@ public class FragHomeUsuarioEstandar extends Fragment {
         //TextView Mi_textview = (TextView) view.findViewById(R.id.fHomeUsuario_User);
         //Mi_textview.setText(GlobalUsuarios.getInstance().getUserE().getUsuario());
 
-        MaterialCardView cardViewMapa = (MaterialCardView)view.findViewById(R.id.fHomeUsuario_cardMapa);
+        MaterialCardView cardViewMapa = (MaterialCardView)view.findViewById(R.id.fHomeAdmin_GestCom);
         cardViewMapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -81,27 +81,26 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fHomeUsuario_cardMapa"
+            app:layout_constraintTop_toBottomOf="@+id/fHomeAdmin_GestCom"
             app:layout_constraintVertical_bias="0.088" />
 
 
         <!--****************************************************************-->
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/fHomeUsuario_cardMapa"
+            android:id="@+id/fHomeAdmin_GestCom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:clickable="false"
             android:paddingBottom="5dp"
-            app:cardBackgroundColor="@color/colorPrimary"
+            app:cardBackgroundColor="@color/common_google_signin_btn_text_dark_default"
             app:cardCornerRadius="5dp"
-            app:cardElevation="5dp"
-            app:cardMaxElevation="5dp"
+            app:cardElevation="10dp"
+            app:cardMaxElevation="10dp"
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="false"
-            app:contentPadding="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.473"
@@ -116,7 +115,7 @@
                 android:background="@color/colorPrimary">
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/imageView"
                     android:layout_width="63dp"
                     android:layout_height="36dp"
                     android:layout_marginStart="8dp"
@@ -161,23 +160,22 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            android:background="@color/colorPrimary"
-            android:clickable="false"
+            android:clickable="true"
+            android:focusable="true"
             android:paddingBottom="5dp"
-            app:cardBackgroundColor="@color/colorPrimaryDark"
-            app:cardCornerRadius="5dp"
-            app:cardElevation="5dp"
-            app:cardMaxElevation="5dp"
+            app:cardCornerRadius="7dp"
+            app:cardElevation="10dp"
+            app:cardMaxElevation="10dp"
             app:cardPreventCornerOverlap="true"
             app:cardUseCompatPadding="false"
-            app:contentPadding="3dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.493"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView13"
             app:layout_constraintVertical_bias="0.147"
-            app:rippleColor="@color/colorPrimaryLight">
+            app:rippleColor="@color/colorPrimaryLight"
+            app:strokeWidth="2dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
