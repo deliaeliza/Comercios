@@ -59,12 +59,11 @@ public class FragProductoListarComercio extends Fragment {
 
 
     private GridView gridView;
-    private ProgressBar progressBar;
+    private View vistaInferior;
     private ProductoGridAdapter adapter;
     private TabLayout tabLayout;
     private List<Producto> productos;
     private List<Seccion> secciones;
-    private int idSeccionActual;
 
     public FragProductoListarComercio() {
         // Required empty public constructor
@@ -75,13 +74,11 @@ public class FragProductoListarComercio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.frag_producto_listar_comercio, container, false);
+        final View view = inflater.inflate(R.layout.frag_producto_listar_comercio, container, false);
         mensajeAB(nombreDefaultPorCategoria(GlobalComercios.getInstance().getComercio().getCategoria()));
-        //GlobalUsuarios.getInstance().setVentanaActual(R.layout.frag_producto_listar_comercio);
-        progressBar = (ProgressBar) view.findViewById(R.id.fragProdListCom_cargando);
+        vistaInferior = view.findViewById(R.id.fragProdListCom_cargando);
         productos = new ArrayList<>();
         secciones = new ArrayList<>();
-        idSeccionActual = -1;
         tabLayout = (TabLayout) view.findViewById(R.id.fragProdListCom_tab);
         gridView = (GridView) view.findViewById(R.id.fragProdListCom_grid);
         cargarSecciones();
@@ -91,8 +88,7 @@ public class FragProductoListarComercio extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 productos.clear();
                 gridView.setAdapter(null);
-                idSeccionActual = (int) tab.getTag();
-                obtenerMasDatos();
+                obtenerMasDatos((int) tab.getTag());
             }
 
             @Override
@@ -136,7 +132,7 @@ public class FragProductoListarComercio extends Fragment {
             if (actual.getPrecio() != -1) {
                 precioTV.setText("₡ " + actual.getPrecio());
             } else {
-                precioTV.setVisibility(View.GONE);
+                precioTV.setVisibility(View.INVISIBLE);
             }
 
             MaterialButton btnEliminar = (MaterialButton) itemView.findViewById(R.id.item_ver_prod_grid_comercio_btnEliminar);
@@ -170,7 +166,6 @@ public class FragProductoListarComercio extends Fragment {
                                 if (pagActual == paginas) {
                                     pagActual = 0;
                                 }
-                                //viewPAdaptador.notifyDataSetChanged();
                                 viewPager.setCurrentItem(pagActual++, false);
                             }
                         };
@@ -188,9 +183,8 @@ public class FragProductoListarComercio extends Fragment {
                     }
                 }
             } else {
-                viewPager.setAdapter(null);
-                //viewPager.setBackground(getResources().getDrawable(R.drawable.images));
                 viewPager.setBackgroundResource(R.drawable.images);
+                viewPager.setAdapter(null);
             }
             materialCardView.setTag(position);
             OnclickDelMaterialButton(btnEliminar);
@@ -200,7 +194,7 @@ public class FragProductoListarComercio extends Fragment {
         }
     }
 
-    public void OnclickDelMaterialCardView(MaterialCardView view) {
+    private void OnclickDelMaterialCardView(MaterialCardView view) {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,7 +213,7 @@ public class FragProductoListarComercio extends Fragment {
         });
     }// fin de OnclickDelMaterialCardView
 
-    public void OnclickDelMaterialButton(View view) {
+    private void OnclickDelMaterialButton(View view) {
         MaterialButton miMaterialButton = (MaterialButton) view;
         miMaterialButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -335,8 +329,8 @@ public class FragProductoListarComercio extends Fragment {
 
     }
 
-    private void obtenerMasDatos() {
-        //Consultar a la base
+    private void obtenerMasDatos(int idSeccionActual) {
+        vistaInferior.setVisibility(View.VISIBLE);
         String query = "";
         if (idSeccionActual == -1) {
             query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p WHERE p.idComercio='" + GlobalComercios.getInstance().getComercio().getId() + "'";
@@ -396,7 +390,7 @@ public class FragProductoListarComercio extends Fragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    progressBar.setVisibility(View.GONE);
+                    vistaInferior.setVisibility(View.GONE);
                 }
             }
         }, new Response.ErrorListener() {
@@ -404,7 +398,7 @@ public class FragProductoListarComercio extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 if (getActivity() != null) {
                     mensajeToast("Error, inténtelo más tarde");
-                    progressBar.setVisibility(View.GONE);
+                    vistaInferior.setVisibility(View.GONE);
                 }
             }
         });
@@ -434,12 +428,12 @@ public class FragProductoListarComercio extends Fragment {
         }
     }
 
-    public void mensajeToast(String msg) {
+    private void mensajeToast(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     private void cargarSecciones() {
-        progressBar.setVisibility(View.VISIBLE);
+        vistaInferior.setVisibility(View.VISIBLE);
         String query = "SELECT s.*, COUNT(sp.idSeccion) cantidad FROM Secciones s INNER JOIN SeccionesProductos sp ON s.id = sp.idSeccion WHERE s.idComercio='" + GlobalComercios.getInstance().getComercio().getId() + "' GROUP BY s.id;";
         String url = Util.urlWebService + "/seccionesObtener.php?query=" + query;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -523,6 +517,9 @@ public class FragProductoListarComercio extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(msg);
     }
 
-    ;
+    public void actualizarProducto(){
+        productos.set(GlobalComercios.getInstance().getPosActProd(), new Producto(GlobalComercios.getInstance().getProducto()));
+        adapter.actualizarDatos();
+    }
 
 }

@@ -57,10 +57,6 @@ import java.util.TimerTask;
  * A simple {@link Fragment} subclass.
  */
 public class FragVerProductosGrid extends Fragment {
-
-    /*private final int TAM_PAGINA = 4;
-    private boolean cargando = false;
-    private boolean userScrolled = false;*/
     private View vistaInferior;
     private GridView gridView;
     private ProductoGridAdapter adapter;
@@ -80,55 +76,7 @@ public class FragVerProductosGrid extends Fragment {
         vistaInferior = view.findViewById(R.id.frag_ver_productos_grid_cargando);
         productos = new ArrayList<Producto>();
         gridView = (GridView) view.findViewById(R.id.gridViewVerProductos);
-        /*gridView.setOnScrollListener(new AbsListView.OnScrollListener() {
-            private int mLastFirstVisibleItem;
-
-           @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                //int first = view.getFirstVisiblePosition();
-                int visibles = view.getChildCount();
-                int total = view.getCount();
-                if (scrollState == SCROLL_STATE_FLING || scrollState == SCROLL_STATE_TOUCH_SCROLL) {
-                    userScrolled = true;
-                } else {
-                    userScrolled = false;
-                }
-                if (mLastFirstVisibleItem < first || ( visibles <= total && visibles <= TAM_PAGINA) || (view.getLastVisiblePosition() == productos.size()-1 && view.getLastVisiblePosition() >= TAM_PAGINA)) {
-                    if(view.getLastVisiblePosition() + 1 == productos.size()){
-                        if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
-                            cargando = true;
-                            obtenerMasDatos();
-                        }
-                    }
-                }
-                //mLastFirstVisibleItem = first;
-                if (( visibles <= total && visibles <= TAM_PAGINA)) {
-                    if(view.getLastVisiblePosition() + 1 == productos.size()){
-                        if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
-                            //vaciar = false;
-                            cargando = true;
-                            obtenerMasDatos();
-                        }
-                    }
-                }
-                //mLastFirstVisibleItem = first;
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                //Revisa si el scroll llego al ultimo item
-                if (mLastFirstVisibleItem < firstVisibleItem || visibleItemCount <= TAM_PAGINA) {
-                    if (userScrolled && view.getLastVisiblePosition() == productos.size() - 1 && cargando == false) {
-                        //vaciar = false;
-                        cargando = true;
-                        obtenerMasDatos();
-                    }
-                }
-                mLastFirstVisibleItem = firstVisibleItem;
-            }
-        });*/
         obtenerMasDatos();
-
         return view;
     }
 
@@ -159,7 +107,7 @@ public class FragVerProductosGrid extends Fragment {
             if(actual.getPrecio() != -1){
                 precioTV.setText("₡ " + actual.getPrecio());
             } else {
-                precioTV.setVisibility(View.GONE);
+                precioTV.setVisibility(View.INVISIBLE);
             }
             MaterialCardView materialCardView = (MaterialCardView) itemView.findViewById(R.id.item_ver_prod_grid_MaterialCardView);
             Timer timer = actual.getTimer();
@@ -173,32 +121,35 @@ public class FragVerProductosGrid extends Fragment {
                     viewPAdaptador.setId(R.id.item_ver_prod_grid_MaterialCardView);
                     viewPager.setAdapter(viewPAdaptador);
                     if(actual.getImagenes().size() > 1){
-                        if(timer != null){
-                            timer.cancel();
-                            timer.purge();
-                        }
-                        final int paginas = actual.getImagenes().size();
-                        handler = new Handler();
-                        update = new Runnable() {
-                            int pagActual = 0;
-                            public void run() {
-                                if (pagActual == paginas) {
-                                    pagActual = 0;
-                                }
-                                viewPager.setCurrentItem(pagActual++, false);
-                            }
-                        };
-                        timer = new Timer(); //This will create a new Thread
-                        actual.setHandler(handler);
-                        actual.setUpdate(update);
+                        //if(timer != null){
+                        //    timer.cancel();
+                        //    timer.purge();
+                        //}
+                        if(timer == null) {
+                            final int paginas = actual.getImagenes().size();
+                            handler = new Handler();
+                            update = new Runnable() {
+                                int pagActual = 0;
 
-                        timer.schedule(new TimerTask() { //task to be scheduled
-                            @Override
-                            public void run() {
-                                actual.getHandler().post(actual.getUpdate());
-                            }
-                        }, 500, 3000);
-                        actual.setTimer(timer);
+                                public void run() {
+                                    if (pagActual == paginas) {
+                                        pagActual = 0;
+                                    }
+                                    viewPager.setCurrentItem(pagActual++, false);
+                                }
+                            };
+                            timer = new Timer(); //This will create a new Thread
+                            actual.setHandler(handler);
+                            actual.setUpdate(update);
+
+                            timer.schedule(new TimerTask() { //task to be scheduled
+                                @Override
+                                public void run() {
+                                    actual.getHandler().post(actual.getUpdate());
+                                }
+                            }, 500, 3000);
+                            actual.setTimer(timer);
+                        }
                     }
                 }
             }else {
@@ -224,8 +175,6 @@ public class FragVerProductosGrid extends Fragment {
 
     private void obtenerMasDatos() {
         vistaInferior.setVisibility(View.VISIBLE);
-        //Consultar a la base
-        //int idMinimo = (productos.size() == 0 ? 0 : (productos.get(productos.size() - 1)).getId());
         String query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.estado = '1' AND p.idComercio='"+ GlobalUsuarios.getInstance().getComercio().getId() +"' AND sp.idSeccion='"+GlobalUsuarios.getInstance().getIdSeccion()+"'";// AND p.id > '" + idMinimo + "'";
         query += " ORDER BY p.nombre";
         //query += " LIMIT " + TAM_PAGINA;
@@ -281,7 +230,6 @@ public class FragVerProductosGrid extends Fragment {
                     } catch(JSONException e){
                         e.printStackTrace();
                     }
-                    //cargando = false;
                     vistaInferior.setVisibility(View.GONE);
                 }
             }
