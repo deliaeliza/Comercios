@@ -606,7 +606,15 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         if (requestCode == MIS_PERMISOS) {
             if (grantResults.length == 2 && grantResults[0] == PackageManager.PERMISSION_GRANTED &&
                     grantResults[1] == PackageManager.PERMISSION_GRANTED) {//el dos representa los 2 permisos
-                //mGoogleMap.setMyLocationEnabled(true);
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    mGoogleMap.setMyLocationEnabled(true);
+                    locationStart();
+                    CameraPosition camaraPosition = CameraPosition.builder().zoom(15).build();
+                    //CameraPosition camaraPosition = CameraPosition.builder().target(new LatLng(mGoogleMap., longitud)).zoom(15).build();
+                    mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(camaraPosition));
+                    moverCamara = false;
+                }
             }
         } else {
             solicitarPermisosManual();
