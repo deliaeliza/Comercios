@@ -1,5 +1,6 @@
 package com.example.comercios;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -7,9 +8,12 @@ import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -37,34 +41,47 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class Login extends AppCompatActivity {
+public class PreLogin extends AppCompatActivity {
 
     JsonObjectRequest jsonObjectRequest;
-    private TextInputEditText correo;
-    private TextInputEditText password;
+    String correoGuardado;
+    String passwordGuardado;
+    Integer tipoGuardado;
+    ProgressDialog progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mensajeAB("Comercios CR");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        mensajeAB("Ingresar");
-        correo = (TextInputEditText) findViewById(R.id.Login_edtEmail);
-        password = (TextInputEditText) findViewById(R.id.Login_edtPass);
-        OnclickDelMaterialButton(R.id.Login_btnIgresar);
-        OnclickDelTextView(R.id.Login_txtRegistrar);
-        OnclickDelTextView(R.id.Login_txtOlvido);
-    }
+        setContentView(R.layout.activity_prelogin);
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences("usuarioSesion", MODE_PRIVATE);
+        if(prefs!=null){
+            correoGuardado = prefs.getString("correo", "");//" " valor default
+            passwordGuardado = prefs.getString("password", ""); //" "valor default.
+            tipoGuardado = prefs.getInt("tipo", 0);
+            enviarDatosLogin();
+        }else{
+            Intent intento = new Intent(getApplicationContext(), Login.class);
+            startActivity(intento);
+        }
 
+    }
     public void enviarDatosLogin() {
+/*
+        final ProgressDialog progreso = new ProgressDialog(getApplicationContext());
+        progreso.setMessage("Iniciando...");
+        progreso.show();*/
+        progress = ProgressDialog.show(this, "Iniciando..",
+                "Esto puede tomar unos segundos.", true);
+
         String url = Util.urlWebService + "/login.php?correo=" +
-                correo.getText().toString() + "&contrasena=" + password.getText().toString();
+                correoGuardado + "&contrasena=" + passwordGuardado;
 
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                //progreso.hide();
+                progress.dismiss();
                 try {
                     JSONObject jsonOb = response.getJSONObject("datos");
                     String mensajeError = jsonOb.getString("mensajeError");
@@ -73,14 +90,6 @@ public class Login extends AppCompatActivity {
                         int estado = user.optInt("estado");
                         if (estado == 1) {
                             int tipo = user.optInt("tipo");
-                            //Guarda el usuario en preferencias *****************************
-                            SharedPreferences.Editor editor =
-                                    getApplicationContext().getSharedPreferences("usuarioSesion", MODE_PRIVATE).edit();
-                            editor.putString("correo", correo.getText().toString());
-                            editor.putString("password", password.getText().toString());
-                            editor.putInt("tipo", tipo);
-                            editor.commit();
-                            ///
                             if (tipo == Util.USUARIO_ADMINISTRADOR) {
                                 GlobalAdmin.getInstance().setAdmin(new Administrador(
                                         user.optInt("id"),
@@ -144,9 +153,13 @@ public class Login extends AppCompatActivity {
                             }
                         } else if (estado == 0) {
                             mensajeToast("Su cuenta se encuentra desactivada");
+                            Intent intento = new Intent(getApplicationContext(), Login.class);
+                            startActivity(intento);
                         }
                     } else {
                         mensajeToast(mensajeError);
+                        Intent intento = new Intent(getApplicationContext(), Login.class);
+                        startActivity(intento);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -157,46 +170,12 @@ public class Login extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                progress.dismiss();
                 mensajeToast("Inténtelo más tarde");
             }
         });
         VolleySingleton.getIntanciaVolley(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
     }
-
-    public void OnclickDelMaterialButton(int ref) {
-        View view = findViewById(ref);
-        MaterialButton miButton = (MaterialButton) view;
-        miButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                enviarDatosLogin();
-            }// fin del onclick
-        });
-    }// fin de OnclickDelMaterialButton
-
-    public void OnclickDelTextView(int ref) {
-        View view = findViewById(ref);
-        TextView miTextView = (TextView) view;
-        miTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.Login_txtRegistrar:
-                        Intent intento = new Intent(getApplicationContext(), Registrar.class);
-                        startActivity(intento);
-                        break;
-                    case R.id.Login_txtOlvido:
-                        mensajeToast("Implementar activity de olvido");
-                        break;
-                    default:
-                        break;
-                }// fin de casos
-            }// fin del onclick
-        });
-    }// fin de OnclickDelTextView
-
-
-
 
     public void mensajeToast(String msg) {
         Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();

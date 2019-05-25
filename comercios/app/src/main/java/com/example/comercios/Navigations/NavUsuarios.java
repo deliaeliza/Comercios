@@ -2,6 +2,7 @@ package com.example.comercios.Navigations;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -160,6 +161,13 @@ public class NavUsuarios extends AppCompatActivity
             fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "usuarioInfoAct_usuarioEstandar");
             fragmentTransaction.commit();
         } else if (id == R.id.usuarioEstandarcerrarSeion) {
+            //***********************************************
+            SharedPreferences.Editor editor =
+                    getApplicationContext().getSharedPreferences("usuarioSesion", MODE_PRIVATE).edit();
+            if(editor !=null){
+                editor.clear().apply();
+            }
+            //**************************************************************
             GlobalUsuarios.getInstance().setUserE(null);
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);

@@ -3,6 +3,7 @@ package com.example.comercios.Navigations;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -161,6 +162,13 @@ public class NavSuperUsuario extends AppCompatActivity
             fragmentTransaction.replace(R.id.superUsuario_contenedor, mifrag, "gestionarComercioSU");
             fragmentTransaction.commit();
         } else if (id == R.id.superUsuarioCerrarSesion) {
+            //***********************************************
+            SharedPreferences.Editor editor =
+                    getApplicationContext().getSharedPreferences("usuarioSesion", MODE_PRIVATE).edit();
+            if(editor !=null){
+                editor.clear().apply();
+            }
+            //**************************************************************
             GlobalSuperUsuario.getInstance().setAdmin(null);
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
