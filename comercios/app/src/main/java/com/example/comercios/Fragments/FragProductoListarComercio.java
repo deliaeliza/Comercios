@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,13 +32,11 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.comercios.Adapter.viewPagerAdapter;
 import com.example.comercios.Global.GlobalComercios;
 import com.example.comercios.Modelo.Producto;
-import com.example.comercios.Modelo.Seccion;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
 import com.example.comercios.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.tabs.TabLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,9 +58,7 @@ public class FragProductoListarComercio extends Fragment {
     private GridView gridView;
     private View vistaInferior;
     private ProductoGridAdapter adapter;
-    private TabLayout tabLayout;
     private List<Producto> productos;
-    private List<Seccion> secciones;
 
     public FragProductoListarComercio() {
         // Required empty public constructor
@@ -74,34 +69,13 @@ public class FragProductoListarComercio extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View view = inflater.inflate(R.layout.frag_producto_listar_comercio, container, false);
+        View view = inflater.inflate(R.layout.frag_producto_listar_comercio, container, false);
+        GlobalComercios.getInstance().setVentanaActual(R.layout.frag_producto_listar_comercio);
         mensajeAB(nombreDefaultPorCategoria(GlobalComercios.getInstance().getComercio().getCategoria()));
         vistaInferior = view.findViewById(R.id.fragProdListCom_cargando);
         productos = new ArrayList<>();
-        secciones = new ArrayList<>();
-        tabLayout = (TabLayout) view.findViewById(R.id.fragProdListCom_tab);
         gridView = (GridView) view.findViewById(R.id.fragProdListCom_grid);
-        cargarSecciones();
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                productos.clear();
-                gridView.setAdapter(null);
-                obtenerMasDatos((int) tab.getTag());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
+        obtenerMasDatos();
         return view;
     }
 
@@ -118,11 +92,12 @@ public class FragProductoListarComercio extends Fragment {
         public View getView(int position, View convertView, ViewGroup parent) {
             // Make sure we have a view to work with (may have been given null)
 
-            View itemView = convertView;
+            View itemView = getActivity().getLayoutInflater().inflate(R.layout.item_ver_productos_grid_comercio, parent, false);
 
-            if (itemView == null) {
+
+            /*if (itemView == null) {
                 itemView = getActivity().getLayoutInflater().inflate(R.layout.item_ver_productos_grid_comercio, parent, false);
-            }
+            }*/
             final Producto actual = productos.get(position);
             // Fill the view
 
@@ -329,13 +304,15 @@ public class FragProductoListarComercio extends Fragment {
 
     }
 
-    private void obtenerMasDatos(int idSeccionActual) {
+    private void obtenerMasDatos() {
         vistaInferior.setVisibility(View.VISIBLE);
         String query = "";
-        if (idSeccionActual == -1) {
+
+        if (GlobalComercios.getInstance().getIdSeccionActual() == -1) {
             query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p WHERE p.idComercio='" + GlobalComercios.getInstance().getComercio().getId() + "'";
         }else{
-            query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.idComercio='" + GlobalComercios.getInstance().getComercio().getId() + "' AND sp.idSeccion='" + idSeccionActual + "'";
+            query = "SELECT p.id, p.estado, p.precio, p.nombre, p.descripcion FROM Productos p INNER JOIN SeccionesProductos sp ON p.id = sp.idProducto WHERE p.idComercio='" +
+                    GlobalComercios.getInstance().getComercio().getId() + "' AND sp.idSeccion='" + GlobalComercios.getInstance().getIdSeccionActual() + "'";
         }
         query += " ORDER BY p.nombre";
         String url = Util.urlWebService + "/obtenerProductos.php?query=" + query;
@@ -430,74 +407,6 @@ public class FragProductoListarComercio extends Fragment {
 
     private void mensajeToast(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
-    }
-
-    private void cargarSecciones() {
-        vistaInferior.setVisibility(View.VISIBLE);
-        String query = "SELECT s.*, COUNT(sp.idSeccion) cantidad FROM Secciones s INNER JOIN SeccionesProductos sp ON s.id = sp.idSeccion WHERE s.idComercio='" + GlobalComercios.getInstance().getComercio().getId() + "' GROUP BY s.id;";
-        String url = Util.urlWebService + "/seccionesObtener.php?query=" + query;
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    Seccion porDefecto = null;
-                    JSONObject jsonOb = response.getJSONObject("datos");
-                    String mensajeError = jsonOb.getString("mensajeError");
-                    if (mensajeError.equalsIgnoreCase("")) {
-                        if (jsonOb.has("secciones")) {
-                            JSONArray users = jsonOb.getJSONArray("secciones");
-                            for (int i = 0; i < users.length(); i++) {
-                                JSONObject usuario = users.getJSONObject(i);
-                                if (!usuario.getString("nombre").equalsIgnoreCase("DEFAULT")) {
-                                    secciones.add(new Seccion(usuario.getInt("id"), usuario.getString("nombre")));
-                                } else {
-                                    porDefecto = new Seccion(usuario.getInt("id"), usuario.getString("nombre"));
-                                }
-                            }
-                            if (porDefecto != null)
-                                secciones.add(porDefecto);
-                        }
-                    } else {
-                        mensajeToast(mensajeError);
-                    }
-                    cargarTabLayout();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                mensajeToast("Error, inténtelo más tarde");
-            }
-        });
-        VolleySingleton.getIntanciaVolley(getActivity()).addToRequestQueue(jsonObjectRequest);
-    }
-
-    private void cargarTabLayout() {
-        if (secciones != null) {
-            TabLayout.Tab inicio = tabLayout.newTab();
-            inicio.setText("Todos");
-            inicio.setTag(-1);
-            tabLayout.addTab(inicio);
-            if (secciones.size() > 0) {
-                for (Seccion s : secciones) {
-                    TabLayout.Tab t = tabLayout.newTab();
-                    if (s.getNombre().equalsIgnoreCase("DEFAULT")) {
-                        if (secciones.size() > 1) {
-                            t.setText("Más");
-                        } else {
-                            t.setText(nombreDefaultPorCategoria(GlobalComercios.getInstance().getComercio().getCategoria()));
-                        }
-                    } else {
-                        t.setText(s.getNombre());
-                    }
-                    t.setTag(s.getId());
-                    tabLayout.addTab(t);
-                }
-            }
-        }
-        //obtenerMasDatos();
     }
 
     private String nombreDefaultPorCategoria(String categoria) {

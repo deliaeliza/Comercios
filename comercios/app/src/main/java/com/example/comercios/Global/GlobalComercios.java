@@ -18,7 +18,7 @@ public class GlobalComercios {
     private int opcActual;
     private int imgActual;
 
-
+    private int idSeccionActual;
 
     private int ventanaActual = R.layout.frag_home_comercio;
 
@@ -97,5 +97,13 @@ public class GlobalComercios {
 
     public void setPosActProd(int posActProd) {
         this.posActProd = posActProd;
+    }
+
+    public int getIdSeccionActual() {
+        return idSeccionActual;
+    }
+
+    public void setIdSeccionActual(int idSeccionActual) {
+        this.idSeccionActual = idSeccionActual;
     }
 }

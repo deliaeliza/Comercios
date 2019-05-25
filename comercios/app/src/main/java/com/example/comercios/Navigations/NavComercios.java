@@ -104,6 +104,7 @@ public class NavComercios extends AppCompatActivity
                 case R.layout.frag_menu_inferior_comercio:
                 case R.layout.frag_home_comercio:
                 case R.layout.frag_act_info_comercio:
+                case R.layout.frag_gest_productos_empresa:
                 case R.layout.frag_producto_listar_comercio:
                 case R.layout.frag_acerca_de:
                     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_comercios);

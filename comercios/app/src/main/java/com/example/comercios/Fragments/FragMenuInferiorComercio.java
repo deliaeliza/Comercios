@@ -86,7 +86,7 @@ public class FragMenuInferiorComercio extends Fragment {
                 } else if (itemEscogido.getItemId() == R.id.menuIferiorComercio_modificar) {
                     FragmentManager fm = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                    FragProductoListarComercio  mifrag = new FragProductoListarComercio ();
+                    FragGestProductosEmpresa  mifrag = new FragGestProductosEmpresa();
                     fragmentTransaction.replace(R.id.menuInferiorComercios_contenido, mifrag, "comercios_listar_producto");
                     fragmentTransaction.commit();
                     return true;
