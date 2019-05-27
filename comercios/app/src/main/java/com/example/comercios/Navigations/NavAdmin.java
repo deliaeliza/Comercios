@@ -3,6 +3,7 @@ package com.example.comercios.Navigations;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.comercios.Fragments.FragAcercaDe;
@@ -135,6 +136,13 @@ public class NavAdmin extends AppCompatActivity
             fragmentTransaction.replace(R.id.contentAdmin, mifrag, "gestionarComercio");
             fragmentTransaction.commit();
         } else if (id == R.id.adminCerrarSesion) {
+            //elimino la preferencias
+            SharedPreferences.Editor editor =
+                    getApplicationContext().getSharedPreferences("usuarioSesion", MODE_PRIVATE).edit();
+            if(editor !=null){
+                editor.clear().apply();
+            }
+            //********************************************************
             GlobalAdmin.getInstance().setAdmin(null);
             Intent intento = new Intent(getApplicationContext(), Login.class);
             startActivity(intento);
