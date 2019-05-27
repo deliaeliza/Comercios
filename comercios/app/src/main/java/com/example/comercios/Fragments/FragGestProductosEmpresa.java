@@ -18,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.comercios.Global.GlobalComercios;
-import com.example.comercios.Global.GlobalUsuarios;
 import com.example.comercios.Modelo.Seccion;
 import com.example.comercios.Modelo.Util;
 import com.example.comercios.Modelo.VolleySingleton;
@@ -32,9 +31,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class FragGestProductosEmpresa extends Fragment {
 
     TabLayout tabLayout;

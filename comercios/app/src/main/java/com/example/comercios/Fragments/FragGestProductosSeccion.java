@@ -3,12 +3,8 @@ package com.example.comercios.Fragments;
 
 import androidx.fragment.app.Fragment;
 
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.service.voice.VoiceInteractionService;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

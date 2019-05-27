@@ -14,7 +14,6 @@ import com.example.comercios.Fragments.FragActInfoComercio;
 import com.example.comercios.Fragments.FragGestProductosSeccion;
 import com.example.comercios.Fragments.FragHomeComercio;
 import com.example.comercios.Fragments.FragMenuInferiorComercio;
-import com.example.comercios.Fragments.FragProductoListarComercio;
 import com.example.comercios.Fragments.FragSeccionListarComercio;
 import com.example.comercios.Fragments.FragSeccionModificar;
 import com.example.comercios.Fragments.FragActInfoProductos;

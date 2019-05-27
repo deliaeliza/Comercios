@@ -312,7 +312,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             @Override
             public void onClick(View v) {
                 if (!opcionEscogida.equalsIgnoreCase("")) {
-                    if(polyline != null){
+                    if (polyline != null) {
                         polyline.remove();
                     }
                     polyline = mGoogleMap.addPolyline(new PolylineOptions()
@@ -440,7 +440,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
 
                                     LatLng lg = new LatLng(usuario.getDouble("latitud"), usuario.getDouble("longitud"));
 
-                                    try{
+                                    try {
                                         IconGenerator iconFactory = new IconGenerator(getActivity());
                                     /*Marker marker = mGoogleMap.addMarker(new MarkerOptions()
                                             .position(lg)
@@ -452,7 +452,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                                         marker.setTag(Integer.parseInt(Integer.toString(i)));
                                         marker.setIcon(BitmapDescriptorFactory.fromBitmap(iconFactory.makeIcon(usuario.getString("usuario"))));
                                         // marker.setIcon(getBitmapFromView(usuario.getString("usuario")));
-                                    }catch (Exception e){
+                                    } catch (Exception e) {
                                         String hola = "";
                                     }
 
@@ -480,16 +480,18 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                try {
-                    JSONArray jsonCategorias = response.getJSONArray("categoria");
-                    JSONObject obj;
-                    for (int i = 0; i < jsonCategorias.length(); i++) {
-                        obj = jsonCategorias.getJSONObject(i);
-                        categorias.add(new Categorias(obj.getInt("id"), obj.getString("nombre")));
+                if (getActivity() != null) {
+                    try {
+                        JSONArray jsonCategorias = response.getJSONArray("categoria");
+                        JSONObject obj;
+                        for (int i = 0; i < jsonCategorias.length(); i++) {
+                            obj = jsonCategorias.getJSONObject(i);
+                            categorias.add(new Categorias(obj.getInt("id"), obj.getString("nombre")));
+                        }
+                        cargarTabLayout();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    cargarTabLayout();
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
@@ -502,6 +504,11 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     }
 
     private void cargarTabLayout() {
+
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
         if (categorias != null) {
             TabLayout.Tab todos = tabLayout.newTab();
             todos.setText("Todos");
@@ -593,7 +600,7 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
             cargarDialogoRecomendacionGPS();
         } else {
             requestPermissions(new String[]{ACCESS_FINE_LOCATION, ACCESS_COARSE_LOCATION}, MIS_PERMISOS);
-           // mGoogleMap.setMyLocationEnabled(true);
+            // mGoogleMap.setMyLocationEnabled(true);
             //return true;
         }
         return false;//implementamos el que procesa el evento dependiendo de lo que se defina aqui

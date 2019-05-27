@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.comercios.Fragments.FragAcercaDe;
 import com.example.comercios.Fragments.FragActInfoUsuario;
@@ -74,9 +75,28 @@ public class NavUsuarios extends AppCompatActivity
                     navigationView.getMenu().getItem(0).setChecked(true);
                     FragmentManager fm = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fm.beginTransaction();
+
                     FragHomeUsuarioEstandar mifrag = new FragHomeUsuarioEstandar();
                     fragmentTransaction.replace(R.id.Usuario_contenedor, mifrag, "home_usuarioEstandar");
                     fragmentTransaction.commit();
+
+                    /*if(ventanaActual == R.layout.frag_empresas_maps){
+                        FragEmpresasMaps actual = (FragEmpresasMaps)fm.findFragmentByTag("vermapa_usuarioEstandar");
+                        if(actual == null){
+                            mensajeToast("El fragment esta en null");
+                        }else{
+                            mensajeToast("El fragmetn no esta en null");
+                            fragmentTransaction.remove(actual);
+
+                            FragEmpresasMaps actual2 = (FragEmpresasMaps)fm.findFragmentByTag("vermapa_usuarioEstandar");
+                            if(actual == null){
+                                mensajeToast("El fragment esta en null mensaje 1");
+                            }else{
+                                mensajeToast("El fragmetn no esta en null mensaje 2");
+                            }
+                        }
+                    }*/
+
                     break;
                 case R.layout.frag_ver_comercio:
                     fm = getSupportFragmentManager();
@@ -174,4 +194,9 @@ public class NavUsuarios extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    public void mensajeToast(String msg) {
+        Toast.makeText(getApplicationContext().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
+    }
+
 }
