@@ -74,6 +74,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,9 +107,15 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //super.onCreateView(inflater,container,savedInstanceState);
+        super.onCreateView(inflater,container,savedInstanceState);
         /*if (view != null) {
             ViewGroup parent = (ViewGroup) view.getParent();
             if (parent != null)
@@ -720,6 +727,17 @@ public class FragEmpresasMaps extends Fragment implements OnMapReadyCallback {
                     break;
             }
         }
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        mGoogleMap.clear();
+        mapView.onDestroy();
+        mapView = null;
+        tabLayout.removeAllTabs();
+        tabLayout = null;
+        super.onDestroyView();
     }
 
     private void mensajeAB(String msg) {
