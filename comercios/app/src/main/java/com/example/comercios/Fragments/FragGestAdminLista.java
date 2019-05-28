@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 /**
@@ -66,6 +67,7 @@ public class FragGestAdminLista extends Fragment {
         GlobalSuperUsuario.getInstance().setVentanaActual(R.layout.frag_gest_admin_lista);
         //LayoutInflater li = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         vistaInferior = view.findViewById(R.id.gest_admin_cargando);
+        mensajeAB("Gestionar Administradores");
         //manejador = new FragGestAdminLista.MyHandler();
         admins = new ArrayList<Administrador>();
         listView = (ListView) view.findViewById(R.id.gest_admin_listview);
@@ -390,4 +392,5 @@ public class FragGestAdminLista extends Fragment {
     public void mensajeToast(String msg) {
         Toast.makeText(getActivity().getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
     }
+    private void mensajeAB(String msg){((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(msg);};
 }
