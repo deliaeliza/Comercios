@@ -160,12 +160,18 @@ public class FragActInfoAdmin extends Fragment {
         stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if (response.trim().equalsIgnoreCase("Actualización éxitosa")) {
+                if (response.trim().equalsIgnoreCase("Se actualizo correctamente")) {
                     lyConfContra.setError(null);
                     lyContrasena.setError(null);
                     lyEmail.setError(null);
                     lyTelefono.setError(null);
                     lyUsuario.setError(null);
+
+                    GlobalAdmin.getInstance().getAdmin().setUsuario(usuario.getText().toString().trim());
+                    GlobalAdmin.getInstance().getAdmin().setContrasena(contrasena.getText().toString().trim());
+                    GlobalAdmin.getInstance().getAdmin().setCorreo(email.getText().toString().trim());
+                    GlobalAdmin.getInstance().getAdmin().setTelefono(Long.parseLong(telefono.getText().toString().trim()));
+
                     MensajeToast(response.trim());
                 } else {
                     email.setText(GlobalAdmin.getInstance().getAdmin().getCorreo());
