@@ -492,11 +492,12 @@ public class FragProductoResgistrar extends Fragment {
             imagen1 = redimensionarImagen(imagen1, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
             if (reemImg) {
                 GlobalComercios.getInstance().getImageViews().set(viewpager.getCurrentItem(),imagen1);
+                vie.notifyDataSetChanged();
             } else {
                 GlobalComercios.getInstance().agregarImagenes(imagen1);
-                viewpager.setCurrentItem(GlobalComercios.getInstance().getImageViews().size()-1);
+                vie.notifyDataSetChanged();
+                viewpager.setCurrentItem((GlobalComercios.getInstance().getImageViews().size()-1));
             }
-            vie.notifyDataSetChanged();
 
             if (Util.MAX_IMAGENES_PRODUCTO == GlobalComercios.getInstance().getImageViews().size()) {
                 btnElegirFoto.setVisibility(View.GONE);

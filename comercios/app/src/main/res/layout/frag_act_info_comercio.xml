@@ -290,7 +290,7 @@
                 app:icon="@drawable/ic_autorenew"
                 app:iconGravity="textStart"
                 app:iconSize="20dp"
-                app:iconTint="@color/colorPrimaryDark"
+                app:iconTint="@color/iconWhite"
                 app:layout_constraintStart_toEndOf="@+id/fActInfoComercio_eliminarFoto"
                 app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion" />
 
@@ -307,7 +307,7 @@
                 app:icon="@drawable/trash_alt"
                 app:iconGravity="textStart"
                 app:iconSize="20dp"
-                app:iconTint="@color/colorPrimaryDark"
+                app:iconTint="@color/iconWhite"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/fActInfoComercio_widUbicacion" />
 

@@ -10,8 +10,8 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:scrollbars="none">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/fragRegComercio_contenedor"
@@ -19,18 +19,18 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp"
-                app:boxCornerRadiusBottomStart="5dp"
-                app:boxCornerRadiusBottomEnd="5dp"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widUsuario"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
                 android:hint="@string/empresa_lbl"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 app:counterEnabled="true"
                 app:counterMaxLength="35"
                 app:counterOverflowTextAppearance="@color/error"
@@ -44,25 +44,25 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fragRegComercio_edtUsuario"
                     android:layout_width="match_parent"
-                    android:maxLength="35"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textMultiLine" />
+                    android:inputType="textMultiLine"
+                    android:maxLength="35" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:id="@+id/fragRegComercio_widDescripcion"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/descripcion_lbl"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
                 app:boxCornerRadiusTopEnd="5dp"
                 app:boxCornerRadiusTopStart="5dp"
-                app:boxCornerRadiusBottomStart="5dp"
-                app:boxCornerRadiusBottomEnd="5dp"
                 app:boxStrokeColor="@color/colorPrimary"
                 app:boxStrokeWidth="2dp"
                 app:counterEnabled="true"
@@ -81,10 +81,10 @@
                     android:layout_height="125dp"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
+                    android:gravity="top"
                     android:inputType="textMultiLine"
                     android:maxLength="500"
-                    android:gravity="top"
-                    android:scrollbars="vertical"/>
+                    android:scrollbars="vertical" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -110,24 +110,24 @@
             </com.jaredrummler.materialspinner.MaterialSpinner>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp"
-                app:boxCornerRadiusBottomStart="5dp"
-                app:boxCornerRadiusBottomEnd="5dp"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widTelefono"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/telefono_lbl"
-                app:errorEnabled="true"
-                app:errorTextAppearance="@color/error"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 app:counterEnabled="true"
                 app:counterMaxLength="20"
                 app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -136,32 +136,32 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fragRegComercio_edtTelefono"
                     android:layout_width="match_parent"
-                    android:maxLength="20"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:maxLength="20" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp"
-                app:boxCornerRadiusBottomStart="5dp"
-                app:boxCornerRadiusBottomEnd="5dp"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widCorreo"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/email_lbl"
-                app:errorEnabled="true"
-                app:errorTextAppearance="@color/error"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 app:counterEnabled="true"
                 app:counterMaxLength="35"
                 app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -170,32 +170,32 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fragRegComercio_edtCorreo"
                     android:layout_width="match_parent"
-                    android:maxLength="35"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textEmailAddress"
+                    android:maxLength="35" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp"
-                app:boxCornerRadiusBottomStart="5dp"
-                app:boxCornerRadiusBottomEnd="5dp"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widPass"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/pwd_lbl"
-                app:errorEnabled="true"
-                app:errorTextAppearance="@color/error"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 app:counterEnabled="true"
                 app:counterMaxLength="35"
                 app:counterOverflowTextAppearance="@color/error"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -204,30 +204,30 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/fragRegComercio_edtPass"
                     android:layout_width="match_parent"
-                    android:maxLength="35"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:maxLength="35" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp"
-                app:boxCornerRadiusBottomStart="5dp"
-                app:boxCornerRadiusBottomEnd="5dp"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widConfiPass"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/confPWD_lbl"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
+                app:counterOverflowTextAppearance="@color/error"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@color/error"
-                app:counterOverflowTextAppearance="@color/error"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -243,19 +243,19 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                app:boxCornerRadiusTopEnd="5dp"
-                app:boxCornerRadiusTopStart="5dp"
-                app:boxCornerRadiusBottomStart="5dp"
-                app:boxCornerRadiusBottomEnd="5dp"
-                app:boxStrokeColor="@color/colorPrimary"
-                app:boxStrokeWidth="2dp"
                 android:id="@+id/fragRegComercio_widUbicacion"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="40dp"
                 android:layout_marginTop="12dp"
                 android:hint="@string/ubicacion_lbl"
+                app:boxCornerRadiusBottomEnd="5dp"
+                app:boxCornerRadiusBottomStart="5dp"
+                app:boxCornerRadiusTopEnd="5dp"
+                app:boxCornerRadiusTopStart="5dp"
+                app:boxStrokeColor="@color/colorPrimary"
+                app:boxStrokeWidth="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -268,9 +268,8 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/design_default_color_surface"
                     android:ems="12"
-                    android:inputType="textMultiLine"
-                    android:focusableInTouchMode="false">
-                </com.google.android.material.textfield.TextInputEditText>
+                    android:focusableInTouchMode="false"
+                    android:inputType="textMultiLine"></com.google.android.material.textfield.TextInputEditText>
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -292,12 +291,12 @@
                 android:layout_marginBottom="4dp"
                 android:paddingRight="10dp"
                 app:backgroundTint="@color/common_google_signin_btn_text_light_default"
+                app:icon="@drawable/plus"
                 app:iconGravity="textStart"
                 app:iconSize="20dp"
                 app:iconTint="@color/iconWhite"
-                app:icon="@drawable/plus"
-                app:layout_constraintEnd_toEndOf="@+id/fragRegComercio_imagen"
-                app:layout_constraintBottom_toBottomOf="@+id/fragRegComercio_imagen" />
+                app:layout_constraintBottom_toBottomOf="@+id/fragRegComercio_imagen"
+                app:layout_constraintEnd_toEndOf="@+id/fragRegComercio_imagen" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fragRegComercio_elimFoto"
@@ -307,12 +306,12 @@
                 android:layout_marginBottom="4dp"
                 android:paddingRight="10dp"
                 app:backgroundTint="@color/common_google_signin_btn_text_light_default"
+                app:icon="@drawable/trash_alt"
                 app:iconGravity="textStart"
                 app:iconSize="20dp"
                 app:iconTint="@color/iconWhite"
-                app:icon="@drawable/trash_alt"
-                app:layout_constraintEnd_toStartOf="@+id/fragRegComercio_elegirFoto"
-                app:layout_constraintBottom_toBottomOf="@+id/fragRegComercio_imagen" />
+                app:layout_constraintBottom_toBottomOf="@+id/fragRegComercio_imagen"
+                app:layout_constraintEnd_toStartOf="@+id/fragRegComercio_elegirFoto" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/fragRegComercio_btnAct"
@@ -328,8 +327,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_elegirFoto">
-            </com.google.android.material.button.MaterialButton>
+                app:layout_constraintTop_toBottomOf="@id/fragRegComercio_elegirFoto"></com.google.android.material.button.MaterialButton>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </FrameLayout>

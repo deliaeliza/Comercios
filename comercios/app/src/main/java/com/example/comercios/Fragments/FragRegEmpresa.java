@@ -99,7 +99,7 @@ public class FragRegEmpresa extends Fragment {
 
     ///objetos de la interfaz
     int categoriaSeleccionada;
-    TextInputEditText  descripcion, telefono, correo, password, confiPassword, ubicacion, usuario;
+    TextInputEditText descripcion, telefono, correo, password, confiPassword, ubicacion, usuario;
     TextInputLayout LayoutDescripcion, LayoutTelefono, LayoutCorreo, LayoutUsuario, LayoutPsw, LayoutConfPsw, LayoutUbicacion;
 
     public FragRegEmpresa() {
@@ -171,8 +171,8 @@ public class FragRegEmpresa extends Fragment {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.fragRegComercio_btnAct:
-                        if(validarCorreo() && validarDescripcion() && validarTelefono() &&
-                                validarUsuario() && validarContrasena() && validarConfContrasena()){
+                        if (validarCorreo() && validarDescripcion() && validarTelefono() &&
+                                validarUsuario() && validarContrasena() && validarConfContrasena()) {
                             registrarComercio();
                         }
                         break;
@@ -190,7 +190,7 @@ public class FragRegEmpresa extends Fragment {
         });
     }
 
-    public void DialogoNotificarUbicacionComercio(){
+    public void DialogoNotificarUbicacionComercio() {
         androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
         builder1.setTitle("¿Esta dentro de su negocio?");
         builder1.setMessage("Para poder obtener correctamente la ubicación de su negocio, debe de estar dentro de su negocio" +
@@ -200,12 +200,14 @@ public class FragRegEmpresa extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                    } });
+                    }
+                });
         builder1.setPositiveButton("Obtener ubicación",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         locationStart();
-                    } });
+                    }
+                });
         androidx.appcompat.app.AlertDialog alert11 = builder1.create();
         alert11.show();
     }
@@ -353,33 +355,35 @@ public class FragRegEmpresa extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case Util.COD_SELECCIONA:
-                Uri miPath = data.getData();
-                fotoComercio.setImageURI(miPath);
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), miPath);
+        if (resultCode == -1) {
+            switch (requestCode) {
+                case Util.COD_SELECCIONA:
+                    Uri miPath = data.getData();
+                    fotoComercio.setImageURI(miPath);
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), miPath);
+                        fotoComercio.setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+                case Util.COD_FOTO:
+                    MediaScannerConnection.scanFile(getActivity(), new String[]{path}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.i("Path", "" + path);
+                                }
+                            });
+
+                    bitmap = BitmapFactory.decodeFile(path);
                     fotoComercio.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
 
-                break;
-            case Util.COD_FOTO:
-                MediaScannerConnection.scanFile(getActivity(), new String[]{path}, null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                                Log.i("Path", "" + path);
-                            }
-                        });
-
-                bitmap = BitmapFactory.decodeFile(path);
-                fotoComercio.setImageBitmap(bitmap);
-
-                break;
+                    break;
+            }
+            bitmap = redimensionarImagen(bitmap, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
         }
-        bitmap = redimensionarImagen(bitmap, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
     }
 
     //permisos
@@ -660,7 +664,7 @@ public class FragRegEmpresa extends Fragment {
                         loc.getLatitude(), loc.getLongitude(), 1);
                 if (!list.isEmpty()) {
                     Address DirCalle = list.get(0);
-                   ubicacion.setText(DirCalle.getAddressLine(0));
+                    ubicacion.setText(DirCalle.getAddressLine(0));
                 }
 
             } catch (IOException e) {

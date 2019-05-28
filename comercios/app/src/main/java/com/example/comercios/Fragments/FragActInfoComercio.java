@@ -383,7 +383,7 @@ public class FragActInfoComercio extends Fragment {
         builder.show();
     }
 
-    public void DialogoNotificarUbicacionComercio(){
+    public void DialogoNotificarUbicacionComercio() {
         androidx.appcompat.app.AlertDialog.Builder builder1 = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
         builder1.setTitle("¿Esta dentro de su negocio?");
         builder1.setMessage("Para poder obtener correctamente la ubicacin de su negocio, debe de estar dentro de su negocio" +
@@ -393,12 +393,14 @@ public class FragActInfoComercio extends Fragment {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                    } });
+                    }
+                });
         builder1.setPositiveButton("Obtener ubicación",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         locationStart();
-                    } });
+                    }
+                });
         androidx.appcompat.app.AlertDialog alert11 = builder1.create();
         alert11.show();
     }
@@ -434,36 +436,38 @@ public class FragActInfoComercio extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case Util.COD_SELECCIONA:
-                Uri miPath = data.getData();
-                fotoComercio.setImageURI(miPath);
+        if (resultCode == -1) {
+            switch (requestCode) {
+                case Util.COD_SELECCIONA:
+                    Uri miPath = data.getData();
+                    fotoComercio.setImageURI(miPath);
 
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), miPath);
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), miPath);
+                        fotoComercio.setImageBitmap(bitmap);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    break;
+                case Util.COD_FOTO:
+
+                    MediaScannerConnection.scanFile(getActivity(), new String[]{path}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.i("Path", "" + path);
+                                }
+                            });
+
+                    bitmap = BitmapFactory.decodeFile(path);
                     fotoComercio.setImageBitmap(bitmap);
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                break;
-            case Util.COD_FOTO:
-
-                MediaScannerConnection.scanFile(getActivity(), new String[]{path}, null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                                Log.i("Path", "" + path);
-                            }
-                        });
-
-                bitmap = BitmapFactory.decodeFile(path);
-                fotoComercio.setImageBitmap(bitmap);
-
-                break;
+                    break;
+            }
+            bitmap = redimensionarImagen(bitmap, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
         }
-        bitmap = redimensionarImagen(bitmap, Util.IMAGEN_ANCHO, Util.IMAGEN_ALTO);
 
     }
 
