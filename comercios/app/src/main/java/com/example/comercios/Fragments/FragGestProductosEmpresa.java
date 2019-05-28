@@ -59,7 +59,7 @@ public class FragGestProductosEmpresa extends Fragment {
                 FragmentManager fm = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fm.beginTransaction();
                 FragProductoListarComercio mifrag = new FragProductoListarComercio();
-                fragmentTransaction.replace(R.id.frag_gest_productos_empresa_contenedor, mifrag, "gestProductosEmpContenedor");
+                fragmentTransaction.replace(R.id.frag_gest_productos_empresa_contenedor, mifrag, "comercios_listar_producto");
                 fragmentTransaction.commit();
             }
 
@@ -75,7 +75,7 @@ public class FragGestProductosEmpresa extends Fragment {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         FragProductoListarComercio mifrag = new FragProductoListarComercio();
-        fragmentTransaction.replace(R.id.frag_gest_productos_empresa_contenedor, mifrag, "gestProductosEmpContenedor");
+        fragmentTransaction.replace(R.id.frag_gest_productos_empresa_contenedor, mifrag, "comercios_listar_producto");
         fragmentTransaction.commit();
         return view;
     }
