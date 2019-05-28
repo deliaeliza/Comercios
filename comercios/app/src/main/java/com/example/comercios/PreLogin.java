@@ -47,7 +47,7 @@ public class PreLogin extends AppCompatActivity {
     String correoGuardado;
     String passwordGuardado;
     Integer tipoGuardado;
-    ProgressDialog progress;
+    //ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +70,9 @@ public class PreLogin extends AppCompatActivity {
 /*
         final ProgressDialog progreso = new ProgressDialog(getApplicationContext());
         progreso.setMessage("Iniciando...");
-        progreso.show();*/
+        progreso.show();*//*
         progress = ProgressDialog.show(this, "Iniciando..",
-                "Esto puede tomar unos segundos.", true);
+                "Esto puede tomar unos segundos.", true);*/
 
         String url = Util.urlWebService + "/login.php?correo=" +
                 correoGuardado + "&contrasena=" + passwordGuardado;
@@ -81,7 +81,7 @@ public class PreLogin extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject response) {
                 //progreso.hide();
-                progress.dismiss();
+                //progress.dismiss();
                 try {
                     JSONObject jsonOb = response.getJSONObject("datos");
                     String mensajeError = jsonOb.getString("mensajeError");
@@ -170,7 +170,7 @@ public class PreLogin extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                progress.dismiss();
+                //progress.dismiss();
                 mensajeToast("Inténtelo más tarde");
             }
         });
