@@ -1,0 +1,13 @@
+Usuarios para realizar pruebas:
+
+Comercio:
+empresa2@gmail.com
+123Empresa2
+
+Usuario Estandar:
+correo3@gmail.com
+123Usuario3
+
+Administrador:
+superusuario@gmail.com
+123Root
